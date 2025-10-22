@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Dict, Optional
+from typing import Dict, Optional, Any
 
 from sqlalchemy import JSON
 from sqlmodel import Column, Field, SQLModel
@@ -18,8 +18,8 @@ class GrafanaAlert(SQLModel, table=True):
         default_factory=datetime.now, description="Timestamp of the log message"
     )
     logMessage: str = Field(description="Original log message that triggered the alert")
-    logSummary: Optional[str] = Field(
-        default=None, description="Summary of the log message"
+    logSummary: str = Field(
+        default="No summary available", description="Summary of the log message"
     )
     expertClassification: Optional[str] = Field(
         default=None, description="Classification of the log message"
@@ -42,9 +42,25 @@ class GrafanaAlert(SQLModel, table=True):
         sa_column=Column(JSON),
     )
 
+    # Loki MCP integration fields
+    lokiUserRequest: Optional[str] = Field(
+        default="", description="User's natural language request for additional logs"
+    )
+    lokiQueryResult: Optional[Dict[str, Any]] = Field(
+        default=None,
+        description="Dictionary representation of LokiAgentOutput object",
+        sa_column=Column(JSON),
+    )
+    additionalContextFromLoki: Optional[str] = Field(
+        default="",
+        description="Additional context logs from Loki"
+    )
+
     # # Loki-specific fields that might be extracted from log content
+    logStream: Optional[Dict[str, str]] = Field(
+        default=None, description="Loki log stream identifier", sa_column=Column(JSON)
+    )
     # logLevel: Optional[str] = None  # Log level from Loki logs (info, warn, error, etc.)
-    # # logStream: Optional[str] = None  # Loki log stream identifier
     # logSource: Optional[str] = None  # Source of the log (e.g., service name, pod name)
 
     # log_type: Optional[str] = None

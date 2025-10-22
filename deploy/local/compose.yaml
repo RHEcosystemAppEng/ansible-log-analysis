@@ -2,54 +2,64 @@ networks:
   alm:
 
 services:
-  # loki:
-  #   image: grafana/loki:latest
-  #   ports:
-  #     - "3100:3100"
-  #   command: -config.file=/etc/loki/local-config.yaml
-  #   networks:
-  #     - alm
+  loki-mcp-server:
+    # image: loki-mcp-server:latest
+    image: loki-mcp:v0.2.0-direction
+    container_name: loki-mcp-server
+    ports:
+      - "8080:8080"
+    environment:
+      - LOKI_URL=http://loki:3100
+      - PORT=8080
+    depends_on:
+      loki:
+        condition: service_healthy
 
-  # promtail:
-  #   image: grafana/promtail:latest
-  #   user: "root"
-  #   volumes:
-  #     - ./config/promtail/promtail-local-config.yaml:/etc/promtail/config.yaml:Z
-  #     - ../../data/logs/:/var/log/ansible_logs:Z
-  #   command: -config.file=/etc/promtail/config.yaml
-  #   networks:
-  #     - alm
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - alm
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:3100/ready || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
 
-  # grafana:
-  #   environment:
-  #     - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
-  #     - GF_AUTH_ANONYMOUS_ENABLED=true
-  #     - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-  #     - GF_FEATURE_TOGGLES_ENABLE=alertingSimplifiedRouting,alertingQueryAndExpressionsStepMode
-  #   entrypoint:
-  #     - sh
-  #     - -euc
-  #     - |
-  #       mkdir -p /etc/grafana/provisioning/datasources
-  #       cat <<EOF > /etc/grafana/provisioning/datasources/ds.yaml
-  #       apiVersion: 1
-  #       datasources:
-  #       - name: Loki
-  #         type: loki
-  #         access: proxy 
-  #         orgId: 1
-  #         url: http://loki:3100
-  #         basicAuth: false
-  #         isDefault: true
-  #         version: 1
-  #         editable: false
-  #       EOF
-  #       /run.sh
-  #   image: grafana/grafana:latest
-  #   ports:
-  #     - "3000:3000"
-  #   networks:
-  #     - alm
+  grafana:
+    environment:
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_FEATURE_TOGGLES_ENABLE=alertingSimplifiedRouting,alertingQueryAndExpressionsStepMode
+    entrypoint:
+      - sh
+      - -euc
+      - |
+        mkdir -p /etc/grafana/provisioning/datasources
+        cat <<EOF > /etc/grafana/provisioning/datasources/ds.yaml
+        apiVersion: 1
+        datasources:
+        - name: Loki
+          type: loki
+          access: proxy 
+          orgId: 1
+          url: http://loki:3100
+          basicAuth: false
+          isDefault: true
+          version: 1
+          editable: false
+        EOF
+        /run.sh
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - alm
+  
   phoenix:
     image: arizephoenix/phoenix:latest
     ports:
@@ -59,6 +69,15 @@ services:
       - alm
     environment:
       - PHOENIX_SQL_DATABASE_URL=postgresql+asyncpg://user:password@postgres:5432/logsdb # we dont use DATABASE_URL becuase it point to localhost, and the backend server isnt in the same network as phoenix.
+  promtail:
+    image: grafana/promtail:latest
+    user: "root"
+    volumes:
+      - ./config/promtail/promtail-local-config.yaml:/etc/promtail/config.yaml:Z
+      - ../../data/logs/:/var/log/ansible_logs:Z
+    command: -config.file=/etc/promtail/config.yaml
+    networks:
+      - alm
 
   postgres:
     image: postgres:15
