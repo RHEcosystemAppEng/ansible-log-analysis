@@ -11,7 +11,6 @@ from langchain_openai import ChatOpenAI
 from langgraph.types import Command
 
 from alm.agents.loki_output_schemas import IdentifyMissingDataSchema, LogStream, LogToolOutput, LokiAgentOutput, ToolStatus
-from alm.agents.node import identify_missing_data
 
 from ..llm import get_llm
 from ..models import GrafanaAlert
@@ -319,14 +318,14 @@ async def loki_execute_query_node(
         )
 
 async def identify_missing_data(
-    log_summary: str, log_stream: LogStream, llm: ChatOpenAI
+    log_summary: str, log_stream: LogStream | Dict[str, Any], llm: ChatOpenAI
 ):
     """
     Identify what critical data is missing to fully understand and resolve the issue.
 
     Args:
         log_summary: Summary of the log to analyze
-        log_stream: Log stream of the log
+        log_stream: Log stream of the log (can be LogStream object or dict)
         llm: ChatOpenAI instance to use for generation
 
     Returns:
@@ -334,6 +333,12 @@ async def identify_missing_data(
     """
     with open("src/alm/agents/prompts/generate_loki_query_request.md", "r") as f:
         generate_loki_query_request_user_message = f.read()
+
+    # Convert log_stream to LogStream object if it's a dict
+    if isinstance(log_stream, dict):
+        log_stream_obj = LogStream.model_validate(log_stream)
+    else:
+        log_stream_obj = log_stream
 
     llm_identify_missing_data = llm.with_structured_output(IdentifyMissingDataSchema)
     missing_data_result = await llm_identify_missing_data.ainvoke(
@@ -346,7 +351,7 @@ async def identify_missing_data(
                 "role": "user",
                 "content": generate_loki_query_request_user_message.replace(
                     "{log_summary}", log_summary
-                ).replace("{log_stream}", log_stream.model_dump_json(indent=2, exclude_none=True)),
+                ).replace("{log_stream}", log_stream_obj.model_dump_json(indent=2, exclude_none=True)),
             },
         ]
     )
