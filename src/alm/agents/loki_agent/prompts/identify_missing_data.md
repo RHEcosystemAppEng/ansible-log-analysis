@@ -40,12 +40,15 @@ Given a log summary, full log content, and log labels information, identify **ON
 **Log Labels Information:**
 {log_labels}
 
+**Log Timestamp:**
+{log_timestamp}
+
 ## Guidelines for Identifying Missing Data
 
 ### 1. Error-Related Issues
 When the log shows errors, crashes, or failures, identify what's missing:
-- **Timing context**: When did this error start? Is it recurring?
-- **Preceding events**: What happened right before this error?
+- **Timing context**: When did this error start? Is it recurring? **CRITICAL: Use the Log Timestamp to identify the exact time period for retrieving chronologically relevant logs.**
+- **Preceding events**: What happened right before this error? **The timestamp is crucial for getting logs from the correct time window before the error occurred.**
 - **Stack traces**: Is there a full stack trace or just a summary?
 - **Related components**: Which other services were affected or involved?
 - **Error frequency**: Is this a one-time error or part of a pattern?
@@ -140,10 +143,16 @@ Use the log labels information to understand the source and context of the curre
 
 Use these fields to identify related log sources and missing data:
 
-- **Same filename, different time range**: Look for related events before/after in the same log file
+- **Same filename, different time range**: Look for related events before/after in the same log file. **IMPORTANT: Always reference the Log Timestamp when requesting logs from specific time ranges to ensure you get the most relevant chronological context.**
 - **Different files from same service**: Check other log files from the same service
 - **Related services**: Identify dependent services that might have relevant logs
 - **Different log levels**: Sometimes info/debug logs contain context that error logs don't show
+
+**Critical Note on Timestamp Usage:**
+The Log Timestamp is essential for retrieving the most relevant logs. When requesting additional log data, always consider the timestamp to:
+- Get logs from the correct time period (e.g., "logs from 5 minutes before the timestamp")
+- Understand the chronological sequence of events
+- Identify patterns or trends around the time of the logged event
 
 Based on common log patterns, identify what data is typically missing:
 

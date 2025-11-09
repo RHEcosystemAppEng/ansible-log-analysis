@@ -10,7 +10,6 @@ from langchain_core.messages import ToolMessage
 
 from alm.agents.loki_agent.schemas import LogToolOutput, LokiAgentOutput, ToolStatus
 from alm.llm import get_llm
-from alm.tools import LOKI_TOOLS
 
 
 class LokiQueryAgent:
@@ -19,6 +18,9 @@ class LokiQueryAgent:
     """
 
     def __init__(self):
+        # Import LOKI_TOOLS here to avoid circular dependency
+        from alm.tools import LOKI_TOOLS
+
         self.llm = get_llm()
         self.tools = LOKI_TOOLS
         self.agent = self._initialize_agent()
@@ -35,7 +37,7 @@ class LokiQueryAgent:
         return create_agent(
             model=self.llm,
             tools=self.tools,
-            debug=True,
+            debug=True,  # uncomment this to enable debugging
             system_prompt=system_prompt,
         )
 

@@ -222,7 +222,6 @@ async def search_logs_by_text(
     Note: This is a case-sensitive text search using LogQL's |= operator.
     """
     try:
-        text = text.replace('"', '\\"')
         # Build LogQL query for text search
         if file_name:
             # Search within a specific file

@@ -9,7 +9,10 @@ from alm.agents.loki_agent.schemas import IdentifyMissingDataSchema, LogLabels
 
 
 async def identify_missing_data(
-    log_summary: str, log_labels: LogLabels | Dict[str, Any], llm: ChatOpenAI
+    log_summary: str,
+    log_labels: LogLabels | Dict[str, Any],
+    log_timestamp: str,
+    llm: ChatOpenAI,
 ):
     """
     Identify what critical data is missing to fully understand and resolve the issue.
@@ -17,6 +20,7 @@ async def identify_missing_data(
     Args:
         log_summary: Summary of the log to analyze
         log_labels: Log labels of the log (can be LogLabels object or dict)
+        log_timestamp: Timestamp of the log
         llm: ChatOpenAI instance to use for generation
 
     Returns:
@@ -43,9 +47,14 @@ async def identify_missing_data(
                 "role": "user",
                 "content": generate_loki_query_request_user_message.replace(
                     "{log_summary}", log_summary
-                ).replace(
+                )
+                .replace(
                     "{log_labels}",
                     log_labels_json,
+                )
+                .replace(
+                    "{log_timestamp}",
+                    log_timestamp,
                 ),
             },
         ]

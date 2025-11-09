@@ -28,13 +28,17 @@ class FileLogSchema(BaseModel):
     file_name: str = Field(
         description="File name to search for (e.g., 'nginx.log', 'api.log', 'database.log')"
     )
+    log_timestamp: Optional[str] = Field(
+        default=None,
+        description="Reference timestamp for relative time calculations (Unix timestamp, or datetime string). REQUIRED when using relative times like '-5m'. Not needed when using absolute datetime strings.",
+    )
     start_time: str | int = Field(
         default=DEFAULT_START_TIME,
-        description="Start time, e.g. '-1h', ISO datetime, or unix nanoseconds",
+        description="Relative offset from log_timestamp (e.g., '-1h'), Unix timestamp, absolute datetime string, or 'now'. Offsets require log_timestamp.",
     )
     end_time: str | int = Field(
         default=DEFAULT_END_TIME,
-        description="End time, e.g. 'now', '-1h', ISO datetime, or unix nanoseconds",
+        description="Relative offset from log_timestamp (e.g., '-5m'), Unix timestamp, absolute datetime string, or 'now'. Offsets require log_timestamp.",
     )
     level: LogLevel | None = Field(
         default=None, description="Log level filter: error, warn, info, debug, unknown"
@@ -54,13 +58,17 @@ class SearchTextSchema(BaseModel):
     text: str = Field(
         description="Text to search for in log messages (case-sensitive, e.g., 'ERROR', 'timeout', 'user login')"
     )
+    log_timestamp: Optional[str] = Field(
+        default=None,
+        description="Reference timestamp for relative time calculations (Unix timestamp, or datetime string). REQUIRED when using relative times like '-5m'. Not needed when using absolute datetime strings.",
+    )
     start_time: str | int = Field(
         default=DEFAULT_START_TIME,
-        description="Start time, e.g. '-1h', ISO datetime, or unix nanoseconds",
+        description="Relative offset from log_timestamp (e.g., '-1h'), Unix timestamp, absolute datetime string, or 'now'. Offsets require log_timestamp.",
     )
     end_time: str | int = Field(
         default=DEFAULT_END_TIME,
-        description="End time, e.g. 'now', '-1h', ISO datetime, or unix nanoseconds",
+        description="Relative offset from log_timestamp (e.g., '-5m'), Unix timestamp, absolute datetime string, or 'now'. Offsets require log_timestamp.",
     )
     file_name: Optional[str] = Field(
         default=None,
@@ -79,6 +87,10 @@ class LogLinesAboveSchema(BaseModel):
         description="File name to search for the log line (e.g., 'nginx.log', 'api.log')"
     )
     log_message: str = Field(description="The first line of the log message")
+    log_timestamp: Optional[str] = Field(
+        default=None,
+        description="The timestamp of the target log entry (Unix timestamp, or datetime string)",
+    )
     lines_above: int = Field(
         default=DEFAULT_LINE_ABOVE,
         description="Number of lines to retrieve that occurred before/above the target log line",
