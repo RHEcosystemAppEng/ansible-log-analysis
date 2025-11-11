@@ -64,11 +64,7 @@ class DataAnnotationApp:
                 self.all_data = []
                 for row in rows:
                     # Parse labels JSON if it exists
-                    labels = (
-                        row.log_labels
-                        if hasattr(row, "labels") and row.log_labels
-                        else {}
-                    )
+                    labels = row.log_labels if hasattr(row, "log_labels") else {}
 
                     data_entry = {
                         "id": row.id,
@@ -90,6 +86,7 @@ class DataAnnotationApp:
                         "need_more_context": row.needMoreContext
                         if hasattr(row, "needMoreContext")
                         else False,
+                        "labels": labels if isinstance(labels, dict) else {},
                     }
                     self.all_data.append(data_entry)
 
@@ -118,7 +115,7 @@ class DataAnnotationApp:
 
     def toggle_cluster_sampling(
         self, show_sample: bool
-    ) -> Tuple[str, str, str, str, str, str, str, str, str, bool, bool, str]:
+    ) -> Tuple[str, str, str, str, str, str, str, str, str, bool, bool, str, str]:
         """Toggle between showing all rows or one sample per cluster."""
         self.show_cluster_sample = show_sample
 
@@ -169,10 +166,10 @@ class DataAnnotationApp:
             "filename": current_entry.get("filename", ""),
             "line_number": current_entry.get("line_number", ""),
             "feedback": feedback,
-            "golden_solution": golden_solution,
+            "golden_stepByStepSolution": golden_solution,
             "expected_behavior": expected_behavior,
-            "need_more_context": need_more_context,
-            "need_more_context_reason": need_more_context_reason,
+            "golden_need_more_context": need_more_context,
+            "golden_need_more_context_reason": need_more_context_reason,
             "logMessage": current_entry.get("logMessage", "No line context"),
             "logSummary": current_entry.get("summary", ""),
             "stepByStepSolution": current_entry.get("step_by_step_solution", ""),
@@ -206,7 +203,7 @@ class DataAnnotationApp:
 
     def get_current_entry(
         self,
-    ) -> Tuple[str, str, str, str, str, str, str, str, str, bool, bool, str]:
+    ) -> Tuple[str, str, str, str, str, str, str, str, str, bool, bool, str, str]:
         """Get current data entry for display."""
         if not self.data:
             return (
@@ -222,6 +219,7 @@ class DataAnnotationApp:
                 False,
                 False,
                 "",
+                "{}",
             )
 
         entry = self.data[self.current_index]
@@ -273,6 +271,10 @@ class DataAnnotationApp:
         # Navigation info
         nav_info = f"{self.current_index + 1} / {len(self.data)}"
 
+        # Format labels for display
+        labels = entry.get("labels", {})
+        labels_json = json.dumps(labels, indent=2)
+
         return (
             log_content,
             summary,
@@ -286,11 +288,12 @@ class DataAnnotationApp:
             db_need_more_context,  # from DB
             existing_need_more_context,  # from user annotation
             existing_need_more_context_reason,  # from user annotation
+            labels_json,  # labels in JSON format
         )
 
     def navigate(
         self, direction: int
-    ) -> Tuple[str, str, str, str, str, str, str, str, str, bool, bool, str]:
+    ) -> Tuple[str, str, str, str, str, str, str, str, str, bool, bool, str, str]:
         """Navigate through data entries."""
         if not self.data:
             return self.get_current_entry()
@@ -302,7 +305,7 @@ class DataAnnotationApp:
 
     def go_to_index(
         self, index: int
-    ) -> Tuple[str, str, str, str, str, str, str, str, str, bool, bool, str]:
+    ) -> Tuple[str, str, str, str, str, str, str, str, str, bool, bool, str, str]:
         """Jump to specific index."""
         if not self.data:
             return self.get_current_entry()
@@ -694,6 +697,16 @@ def create_app():
                 label="Status", interactive=False, lines=1, scale=2
             )
 
+        # Labels section at the bottom
+        gr.Markdown("## 🏷️ Log Labels")
+        labels_display = gr.Code(
+            label="All Labels (JSON)",
+            language="json",
+            interactive=False,
+            lines=10,
+            value="{}",
+        )
+
         # Initialize the interface
         def init_interface():
             result = app.get_current_entry()
@@ -706,8 +719,8 @@ def create_app():
             badge_text = "Yes" if db_need_more_context else "No"
             badge_html = f"<div class='need-context-badge {badge_class}'>🤖 AI Assessment - Need More Context: {badge_text}</div>"
             # Return all values except db_need_more_context (index 9), plus the badge_html
-            # result[:9] = first 9 items, result[10:] = items 10 and 11 (user annotations)
-            return result[:9] + result[10:] + (badge_html,)
+            # result[:9] = first 9 items, result[10:12] = items 10 and 11 (user annotations), result[12] = labels
+            return result[:9] + result[10:12] + (badge_html, result[12])
 
         # Event handlers
         def handle_save_feedback(
@@ -742,6 +755,7 @@ def create_app():
                 db_need_more_context,
                 user_need_more_context,
                 user_need_more_context_reason,
+                labels_json,
             ) = app.navigate(-1)
             # Create HTML badge for need_more_context display
             badge_class = (
@@ -777,6 +791,7 @@ def create_app():
                 badge_html,  # db_need_more_context_display
                 user_need_more_context,  # need_more_context_toggle
                 user_need_more_context_reason,  # need_more_context_reason
+                labels_json,  # labels_display
             )
 
         def handle_navigate_next(
@@ -795,6 +810,7 @@ def create_app():
                 db_need_more_context,
                 user_need_more_context,
                 user_need_more_context_reason,
+                labels_json,
             ) = app.navigate(1)
             # Create HTML badge for need_more_context display
             badge_class = (
@@ -830,6 +846,7 @@ def create_app():
                 badge_html,  # db_need_more_context_display
                 user_need_more_context,  # need_more_context_toggle
                 user_need_more_context_reason,  # need_more_context_reason
+                labels_json,  # labels_display
             )
 
         def handle_jump(index, show_outputs, show_summary, show_context, show_solution):
@@ -847,6 +864,7 @@ def create_app():
                     db_need_more_context,
                     user_need_more_context,
                     user_need_more_context_reason,
+                    labels_json,
                 ) = app.go_to_index(int(index) - 1)
             else:
                 (
@@ -862,6 +880,7 @@ def create_app():
                     db_need_more_context,
                     user_need_more_context,
                     user_need_more_context_reason,
+                    labels_json,
                 ) = app.get_current_entry()
             # Create HTML badge for need_more_context display
             badge_class = (
@@ -897,6 +916,7 @@ def create_app():
                 badge_html,  # db_need_more_context_display
                 user_need_more_context,  # need_more_context_toggle
                 user_need_more_context_reason,  # need_more_context_reason
+                labels_json,  # labels_display
             )
 
         def handle_cluster_toggle(show_sample):
@@ -910,8 +930,8 @@ def create_app():
             badge_text = "Yes" if db_need_more_context else "No"
             badge_html = f"<div class='need-context-badge {badge_class}'>🤖 AI Assessment - Need More Context: {badge_text}</div>"
             # Return all values except db_need_more_context (index 9), plus the badge_html
-            # result[:9] = first 9 items, result[10:] = items 10 and 11 (user annotations)
-            return result[:9] + result[10:] + (badge_html,)
+            # result[:9] = first 9 items, result[10:12] = items 10 and 11 (user annotations), result[12] = labels
+            return result[:9] + result[10:12] + (badge_html, result[12])
 
         def handle_outputs_toggle(show_outputs):
             return gr.update(visible=show_outputs)
@@ -964,6 +984,7 @@ def create_app():
                 need_more_context_toggle,
                 need_more_context_reason,
                 db_need_more_context_display,
+                labels_display,
             ],
         )
 
@@ -996,6 +1017,7 @@ def create_app():
                 db_need_more_context_display,
                 need_more_context_toggle,
                 need_more_context_reason,
+                labels_display,
             ],
         )
 
@@ -1028,6 +1050,7 @@ def create_app():
                 db_need_more_context_display,
                 need_more_context_toggle,
                 need_more_context_reason,
+                labels_display,
             ],
         )
 
@@ -1061,6 +1084,7 @@ def create_app():
                 db_need_more_context_display,
                 need_more_context_toggle,
                 need_more_context_reason,
+                labels_display,
             ],
         )
 
@@ -1092,6 +1116,7 @@ def create_app():
                 need_more_context_toggle,
                 need_more_context_reason,
                 db_need_more_context_display,
+                labels_display,
             ],
         )
 
