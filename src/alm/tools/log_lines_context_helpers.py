@@ -8,6 +8,12 @@ before a specific log entry using a time window approach.
 from datetime import timedelta
 from typing import Optional, Tuple
 
+from alm.agents.loki_agent.constants import (
+    CONTEXT_WINDOW_DAYS_BEFORE,
+    CONTEXT_WINDOW_MINUTES_AFTER,
+    DIRECTION_BACKWARD,
+    MAX_LOGS_PER_QUERY,
+)
 from alm.agents.loki_agent.schemas import LogToolOutput
 
 
@@ -66,10 +72,10 @@ def calculate_time_window(
         )
         return None, None, error_msg
 
-    # Calculate time window: 25 days before to 2 minutes after target
+    # Calculate time window: N days before to M minutes after target
     # This ensures we capture the file start and handle fractional second issues
-    start_datetime = target_datetime - timedelta(days=25)
-    end_datetime = target_datetime + timedelta(minutes=2)
+    start_datetime = target_datetime - timedelta(days=CONTEXT_WINDOW_DAYS_BEFORE)
+    end_datetime = target_datetime + timedelta(minutes=CONTEXT_WINDOW_MINUTES_AFTER)
 
     # Format as RFC3339 with Z
     start_time_rfc3339 = format_rfc3339_utc(start_datetime)
@@ -103,8 +109,8 @@ async def query_logs_in_time_window(
         "file_name": file_name,
         "start_time": start_time_rfc3339,
         "end_time": end_time_rfc3339,
-        "limit": 5000,  # Max allowed by Loki
-        "direction": "backward",  # Get most recent logs in the window
+        "limit": MAX_LOGS_PER_QUERY,  # Max allowed by Loki
+        "direction": DIRECTION_BACKWARD,  # Get most recent logs in the window
     }
 
     context_result = await get_logs_by_file_name.ainvoke(context_query)

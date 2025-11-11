@@ -8,6 +8,11 @@ from typing import Dict, Any, Optional
 from langchain.agents import create_agent
 from langchain_core.messages import ToolMessage
 
+from alm.agents.loki_agent.constants import (
+    CONTEXT_TRUNCATE_LENGTH,
+    CONTEXT_TRUNCATE_SUFFIX,
+    LOKI_AGENT_SYSTEM_PROMPT_PATH,
+)
 from alm.agents.loki_agent.schemas import LogToolOutput, LokiAgentOutput, ToolStatus
 from alm.llm import get_llm
 
@@ -28,9 +33,7 @@ class LokiQueryAgent:
     def _initialize_agent(self):
         """Initialize the LangChain Agent using create_agent()"""
         # Load system prompt from file
-        with open(
-            "src/alm/agents/loki_agent/prompts/loki_agent_system_prompt.md", "r"
-        ) as f:
+        with open(LOKI_AGENT_SYSTEM_PROMPT_PATH, "r") as f:
             system_prompt = f.read()
 
         # Create the agent with system prompt
@@ -67,8 +70,11 @@ class LokiQueryAgent:
                 # Add logMessage first with clear label to avoid confusion with summary
                 if "logMessage" in context and context["logMessage"]:
                     value_str = str(context["logMessage"])
-                    if len(value_str) > 500:
-                        value_str = value_str[:500] + "..."
+                    if len(value_str) > CONTEXT_TRUNCATE_LENGTH:
+                        value_str = (
+                            value_str[:CONTEXT_TRUNCATE_LENGTH]
+                            + CONTEXT_TRUNCATE_SUFFIX
+                        )
                     context_parts.append(f"Log Message: {value_str}")
 
                 # Add all other fields generically

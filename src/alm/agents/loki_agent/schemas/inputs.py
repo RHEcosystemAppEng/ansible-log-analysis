@@ -7,11 +7,13 @@ from typing import Literal, Optional
 from pydantic import BaseModel, Field
 from enum import Enum
 
-DEFAULT_START_TIME = "-24h"
-DEFAULT_END_TIME = "now"
-DEFAULT_LIMIT = 100
-DEFAULT_DIRECTION = "backward"
-DEFAULT_LINE_ABOVE = 10
+from alm.agents.loki_agent.constants import (
+    DEFAULT_DIRECTION,
+    DEFAULT_END_TIME,
+    DEFAULT_LIMIT,
+    DEFAULT_LINE_ABOVE,
+    DEFAULT_START_TIME,
+)
 
 
 class LogLevel(str, Enum):

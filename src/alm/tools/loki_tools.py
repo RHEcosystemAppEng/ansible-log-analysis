@@ -10,6 +10,17 @@ from typing import Literal, Optional
 from langchain_core.tools import tool
 
 from alm.mcp import MCPClient
+from alm.agents.loki_agent.constants import (
+    DEFAULT_DIRECTION,
+    DEFAULT_END_TIME,
+    DEFAULT_START_TIME,
+    LOKI_MCP_SERVER_URL_DEFAULT,
+    LOGQL_FILE_NAME_QUERY_TEMPLATE,
+    LOGQL_JOB_WILDCARD_QUERY,
+    LOGQL_LEVEL_FILTER_TEMPLATE,
+    LOGQL_TEXT_SEARCH_TEMPLATE,
+    MAX_LOGS_PER_QUERY,
+)
 from alm.agents.loki_agent.schemas import (
     DEFAULT_LINE_ABOVE,
     DEFAULT_LIMIT,
@@ -25,8 +36,7 @@ from alm.agents.loki_agent.schemas import (
 
 
 # MCP Server URL configuration
-_mcp_server_url = os.getenv("LOKI_MCP_SERVER_URL", "http://localhost:8080/stream")
-MAX_LOGS_PER_QUERY = 5000
+_mcp_server_url = os.getenv("LOKI_MCP_SERVER_URL", LOKI_MCP_SERVER_URL_DEFAULT)
 
 
 async def create_mcp_client() -> MCPClient:
@@ -41,11 +51,11 @@ async def create_mcp_client() -> MCPClient:
 
 async def execute_loki_query(
     query: str,
-    start: str | int = "-24h",
-    end: str | int = "now",
+    start: str | int = DEFAULT_START_TIME,
+    end: str | int = DEFAULT_END_TIME,
     limit: int = DEFAULT_LIMIT,
     reference_timestamp: Optional[str] = None,
-    direction: str = "backward",
+    direction: str = DEFAULT_DIRECTION,
 ) -> str:
     """Execute a LogQL query via MCP client"""
     # Import here to avoid circular dependency
@@ -155,11 +165,11 @@ async def execute_loki_query(
 async def get_logs_by_file_name(
     file_name: str,
     log_timestamp: Optional[str] = None,
-    start_time: str | int = "-24h",
-    end_time: str = "now",
+    start_time: str | int = DEFAULT_START_TIME,
+    end_time: str = DEFAULT_END_TIME,
     level: LogLevel | None = None,
     limit: int = DEFAULT_LIMIT,
-    direction: Literal["backward", "forward"] = "backward",
+    direction: Literal["backward", "forward"] = DEFAULT_DIRECTION,
 ) -> str:
     """
     Get logs for a specific file with time ranges relative to a reference timestamp,
@@ -171,10 +181,10 @@ async def get_logs_by_file_name(
     """
     try:
         # Build LogQL query for file name
-        query_parts = [f'{{filename=~".*{file_name}$"}}']
+        query_parts = [LOGQL_FILE_NAME_QUERY_TEMPLATE.format(file_name=file_name)]
 
         if level:
-            query_parts.append(f"| detected_level=`{level.value}`")
+            query_parts.append(LOGQL_LEVEL_FILTER_TEMPLATE.format(level=level.value))
 
         query = "".join(query_parts)
 
@@ -195,8 +205,8 @@ async def get_logs_by_file_name(
 async def search_logs_by_text(
     text: str,
     log_timestamp: Optional[str] = None,
-    start_time: str | int = "-24h",
-    end_time: str | int = "now",
+    start_time: str | int = DEFAULT_START_TIME,
+    end_time: str | int = DEFAULT_END_TIME,
     file_name: Optional[str] = None,
     limit: int = DEFAULT_LIMIT,
 ) -> str:
@@ -216,11 +226,19 @@ async def search_logs_by_text(
         # Build LogQL query for text search
         if file_name:
             # Search within a specific file
-            query = f'{{filename=~".*{file_name}$"}} |= "{text}"'
+            query = (
+                LOGQL_FILE_NAME_QUERY_TEMPLATE.format(file_name=file_name)
+                + " "
+                + LOGQL_TEXT_SEARCH_TEMPLATE.format(text=text)
+            )
         else:
             # Search across all logs
             # Use job=~".+" to match any job with non-empty value (Loki requirement)
-            query = f'{{job=~".+"}} |= "{text}"'
+            query = (
+                LOGQL_JOB_WILDCARD_QUERY
+                + " "
+                + LOGQL_TEXT_SEARCH_TEMPLATE.format(text=text)
+            )
 
         result = await execute_loki_query(
             query, start_time, end_time, limit, log_timestamp
@@ -274,6 +292,11 @@ async def get_log_lines_above(
             query_logs_in_time_window,
             extract_context_lines_above,
         )
+        from alm.agents.loki_agent.constants import CONTEXT_TRUNCATE_SUFFIX
+
+        # Truncate the log message at the end only if it ends with the truncate suffix
+        if log_message and log_message.endswith(CONTEXT_TRUNCATE_SUFFIX):
+            log_message = log_message[: -len(CONTEXT_TRUNCATE_SUFFIX)].rstrip()
 
         # Step 1: Get the timestamp (either from parameter or by searching)
         print("🔍 [Step 1] Getting or finding timestamp for log message")
@@ -323,6 +346,7 @@ async def get_log_lines_above(
 
         print(f"first line of chronological logs: {chronological_logs[0].message}")
         print(f"last line of chronological logs: {chronological_logs[-1].message}")
+        print(f"log_message: {log_message}")
 
         context_logs, error = extract_context_lines_above(
             chronological_logs, log_message, lines_above

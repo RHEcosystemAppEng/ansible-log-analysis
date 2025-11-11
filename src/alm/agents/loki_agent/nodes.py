@@ -5,6 +5,7 @@ LangGraph node functions for Loki MCP integration.
 from typing import Dict, Any
 from langchain_openai import ChatOpenAI
 
+from alm.agents.loki_agent.constants import IDENTIFY_MISSING_DATA_PROMPT_PATH
 from alm.agents.loki_agent.schemas import IdentifyMissingDataSchema, LogLabels
 
 
@@ -26,7 +27,7 @@ async def identify_missing_data(
     Returns:
         str: Natural language description of missing data needed for investigation
     """
-    with open("src/alm/agents/loki_agent/prompts/identify_missing_data.md", "r") as f:
+    with open(IDENTIFY_MISSING_DATA_PROMPT_PATH, "r") as f:
         generate_loki_query_request_user_message = f.read()
 
     # Convert log_labels to LogLabels object if it's a dict to exclude none values

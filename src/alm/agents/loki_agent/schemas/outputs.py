@@ -10,6 +10,10 @@ from datetime import datetime
 from collections import defaultdict
 from langchain_core.messages import ToolMessage
 
+from alm.agents.loki_agent.constants import (
+    LOG_CONTEXT_SEPARATOR_WIDTH,
+    NANOSECONDS_PER_SECOND,
+)
 from .inputs import LogLevel
 
 
@@ -99,7 +103,7 @@ def parse_timestamp(timestamp_str: str) -> datetime:
         # Try nanosecond timestamp (common in Loki)
         if timestamp_str.isdigit():
             # Convert nanoseconds to seconds
-            timestamp_seconds = int(timestamp_str) / 1_000_000_000
+            timestamp_seconds = int(timestamp_str) / NANOSECONDS_PER_SECOND
             return datetime.fromtimestamp(timestamp_seconds)
 
         # Try ISO format
@@ -144,9 +148,9 @@ def build_log_context(logs: List["LogEntry"]) -> str:
         sorted_logs = sorted(label_logs, key=lambda x: parse_timestamp(x.timestamp))
 
         # Add labels header
-        context_parts.append(f"\n{'=' * 80}")
+        context_parts.append(f"\n{'=' * LOG_CONTEXT_SEPARATOR_WIDTH}")
         context_parts.append(f"Labels: {labels_key}")
-        context_parts.append(f"{'=' * 80}")
+        context_parts.append(f"{'=' * LOG_CONTEXT_SEPARATOR_WIDTH}")
 
         # Add logs for this label group
         for log in sorted_logs:

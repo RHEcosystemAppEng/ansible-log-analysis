@@ -7,6 +7,20 @@ from datetime import datetime, timedelta, timezone
 from typing import Optional, Tuple
 from dateutil import parser as date_parser
 
+from alm.agents.loki_agent.constants import (
+    FALLBACK_LOG_SEARCH_DAYS,
+    MILLISECOND_THRESHOLD,
+    MILLISECONDS_PER_SECOND,
+    NANOSECOND_THRESHOLD,
+    NANOSECONDS_PER_SECOND,
+    RELATIVE_TIME_PATTERN,
+    TIME_UNIT_MAP,
+    UTC_OFFSET_SUFFIX,
+    UTC_TIMEZONE_SUFFIX,
+    VALID_TIMESTAMP_MAX_YEAR,
+    VALID_TIMESTAMP_MIN_YEAR,
+)
+
 
 def timestamp_to_utc_datetime(timestamp: str) -> datetime:
     """
@@ -31,10 +45,10 @@ def timestamp_to_utc_datetime(timestamp: str) -> datetime:
         ts_int = int(timestamp)
 
         # Detect format based on number of digits
-        if ts_int > 1_000_000_000_000_000_000:  # 19+ digits = nanoseconds
-            ts_seconds = ts_int / 1_000_000_000
-        elif ts_int > 1_000_000_000_000:  # 13+ digits = milliseconds
-            ts_seconds = ts_int / 1_000
+        if ts_int > NANOSECOND_THRESHOLD:  # 19+ digits = nanoseconds
+            ts_seconds = ts_int / NANOSECONDS_PER_SECOND
+        elif ts_int > MILLISECOND_THRESHOLD:  # 13+ digits = milliseconds
+            ts_seconds = ts_int / MILLISECONDS_PER_SECOND
         else:  # 10 digits or less = seconds
             ts_seconds = float(ts_int)
 
@@ -75,13 +89,13 @@ def format_rfc3339_utc(dt: datetime) -> str:
     iso_str = dt.isoformat()
 
     # Replace timezone offset with Z
-    if iso_str.endswith("+00:00"):
-        return iso_str[:-6] + "Z"
-    elif iso_str.endswith("Z"):
+    if iso_str.endswith(UTC_OFFSET_SUFFIX):
+        return iso_str[:-6] + UTC_TIMEZONE_SUFFIX
+    elif iso_str.endswith(UTC_TIMEZONE_SUFFIX):
         return iso_str
     else:
         # Should not happen if dt is UTC, but handle it
-        return dt.astimezone(timezone.utc).isoformat()[:-6] + "Z"
+        return dt.astimezone(timezone.utc).isoformat()[:-6] + UTC_TIMEZONE_SUFFIX
 
 
 def parse_relative_offset(time_str: str) -> timedelta:
@@ -97,7 +111,7 @@ def parse_relative_offset(time_str: str) -> timedelta:
     Raises:
         ValueError: If the time string format is invalid
     """
-    match = re.match(r"(-?)(\d+)([smhd])", time_str.strip())
+    match = re.match(RELATIVE_TIME_PATTERN, time_str.strip())
     if not match:
         raise ValueError(f"Invalid relative time format: {time_str}")
 
@@ -106,8 +120,7 @@ def parse_relative_offset(time_str: str) -> timedelta:
     if sign == "-":
         value = -value
 
-    unit_map = {"s": "seconds", "m": "minutes", "h": "hours", "d": "days"}
-    return timedelta(**{unit_map[unit]: value})
+    return timedelta(**{TIME_UNIT_MAP[unit]: value})
 
 
 def parse_time_relative_to_timestamp(time_str: str, reference_timestamp: str) -> str:
@@ -246,18 +259,18 @@ async def find_log_timestamp(
 
     print(f"\n🔍 [find_log_timestamp] Searching for target log message in {file_name}")
 
-    # Use current time for the search (past 30 days)
+    # Use current time for the search (past N days)
     current_time = datetime.now(timezone.utc)
     start_time = current_time - timedelta(
-        days=30
-    )  # 30 days which is the max time range allowed by Loki
+        days=FALLBACK_LOG_SEARCH_DAYS
+    )  # Max time range allowed by Loki
 
     target_result = await search_logs_by_text.ainvoke(
         {
             "text": log_message,
             "file_name": file_name,
             "log_timestamp": str(
-                int(current_time.timestamp() * 1_000_000_000)
+                int(current_time.timestamp() * NANOSECONDS_PER_SECOND)
             ),  # Current time in nanoseconds
             "start_time": format_rfc3339_utc(start_time),  # RFC3339 UTC format
             "end_time": format_rfc3339_utc(current_time),  # RFC3339 UTC format
@@ -294,11 +307,11 @@ def validate_timestamp(timestamp: Optional[str]) -> Tuple[Optional[datetime], bo
     try:
         # Try to convert to datetime - if it works, it's valid
         dt = timestamp_to_utc_datetime(timestamp)
-        # Check if the timestamp is in a reasonable range (year 2000 to 2100)
+        # Check if the timestamp is in a reasonable range
         if (
-            datetime(2000, 1, 1, tzinfo=timezone.utc)
+            datetime(VALID_TIMESTAMP_MIN_YEAR, 1, 1, tzinfo=timezone.utc)
             < dt
-            < datetime(2100, 1, 1, tzinfo=timezone.utc)
+            < datetime(VALID_TIMESTAMP_MAX_YEAR, 1, 1, tzinfo=timezone.utc)
         ):
             return dt, True
         else:
