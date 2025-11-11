@@ -174,6 +174,11 @@ class DataAnnotationApp:
             "need_more_context": need_more_context,
             "need_more_context_reason": need_more_context_reason,
             "logMessage": current_entry.get("logMessage", "No line context"),
+            "logSummary": current_entry.get("summary", ""),
+            "stepByStepSolution": current_entry.get("step_by_step_solution", ""),
+            "contextForStepByStepSolution": current_entry.get(
+                "context_for_solution", ""
+            ),
         }
 
         # Remove any existing feedback for this entry
