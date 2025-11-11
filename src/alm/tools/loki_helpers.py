@@ -2,12 +2,16 @@
 Helper functions for Loki log querying tools.
 """
 
+import heapq
 import re
+from collections import defaultdict
 from datetime import datetime, timedelta, timezone
-from typing import Optional, Tuple
+from typing import Optional, Tuple, List, Dict
 from dateutil import parser as date_parser
 
 from alm.agents.loki_agent.constants import (
+    DEFAULT_DIRECTION,
+    DIRECTION_BACKWARD,
     FALLBACK_LOG_SEARCH_DAYS,
     MILLISECOND_THRESHOLD,
     MILLISECONDS_PER_SECOND,
@@ -318,3 +322,82 @@ def validate_timestamp(timestamp: Optional[str]) -> Tuple[Optional[datetime], bo
             return None, False
     except Exception:
         return None, False
+
+
+def merge_loki_streams(streams: List[Dict], direction: str = DEFAULT_DIRECTION) -> List:
+    """
+    Merge multiple Loki streams into a sorted list of LogEntry objects.
+
+    Streams are grouped by labels (excluding detected_level), then merged using
+    heapq.merge for efficient O(n log k) performance where k is the number of
+    streams per file group (constant in our case).
+
+    Each file's logs are sorted chronologically (oldest to newest), but different
+    files can be interleaved in the result.
+
+    Args:
+        streams: List of Loki stream objects, each containing:
+                 - "stream": Dict of labels (detected_level, filename, job, etc.)
+                 - "values": List of [timestamp, message] pairs
+        direction: Loki query direction:
+                   - "backward": Streams contain newest-first logs (will be reversed)
+                   - "forward": Streams contain oldest-first logs (used as-is)
+
+    Returns:
+        List of LogEntry objects, sorted chronologically per file (oldest to newest)
+    """
+    from alm.agents.loki_agent.schemas.outputs import LogEntry, LogLabels
+
+    if not streams:
+        return []
+
+    # Group streams by labels (excluding detected_level)
+    # Key: tuple of (label_key, label_value) pairs, excluding detected_level
+    # Value: list of streams with those labels
+    streams_by_file: Dict[str, List[Dict]] = defaultdict(list)
+
+    for stream in streams:
+        stream_labels = stream.get("stream", {})
+
+        # Create grouping key excluding detected_level
+        labels_dict = {k: v for k, v in stream_labels.items() if k != "detected_level"}
+        labels_key = ", ".join([f"{k}={v}" for k, v in sorted(labels_dict.items())])
+
+        streams_by_file[labels_key].append(stream)
+
+    # Merge each file group's streams and concatenate results
+    all_logs = []
+
+    for labels_key, file_streams in streams_by_file.items():
+        # Convert each stream to LogEntry iterator
+        def stream_to_log_entries(stream_data: Dict):
+            """Convert a Loki stream to LogEntry objects, handling direction"""
+            stream_labels = stream_data.get("stream", {})
+            values = stream_data.get("values", [])
+
+            # If direction is backward, reverse the values to get oldest-first
+            if direction == DIRECTION_BACKWARD:
+                values = reversed(values)
+
+            # Yield LogEntry objects
+            for entry in values:
+                yield LogEntry(
+                    timestamp=entry[0],
+                    log_labels=LogLabels(**stream_labels),
+                    message=entry[1],
+                )
+
+        # Create iterators for each stream in this file group
+        stream_iterators = [stream_to_log_entries(s) for s in file_streams]
+
+        # Merge streams chronologically (oldest to newest)
+        # heapq.merge expects sorted iterables and merges them efficiently
+        merged_logs = heapq.merge(
+            *stream_iterators,
+            key=lambda log: float(log.timestamp),  # Sort by timestamp as float
+        )
+
+        # Extend all_logs with this file's merged logs
+        all_logs.extend(merged_logs)
+
+    return all_logs

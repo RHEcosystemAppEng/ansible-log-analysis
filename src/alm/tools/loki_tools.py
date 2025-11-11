@@ -59,7 +59,7 @@ async def execute_loki_query(
 ) -> str:
     """Execute a LogQL query via MCP client"""
     # Import here to avoid circular dependency
-    from alm.tools.loki_helpers import parse_time_input
+    from alm.tools.loki_helpers import parse_time_input, merge_loki_streams
 
     client = None
     if limit > MAX_LOGS_PER_QUERY:
@@ -104,18 +104,13 @@ async def execute_loki_query(
                 print(f"📊 Parsed MCP result: {parsed_result}")
                 logs = []
 
-                # Parse Loki response format
+                # Parse Loki response format and merge streams efficiently
                 if "data" in parsed_result and "result" in parsed_result["data"]:
-                    for stream in parsed_result["data"]["result"]:
-                        stream_labels = stream.get("stream", {})
-                        for entry in stream.get("values", []):
-                            logs.append(
-                                LogEntry(
-                                    timestamp=entry[0],
-                                    log_labels=stream_labels,
-                                    message=entry[1],
-                                )
-                            )
+                    # Use heapq.merge to efficiently merge pre-sorted streams
+                    # Groups by file (excluding log level) and sorts chronologically
+                    logs = merge_loki_streams(
+                        parsed_result["data"]["result"], direction=direction
+                    )
 
                 return LogToolOutput(
                     status=ToolStatus.SUCCESS,
@@ -340,16 +335,8 @@ async def get_log_lines_above(
         # Step 4: Extract N lines before the target
         print("🔍 [Step 4] Extracting {lines_above} lines before target")
 
-        # Note: context_data.logs are in reverse chronological order (backward direction)
-        # We need to reverse them to get chronological order for proper indexing
-        chronological_logs = list(reversed(context_data.logs))
-
-        print(f"first line of chronological logs: {chronological_logs[0].message}")
-        print(f"last line of chronological logs: {chronological_logs[-1].message}")
-        print(f"log_message: {log_message}")
-
         context_logs, error = extract_context_lines_above(
-            chronological_logs, log_message, lines_above
+            context_data.logs, log_message, lines_above
         )
 
         if error:
