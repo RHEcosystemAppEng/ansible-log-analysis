@@ -27,8 +27,12 @@ dependencies = [
 
     # ML / RAG
     "scikit-learn>=1.7.1",
-    "sentence-transformers",
+    # Install torch CPU-only BEFORE sentence-transformers to avoid CUDA deps
+    "torch==2.9.0+cpu",
+    "torchvision==0.24.0+cpu",
+    "sentence-transformers>=2.7.0",
     "faiss-cpu>=1.7.4",
+    "pypdf>=5.0.0",
 
     # Object storage
     "minio>=7.2.17",
@@ -63,3 +67,8 @@ extend-exclude = [
     "notebooks/",
     "evals/",
 ]
+
+[tool.uv]
+# Use PyTorch CPU-only builds to avoid large CUDA dependencies
+# The CPU index should be checked first for torch packages
+extra-index-url = ["https://download.pytorch.org/whl/cpu"]

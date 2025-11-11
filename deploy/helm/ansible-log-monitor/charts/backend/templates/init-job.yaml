@@ -67,7 +67,9 @@ spec:
           {{- end }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["python", "init_pipeline.py"]
+          command:
+            - python
+            - init_pipeline.py
           {{- if .Values.env }}
           env:
             {{- toYaml .Values.env | nindent 12 }}
@@ -76,19 +78,28 @@ spec:
           {{- if .Values.config }}
             - configMapRef:
                 name: {{ include "backend.fullname" . }}-config
+          {{- end }}
             - secretRef:
                 name: model-secret
-          {{- end }}
           {{- with .Values.initResources }}
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.volumeMounts }}
           volumeMounts:
+          {{- if .Values.rag.enabled }}
+            - name: rag-data
+              mountPath: {{ .Values.rag.pvcMountPath }}
+          {{- end }}
+          {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
-      {{- with .Values.volumes }}
       volumes:
+      {{- if .Values.rag.enabled }}
+        - name: rag-data
+          persistentVolumeClaim:
+            claimName: {{ include "backend.fullname" . }}-rag-data
+      {{- end }}
+      {{- with .Values.volumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.nodeSelector }}

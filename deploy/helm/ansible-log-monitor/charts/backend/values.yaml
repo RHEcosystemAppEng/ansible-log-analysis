@@ -11,6 +11,7 @@ image:
   # This sets the pull policy for images.
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
+  # Use 'rag-v1' for RAG-enabled version, or 'latest' for most recent
   tag: "latest"
 
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
@@ -218,3 +219,44 @@ rbac:
 postgresql:
   # Whether to wait for PostgreSQL to be ready before starting the main container
   waitForReady: true
+
+# RAG (Retrieval Augmented Generation) configuration
+rag:
+  # Enable or disable RAG functionality
+  enabled: true
+  
+  # Embedding model configuration
+  # NOTE: API credentials (apiKey, apiUrl, modelName) are provided during 'make install'
+  # and stored in the 'model-secret' Kubernetes secret
+  embedding:
+    # These are defaults that can be overridden during installation
+    modelName: "nomic-ai/nomic-embed-text-v1.5"
+    apiUrl: ""  # Will be set from EMBEDDINGS_LLM_URL in model-secret
+  
+  # Data paths
+  dataDir: "/app/data/rag"
+  knowledgeBaseDir: "/app/data/rag/knowledge_base"
+  # PVC mount path (mounted directly at /app/data/rag)
+  pvcMountPath: "/app/data/rag"
+  
+  # Persistence configuration for RAG index storage
+  persistence:
+    # Storage size for RAG index and metadata
+    size: "2Gi"
+    # Access mode: ReadWriteOnce (RWO) is used because:
+    # 1. Init job writes the index once
+    # 2. Backend pods only read (never write)
+    # 3. AWS EBS (gp3-csi) only supports RWO
+    # Note: For RWO, all backend pods must be scheduled on the same node as the PVC
+    accessMode: "ReadWriteOnce"
+    # Storage class (leave empty for default)
+    storageClassName: ""
+  
+  # Query configuration
+  query:
+    # Number of top candidates to retrieve from FAISS
+    topK: 10
+    # Number of final results to return to the agent
+    topN: 3
+    # Minimum similarity threshold (0-1)
+    similarityThreshold: 0.6
