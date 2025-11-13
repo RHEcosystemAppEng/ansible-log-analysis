@@ -157,14 +157,3 @@ Respond with only the category name exactly as listed above. Do not include expl
 1. First, try to match to one of the seven specific role-based categories
 2. If it's infrastructure-related but doesn't clearly fit any specific category, use "Other / Miscellaneous"
 3. Only use "Unable to categorize - requires manual review" if the log is completely unrelated to infrastructure, system operations, or deployment issues
-
----
-
-**Now classify the following Ansible log entry:**
-
-```
-{log_summary}
-```
-
-**Category:** 
-

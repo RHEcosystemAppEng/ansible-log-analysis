@@ -2,7 +2,11 @@ from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, Field
 from typing import Literal
 
-from .rag_handler import RAGHandler
+from alm.agents.get_more_context_agent.rag_handler import RAGHandler
+from alm.agents.get_more_context_agent.prompts.prompts import (
+    loki_router_system_message,
+    loki_router_user_message,
+)
 
 # Initialize RAG handler instance
 _rag_handler = RAGHandler()
@@ -15,10 +19,6 @@ class LokiRouterSchema(BaseModel):
     ] = Field(
         description="determines if we need to fetch more context from loki db, 'need_more_context_from_loki_db' if we need to fetch more context, 'no_need_more_context_from_loki_db' if we don't need to fetch more context"
     )
-
-
-with open("src/alm/agents/get_more_context_agent/prompts/loki_router.md", "r") as f:
-    loki_router_user_message = f.read()
 
 
 async def get_cheat_sheet_context(log_summary: str) -> str:
@@ -42,7 +42,7 @@ async def loki_router(
         [
             {
                 "role": "system",
-                "content": "You are an Ansible expert and helpful assistant",
+                "content": loki_router_system_message,
             },
             {
                 "role": "user",

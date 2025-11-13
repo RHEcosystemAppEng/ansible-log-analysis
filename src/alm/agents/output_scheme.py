@@ -22,8 +22,11 @@ class ClassifySchema(BaseModel):
 
 
 class SuggestStepByStepSolutionSchema(BaseModel):
+    root_cause_analysis: str = Field(
+        description="Root Cause Analysis of the error, this should be a detailed analysis of the error and the root cause"
+    )
     step_by_step_solution: str = Field(
-        description="Step by step solution to the problem"
+        description="A multi-step by step solution to the error"
     )
 
 

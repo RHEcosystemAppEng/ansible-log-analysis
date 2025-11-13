@@ -7,9 +7,10 @@ export $(shell sed 's/=.*//' ../../.env | xargs)
 train: run-whole-training-pipeline
 training: run-whole-training-pipeline
 
-install: start ## Install all services (alias for start)
+uninstall: stop
 
-deploy: start ## Deploy all services (alias for start)
+install: start
+deploy: start
 
 help: ## Show this help message
 	@echo "🚀 Ansible Log Monitor - Local Deployment"
@@ -165,4 +166,5 @@ restart: stop start ## 🔄 Restart all services
 
 clean: ## 🧹 Clean PID files and logs
 	@echo "🧹 Cleaning up PID files and logs..."
+	@docker-compose down -v
 	@echo "   ✓ Cleanup completed"

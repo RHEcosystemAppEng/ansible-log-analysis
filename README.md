@@ -238,22 +238,22 @@ cp .env.example .env
 **3. Start All Services**
 In short:
 ```bash
-make local/start
-make local/run-whole-training-pipeline
+make local/install
+make local/train
 ```
 
 ```bash
 # Launch all services in the background
-make local/start
+make local/install
 
-# Run the complete training pipeline (do it after local/start)
-make local/run-whole-training-pipeline
+# Run the complete training pipeline (do it after local/install)
+make local/train
 
 # Perform status check to see which services are running
 make local/status
 
-# Stop all services when done
-make local/stop
+# uninstall all services when done
+make local/uninstall
 ```
 
 **Additional Commands**

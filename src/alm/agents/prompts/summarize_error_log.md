@@ -139,11 +139,3 @@ log_summary:
 ---
 
 **Your Task:** Analyze the following Ansible error log and provide your summary:
-
-ansible_log_error:
-```
-{error_log}
-```
-
-log_summary:
-

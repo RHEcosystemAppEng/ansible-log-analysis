@@ -15,18 +15,17 @@ import numpy as np
 from alm.utils.minio import upload_model_to_minio
 import requests
 
-# Load the user message (prompt) from the markdown file
-with open("src/alm/agents/prompts/summarize_error_log.md", "r") as f:
-    log_summary_user_message = f.read()
-
-with open("src/alm/agents/prompts/classifiy_log.md", "r") as f:
-    log_category_user_message = f.read()
-
-with open("src/alm/agents/prompts/create_step_by_step_sol.md", "r") as f:
-    log_suggest_step_by_step_solution_user_message = f.read()
-
-with open("src/alm/agents/prompts/router_step_by_step_solution.md", "r") as f:
-    router_step_by_step_solution_user_message = f.read()
+from alm.agents.prompts.prompts import (
+    log_summary_system_message,
+    log_summary_user_message,
+    log_category_user_message,
+    log_category_system_message,
+    suggest_step_by_step_solution_user_message,
+    suggest_step_by_step_solution_with_context_user_message,
+    suggest_step_by_step_solution_system_message,
+    router_step_by_step_solution_user_message,
+    router_step_by_step_solution_system_message,
+)
 
 
 # Can be improve by using eval-optimizer.
@@ -34,10 +33,10 @@ async def summarize_log(log, llm: ChatOpenAI):
     llm_summary = llm.with_structured_output(SummarySchema)
     log_summary = await llm_summary.ainvoke(
         [
-            {"role": "system", "content": "You Ansible expert and helpful assistant"},
+            {"role": "system", "content": log_summary_system_message},
             {
                 "role": "user",
-                "content": log_summary_user_message.replace("{error_log}", log),
+                "content": log_summary_user_message.format(error_log=log),
             },
         ]
     )
@@ -48,12 +47,10 @@ async def classify_log(log_summary, llm: ChatOpenAI):
     llm_categorize = llm.with_structured_output(ClassifySchema)
     log_category = await llm_categorize.ainvoke(
         [
-            {"role": "system", "content": "You Ansible expert and helpful assistant"},
+            {"role": "system", "content": log_category_system_message},
             {
                 "role": "user",
-                "content": log_category_user_message.replace(
-                    "{log_summary}", log_summary
-                ),
+                "content": log_category_user_message.format(log_summary=log_summary),
             },
         ]
     )
@@ -68,12 +65,12 @@ async def router_step_by_step_solution(log_summary: str, llm: ChatOpenAI):
         [
             {
                 "role": "system",
-                "content": "You are an Ansible expert and helpful assistant",
+                "content": router_step_by_step_solution_system_message,
             },
             {
                 "role": "user",
-                "content": router_step_by_step_solution_user_message.replace(
-                    "{log_summary}", log_summary
+                "content": router_step_by_step_solution_user_message.format(
+                    log_summary=log_summary
                 ),
             },
         ]
@@ -85,34 +82,40 @@ async def suggest_step_by_step_solution(
     log_summary: str,
     log: str,
     llm: ChatOpenAI,
-    context_for_step_by_step_solution: Optional[str] = None,
+    context: Optional[str] = None,
 ):
     llm_suggest_step_by_step_solution = llm.with_structured_output(
         SuggestStepByStepSolutionSchema
     )
-    user_msg = log_suggest_step_by_step_solution_user_message
-    if context_for_step_by_step_solution:
-        user_msg = user_msg.replace(
-            "**Root Cause Analysis:**",
-            f"**Additional Context:**\n```\n{context_for_step_by_step_solution}\n```\n\n**Root Cause Analysis:**",
+    if context:
+        user_msg = suggest_step_by_step_solution_with_context_user_message.format(
+            context=context,
+            log=log,
+            log_summary=log_summary,
+        )
+    else:
+        user_msg = suggest_step_by_step_solution_user_message.format(
+            log=log,
+            log_summary=log_summary,
         )
 
     log_suggest_step_by_step_solution = await llm_suggest_step_by_step_solution.ainvoke(
         [
             {
                 "role": "system",
-                "content": "You are an Ansible expert and helpful assistant",
+                "content": suggest_step_by_step_solution_system_message,
             },
             {
                 "role": "user",
-                "content": user_msg.replace(
-                    "{log_summary}",
-                    log_summary,  # currently disabled
-                ).replace("{ansible_error_log}", log),
+                "content": user_msg,
             },
         ]
     )
-    return log_suggest_step_by_step_solution.step_by_step_solution
+    return (
+        log_suggest_step_by_step_solution.root_cause_analysis
+        + "\n\n"
+        + log_suggest_step_by_step_solution.step_by_step_solution
+    )
 
 
 def _embed_logs(logs: List[str]):

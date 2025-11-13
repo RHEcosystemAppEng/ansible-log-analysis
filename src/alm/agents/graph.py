@@ -13,8 +13,6 @@ from langgraph.graph import StateGraph, START, END
 from langgraph.types import Command
 from alm.agents.get_more_context_agent.graph import more_context_agent_graph
 
-from typing import Literal
-
 
 llm = get_llm()
 
@@ -22,7 +20,7 @@ llm = get_llm()
 # Nodes
 async def cluster_logs_node(
     state: GrafanaAlert,
-) -> Command[Literal["summarize_log_node"]]:
+) -> Command:
     logs = state.logMessage
     log_cluster = infer_cluster_log(logs)
     return Command(goto="summarize_log_node", update={"logCluster": log_cluster})
@@ -30,14 +28,14 @@ async def cluster_logs_node(
 
 async def summarize_log_node(
     state: GrafanaAlert,
-) -> Command[Literal["classify_log_node"]]:
+) -> Command:
     log_summary = await summarize_log(state.logMessage, llm)
     return Command(goto="classify_log_node", update={"logSummary": log_summary})
 
 
 async def classify_log_node(
     state: GrafanaAlert,
-) -> Command[Literal["router_step_by_step_solution_node"]]:
+) -> Command:
     log_summary = state.logSummary
     log_category = await classify_log(log_summary, llm)
     return Command(
@@ -48,7 +46,7 @@ async def classify_log_node(
 
 async def suggest_step_by_step_solution_node(
     state: GrafanaAlert,
-) -> Command[Literal[END]]:
+) -> Command:
     log_summary = state.logSummary
     log = state.logMessage
     context = state.contextForStepByStepSolution
@@ -60,12 +58,7 @@ async def suggest_step_by_step_solution_node(
 
 async def router_step_by_step_solution_node(
     state: GrafanaAlert,
-) -> Command[
-    Literal[
-        "suggest_step_by_step_solution_node",
-        "get_more_context_node",
-    ]
-]:
+) -> Command:
     log_summary = state.logSummary
     classification = await router_step_by_step_solution(log_summary, llm)
     return Command(
@@ -78,7 +71,7 @@ async def router_step_by_step_solution_node(
 
 async def get_more_context_node(
     state: GrafanaAlert,
-) -> Command[Literal[END]]:
+) -> Command:
     log_summary = state.logSummary
     log_labels = LogLabels.model_validate(state.log_labels)
     log_entry = LogEntry(
