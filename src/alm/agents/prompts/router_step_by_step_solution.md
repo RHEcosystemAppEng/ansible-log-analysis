@@ -126,10 +126,3 @@ Remember: When in doubt, err on the side of "Need More Context" to ensure thorou
 
 ## Your Task:
 Analyze the provided Ansible error log summary and classify it as either "No More Context Needed" or "Need More Context" based on the criteria above. Provide your reasoning for the classification decision.
-
-**Error Log Summary:**
-```
-{log_summary}
-```
-
-**Classification:**
