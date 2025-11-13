@@ -37,6 +37,7 @@ async def test_get_more_context_graph():
             service_name="failed_logs",
         ),
         message=log_message,
+        timestamp="1762427889459",
     )
 
     # Create a test state with sample data

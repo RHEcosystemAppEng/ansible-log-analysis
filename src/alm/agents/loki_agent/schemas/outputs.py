@@ -10,6 +10,10 @@ from datetime import datetime
 from collections import defaultdict
 from langchain_core.messages import ToolMessage
 
+from alm.agents.loki_agent.constants import (
+    LOG_CONTEXT_SEPARATOR_WIDTH,
+    NANOSECONDS_PER_SECOND,
+)
 from .inputs import LogLevel
 
 
@@ -99,7 +103,7 @@ def parse_timestamp(timestamp_str: str) -> datetime:
         # Try nanosecond timestamp (common in Loki)
         if timestamp_str.isdigit():
             # Convert nanoseconds to seconds
-            timestamp_seconds = int(timestamp_str) / 1_000_000_000
+            timestamp_seconds = int(timestamp_str) / NANOSECONDS_PER_SECOND
             return datetime.fromtimestamp(timestamp_seconds)
 
         # Try ISO format
@@ -112,45 +116,50 @@ def parse_timestamp(timestamp_str: str) -> datetime:
 def format_timestamp(timestamp_str: str) -> str:
     """Convert timestamp to readable format"""
     dt = parse_timestamp(timestamp_str)
-    return dt.strftime("%Y-%m-%d %H:%M:%S")
+    # Use only 4 digits after the second
+    return dt.strftime("%Y-%m-%d %H:%M:%S.%f")[:-2]
 
 
 def build_log_context(logs: List["LogEntry"]) -> str:
     """
     Build a context for the step by step solution from the log entries.
-    Groups logs by labels and sorts them by timestamp.
+    Groups logs by labels (excluding log level) with inline log level display.
+    Preserves chronological order from Loki streams.
     """
     if not logs:
         print("WARNING: No logs found to build context from.")
         return ""
 
-    # Group logs by labels
+    # Group logs by labels (excluding detected_level to keep all logs from same file together)
     logs_by_labels = defaultdict(list)
     for log in logs:
-        # Convert labels dict to a string key for grouping
-        labels_key = ", ".join(
-            [
-                f"{k}={v}"
-                for k, v in sorted(log.log_labels.model_dump(exclude_none=True).items())
-            ]
-        )
+        # Convert labels dict to a string key for grouping, excluding detected_level
+        labels_dict = log.log_labels.model_dump(exclude_none=True)
+        # Remove detected_level from grouping key
+        labels_dict.pop("detected_level", None)
+        labels_key = ", ".join([f"{k}={v}" for k, v in sorted(labels_dict.items())])
         logs_by_labels[labels_key].append(log)
 
-    # Build context with grouped and sorted logs
+    # Build context with grouped logs (preserving natural order from Loki)
     context_parts = []
 
-    for labels_key, label_logs in sorted(logs_by_labels.items()):
-        # Sort logs within each label group by timestamp
-        sorted_logs = sorted(label_logs, key=lambda x: parse_timestamp(x.timestamp))
-
+    for labels_key, label_logs in logs_by_labels.items():
+        # Logs are already merged and sorted chronologically per file (oldest to newest)
+        # by merge_loki_streams in execute_loki_query
         # Add labels header
-        context_parts.append(f"\n{'=' * 80}")
+        context_parts.append(f"\n{'=' * LOG_CONTEXT_SEPARATOR_WIDTH}")
         context_parts.append(f"Labels: {labels_key}")
-        context_parts.append(f"{'=' * 80}")
+        context_parts.append(f"{'=' * LOG_CONTEXT_SEPARATOR_WIDTH}")
 
         # Add logs for this label group
-        for log in sorted_logs:
+        for log in label_logs:
             readable_timestamp = format_timestamp(log.timestamp)
-            context_parts.append(f"{readable_timestamp} - {log.message}")
+            # Add log level inline if available
+            log_level = (
+                log.log_labels.detected_level.value.upper()
+                if log.log_labels.detected_level
+                else LogLevel.UNKNOWN.value.upper()
+            )
+            context_parts.append(f"{readable_timestamp} {log_level} - {log.message}")
 
     return "\n".join(context_parts)

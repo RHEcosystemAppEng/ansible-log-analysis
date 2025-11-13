@@ -1,8 +1,10 @@
-.PHONY: deploy start stop status help postgres backend ui annotation health logs restart clean
+.PHONY: deploy start stop status help postgres phoenix loki-stack backend ui annotation health logs restart clean stop-postgres stop-phoenix stop-loki-stack
 .DEFAULT_GOAL := help
 
 include ../../.env
 export $(shell sed 's/=.*//' ../../.env | xargs)
+
+COMPOSE_CMD := $(shell command -v docker-compose 2>/dev/null || command -v podman-compose 2>/dev/null)
 
 train: run-whole-training-pipeline
 training: run-whole-training-pipeline
@@ -31,6 +33,7 @@ start: stop ## 🚀 Start all services locally
 	@$(MAKE) -s postgres
 	@echo "   Waiting for PostgreSQL to be ready..."
 	@$(MAKE) -s phoenix
+	@$(MAKE) -s loki-stack
 	@$(MAKE) -s backend
 	@$(MAKE) -s ui
 	@$(MAKE) -s annotation
@@ -44,11 +47,15 @@ start: stop ## 🚀 Start all services locally
 
 postgres: ## 📊 Start PostgreSQL database
 	@echo "   Starting PostgreSQL database..."
-	@docker-compose -f compose.yaml up -d postgres
+	@$(COMPOSE_CMD) -f compose.yaml up -d postgres
 
-phoenix: ## 📊 Start Phoenix	
+phoenix: ## 📊 Start Phoenix
 	@echo "   Starting Phoenix..."
-	@docker-compose -f compose.yaml up -d phoenix
+	@$(COMPOSE_CMD) -f compose.yaml up -d phoenix
+
+loki-stack: ## 📊 Start Loki stack (Loki, Loki MCP Server, Grafana, Promtail)
+	@echo "   Starting Loki stack (Loki, Loki MCP Server, Grafana, Promtail)..."
+	@$(COMPOSE_CMD) -f compose.yaml up -d loki loki-mcp-server grafana promtail
 
 backend: ## ⚙️ Start Backend (FastAPI)
 	@echo "   Starting Backend API..."
@@ -65,18 +72,24 @@ annotation: ## 🏷️ Start Annotation UI (Gradio)
 
 stop: ## 🛑 Stop all services
 	@echo "🛑 Stopping all services..."
+	@echo "🔧 Using: $(COMPOSE_CMD)"
+	@$(MAKE) -s stop-loki-stack
 	@$(MAKE) -s stop-postgres
 	@$(MAKE) -s stop-phoenix
 	@$(MAKE) -s kill-ports
 	@echo "👋 All services stopped"
 
 stop-postgres: ## 🛑 Stop PostgreSQL database
-	@docker-compose -f compose.yaml down postgres
+	@$(COMPOSE_CMD) -f compose.yaml down postgres
 	@echo "   ✓ PostgreSQL stopped"
 
 stop-phoenix: ## 🛑 Stop Phoenix
-	@docker-compose -f compose.yaml down phoenix
+	@$(COMPOSE_CMD) -f compose.yaml down phoenix
 	@echo "   ✓ Phoenix stopped"
+
+stop-loki-stack: ## 🛑 Stop Loki stack (Loki, Loki MCP Server, Grafana, Promtail)
+	@$(COMPOSE_CMD) -f compose.yaml down loki-mcp-server grafana promtail loki
+	@echo "   ✓ Loki stack stopped"
 
 kill-ports: ## 🔌 Kill processes using required ports
 	@fuser -k 7860/tcp || true
@@ -89,10 +102,21 @@ kill-ports: ## 🔌 Kill processes using required ports
 	@echo "   ✓ Phoenix 6006 killed"
 	@fuser -k 4317/tcp || true
 	@echo "   ✓ Phoenix 4317 killed"
+	@fuser -k 3100/tcp || true
+	@echo "   ✓ Loki 3100 killed"
+	@fuser -k 8080/tcp || true
+	@echo "   ✓ Loki MCP Server 8080 killed"
+	@fuser -k 3000/tcp || true
+	@echo "   ✓ Grafana 3000 killed"
 
 status: ## 📊 Show status of all services
 	@echo "📊 Service Status:"
-	@echo "   📊 PostgreSQL: $(shell docker-compose ps -q postgres >/dev/null 2>&1 && echo 'Running' || echo 'Stopped') - localhost:5432"
+	@echo "   📊 PostgreSQL: $(shell $(COMPOSE_CMD) ps 2>/dev/null | grep 'postgres' | grep -q 'Up' && echo 'Running' || echo 'Stopped') - localhost:5432"
+	@echo "   🐍 Phoenix: $(shell $(COMPOSE_CMD) ps 2>/dev/null | grep 'phoenix' | grep -q 'Up' && echo 'Running' || echo 'Stopped') - http://localhost:6006"
+	@echo "   📊 Loki: $(shell $(COMPOSE_CMD) ps 2>/dev/null | grep 'loki' | grep -v 'loki-mcp' | grep -q 'Up' && echo 'Running' || echo 'Stopped') - http://localhost:3100"
+	@echo "   🔍 Loki MCP Server: $(shell $(COMPOSE_CMD) ps 2>/dev/null | grep 'loki-mcp-server' | grep -q 'Up' && echo 'Running' || echo 'Stopped') - http://localhost:8080"
+	@echo "   📈 Grafana: $(shell $(COMPOSE_CMD) ps 2>/dev/null | grep 'grafana' | grep -q 'Up' && echo 'Running' || echo 'Stopped') - http://localhost:3000"
+	@echo "   📝 Promtail: $(shell $(COMPOSE_CMD) ps 2>/dev/null | grep 'promtail' | grep -q 'Up' && echo 'Running' || echo 'Stopped')"
 	@if lsof -i :8000 >/dev/null 2>&1; then \
 		echo "   ⚙️  Backend API: Running - http://localhost:8000"; \
 	else \
@@ -161,6 +185,21 @@ health: ## 🔍 Check health of running services
 		echo "   🐍  Phoenix: Running - http://localhost:6006"; \
 	else \
 		echo "   🐍  Phoenix: Stopped - http://localhost:6006"; \
+	fi
+	@if curl -s http://localhost:3100/ready >/dev/null 2>&1; then \
+		echo "   📊  Loki http://localhost:3100: Healthy"; \
+	else \
+		echo "   📊  Loki http://localhost:3100: Unhealthy"; \
+	fi
+	@if curl -s http://localhost:8080 >/dev/null 2>&1; then \
+		echo "   🔍  Loki MCP Server http://localhost:8080: Healthy"; \
+	else \
+		echo "   🔍  Loki MCP Server http://localhost:8080: Unhealthy"; \
+	fi
+	@if curl -s http://localhost:3000 >/dev/null 2>&1; then \
+		echo "   📈  Grafana http://localhost:3000: Healthy"; \
+	else \
+		echo "   📈  Grafana http://localhost:3000: Unhealthy"; \
 	fi
 restart: stop start ## 🔄 Restart all services
 

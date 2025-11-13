@@ -27,13 +27,16 @@ async def identify_missing_log_data_node(
     # Get the current state
     log_summary = state.log_summary
     log_labels = state.log_entry.log_labels
-
+    log_timestamp = state.log_entry.timestamp
     # Get LLM instance
     llm = get_llm()
 
     # Use LLM to identify what data is missing and generate a smart request
     user_request = await identify_missing_data(
-        log_summary=log_summary, log_labels=log_labels, llm=llm
+        log_summary=log_summary,
+        log_labels=log_labels,
+        log_timestamp=log_timestamp,
+        llm=llm,
     )
     return Command(
         goto="loki_execute_query_node", update={"loki_user_request": user_request}
@@ -63,6 +66,7 @@ async def loki_execute_query_node(
             "expertClassification": state.expert_classification,
             "logMessage": state.log_entry.message,
             "logLabels": state.log_entry.log_labels,
+            "logTimestamp": state.log_entry.timestamp,
         }
 
         # Execute the query
