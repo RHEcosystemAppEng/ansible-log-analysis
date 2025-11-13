@@ -33,9 +33,10 @@ async def get_or_find_timestamp(
         - timestamp: The timestamp string if found/provided, None otherwise
         - error_message: Error description if not found, None otherwise
     """
-    from alm.tools.loki_helpers import find_log_timestamp
+    from alm.tools.loki_helpers import find_log_timestamp, validate_timestamp
 
-    if log_timestamp:
+    _, is_valid = validate_timestamp(log_timestamp)
+    if is_valid:
         # Use the provided timestamp
         print(f"✅ Using provided timestamp: {log_timestamp}")
         return log_timestamp, None

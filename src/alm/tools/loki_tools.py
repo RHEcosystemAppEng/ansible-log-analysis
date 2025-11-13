@@ -14,7 +14,6 @@ from alm.agents.loki_agent.constants import (
     DEFAULT_DIRECTION,
     DEFAULT_END_TIME,
     DEFAULT_START_TIME,
-    LOKI_MCP_SERVER_URL_DEFAULT,
     LOGQL_FILE_NAME_QUERY_TEMPLATE,
     LOGQL_JOB_WILDCARD_QUERY,
     LOGQL_LEVEL_FILTER_TEMPLATE,
@@ -36,7 +35,7 @@ from alm.agents.loki_agent.schemas import (
 
 
 # MCP Server URL configuration
-_mcp_server_url = os.getenv("LOKI_MCP_SERVER_URL", LOKI_MCP_SERVER_URL_DEFAULT)
+_mcp_server_url = os.getenv("LOKI_MCP_SERVER_URL")
 
 
 async def create_mcp_client() -> MCPClient:
@@ -333,7 +332,7 @@ async def get_log_lines_above(
             ).model_dump_json(indent=2)
 
         # Step 4: Extract N lines before the target
-        print("🔍 [Step 4] Extracting {lines_above} lines before target")
+        print(f"🔍 [Step 4] Extracting {lines_above} lines before target")
 
         context_logs, error = extract_context_lines_above(
             context_data.logs, log_message, lines_above
