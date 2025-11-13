@@ -3,6 +3,7 @@
 
 """
 Interactive testing tool for the query pipeline.
+Supports both MAAS (API-based) and local model testing.
 
 Usage (from project root):
     # Interactive mode
@@ -13,12 +14,24 @@ Usage (from project root):
 
     # Batch mode with custom queries file
     python tests/rag/test_queries.py /path/to/queries.txt
+
+Note: Configure EMBEDDINGS_LLM_URL and EMBEDDINGS_LLM_API_KEY in .env for MAAS API mode.
+      If not set, will attempt to use local model (requires einops for Nomic models).
 """
 
 import sys
 from pathlib import Path
 
-from alm.rag.query_pipeline import (
+# Load .env file if it exists (needed for AnsibleErrorQueryPipeline config)
+from dotenv import load_dotenv
+
+env_path = Path(__file__).parent.parent.parent / ".env"
+load_dotenv(dotenv_path=env_path, override=False)
+
+# Import config to check mode
+from alm.config import config  # noqa: E402
+
+from alm.rag.query_pipeline import (  # noqa: E402
     AnsibleErrorQueryPipeline,
     format_response_for_display,
 )
@@ -29,6 +42,15 @@ def interactive_mode():
     print("=" * 70)
     print("ANSIBLE ERROR RAG - INTERACTIVE QUERY MODE")
     print("=" * 70)
+
+    # Show configuration mode
+    if config.embeddings.api_url:
+        print(f"\n✓ Using MAAS API mode: {config.embeddings.api_url}")
+    else:
+        print(f"\n✓ Using LOCAL model mode: {config.embeddings.model_name}")
+        print("  ⚠ NOTE: Local mode requires model dependencies")
+        print("  Set EMBEDDINGS_LLM_URL in .env to use MAAS API")
+
     print("\nInitializing...")
 
     # Initialize pipeline
@@ -98,6 +120,12 @@ def batch_mode(queries_file: str):
     print("=" * 70)
     print("ANSIBLE ERROR RAG - BATCH QUERY MODE")
     print("=" * 70)
+
+    # Show configuration mode
+    if config.embeddings.api_url:
+        print(f"\n✓ Using MAAS API mode: {config.embeddings.api_url}")
+    else:
+        print(f"\n✓ Using LOCAL model mode: {config.embeddings.model_name}")
 
     # Load queries from file
     with open(queries_file, "r") as f:

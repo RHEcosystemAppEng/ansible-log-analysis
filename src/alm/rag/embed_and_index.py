@@ -19,6 +19,7 @@ import numpy as np
 import requests
 from typing import List, Dict, Any, Tuple, Optional
 from collections import defaultdict
+from pathlib import Path
 
 from langchain_core.documents import Document
 from sentence_transformers import SentenceTransformer
@@ -293,12 +294,22 @@ class AnsibleErrorEmbedder:
             }
         )
 
+        # Track statistics per file
+        file_stats = defaultdict(
+            lambda: {"errors": set(), "sections": defaultdict(int)}
+        )
+
         for chunk in chunks:
             error_id = chunk.metadata.get("error_id")
             section_type = chunk.metadata.get("section_type")
+            source_file = chunk.metadata.get("source_file", "unknown")
 
             if not error_id or not section_type:
                 continue
+
+            # Track per-file statistics
+            file_stats[source_file]["errors"].add(error_id)
+            file_stats[source_file]["sections"][section_type] += 1
 
             # Initialize error entry
             if errors_by_id[error_id]["error_id"] is None:
@@ -324,13 +335,28 @@ class AnsibleErrorEmbedder:
 
         print(f"✓ Grouped {len(chunks)} chunks into {len(errors_by_id)} unique errors")
 
-        # Statistics
+        # Print per-file statistics
+        print("\n" + "-" * 60)
+        print("Section distribution per file:")
+        print("-" * 60)
+        for source_file in sorted(file_stats.keys()):
+            stats = file_stats[source_file]
+            num_errors = len(stats["errors"])
+            print(f"\n📄 {Path(source_file).name}:")
+            print(f"   Total errors: {num_errors}")
+            print("   Sections:")
+            for section, count in sorted(stats["sections"].items()):
+                print(f"     {section}: {count} errors")
+
+        # Overall statistics
         section_counts = defaultdict(int)
         for error in errors_by_id.values():
             for section in error["sections"].keys():
                 section_counts[section] += 1
 
-        print("\nSection distribution:")
+        print("\n" + "-" * 60)
+        print("Overall section distribution:")
+        print("-" * 60)
         for section, count in sorted(section_counts.items()):
             print(f"  {section}: {count} errors")
 
@@ -527,7 +553,7 @@ class AnsibleErrorEmbedder:
 
 def main():
     """Process all PDFs in knowledge_base directory."""
-    from ingest_and_chunk import AnsibleErrorParser
+    from alm.rag.ingest_and_chunk import AnsibleErrorParser
     import glob
 
     # Print and validate configuration

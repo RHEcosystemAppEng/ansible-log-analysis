@@ -224,6 +224,15 @@ cp .env.example .env
 # - OPENAI_API_TOKEN: your token to the endpoint
 # - OPENAI_MODEL: Model to use (e.g., llama-4-scout-17b-16e-w4a16	)
 # - LANGSMITH_API_KEY: Optional, for LangSmith tracing
+# Configure RAG
+# Set embedding API credentials if using API-based embeddings
+# - EMBEDDINGS_LLM_URL=https://your-embedding-api.com/v1
+# - EMBEDDINGS_LLM_API_KEY=your-api-key
+# - EMBEDDINGS_LLM_MODEL_NAME=nomic-ai/nomic-embed-text-v1.5
+# Optional: Customize query parameters
+# - RAG_TOP_K=10 (the number of candidates retrieved from the FAISS index)
+# - RAG_TOP_N=3 (the number of final results returned after filtering by the similarity threshold)
+# - RAG_SIMILARITY_THRESHOLD=0.6
 ```
 
 **3. Start All Services**
