@@ -40,7 +40,7 @@ class AnsibleErrorParser:
         )
         # Stop Code at Benefits, next numbered error, or EOF
         self.re_code = re.compile(
-            r"Code:\s*(.*?)(?=Benefits|^\s*\d+\.\s*[A-Z]|$)",
+            r"Code:?\s*\n(.*?)(?=Benefits|^\s*\d+\.\s*Error\s+\d+|$)",
             re.IGNORECASE | re.DOTALL | re.MULTILINE,
         )
         # Benefits headers vary: “Benefits:”, “Benefits of …:”, “Benefits of Following …:”
@@ -86,7 +86,7 @@ class AnsibleErrorParser:
     def _looks_like_header(self, ln: str) -> bool:
         return bool(
             re.match(
-                r"^\s*(?:Description|Symptoms|Resolution|Code|Benefits)(?:\s+of[^\n:]*)?:\s*$",
+                r"^\s*(?:Description|Symptoms|Resolution|Code|Benefits)(?:\s+of[^\n:]*)?:?\s*$",
                 ln,
                 flags=re.I,
             )

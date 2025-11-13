@@ -17,6 +17,11 @@ help: ## Show this help message
 	@echo "Available targets:"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-12s %s\n", $$1, $$2}'
 	@echo ""
+	@echo "📚 RAG Setup:"
+	@echo "  1. Place PDF files in data/knowledge_base/"
+	@echo "  2. Run 'make run-whole-training-pipeline' to build RAG index"
+	@echo "  3. Ensure RAG_ENABLED=true in .env file"
+	@echo ""
 
 
 start: stop ## 🚀 Start all services locally
@@ -108,9 +113,31 @@ status: ## 📊 Show status of all services
 		echo "   🐍  Phoenix: Stopped - http://localhost:6006"; \
 	fi
 
-run-whole-training-pipeline: ## 🔍 Run whole training pipeline
+run-whole-training-pipeline: ## 🔍 Run whole training pipeline (builds RAG index)
 	@echo "🔍 Running whole training pipeline..."
+	@echo "📚 This will build the RAG index from PDFs in data/knowledge_base/"
+	@if [ ! -d "../../data/knowledge_base" ] || [ -z "$$(ls -A ../../data/knowledge_base/*.pdf 2>/dev/null)" ]; then \
+		echo "⚠️  WARNING: No PDF files found in data/knowledge_base/"; \
+		echo "   RAG index will not be created. Add PDF files and run again."; \
+	fi
 	@( cd ../.. && uv run init_pipeline.py )
+
+# Add new target to check RAG status
+rag-status: ## 📊 Check RAG index status
+	@echo "📊 RAG Index Status:"
+	@if [ -f "../../data/ansible_errors.index" ] && [ -f "../../data/error_metadata.pkl" ]; then \
+		echo "   ✅ RAG index exists"; \
+		ls -lh ../../data/ansible_errors.index ../../data/error_metadata.pkl; \
+	else \
+		echo "   ❌ RAG index not found"; \
+		echo "   Run 'make run-whole-training-pipeline' to build it"; \
+	fi
+	@if [ -d "../../data/knowledge_base" ]; then \
+		pdf_count=$$(ls -1 ../../data/knowledge_base/*.pdf 2>/dev/null | wc -l); \
+		echo "   📄 PDF files in knowledge_base: $$pdf_count"; \
+	else \
+		echo "   ⚠️  Knowledge base directory not found"; \
+	fi
 
 health: ## 🔍 Check health of running services
 	@echo "🔍 Health Checks:"
