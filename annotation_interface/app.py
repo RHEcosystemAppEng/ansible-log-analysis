@@ -260,11 +260,11 @@ class DataAnnotationApp:
         for f in self.feedback_data:
             if f["index"] == self.current_index:
                 existing_feedback = f.get("feedback", "")
-                existing_golden_solution = f.get("golden_solution", "")
+                existing_golden_solution = f.get("golden_stepByStepSolution", "")
                 existing_expected_behavior = f.get("expected_behavior", "")
-                existing_need_more_context = f.get("need_more_context", False)
+                existing_need_more_context = f.get("golden_need_more_context", False)
                 existing_need_more_context_reason = f.get(
-                    "need_more_context_reason", ""
+                    "golden_need_more_context_reason", ""
                 )
                 break
 
@@ -391,7 +391,7 @@ def create_app():
         padding: 8px; 
         border-radius: 8px; 
         border: 1px solid #334155 !important;
-        max-height: 320px;
+        max-height: 420px;
     }
     .feedback-box {
         min-height: 200px;
@@ -502,6 +502,7 @@ def create_app():
             jump_input = gr.Number(
                 label="Jump to",
                 minimum=1,
+                value=1,
                 step=1,
                 precision=0,
                 scale=1,
@@ -520,7 +521,7 @@ def create_app():
             elem_classes="basic_box",
             label="Error Log",
             lines=5,
-            max_lines=5,
+            max_lines=20,
             interactive=False,
             show_copy_button=True,
         )
@@ -567,7 +568,8 @@ def create_app():
                         "### 🦾 Generated Summary", visible=True
                     )
                     summary = gr.Textbox(
-                        lines=8,
+                        lines=2,
+                        max_lines=5,
                         elem_classes="basic_box",
                         visible=True,
                         show_label=False,
