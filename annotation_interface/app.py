@@ -10,6 +10,7 @@ from datetime import datetime
 from typing import Tuple
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import Session
+import psycopg2
 
 
 class DataAnnotationApp:
@@ -96,6 +97,12 @@ class DataAnnotationApp:
                 print(
                     f"Loaded {len(self.all_data)} data entries from table '{self.table_name}'"
                 )
+        except psycopg2.errors.UndefinedTable as _:
+            print(
+                f"Table '{self.table_name}' not initiated. Make sure the data ingested into the database"
+            )
+            self.all_data = []
+            self.data = []
         except Exception as e:
             print(f"Error loading data from database table '{self.table_name}': {e}")
             self.all_data = []
