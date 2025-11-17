@@ -5,8 +5,7 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 from alm.database import get_session_gen
 from alm.models import GrafanaAlert
 from alm.agents.graph import get_graph
-from alm.models import LogEntry, LogLabels
-from alm.agents.loki_agent.schemas.inputs import LogLevel
+from alm.models import LogEntry, LogLabels, LogLevel
 from typing import Optional
 from datetime import datetime
 from alm.database import convert_state_to_grafana_alert
@@ -104,6 +103,7 @@ async def post_log_alert(
     filename: Optional[str] = None,
     job: Optional[str] = None,
     service_name: Optional[str] = None,
+    timestamp: Optional[datetime] = datetime.now().isoformat(),
     session: AsyncSession = Depends(get_session_gen),
 ) -> GrafanaAlert:
     log_labels = LogLabels(
@@ -112,9 +112,7 @@ async def post_log_alert(
         job=job,
         service_name=service_name,
     )
-    log_entry = LogEntry(
-        timestamp=datetime.now().isoformat(), log_labels=log_labels, message=log_alert
-    )
+    log_entry = LogEntry(timestamp=timestamp, log_labels=log_labels, message=log_alert)
     graph_result = await get_graph().ainvoke({"log_entry": log_entry})
 
     grafana_alert = convert_state_to_grafana_alert(graph_result)

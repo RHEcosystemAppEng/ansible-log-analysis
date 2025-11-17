@@ -14,8 +14,7 @@ from alm.agents.loki_agent.constants import (
     LOG_CONTEXT_SEPARATOR_WIDTH,
     NANOSECONDS_PER_SECOND,
 )
-from alm.agents.loki_agent.schemas.inputs import LogLevel
-from alm.models import LogEntry
+from alm.models import LogEntry, LogLevel
 
 
 class ToolStatus(str, Enum):
