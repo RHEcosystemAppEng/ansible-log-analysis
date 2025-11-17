@@ -1,7 +1,6 @@
 from alm.agents.get_more_context_agent.state import ContextAgentState
-from alm.agents.loki_agent.schemas import LogEntry, LogLabels
 from alm.llm import get_llm
-from alm.models import GrafanaAlert
+from alm.agents.state import GrafanaAlertState
 from alm.agents.node import (
     summarize_log,
     classify_log,
@@ -19,22 +18,22 @@ llm = get_llm()
 
 # Nodes
 async def cluster_logs_node(
-    state: GrafanaAlert,
+    state: GrafanaAlertState,
 ) -> Command:
-    logs = state.logMessage
+    logs = state.log_entry.message
     log_cluster = infer_cluster_log(logs)
     return Command(goto="summarize_log_node", update={"logCluster": log_cluster})
 
 
 async def summarize_log_node(
-    state: GrafanaAlert,
+    state: GrafanaAlertState,
 ) -> Command:
-    log_summary = await summarize_log(state.logMessage, llm)
+    log_summary = await summarize_log(state.log_entry.message, llm)
     return Command(goto="classify_log_node", update={"logSummary": log_summary})
 
 
 async def classify_log_node(
-    state: GrafanaAlert,
+    state: GrafanaAlertState,
 ) -> Command:
     log_summary = state.logSummary
     log_category = await classify_log(log_summary, llm)
@@ -45,10 +44,10 @@ async def classify_log_node(
 
 
 async def suggest_step_by_step_solution_node(
-    state: GrafanaAlert,
+    state: GrafanaAlertState,
 ) -> Command:
     log_summary = state.logSummary
-    log = state.logMessage
+    log = state.log_entry.message
     context = state.contextForStepByStepSolution
     step_by_step_solution = await suggest_step_by_step_solution(
         log_summary, log, llm, context
@@ -57,7 +56,7 @@ async def suggest_step_by_step_solution_node(
 
 
 async def router_step_by_step_solution_node(
-    state: GrafanaAlert,
+    state: GrafanaAlertState,
 ) -> Command:
     log_summary = state.logSummary
     classification = await router_step_by_step_solution(log_summary, llm)
@@ -70,21 +69,13 @@ async def router_step_by_step_solution_node(
 
 
 async def get_more_context_node(
-    state: GrafanaAlert,
+    state: GrafanaAlertState,
 ) -> Command:
     log_summary = state.logSummary
-    log_labels = LogLabels.model_validate(state.log_labels)
-    log_entry = LogEntry(
-        message=state.logMessage,
-        log_labels=log_labels,
-        timestamp="Unknown timestamp"
-        if state.logTimestamp is None
-        else state.logTimestamp.isoformat(),
-    )
     subgraph_state = await more_context_agent_graph.ainvoke(
         ContextAgentState(
             log_summary=log_summary,
-            log_entry=log_entry,
+            log_entry=state.log_entry,
             expert_classification=state.expertClassification,
         )
     )
@@ -106,7 +97,7 @@ async def get_more_context_node(
 
 def build_graph():
     """call ainvoke to the graph to invoke it asynchronously"""
-    builder = StateGraph(GrafanaAlert)
+    builder = StateGraph(GrafanaAlertState)
     builder.add_edge(START, "cluster_logs_node")
     builder.add_node("cluster_logs_node", cluster_logs_node)
     builder.add_node(summarize_log_node)

@@ -6,7 +6,7 @@ from typing import Dict, Any, Optional
 from pydantic import BaseModel, Field
 
 from alm.agents.get_more_context_agent.node import LokiRouterSchema
-from alm.agents.loki_agent.schemas import LogEntry
+from alm.models import LogEntry
 
 
 class LokiAgentState(BaseModel):

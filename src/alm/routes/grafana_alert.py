@@ -5,6 +5,11 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 from alm.database import get_session_gen
 from alm.models import GrafanaAlert
 from alm.agents.graph import get_graph
+from alm.models import LogEntry, LogLabels
+from alm.agents.loki_agent.schemas.inputs import LogLevel
+from typing import Optional
+from datetime import datetime
+from alm.database import convert_state_to_grafana_alert
 
 router = APIRouter(prefix="/grafana-alert", tags=["grafana-alert"])
 
@@ -94,24 +99,25 @@ async def get_grafana_alerts_by_expert_class_and_log_cluster(
 
 @router.post("/", status_code=status.HTTP_202_ACCEPTED, summary="Post log alert")
 async def post_log_alert(
-    log_alert: str, session: AsyncSession = Depends(get_session_gen)
+    log_alert: str,
+    detected_level: Optional[LogLevel] = None,
+    filename: Optional[str] = None,
+    job: Optional[str] = None,
+    service_name: Optional[str] = None,
+    session: AsyncSession = Depends(get_session_gen),
 ) -> GrafanaAlert:
-    graph_result = await get_graph().ainvoke({"logMessage": log_alert})
+    log_labels = LogLabels(
+        detected_level=detected_level,
+        filename=filename,
+        job=job,
+        service_name=service_name,
+    )
+    log_entry = LogEntry(
+        timestamp=datetime.now().isoformat(), log_labels=log_labels, message=log_alert
+    )
+    graph_result = await get_graph().ainvoke({"log_entry": log_entry})
 
-    # Convert string timestamp to datetime object if provided
-    # Parse ISO format timestamp (e.g., '2025-09-04T09:07:06.596Z')
-    # If no timestamp is provided, the model will default to current time
-    # if 'logTimestamp' in graph_result and graph_result['logTimestamp']:
-    #     timestamp_str = graph_result['logTimestamp']
-    #     if timestamp_str.endswith('Z'):
-    #         # Remove 'Z' and parse as UTC
-    #         timestamp_str = timestamp_str[:-1]
-    #     graph_result['logTimestamp'] = datetime.fromisoformat(timestamp_str)
-    # else:
-    #     # Remove the key so the model can use its default (current time)
-    #     graph_result.pop('logTimestamp', None)
-
-    grafana_alert = GrafanaAlert(**graph_result)
+    grafana_alert = convert_state_to_grafana_alert(graph_result)
 
     session.add(grafana_alert)
     await session.commit()
