@@ -1,0 +1,99 @@
+#!/bin/bash
+#
+# Pre-push hook to automatically build and push backend container image to Quay
+# This hook runs before git push completes
+#
+
+set -e
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+echo -e "${BLUE}========================================${NC}"
+echo -e "${BLUE}Building Backend Container Image${NC}"
+echo -e "${BLUE}========================================${NC}"
+
+# Get current branch name
+BRANCH=$(git branch --show-current)
+
+if [ -z "$BRANCH" ]; then
+    echo -e "${RED}Error: Could not detect current branch${NC}"
+    exit 0  # Don't block git push
+fi
+
+# Sanitize branch name for container tag (replace / with -)
+TAG=$(echo "$BRANCH" | sed 's/\//-/g')
+IMAGE_NAME="quay.io/rh-ai-quickstart/alm-backend:$TAG"
+
+echo -e "${BLUE}Branch:${NC} $BRANCH"
+echo -e "${BLUE}Image:${NC} $IMAGE_NAME"
+echo ""
+
+# Check if podman is installed
+if ! command -v podman &> /dev/null; then
+    echo -e "${RED}Error: podman is not installed${NC}"
+    echo -e "${YELLOW}Please install podman to build backend images${NC}"
+    echo -e "${YELLOW}Continuing with git push...${NC}"
+    exit 0  # Don't block git push
+fi
+
+# Check if required data directories exist
+if [ ! -d "data/logs/failed" ]; then
+    echo -e "${RED}Error: data/logs/failed/ directory not found${NC}"
+    echo -e "${YELLOW}Backend image requires log files for building${NC}"
+    echo -e "${YELLOW}Continuing with git push without building image...${NC}"
+    exit 0  # Don't block git push
+fi
+
+if [ ! -d "data/knowledge_base" ]; then
+    echo -e "${RED}Error: data/knowledge_base/ directory not found${NC}"
+    echo -e "${YELLOW}Backend image requires knowledge base PDFs for building${NC}"
+    echo -e "${YELLOW}Continuing with git push without building image...${NC}"
+    exit 0  # Don't block git push
+fi
+
+# Check if logged into Quay
+echo -e "${BLUE}Checking Quay authentication...${NC}"
+if ! podman login quay.io --get-login &> /dev/null; then
+    echo -e "${RED}Error: Not logged into quay.io${NC}"
+    echo -e "${YELLOW}Please run: ${NC}podman login quay.io"
+    echo -e "${YELLOW}Continuing with git push without building image...${NC}"
+    exit 0  # Don't block git push
+fi
+
+echo -e "${GREEN}✓ Authenticated to quay.io${NC}"
+echo ""
+
+# Build the image
+echo -e "${BLUE}Building backend image...${NC}"
+if podman build -t "$IMAGE_NAME" -f Containerfile . ; then
+    echo -e "${GREEN}✓ Image built successfully${NC}"
+    echo ""
+else
+    echo -e "${RED}✗ Image build failed${NC}"
+    echo -e "${YELLOW}Continuing with git push...${NC}"
+    exit 0  # Don't block git push even if build fails
+fi
+
+# Push the image
+echo -e "${BLUE}Pushing image to Quay...${NC}"
+if podman push "$IMAGE_NAME"; then
+    echo -e "${GREEN}✓ Image pushed successfully to $IMAGE_NAME${NC}"
+    echo ""
+else
+    echo -e "${RED}✗ Image push failed${NC}"
+    echo -e "${YELLOW}Continuing with git push...${NC}"
+    exit 0  # Don't block git push even if push fails
+fi
+
+echo -e "${GREEN}========================================${NC}"
+echo -e "${GREEN}Backend image ready on Quay!${NC}"
+echo -e "${GREEN}========================================${NC}"
+echo ""
+
+# Exit successfully to allow git push to continue
+exit 0

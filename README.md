@@ -23,6 +23,11 @@ Welcome to the Ansible log analysis Quick Start! a system that automatically det
 10. [Deployment](#deployment)
     - [Quick Start - Local Development](#quick-start---local-development)
     - [Deploy on the Cluster](#deploy-on-the-cluster)
+11. [Developer Workflow & CI/CD](#developer-workflow--cicd)
+    - [Backend Image Builds (Local)](#backend-image-builds-local)
+    - [Other Images (UI, Annotation Interface, Clustering)](#other-images-ui-annotation-interface-clustering)
+    - [Complete Developer Workflow Example](#complete-developer-workflow-example)
+    - [Troubleshooting](#troubleshooting)
 
 ## Problem We Solve
 
@@ -320,4 +325,159 @@ make cluster/restart
 ```
 
 For detailed configuration options and troubleshooting, see [deploy/helm/README.md](deploy/helm/README.md).
+
+## Developer Workflow & CI/CD
+
+This section describes the automated CI/CD workflow for building and publishing container images to Quay.io.
+
+### Architecture Overview
+
+The project uses a **two-part CI/CD strategy**:
+
+1. **Local (Developer Machine)**: Automatic backend image builds on git push
+2. **GitHub Actions**: Automatic builds for other images + backend tagging on PR merge to main
+
+### Backend Image Builds (Local)
+
+The backend container image requires local data files (`data/logs/failed/` and `data/knowledge_base/`) that cannot be committed to the repository. Therefore, backend images are built locally on developer machines using a git pre-push hook.
+
+#### One-Time Setup
+
+After cloning the repository, run these commands:
+
+```bash
+git config core.hooksPath .githooks
+chmod +x .githooks/pre-push
+podman login quay.io
+```
+
+**Prerequisites**: Ensure you have the required data directories:
+- `data/logs/failed/` - Ansible log files
+- `data/knowledge_base/` - Knowledge base PDF files
+
+#### How It Works
+
+Once configured, the workflow is automatic:
+
+1. Developer commits changes: `git commit -m "feat: add new feature"`
+2. Developer pushes branch: `git push origin feature/my-branch`
+3. **Pre-push hook automatically**:
+   - Builds backend image: `podman build -t quay.io/rh-ai-quickstart/alm-backend:feature-my-branch`
+   - Pushes to Quay: `podman push quay.io/rh-ai-quickstart/alm-backend:feature-my-branch`
+   - Continues with git push
+4. Image is available at: `quay.io/rh-ai-quickstart/alm-backend:feature-my-branch`
+
+**Note**: Branch names with slashes are sanitized (e.g., `feature/my-branch` becomes `feature-my-branch`)
+
+#### Error Handling
+
+The pre-push hook is designed to **never block your git push**. If the image build or push fails:
+- An error message is displayed
+- The git push continues normally
+- You can fix the issue and push again
+
+Common errors:
+- **"podman: command not found"** → Install Podman
+- **"unauthorized: access denied"** → Run `podman login quay.io`
+- **"no such file or directory: data/logs/failed"** → Add required data files
+- **Hook not running** → Check: `git config core.hooksPath` (should be `.githooks`)
+
+### Other Images (UI, Annotation Interface, Clustering)
+
+These images build automatically on GitHub Actions when PRs are merged to the `main` branch.
+
+#### What Gets Built Automatically
+
+When a PR is merged to `main`, GitHub Actions automatically:
+
+1. **Builds and pushes**:
+   - `quay.io/rh-ai-quickstart/alm-ui:latest`
+   - `quay.io/rh-ai-quickstart/alm-annotation-interface:latest`
+   - `quay.io/rh-ai-quickstart/alm-clustering:latest`
+
+2. **Tags backend image as latest**:
+   - Extracts the source branch name from the PR event
+   - Re-tags the backend image from `branch-name` to `latest`
+   - Example: `alm-backend:feature-my-branch` → `alm-backend:latest`
+
+**Note**: The workflow only triggers on merged PRs. Direct pushes to main are ignored (enforces PR workflow!).
+
+### Complete Developer Workflow Example
+
+```bash
+# 1. Clone and setup (one-time)
+git clone <repository-url>
+cd ansible-log-analysis
+git config core.hooksPath .githooks
+chmod +x .githooks/pre-push
+podman login quay.io
+
+# 2. Create feature branch
+git checkout -b feature/add-new-analysis
+
+# 3. Make changes and commit
+git add .
+git commit -m "feat: add new analysis feature"
+
+# 4. Push branch (backend image builds automatically)
+git push origin feature/add-new-analysis
+# Output: Building backend image...
+#         Pushing image to Quay...
+#         ✓ Image pushed: quay.io/rh-ai-quickstart/alm-backend:feature-add-new-analysis
+
+# 5. Create PR and merge to main
+# → GitHub Actions builds other images
+# → GitHub Actions tags backend as latest
+
+# 6. All images now updated:
+#    - alm-backend:latest (from your branch)
+#    - alm-ui:latest (built by GitHub Actions)
+#    - alm-annotation-interface:latest (built by GitHub Actions)
+#    - alm-clustering:latest (built by GitHub Actions)
+```
+
+### Troubleshooting
+
+#### Pre-push hook not running
+
+Check git configuration:
+```bash
+git config core.hooksPath
+# Should output: .githooks
+```
+
+If not configured, run:
+```bash
+git config core.hooksPath .githooks
+```
+
+#### Backend image not tagged as latest after PR merge
+
+Check GitHub Actions workflow logs. Common causes:
+- Source branch image doesn't exist on Quay (developer didn't push the branch)
+- Quay credentials expired in GitHub secrets
+- PR was closed without merging
+
+#### Manual backend image build
+
+If you need to build the backend image manually:
+```bash
+BRANCH=$(git branch --show-current)
+TAG=$(echo "$BRANCH" | sed 's/\//-/g')
+podman build -t quay.io/rh-ai-quickstart/alm-backend:$TAG -f Containerfile .
+podman push quay.io/rh-ai-quickstart/alm-backend:$TAG
+```
+
+### Image Locations
+
+All images are published to Quay.io:
+
+- Backend: `quay.io/rh-ai-quickstart/alm-backend`
+- UI: `quay.io/rh-ai-quickstart/alm-ui`
+- Annotation Interface: `quay.io/rh-ai-quickstart/alm-annotation-interface`
+- Clustering Service: `quay.io/rh-ai-quickstart/alm-clustering`
+
+Each image has two types of tags:
+- `latest` - Latest merged to main
+- `<branch-name>` - Built from specific branch (backend only)
 
