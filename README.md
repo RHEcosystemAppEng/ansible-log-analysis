@@ -23,6 +23,9 @@ Welcome to the Ansible log analysis Quick Start! a system that automatically det
 10. [Deployment](#deployment)
     - [Quick Start - Local Development](#quick-start---local-development)
     - [Deploy on the Cluster](#deploy-on-the-cluster)
+11. [Developer Workflow & CI/CD](#developer-workflow--cicd)
+    - [One-Time Setup](#one-time-setup)
+    - [How the CI/CD Flow Works](#how-the-cicd-flow-works)
 
 ## Problem We Solve
 
@@ -321,3 +324,31 @@ make cluster/restart
 
 For detailed configuration options and troubleshooting, see [deploy/helm/README.md](deploy/helm/README.md).
 
+## Developer Workflow & CI/CD
+
+Automated CI/CD workflow for building and publishing container images to Quay.io.
+
+### One-Time Setup
+
+```bash
+pre-commit install    # Install git hooks
+podman login quay.io  # Authenticate to Quay
+```
+
+**Prerequisites:** Ensure `data/logs/failed/` and `data/knowledge_base/` directories exist with required files.
+
+### How the CI/CD Flow Works
+
+**On every commit** (`git commit`):
+- Ruff linter checks code style
+- Ruff formatter auto-formats code
+- Pre-push hook synced from `.githooks/pre-push` to `.git/hooks/pre-push`
+
+**On every push** (`git push`):
+- Backend image builds automatically with branch name as tag
+- Image pushed to `quay.io/rh-ai-quickstart/alm-backend:<branch-name>`
+- Branch names sanitized: `feature/add-logging` → `feature-add-logging`
+
+**When PR merged to main**:
+- GitHub Actions builds: `alm-ui`, `alm-annotation-interface`, `alm-clustering`
+- GitHub Actions tags the backend image built from the merged PR's branch as `latest`
