@@ -14,35 +14,12 @@ from alm.agents.loki_agent.constants import (
     LOG_CONTEXT_SEPARATOR_WIDTH,
     NANOSECONDS_PER_SECOND,
 )
-from .inputs import LogLevel
+from alm.models import LogEntry, LogLevel
 
 
 class ToolStatus(str, Enum):
     SUCCESS = "success"
     ERROR = "error"
-
-
-class LogLabels(BaseModel):
-    """Metadata labels for a single log entry from Loki"""
-
-    detected_level: Optional[LogLevel] = Field(
-        default=None, description="Detected level of the log"
-    )
-    filename: Optional[str] = Field(default=None, description="Filename of the log")
-    job: Optional[str] = Field(default=None, description="Job of the log")
-    service_name: Optional[str] = Field(
-        default=None, description="Service name of the log"
-    )
-
-
-class LogEntry(BaseModel):
-    """Represents a single log entry from Loki"""
-
-    timestamp: str = Field(
-        default="Unknown timestamp", description="Timestamp of the log"
-    )
-    log_labels: LogLabels = Field(description="Log labels of the log")
-    message: str = Field(description="Message of the log")
 
 
 class LogToolOutput(BaseModel):

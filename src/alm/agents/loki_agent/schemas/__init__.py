@@ -17,12 +17,11 @@ from alm.agents.loki_agent.schemas.inputs import (
 )
 from alm.agents.loki_agent.schemas.outputs import (
     ToolStatus,
-    LogLabels,
-    LogEntry,
     LogToolOutput,
     LokiAgentOutput,
     IdentifyMissingDataSchema,
 )
+from alm.models import LogLabels, LogEntry
 
 __all__ = [
     # Inputs

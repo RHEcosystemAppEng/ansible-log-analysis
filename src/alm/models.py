@@ -5,8 +5,13 @@ from typing import Dict, Optional
 
 from sqlalchemy import JSON
 from sqlmodel import Column, Field, SQLModel
+from enum import Enum
+
+from pydantic import BaseModel
+import pydantic
 
 
+# DB / API models
 class GrafanaAlert(SQLModel, table=True):
     """Grafana alert payload for Loki log alerts."""
 
@@ -46,3 +51,38 @@ class GrafanaAlert(SQLModel, table=True):
 
     # log_type: Optional[str] = None
     # task_name: Optional[str] = None
+
+
+# Input models
+class LogLevel(str, Enum):
+    ERROR = "error"
+    WARN = "warn"
+    INFO = "info"
+    DEBUG = "debug"
+    UNKNOWN = "unknown"
+    # FATAL = "fatal" # This type of error ask yossi what he thinks to do.
+
+
+class LogLabels(BaseModel):
+    """Metadata labels for a single log entry from Loki"""
+
+    detected_level: Optional[LogLevel] = pydantic.Field(
+        default=None, description="Detected level of the log"
+    )
+    filename: Optional[str] = pydantic.Field(
+        default=None, description="Filename of the log"
+    )
+    job: Optional[str] = pydantic.Field(default=None, description="Job of the log")
+    service_name: Optional[str] = pydantic.Field(
+        default=None, description="Service name of the log"
+    )
+
+
+class LogEntry(BaseModel):
+    """Represents a single log entry from Loki"""
+
+    timestamp: str = pydantic.Field(
+        default="Unknown timestamp", description="Timestamp of the log"
+    )
+    log_labels: LogLabels = pydantic.Field(description="Log labels of the log")
+    message: str = pydantic.Field(description="Message of the log")
