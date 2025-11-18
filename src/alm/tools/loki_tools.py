@@ -100,7 +100,7 @@ async def execute_loki_query(
         if isinstance(result, str) and result.strip().startswith("{"):
             try:
                 parsed_result = json.loads(result)
-                print(f"📊 Parsed MCP result: {parsed_result}")
+                # print(f"📊 Parsed MCP result: {parsed_result}")
                 logs = []
 
                 # Parse Loki response format and merge streams efficiently

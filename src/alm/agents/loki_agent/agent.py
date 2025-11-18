@@ -40,7 +40,7 @@ class LokiQueryAgent:
         return create_agent(
             model=self.llm,
             tools=self.tools,
-            debug=True,  # uncomment this to enable debugging
+            # debug=True,  # uncomment this to enable debugging
             system_prompt=system_prompt,
         )
 
@@ -104,11 +104,16 @@ class LokiQueryAgent:
                 {"messages": [{"role": "user", "content": enhanced_request}]}
             )
 
-            print(f"\n\n📊 Result: {result}\n\n")
+            # print(f"\n\n📊 Result: {result}\n\n")
 
             # Extract tool results from ToolMessages
             messages = result.get("messages", [])
             tool_messages = [msg for msg in messages if isinstance(msg, ToolMessage)]
+            # # FOR DEBUG: Print all AIMessage objects in the messages list
+            # from langchain_core.messages import AIMessage
+            # ai_messages = [msg for msg in messages if isinstance(msg, AIMessage)]
+            # for ai_msg in ai_messages:
+            #     print(f"\n\n🤖 AIMessage:\n{ai_msg}\n\n")
 
             if tool_messages:
                 # Get the last tool result
@@ -121,7 +126,7 @@ class LokiQueryAgent:
                         tool_result
                     )
 
-                    print(f"\n\n📊 LogToolOutput object:\n{log_tool_output_object}\n\n")
+                    # print(f"\n\n📊 LogToolOutput object:\n{log_tool_output_object}\n\n")
 
                     return LokiAgentOutput(
                         status=ToolStatus.SUCCESS,
