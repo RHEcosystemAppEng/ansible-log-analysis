@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+from datetime import datetime
 from typing import Generator
 
 from sqlalchemy.ext.asyncio import create_async_engine
@@ -32,3 +33,17 @@ def get_session():
 async def get_session_gen() -> Generator[AsyncSession, None, None]:
     async with get_session() as session:
         yield session
+
+
+def convert_state_to_grafana_alert(state: dict) -> GrafanaAlert:
+    return GrafanaAlert(
+        logTimestamp=datetime.fromisoformat(state["log_entry"].timestamp),
+        logMessage=state["log_entry"].message,
+        logSummary=state["logSummary"],
+        expertClassification=state["expertClassification"],
+        logCluster=state["logCluster"],
+        needMoreContext=state["needMoreContext"],
+        stepByStepSolution=state["stepByStepSolution"],
+        contextForStepByStepSolution=state["contextForStepByStepSolution"],
+        log_labels=state["log_entry"].log_labels.model_dump(),
+    )

@@ -6,7 +6,8 @@ from typing import Dict, Any
 from langchain_openai import ChatOpenAI
 
 from alm.agents.loki_agent.constants import IDENTIFY_MISSING_DATA_PROMPT_PATH
-from alm.agents.loki_agent.schemas import IdentifyMissingDataSchema, LogLabels
+from alm.agents.loki_agent.schemas import IdentifyMissingDataSchema
+from alm.models import LogLabels
 
 
 async def identify_missing_data(

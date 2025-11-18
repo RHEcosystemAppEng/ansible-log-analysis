@@ -346,7 +346,7 @@ def merge_loki_streams(streams: List[Dict], direction: str = DEFAULT_DIRECTION) 
     Returns:
         List of LogEntry objects, sorted chronologically per file (oldest to newest)
     """
-    from alm.agents.loki_agent.schemas.outputs import LogEntry, LogLabels
+    from alm.models import LogEntry, LogLabels
 
     if not streams:
         return []

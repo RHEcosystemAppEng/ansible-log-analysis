@@ -5,7 +5,6 @@ These schemas define the input parameters for each tool using args_schema.
 
 from typing import Literal, Optional
 from pydantic import BaseModel, Field
-from enum import Enum
 
 from alm.agents.loki_agent.constants import (
     DEFAULT_DIRECTION,
@@ -14,14 +13,7 @@ from alm.agents.loki_agent.constants import (
     DEFAULT_LINE_ABOVE,
     DEFAULT_START_TIME,
 )
-
-
-class LogLevel(str, Enum):
-    ERROR = "error"
-    WARN = "warn"
-    INFO = "info"
-    DEBUG = "debug"
-    UNKNOWN = "unknown"
+from alm.models import LogLevel
 
 
 class FileLogSchema(BaseModel):

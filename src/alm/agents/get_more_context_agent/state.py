@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 from typing import Optional
 
 from alm.agents.get_more_context_agent.node import LokiRouterSchema
-from alm.agents.loki_agent.schemas import LogEntry
+from alm.models import LogEntry
 
 
 class ContextAgentState(BaseModel):
