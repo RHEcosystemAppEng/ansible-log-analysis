@@ -37,3 +37,310 @@ mcp-servers:
       env:
         LOKI_URL: "http://loki:3100"
         PORT: "8080"
+
+grafana:
+  fullnameOverride: grafana
+  route:
+    main:
+      # -- Enables or disables the route
+      enabled: true
+  adminUser: admin
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+      - ALL
+    readOnlyRootFilesystem: false
+    seccompProfile:
+      type: RuntimeDefault
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+      - access: proxy
+        editable: true
+        isDefault: true
+        name: Loki
+        type: loki
+        url: http://loki:3100
+  grafana.ini:
+    analytics:
+      check_for_updates: true
+    log:
+      level: info
+      mode: console
+    paths:
+      data: /var/lib/grafana/
+      logs: /var/log/grafana
+      plugins: /var/lib/grafana/plugins
+      provisioning: /etc/grafana/provisioning
+    server:
+      root_url: '%(protocol)s://%(domain)s:%(http_port)s/'
+  initChownData:
+    enabled: false
+  rbac:
+    create: false
+    namespaced: false
+    pspEnabled: false
+  replicas: 1
+  securityContext:
+    runAsNonRoot: true
+  serviceAccount:
+    automountServiceAccountToken: false
+    create: true
+    name: ""
+  extraObjects:
+    - apiVersion: rbac.authorization.k8s.io/v1
+      kind: RoleBinding
+      metadata:
+        name: grafana-privileged-scc
+      subjects:
+        - kind: ServiceAccount
+          name: grafana
+      roleRef:
+        kind: ClusterRole
+        name: system:openshift:scc:privileged
+        apiGroup: rbac.authorization.k8s.io
+    - apiVersion: route.openshift.io/v1
+      kind: Route
+      metadata:
+        name: grafana
+      spec:
+        to:
+          name: grafana
+          weight: 100
+          kind: Service
+        host: ''
+        path: ''
+        port:
+          targetPort: service
+        alternateBackends: []
+
+
+
+loki:
+  fullnameOverride: loki
+  loki:
+    schemaConfig:
+      configs:
+        - from: "2024-04-01"
+          store: tsdb
+          object_store: s3
+          schema: v13
+          index:
+            prefix: loki_index_
+            period: 24h
+    ingester:
+      chunk_encoding: snappy
+    querier:
+      max_concurrent: 4
+    pattern_ingester:
+      enabled: true
+    limits_config:
+      allow_structured_metadata: true
+      volume_enabled: true
+    storage:
+      bucketNames:
+        chunks: loki-chunks
+        ruler: loki-ruler
+        admin: loki-admin
+    auth_enabled: false
+
+  deploymentMode: SingleBinary
+
+  singleBinary:
+    replicas: 3
+
+  # Zero out replica counts of other deployment modes
+  backend:
+    replicas: 0
+  read:
+    replicas: 0
+  write:
+    replicas: 0
+
+  ingester:
+    replicas: 0
+  querier:
+    replicas: 0
+  queryFrontend:
+    replicas: 0
+  queryScheduler:
+    replicas: 0
+  distributor:
+    replicas: 0
+  compactor:
+    replicas: 0
+  indexGateway:
+    replicas: 0
+  bloomCompactor:
+    replicas: 0
+  bloomGateway:
+    replicas: 0
+
+  minio:
+    enabled: true
+  rbac:
+    sccEnabled: false
+
+  lokiCanary:
+    kind: Deployment
+
+  global:
+    extraArgs:
+      - "-log.level=debug"
+
+  gateway:
+    nginxConfig:
+      resolver: "172.30.0.10"
+  extraObjects:
+    - apiVersion: rbac.authorization.k8s.io/v1
+      kind: Role
+      metadata:
+        name: loki-anyuid-scc
+      rules:
+        - apiGroups:
+            - security.openshift.io
+          resources:
+            - securitycontextconstraints
+          verbs:
+            - use
+          resourceNames:
+            - anyuid
+    
+    - apiVersion: rbac.authorization.k8s.io/v1
+      kind: RoleBinding
+      metadata:
+        name: loki-anyuid-scc
+      subjects:
+        - kind: ServiceAccount
+          name: loki
+        - kind: ServiceAccount
+          name: loki-canary
+        - kind: ServiceAccount
+          name: minio-sa
+      roleRef:
+        kind: Role
+        name: loki-anyuid-scc
+        apiGroup: rbac.authorization.k8s.io
+
+
+alloy:
+  fullnameOverride: alloy
+  config:
+    alloy: |-
+      // Logging configuration for debugging
+      logging {
+        level  = "info"
+        format = "logfmt"
+      }
+
+      // Discover all pods in the cluster
+      discovery.kubernetes "pods" {
+        role = "pod"
+      }
+
+      // Relabel discovered targets to add useful labels
+      discovery.relabel "pod_logs" {
+        targets = discovery.kubernetes.pods.targets
+
+        // Add namespace label
+        rule {
+          source_labels = ["__meta_kubernetes_namespace"]
+          action        = "replace"
+          target_label  = "namespace"
+        }
+
+        // Add pod name label
+        rule {
+          source_labels = ["__meta_kubernetes_pod_name"]
+          action        = "replace"
+          target_label  = "pod"
+        }
+
+        // Add container name label
+        rule {
+          source_labels = ["__meta_kubernetes_pod_container_name"]
+          action        = "replace"
+          target_label  = "container"
+        }
+
+        // Add app label if it exists
+        rule {
+          source_labels = ["__meta_kubernetes_pod_label_app"]
+          action        = "replace"
+          target_label  = "app"
+        }
+
+        // Add node name label
+        rule {
+          source_labels = ["__meta_kubernetes_pod_node_name"]
+          action        = "replace"
+          target_label  = "node"
+        }
+
+        // Optional: Filter specific namespaces (uncomment to use)
+        // rule {
+        //   source_labels = ["__meta_kubernetes_namespace"]
+        //   regex         = "kube-system|kube-public|kube-node-lease"
+        //   action        = "drop"
+        // }
+      }
+
+      // Collect logs from Kubernetes pods using the API
+      loki.source.kubernetes "pods" {
+        targets    = discovery.relabel.pod_logs.output
+        forward_to = [loki.process.add_labels.receiver]
+      }
+
+      // Process logs to add additional context or filtering
+      loki.process "add_labels" {
+        forward_to = [loki.write.loki.receiver]
+
+        // Add a cluster label (useful for multi-cluster setups)
+        stage.static_labels {
+          values = {
+            cluster = "openshift-cluster",
+          }
+        }
+
+        // Optional: Drop logs older than 24 hours
+        stage.drop {
+          older_than = "24h"
+          drop_counter_reason = "old_logs"
+        }
+
+        // Optional: Extract log level from JSON logs
+        stage.json {
+          expressions = {
+            level = "level",
+          }
+        }
+
+        // Optional: Add log level as a label if extracted
+        stage.labels {
+          values = {
+            level = "",
+          }
+        }
+      }
+
+      // Configure Loki write endpoint
+      loki.write "loki" {
+        endpoint {
+          url = "http://loki:3100/loki/api/v1/push"
+          
+          // Optional: Add basic auth if required
+          // basic_auth {
+          //   username = "admin"
+          //   password = "password"
+          // }
+        }
+
+        // Optional: External labels for all logs
+        external_labels = {
+          source = "alloy",
+        }
+      }
+  rbac:
+    create: true
