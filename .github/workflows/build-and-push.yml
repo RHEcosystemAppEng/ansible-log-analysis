@@ -7,9 +7,30 @@ on:
       - main
 
 jobs:
+  detect-changes:
+    name: Detect changed directories
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    outputs:
+      ui: ${{ steps.filter.outputs.ui }}
+      annotation: ${{ steps.filter.outputs.annotation }}
+      clustering: ${{ steps.filter.outputs.clustering }}
+    steps:
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            ui:
+              - 'ui/**'
+            annotation:
+              - 'annotation_interface/**'
+            clustering:
+              - 'services/clustering/**'
+
   build-image:
     name: Build and Push container image
     runs-on: ubuntu-latest
+    needs: detect-changes
     if: github.event.pull_request.merged == true
     strategy:
       matrix:
@@ -44,6 +65,10 @@ jobs:
           echo "tag=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Build and push ${{ matrix.name }}
+        if: |
+          (matrix.image-name == 'alm-ui' && needs.detect-changes.outputs.ui == 'true') ||
+          (matrix.image-name == 'alm-annotation-interface' && needs.detect-changes.outputs.annotation == 'true') ||
+          (matrix.image-name == 'alm-clustering' && needs.detect-changes.outputs.clustering == 'true')
         uses: docker/build-push-action@v5
         with:
           context: ${{ matrix.context }}
@@ -58,7 +83,6 @@ jobs:
   tag-backend-latest:
     name: Tag backend image as latest
     runs-on: ubuntu-latest
-    needs: build-image
     if: github.event.pull_request.merged == true
     steps:
       - name: Extract source branch
