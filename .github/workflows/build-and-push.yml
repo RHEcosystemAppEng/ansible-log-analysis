@@ -52,12 +52,12 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Log in to Quay.io
-        uses: docker/login-action@v3
-        with:
-          registry: quay.io
-          username: ${{ secrets.QUAY_USERNAME }}
-          password: ${{ secrets.QUAY_PASSWORD }}
+      # - name: Log in to Quay.io
+      #   uses: docker/login-action@v3
+      #   with:
+      #     registry: quay.io
+      #     username: ${{ secrets.QUAY_USERNAME }}
+      #     password: ${{ secrets.QUAY_PASSWORD }}
 
       - name: Set version from run number
         id: version
@@ -69,16 +69,18 @@ jobs:
           (matrix.image-name == 'alm-ui' && needs.detect-changes.outputs.ui == 'true') ||
           (matrix.image-name == 'alm-annotation-interface' && needs.detect-changes.outputs.annotation == 'true') ||
           (matrix.image-name == 'alm-clustering' && needs.detect-changes.outputs.clustering == 'true')
-        uses: docker/build-push-action@v5
-        with:
-          context: ${{ matrix.context }}
-          file: ${{ matrix.context }}/Containerfile
-          push: true
-          tags: |
-            quay.io/rh-ai-quickstart/${{ matrix.image-name }}:${{ steps.version.outputs.tag }}
-            quay.io/rh-ai-quickstart/${{ matrix.image-name }}:latest
-          build-args: |
-            IMAGE_TAG=${{ steps.version.outputs.tag }}
+        run: |
+          echo "Building and pushing ${{ matrix.image-name }} image"
+        # uses: docker/build-push-action@v5
+        # with:
+        #   context: ${{ matrix.context }}
+        #   file: ${{ matrix.context }}/Containerfile
+        #   push: true
+        #   tags: |
+        #     quay.io/rh-ai-quickstart/${{ matrix.image-name }}:${{ steps.version.outputs.tag }}
+        #     quay.io/rh-ai-quickstart/${{ matrix.image-name }}:latest
+        #   build-args: |
+        #     IMAGE_TAG=${{ steps.version.outputs.tag }}
 
   tag-backend-latest:
     name: Tag backend image as latest
@@ -111,23 +113,23 @@ jobs:
         run: |
           echo "Tagging backend image from branch: $BRANCH_TAG"
 
-          # Check if source image exists
-          if skopeo inspect --creds="$QUAY_USERNAME:$QUAY_PASSWORD" \
-             docker://quay.io/rh-ai-quickstart/alm-backend:$BRANCH_TAG > /dev/null 2>&1; then
+          # # Check if source image exists
+          # if skopeo inspect --creds="$QUAY_USERNAME:$QUAY_PASSWORD" \
+          #    docker://quay.io/rh-ai-quickstart/alm-backend:$BRANCH_TAG > /dev/null 2>&1; then
 
-            echo "Source image found: quay.io/rh-ai-quickstart/alm-backend:$BRANCH_TAG"
+          #   echo "Source image found: quay.io/rh-ai-quickstart/alm-backend:$BRANCH_TAG"
 
-            # Copy/tag the image as latest
-            skopeo copy \
-              --src-creds="$QUAY_USERNAME:$QUAY_PASSWORD" \
-              --dest-creds="$QUAY_USERNAME:$QUAY_PASSWORD" \
-              docker://quay.io/rh-ai-quickstart/alm-backend:$BRANCH_TAG \
-              docker://quay.io/rh-ai-quickstart/alm-backend:latest
+          #   # Copy/tag the image as latest
+          #   skopeo copy \
+          #     --src-creds="$QUAY_USERNAME:$QUAY_PASSWORD" \
+          #     --dest-creds="$QUAY_USERNAME:$QUAY_PASSWORD" \
+          #     docker://quay.io/rh-ai-quickstart/alm-backend:$BRANCH_TAG \
+          #     docker://quay.io/rh-ai-quickstart/alm-backend:latest
 
-            echo "✓ Successfully tagged alm-backend:$BRANCH_TAG as alm-backend:latest"
-          else
-            echo "❌ ERROR: Source image not found: quay.io/rh-ai-quickstart/alm-backend:$BRANCH_TAG"
-            echo "This might happen if the developer hasn't pushed the backend image for this branch yet."
-            echo "Please update the image alm-backend:latest manually from the latest version of main."
-            exit 1
-          fi
+          #   echo "✓ Successfully tagged alm-backend:$BRANCH_TAG as alm-backend:latest"
+          # else
+          #   echo "❌ ERROR: Source image not found: quay.io/rh-ai-quickstart/alm-backend:$BRANCH_TAG"
+          #   echo "This might happen if the developer hasn't pushed the backend image for this branch yet."
+          #   echo "Please update the image alm-backend:latest manually from the latest version of main."
+          #   exit 1
+          # fi

@@ -19,3 +19,4 @@ FastAPI microservice for clustering predictions with support for local models an
 |----------|---------|
 | `MODEL_REGISTRY_NAMESPACE` | `rhoai-model-registries` |
 | `MODEL_REGISTRY_CONTAINER` | `modelregistry-sample` |
+
