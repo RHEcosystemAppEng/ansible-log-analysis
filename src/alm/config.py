@@ -19,11 +19,103 @@ class EmbeddingsConfig:
     """Configuration for embedding model."""
 
     def __init__(self):
-        self.model_name = os.getenv(
-            "EMBEDDINGS_LLM_MODEL_NAME", "nomic-ai/nomic-embed-text-v1.5"
+        # Check if .env file exists - this is the only test
+        env_path = Path(__file__).parent.parent.parent / ".env"
+        env_file_exists = env_path.exists()
+
+        # Get environment variables - raise error if not set
+        self.model_name = self._get_required_env(
+            "EMBEDDINGS_LLM_MODEL_NAME", env_file_exists
+        ).strip()
+        self.api_url = self._get_required_env(
+            "EMBEDDINGS_LLM_URL", env_file_exists
+        ).strip()
+        self.api_key = self._get_required_env(
+            "EMBEDDINGS_LLM_API_KEY", env_file_exists
+        ).strip()
+
+        # Validate that values are not empty after stripping
+        self._validate_maas_config(env_file_exists)
+
+    def _get_required_env(self, var_name: str, env_file_exists: bool) -> str:
+        """
+        Get a required environment variable, raising an error if not set.
+
+        If .env file exists, requires the variable to be set (in .env or as env var).
+        If .env file doesn't exist, assumes containerized environment and only checks env vars.
+
+        Args:
+            var_name: Name of the environment variable
+            env_file_exists: Whether .env file exists
+
+        Returns:
+            The environment variable value
+
+        Raises:
+            ValueError: If the environment variable is not set
+        """
+        # load_dotenv() at module level already loaded .env file if it exists
+        value = os.getenv(var_name)
+
+        if value is None:
+            env_example_path = Path(__file__).parent.parent.parent / ".env.example"
+
+            if env_file_exists:
+                # .env file exists - require variable to be set
+                error_msg = (
+                    f"{var_name} is required but not set. "
+                    f"Please set {var_name} in your .env file or as an environment variable. "
+                )
+            else:
+                # No .env file - assume containerized environment
+                error_msg = (
+                    f"{var_name} is required but not set. "
+                    f"Please set {var_name} as an environment variable. "
+                )
+
+            if env_example_path.exists():
+                error_msg += "See .env.example for reference."
+
+            raise ValueError(error_msg)
+
+        return value
+
+    def _validate_maas_config(self, env_file_exists: bool):
+        """
+        Validate that MAAS configuration values are not empty.
+        Raises an error if EMBEDDINGS_LLM_URL or EMBEDDINGS_LLM_API_KEY are empty.
+
+        Args:
+            env_file_exists: Whether .env file exists (for error message context)
+        """
+        env_example_path = Path(__file__).parent.parent.parent / ".env.example"
+        example_hint = (
+            " See .env.example for reference." if env_example_path.exists() else ""
         )
-        self.api_url = os.getenv("EMBEDDINGS_LLM_URL", "").strip()
-        self.api_key = os.getenv("EMBEDDINGS_LLM_API_KEY", "").strip()
+
+        if env_file_exists:
+            location_hint = "in your .env file or as an environment variable"
+        else:
+            location_hint = "as an environment variable"
+
+        if not self.api_url:
+            raise ValueError(
+                f"EMBEDDINGS_LLM_URL is required but is empty. "
+                f"Please set EMBEDDINGS_LLM_URL {location_hint} with a valid value."
+                + example_hint
+            )
+        if not self.api_key:
+            raise ValueError(
+                f"EMBEDDINGS_LLM_API_KEY is required but is empty. "
+                f"Please set EMBEDDINGS_LLM_API_KEY {location_hint} with a valid value."
+                + example_hint
+            )
+        if not self.model_name:
+            raise ValueError(
+                f"EMBEDDINGS_LLM_MODEL_NAME is required but is empty. "
+                f"Please set EMBEDDINGS_LLM_MODEL_NAME {location_hint} with a valid value."
+                + example_hint
+            )
 
     @property
     def is_local(self) -> bool:

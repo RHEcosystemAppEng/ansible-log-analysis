@@ -3,7 +3,7 @@
 
 """
 Quick test script to verify Nomic embeddings work correctly.
-Supports both MAAS (API-based) and local model testing.
+Requires MAAS (API-based) configuration via environment variables or .env file.
 """
 
 # Load .env file if it exists
@@ -23,38 +23,27 @@ def test_nomic_embeddings():
     print("Testing Nomic-Embed-Text-v1.5...")
     print("=" * 60)
 
-    # Check if using API or local model
+    # Get MAAS API configuration (required)
     api_url = config.embeddings.api_url
     api_key = config.embeddings.api_key
     model_name = config.embeddings.model_name
 
-    if api_url:
-        print("\n✓ Using MAAS API mode")
-        print(f"  API URL: {api_url}")
-        print(f"  Model: {model_name}")
-        if not api_key:
-            print("  ⚠ WARNING: EMBEDDINGS_LLM_API_KEY not set, API calls may fail")
-    else:
-        print("\n✓ Using LOCAL model mode")
-        print(f"  Model: {model_name}")
-        print("  ⚠ NOTE: Local mode requires 'einops' package for Nomic models")
-        print("  Set EMBEDDINGS_LLM_URL in .env to use MAAS API instead")
+    print("\n✓ Using MAAS API mode")
+    print(f"  API URL: {api_url}")
+    print(f"  Model: {model_name}")
 
-    # Initialize embedding client (handles both API and local)
+    # Initialize embedding client
     print("\n1. Initializing embedding client...")
     try:
         client = EmbeddingClient(
             model_name=model_name,
-            api_url=api_url if api_url else None,
-            api_key=api_key if api_key else None,
+            api_url=api_url,
+            api_key=api_key,
         )
         print(f"✓ Client initialized: {client.embedding_dim}-dimensional embeddings")
-        print(f"  Mode: {'API' if not client.is_local else 'LOCAL'}")
+        print("  Mode: API")
     except Exception as e:
         print(f"✗ Failed to initialize client: {e}")
-        if not api_url:
-            print("\n  Tip: Set EMBEDDINGS_LLM_URL and EMBEDDINGS_LLM_API_KEY in .env")
-            print("       to use MAAS API instead of local model")
         raise
 
     # Test embeddings
