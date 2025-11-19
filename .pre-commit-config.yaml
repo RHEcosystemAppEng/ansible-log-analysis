@@ -7,3 +7,15 @@ repos:
       - id: ruff
       # Run the formatter.
       - id: ruff-format
+
+  # Sync pre-push hook to the default hooks directory on every commit, 
+  # this is needed to ensure the pre-push hook is always up to date.
+  - repo: local
+    hooks:
+      - id: sync-pre-push-hook
+        name: Sync pre-push hook to .git/hooks
+        entry: bash -c 'cp .githooks/pre-push .git/hooks/pre-push && chmod +x .git/hooks/pre-push'
+        language: system
+        always_run: true
+        pass_filenames: false
+        stages: [pre-commit]
