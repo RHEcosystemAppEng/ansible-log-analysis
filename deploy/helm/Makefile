@@ -93,11 +93,10 @@ define prompt_openai_credentials
 		echo "Using provided EMBEDDINGS_LLM_API_KEY"; \
 	fi; \
 	if [ -z "$$EMBEDDINGS_LLM_URL" ]; then \
-		DEFAULT_EMBEDDINGS_URL="$(EMBEDDINGS_LLM_URL)"; \
-		echo -n "Enter MaaS EMBEDDING API ENDPOINT (include /v1 suffix) [default: $$DEFAULT_EMBEDDINGS_URL]: "; \
+		echo -n "Enter MaaS EMBEDDING API ENDPOINT (include /v1 suffix) [default: $(EMBEDDINGS_LLM_URL)]: "; \
 		read EMBEDDINGS_URL_INPUT; \
 		if [ -z "$$EMBEDDINGS_URL_INPUT" ]; then \
-			export EMBEDDINGS_LLM_URL="$$DEFAULT_EMBEDDINGS_URL"; \
+			export EMBEDDINGS_LLM_URL="$(EMBEDDINGS_LLM_URL)"; \
 		else \
 			export EMBEDDINGS_LLM_URL=$$EMBEDDINGS_URL_INPUT; \
 		fi; \
@@ -105,11 +104,10 @@ define prompt_openai_credentials
 		echo "Using provided EMBEDDINGS_LLM_URL: $$EMBEDDINGS_LLM_URL"; \
 	fi; \
 	if [ -z "$$EMBEDDINGS_LLM_MODEL_NAME" ]; then \
-		DEFAULT_EMBEDDINGS_MODEL="$(EMBEDDINGS_LLM_MODEL_NAME)"; \
-		echo -n "Enter EMBEDDING MODEL NAME [default: $$DEFAULT_EMBEDDINGS_MODEL]: "; \
+		echo -n "Enter EMBEDDING MODEL NAME [default: $(EMBEDDINGS_LLM_MODEL_NAME)]: "; \
 		read EMBEDDINGS_MODEL_INPUT; \
 		if [ -z "$$EMBEDDINGS_MODEL_INPUT" ]; then \
-			export EMBEDDINGS_LLM_MODEL_NAME="$$DEFAULT_EMBEDDINGS_MODEL"; \
+			export EMBEDDINGS_LLM_MODEL_NAME="$(EMBEDDINGS_LLM_MODEL_NAME)"; \
 		else \
 			export EMBEDDINGS_LLM_MODEL_NAME=$$EMBEDDINGS_MODEL_INPUT; \
 		fi; \
