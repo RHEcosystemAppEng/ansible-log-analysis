@@ -9,10 +9,12 @@ This example demonstrates the get_more_context_agent flow:
 """
 
 import asyncio
+from datetime import datetime
 
 from alm.agents.get_more_context_agent.graph import more_context_agent_graph
 from alm.agents.get_more_context_agent.state import ContextAgentState
 from alm.agents.loki_agent.schemas import LogEntry, LogLabels, LogLevel
+
 # from langchain.globals import set_debug
 
 # set_debug(True)  # Enables LangChain debug mode globally
@@ -27,7 +29,7 @@ async def test_get_more_context_graph():
     print("=" * 80)
 
     # Create a test log entry
-    log_message = 'fatal: [bastion.6jxd6.internal]: FAILED! => {"changed": false, "dest": "/usr/bin/argocd", "elapsed": 0, "msg": "Request failed", "response": "HTTP Error 307: The HTTP server returned a redirect error that would lead to an infinite loop.\\nThe last 30x error message was:\\nTemporary Redirect", "status_code": 307, "url": "https://openshift-gitops-server-openshift-gitops.apps.cluster-6jxd6.6jxd6.sandbox2747.opentlc.com/download/argocd-linux-amd64"}'
+    log_message = r'fatal: [bastion.6jxd6.internal]: FAILED! => {"changed": false, "dest": "/usr/bin/argocd", "elapsed": 0, "msg": "Request failed", "response": "HTTP Error 307: The HTTP server returned a redirect error that would lead to an infinite loop.\\nThe last 30x error message was:\\nTemporary Redirect", "status_code": 307, "url": "https://openshift-gitops-server-openshift-gitops.apps.cluster-6jxd6.6jxd6.sandbox2747.opentlc.com/download/argocd-linux-amd64"}'
 
     log_entry = LogEntry(
         log_labels=LogLabels(
@@ -37,7 +39,7 @@ async def test_get_more_context_graph():
             service_name="failed_logs",
         ),
         message=log_message,
-        timestamp="1762427889459",
+        timestamp=datetime.now().isoformat(),  # Usually close enough to the target log message
     )
 
     # Create a test state with sample data

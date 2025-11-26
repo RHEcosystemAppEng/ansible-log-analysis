@@ -32,6 +32,7 @@ from alm.agents.loki_agent.schemas import (
     LogToolOutput,
     ToolStatus,
 )
+from alm.tools.loki_helpers import validate_timestamp
 
 
 # MCP Server URL configuration
@@ -297,7 +298,6 @@ def create_log_lines_above_tool(
         try:
             # Import helper functions
             from alm.tools.log_lines_context_helpers import (
-                get_or_find_timestamp,
                 calculate_time_window,
                 query_logs_in_time_window,
                 extract_context_lines_above,
@@ -325,31 +325,22 @@ def create_log_lines_above_tool(
                     : -len(CONTEXT_TRUNCATE_SUFFIX)
                 ].rstrip()
 
-            # Step 1: Get the timestamp (either from parameter or by searching)
-            print("🔍 [Step 1] Getting or finding timestamp for log message")
-            target_timestamp_raw, error = await get_or_find_timestamp(
-                log_timestamp, file_name, processed_log_message
-            )
-            if error or not isinstance(target_timestamp_raw, str):
+            # Step 1: Validate and convert the timestamp to a datetime object
+            print("🔍 [Step 1] Validating and converting timestamp to datetime object")
+            target_datetime, is_valid = validate_timestamp(log_timestamp)
+            if not is_valid or not target_datetime:
                 return LogToolOutput(
                     status=ToolStatus.ERROR,
-                    message=f"Failed to get or find timestamp for log message. Error: {error}, Target timestamp: {target_timestamp_raw}",
+                    message=f"Invalid timestamp: {log_timestamp}, please provide a valid timestamp",
                     number_of_logs=0,
                     logs=[],
                 ).model_dump_json(indent=2)
 
             # Step 2: Calculate time window
             print("🔍 [Step 2] Calculating time window around timestamp")
-            start_time_rfc3339, end_time_rfc3339, error = calculate_time_window(
-                target_timestamp_raw
+            start_time_rfc3339, end_time_rfc3339 = calculate_time_window(
+                target_datetime
             )
-            if error:
-                return LogToolOutput(
-                    status=ToolStatus.ERROR,
-                    message=error,
-                    number_of_logs=0,
-                    logs=[],
-                ).model_dump_json(indent=2)
 
             # Step 3: Query logs in the time window
             print("🔍 [Step 3] Querying large context window (limit=5000)")

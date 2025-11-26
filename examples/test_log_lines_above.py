@@ -9,7 +9,7 @@ Note: The agent is created per-alert with context values bound at creation time.
 """
 
 import asyncio
-
+from datetime import datetime
 from alm.agents.loki_agent.agent import create_loki_agent
 from alm.agents.loki_agent.schemas import LogToolOutput
 
@@ -26,7 +26,9 @@ async def test_log_lines_above():
     # Test parameters - these will be bound via closure
     file_name = "/var/log/ansible_logs/failed/job_1461865.txt"
     log_message = r'fatal: [bastion.6jxd6.internal]: FAILED! => {"changed": false, "dest": "/usr/bin/argocd", "elapsed": 0, "msg": "Request failed", "response": "HTTP Error 307: The HTTP server returned a redirect error that would lead to an infinite loop.\\nThe last 30x error message was:\\nTemporary Redirect", "status_code": 307, "url": "https://openshift-gitops-server-openshift-gitops.apps.cluster-6jxd6.6jxd6.sandbox2747.opentlc.com/download/argocd-linux-amd64"}'
-    log_timestamp = "1763476379397"
+    log_timestamp = (
+        datetime.now().isoformat()
+    )  # Usually close enough to the target log message
     lines_above = 20
 
     print("\n📝 Test Parameters (to be bound via closure):")
