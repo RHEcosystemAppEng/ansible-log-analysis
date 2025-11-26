@@ -32,7 +32,7 @@ from alm.agents.loki_agent.schemas import (
     LogToolOutput,
     ToolStatus,
 )
-from alm.tools.loki_helpers import validate_timestamp
+from alm.tools.loki_helpers import escape_logql_string, validate_timestamp
 
 
 # MCP Server URL configuration
@@ -112,9 +112,14 @@ async def execute_loki_query(
                         parsed_result["data"]["result"], direction=direction
                     )
 
+                # Add helpful message when no logs are found and no message is provided by the tools
+                message = parsed_result.get("message", None)
+                if len(logs) == 0 and not message:
+                    message = "No logs found matching the query. Try using a different search term, simpler keywords, or expanding the time range."
+
                 return LogToolOutput(
                     status=ToolStatus.SUCCESS,
-                    message=parsed_result.get("message", None),
+                    message=message,
                     logs=logs,
                     number_of_logs=len(logs),
                     query=query,
@@ -218,13 +223,16 @@ async def search_logs_by_text(
     Note: This is a case-sensitive text search using LogQL's |= operator.
     """
     try:
+        # Escape special characters in search text for LogQL
+        escaped_text = escape_logql_string(text)
+
         # Build LogQL query for text search
         if file_name:
             # Search within a specific file
             query = (
                 LOGQL_FILE_NAME_QUERY_TEMPLATE.format(file_name=file_name)
                 + " "
-                + LOGQL_TEXT_SEARCH_TEMPLATE.format(text=text)
+                + LOGQL_TEXT_SEARCH_TEMPLATE.format(text=escaped_text)
             )
         else:
             # Search across all logs
@@ -232,7 +240,7 @@ async def search_logs_by_text(
             query = (
                 LOGQL_JOB_WILDCARD_QUERY
                 + " "
-                + LOGQL_TEXT_SEARCH_TEMPLATE.format(text=text)
+                + LOGQL_TEXT_SEARCH_TEMPLATE.format(text=escaped_text)
             )
 
         result = await execute_loki_query(

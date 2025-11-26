@@ -401,3 +401,24 @@ def merge_loki_streams(streams: List[Dict], direction: str = DEFAULT_DIRECTION) 
         all_logs.extend(merged_logs)
 
     return all_logs
+
+
+def escape_logql_string(text: str) -> str:
+    r"""
+    Escape special characters in text for use in LogQL string literals.
+
+    LogQL string literals (used with |= operator) require escaping of:
+    - Double quotes (") -> \"
+    - Backslashes (\) -> \\
+
+    Args:
+        text: The text to escape
+
+    Returns:
+        Escaped text safe for use in LogQL string literals
+    """
+    # Escape backslashes first (must be done before quotes)
+    text = text.replace("\\", "\\\\")
+    # Escape double quotes
+    text = text.replace('"', '\\"')
+    return text

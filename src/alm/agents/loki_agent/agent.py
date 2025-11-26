@@ -41,7 +41,7 @@ class LokiQueryAgent:
 
         # Build tools list: static tools + closure-created tool
         self.tools = [
-            *LOKI_STATIC_TOOLS,  # get_logs_by_file_name, search_logs_by_text
+            *LOKI_STATIC_TOOLS,
             create_log_lines_above_tool(file_name, log_message, log_timestamp),
         ]
 

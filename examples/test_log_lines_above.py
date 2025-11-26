@@ -16,11 +16,12 @@ from alm.agents.loki_agent.schemas import LogToolOutput
 
 async def test_log_lines_above():
     """
-    Run a test of the get_log_lines_above tool through the Loki agent.
-    This test creates an agent with closure-bound context.
+    Run a test of the get_log_lines_above tool directly.
+    This test creates an agent with closure-bound context and then
+    extracts the tool to call it directly with ainvoke.
     """
     print("=" * 80)
-    print("🧪 Testing get_log_lines_above Tool (with Closure-Bound Context)")
+    print("🧪 Testing get_log_lines_above Tool (Direct Tool Call)")
     print("=" * 80)
 
     # Test parameters - these will be bound via closure
@@ -48,70 +49,62 @@ async def test_log_lines_above():
         # Create the Loki agent with context bound via closure
         agent = create_loki_agent(file_name, log_message, log_timestamp)
 
-        # Prepare context for other tools and nodes
-        # (get_log_lines_above doesn't use this, but other tools do)
-        context = {
-            "logMessage": log_message,
-            "logTimestamp": log_timestamp,
-            "logLabels": {
-                "filename": file_name,
-                "detected_level": "ERROR",
-            },
-            "logSummary": "Request failed error with redirect loop",
-        }
+        # Extract the get_log_lines_above tool from the agent's tools list
+        get_log_lines_above = None
+        for tool in agent.tools:
+            if tool.name == "get_log_lines_above":
+                get_log_lines_above = tool
+                break
 
-        # Call the agent with a user request
-        user_request = f"Get {lines_above} lines above this error"
-        result = await agent.query_logs(user_request, context)
+        if not get_log_lines_above:
+            raise Exception("get_log_lines_above tool not found in agent.tools")
+
+        print(f"✅ Found tool: {get_log_lines_above.name}")
+        print("\n🔧 Calling tool directly with ainvoke...")
+        print("-" * 80)
+
+        # Call the tool directly with ainvoke
+        tool_result = await get_log_lines_above.ainvoke({"lines_above": lines_above})
 
         print("\n" + "=" * 80)
-        print("✨ Agent Execution Complete!")
+        print("✨ Tool Execution Complete!")
         print("=" * 80)
 
-        # The result is a LokiAgentOutput object
-        print("\n📊 Agent Result Summary:")
-        print(f"  Status: {result.status}")
-        print(f"  User Request: {result.user_request}")
+        # Parse the tool result (it's a JSON string)
+        tool_output = LogToolOutput.model_validate_json(tool_result)
 
-        # Extract the tool output
-        if result.agent_result and isinstance(result.agent_result, LogToolOutput):
-            tool_output = result.agent_result
+        print("\n📊 Tool Output:")
+        print(f"  Status: {tool_output.status}")
+        print(f"  Message: {tool_output.message}")
+        print(f"  Number of Logs: {tool_output.number_of_logs}")
+        print(f"  Execution Time: {tool_output.execution_time_ms} ms")
 
-            print("\n📊 Tool Output:")
-            print(f"  Status: {tool_output.status}")
-            print(f"  Message: {tool_output.message}")
-            print(f"  Number of Logs: {tool_output.number_of_logs}")
-            print(f"  Execution Time: {tool_output.execution_time_ms} ms")
+        # Display the retrieved logs
+        if tool_output.logs:
+            print(f"\n📄 Retrieved {len(tool_output.logs)} Log Entries:")
+            print("-" * 80)
+            for i, log in enumerate(tool_output.logs, 1):
+                timestamp = log.timestamp
+                message = log.message
+                # Truncate long messages for display
+                if len(message) > 150:
+                    message_display = message[:150] + "..."
+                else:
+                    message_display = message
+                print(f"\n  [{i}] Timestamp: {timestamp}")
+                print(f"      Message: {message_display}")
 
-            # Display the retrieved logs
-            if tool_output.logs:
-                print(f"\n📄 Retrieved {len(tool_output.logs)} Log Entries:")
-                print("-" * 80)
-                for i, log in enumerate(tool_output.logs, 1):
-                    timestamp = log.timestamp
-                    message = log.message
-                    # Truncate long messages for display
-                    if len(message) > 150:
-                        message_display = message[:150] + "..."
-                    else:
-                        message_display = message
-                    print(f"\n  [{i}] Timestamp: {timestamp}")
-                    print(f"      Message: {message_display}")
-
-                # Print context
-                print("\n📝 Context Output:")
-                print("-" * 80)
-                print(tool_output.build_context())
-            else:
-                print("\n  ❌ No logs retrieved")
+            # Print context
+            print("\n📝 Context Output:")
+            print("-" * 80)
+            print(tool_output.build_context())
         else:
-            print(f"\n  ⚠️ Unexpected result type: {type(result.agent_result)}")
-            print(f"  Raw output: {result.raw_output}")
+            print("\n  ❌ No logs retrieved")
 
-        return result
+        return tool_output
 
     except Exception as e:
-        print(f"\n❌ Error during agent execution: {e}")
+        print(f"\n❌ Error during tool execution: {e}")
         import traceback
 
         traceback.print_exc()
@@ -123,5 +116,5 @@ if __name__ == "__main__":
     result = asyncio.run(test_log_lines_above())
 
     print("\n" + "=" * 80)
-    print("🎉 Test Complete!")
+    print("🎉 Direct Tool Test Complete!")
     print("=" * 80)

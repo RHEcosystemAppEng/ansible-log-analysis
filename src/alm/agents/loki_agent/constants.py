@@ -22,7 +22,7 @@ IDENTIFY_MISSING_DATA_PROMPT_PATH = (
 # ==============================================================================
 
 LOGQL_FILE_NAME_QUERY_TEMPLATE = '{{filename=~".*{file_name}$"}}'
-LOGQL_JOB_WILDCARD_QUERY = '{{job=~".+"}}'
+LOGQL_JOB_WILDCARD_QUERY = '{job=~".+"}'
 LOGQL_LEVEL_FILTER_TEMPLATE = "| detected_level=`{level}`"
 LOGQL_TEXT_SEARCH_TEMPLATE = '|= "{text}"'
 
