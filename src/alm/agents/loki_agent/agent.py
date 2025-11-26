@@ -20,14 +20,31 @@ from alm.llm import get_llm
 class LokiQueryAgent:
     """
     LangChain Agent wrapper for perfect function matching in log queries.
+
+    This agent is created per log alert with context values (file_name, log_message,
+    log_timestamp) bound to tools via Python closures.
     """
 
-    def __init__(self):
-        # Import LOKI_TOOLS here to avoid circular dependency
-        from alm.tools import LOKI_TOOLS
+    def __init__(self, file_name: str, log_message: str, log_timestamp: str):
+        """
+        Initialize the Loki Query Agent with log context.
+
+        Args:
+            file_name: The log file name that triggered the alert
+            log_message: The target log message that triggered the alert
+            log_timestamp: The timestamp of the target log
+        """
+        # Import tools here to avoid circular dependency
+        from alm.tools import LOKI_STATIC_TOOLS, create_log_lines_above_tool
 
         self.llm = get_llm()
-        self.tools = LOKI_TOOLS
+
+        # Build tools list: static tools + closure-created tool
+        self.tools = [
+            *LOKI_STATIC_TOOLS,  # get_logs_by_file_name, search_logs_by_text
+            create_log_lines_above_tool(file_name, log_message, log_timestamp),
+        ]
+
         self.agent = self._initialize_agent()
 
     def _initialize_agent(self):
@@ -185,13 +202,20 @@ class LokiQueryAgent:
             )
 
 
-# Global agent instance
-_loki_agent = None
+def create_loki_agent(
+    file_name: str,
+    log_message: str,
+    log_timestamp: str,
+) -> LokiQueryAgent:
+    """
+    Create a new LokiQueryAgent instance with log context bound via closure.
 
+    Args:
+        file_name: The log file name that triggered the alert
+        log_message: The target log message that triggered the alert
+        log_timestamp: The timestamp of the target log
 
-def get_loki_agent() -> LokiQueryAgent:
-    """Get or create the global LokiQueryAgent instance"""
-    global _loki_agent
-    if _loki_agent is None:
-        _loki_agent = LokiQueryAgent()
-    return _loki_agent
+    Returns:
+        A new LokiQueryAgent instance with tools bound to the provided context
+    """
+    return LokiQueryAgent(file_name, log_message, log_timestamp)
