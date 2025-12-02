@@ -10,7 +10,9 @@ This module implements:
 - Builds FAISS index for similarity search
 - Persists index and metadata to disk
 
-Supports both local models and API-based embeddings via environment variables.
+Requires MAAS (API-based) embeddings configured via environment variables.
+Environment variables EMBEDDINGS_LLM_URL, EMBEDDINGS_LLM_API_KEY, and
+EMBEDDINGS_LLM_MODEL_NAME must be set (via .env file or as environment variables).
 """
 
 import os
@@ -22,7 +24,6 @@ from collections import defaultdict
 from pathlib import Path
 
 from langchain_core.documents import Document
-from sentence_transformers import SentenceTransformer
 import faiss
 
 from alm.config import config
@@ -30,42 +31,33 @@ from alm.config import config
 
 class EmbeddingClient:
     """
-    Abstract embedding client that supports both local and API-based models.
+    API-based embedding client for MAAS service.
+
+    Requires MAAS (API-based) configuration. All embeddings are generated
+    via API calls to the configured MAAS endpoint.
     """
 
     def __init__(
         self,
         model_name: str,
-        api_url: Optional[str] = None,
-        api_key: Optional[str] = None,
+        api_url: str,
+        api_key: str,
     ):
+        if not api_url:
+            raise ValueError(
+                "api_url is required. Local mode is not supported. "
+                "Please configure EMBEDDINGS_LLM_URL as an environment variable or in your .env file."
+            )
+        if not api_key:
+            raise ValueError(
+                "api_key is required. Please configure EMBEDDINGS_LLM_API_KEY as an environment variable or in your .env file."
+            )
+
         self.model_name = model_name
         self.api_url = api_url
         self.api_key = api_key
-        self.is_local = not api_url
 
-        if self.is_local:
-            self._init_local_model()
-        else:
-            self._init_api_client()
-
-    def _init_local_model(self):
-        """Initialize local sentence-transformers model."""
-        print(f"Initializing LOCAL model: {self.model_name}")
-
-        # Determine if trust_remote_code is needed (for Nomic models)
-        trust_remote_code = "nomic" in self.model_name.lower()
-
-        self.model = SentenceTransformer(
-            self.model_name, trust_remote_code=trust_remote_code
-        )
-        self.embedding_dim = self.model.get_sentence_embedding_dimension()
-
-        print("✓ Local model loaded")
-        print(f"  Embedding dimension: {self.embedding_dim}")
-        if "nomic" in self.model_name.lower():
-            print("  Max sequence length: 8192 tokens")
-            print("  Task prefix support: search_query / search_document")
+        self._init_api_client()
 
     def _init_api_client(self):
         """Initialize API client."""
@@ -93,31 +85,17 @@ class EmbeddingClient:
         show_progress_bar: bool = True,
     ) -> np.ndarray:
         """
-        Encode texts to embeddings.
+        Encode texts to embeddings via MAAS API.
 
         Args:
             texts: List of texts to embed
             normalize_embeddings: Whether to L2-normalize embeddings
-            show_progress_bar: Whether to show progress bar (local only)
+            show_progress_bar: Unused (kept for API compatibility)
 
         Returns:
             Numpy array of embeddings
         """
-        if self.is_local:
-            return self._encode_local(texts, normalize_embeddings, show_progress_bar)
-        else:
-            return self._encode_api(texts, normalize_embeddings)
-
-    def _encode_local(
-        self, texts: List[str], normalize_embeddings: bool, show_progress_bar: bool
-    ) -> np.ndarray:
-        """Encode using local model."""
-        return self.model.encode(
-            texts,
-            convert_to_numpy=True,
-            normalize_embeddings=normalize_embeddings,
-            show_progress_bar=show_progress_bar,
-        )
+        return self._encode_api(texts, normalize_embeddings)
 
     def _encode_api(self, texts: List[str], normalize_embeddings: bool) -> np.ndarray:
         """Encode using API."""
@@ -222,7 +200,9 @@ class AnsibleErrorEmbedder:
     """
     Handles embedding generation and FAISS index creation for Ansible errors.
 
-    Supports both local and API-based embedding models configured via environment variables.
+    Requires MAAS (API-based) embedding model. Local mode is not supported.
+    Environment variables EMBEDDINGS_LLM_URL, EMBEDDINGS_LLM_API_KEY, and
+    EMBEDDINGS_LLM_MODEL_NAME must be set (via .env file or as environment variables).
     """
 
     def __init__(
@@ -256,8 +236,15 @@ class AnsibleErrorEmbedder:
                 "Model name must be provided via parameter or EMBEDDINGS_LLM_MODEL_NAME"
             )
 
-        if self.api_url and not self.api_key:
-            raise ValueError("API key required when using API endpoint")
+        if not self.api_url:
+            raise ValueError(
+                "API URL is required. Please configure EMBEDDINGS_LLM_URL as an environment variable or in your .env file."
+            )
+
+        if not self.api_key:
+            raise ValueError(
+                "API key is required. Please configure EMBEDDINGS_LLM_API_KEY as an environment variable or in your .env file."
+            )
 
         # Initialize embedding client
         self.client = EmbeddingClient(self.model_name, self.api_url, self.api_key)
@@ -267,7 +254,7 @@ class AnsibleErrorEmbedder:
         self.error_store = {}
 
         print("✓ Embedder initialized")
-        print(f"  Mode: {'API' if self.api_url else 'LOCAL'}")
+        print("  Mode: API")
 
     def group_chunks_by_error(
         self, chunks: List[Document]
