@@ -1,0 +1,178 @@
+# Default values for text-embeddings-inference with nomic-embed-text-v1.5
+replicaCount: 1
+
+kind: Deployment
+
+strategy: {}
+  # rollingUpdate:
+  #   maxSurge: 1
+  #   maxUnavailable: 1
+  # type: RollingUpdate
+
+image:
+  repository: ghcr.io/huggingface/text-embeddings-inference
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  # Use CPU-only image for clusters without GPUs
+  tag: "cpu-1.8"
+
+command: ["text-embeddings-router"]
+
+config:
+  # The name of the model to use. nomic-ai/nomic-embed-text-v1.5
+  # If you mention MODEL_ID, environment variable would take precedence.
+  modelID: nomic-ai/nomic-embed-text-v1.5
+
+env:
+  # Set HuggingFace cache directory to persistent volume
+  - name: HF_HOME
+    value: "/data"
+  # Set port to 8080 to avoid root permission requirement
+  - name: PORT
+    value: "8080"
+  # Reduce memory usage by limiting batch sizes
+  - name: MAX_CLIENT_BATCH_SIZE
+    value: "16"  # Reduced from default 32 to use less memory
+  - name: MAX_BATCH_TOKENS
+    value: "8192"  # Reduced from default 16384 to use less memory
+  # Reference: https://huggingface.co/docs/text-embeddings-inference/cli_arguments
+  # - name: RUST_BACKTRACE
+  #   value: "full"
+  # Optional: Enable GPU if available
+  # - name: CUDA_VISIBLE_DEVICES
+  #   value: "0"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: "alm-embedding"  # Override to match your naming convention
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8080  # Changed from 80 to avoid root permission requirement
+
+serviceMonitor:
+  # Enable the creation of a ServiceMonitor resource
+  enabled: false
+  # Specify the namespace the ServiceMonitor resource should be created in
+  namespace: ""
+  # Specify the interval at which metrics should be scraped
+  interval: 30s
+  # Specify the scrape timeout
+  scrapeTimeout: 10s
+  # path to scrape for metrics
+  path: /metrics
+  # additional labels to add to the ServiceMonitor
+  additionalLabels: {}
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: embedding.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: embedding-tls
+  #    hosts:
+  #      - embedding.local
+
+resources:
+  limits:
+    cpu: 2000m  # Keep at 2 cores for inference performance
+    memory: 4Gi  # Optimized: Actual usage ~1.66Gi, 4Gi provides 2.4x headroom for spikes
+    # Uncomment if using GPU
+    # nvidia.com/gpu: 1
+  requests:
+    cpu: 500m  # Minimum for scheduling
+    memory: 2Gi  # Optimized: Closer to actual usage (~1.66Gi) with buffer for scheduling
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 300  # Model loading and warmup on CPU can take 3-5 minutes
+  periodSeconds: 30
+  timeoutSeconds: 10
+  successThreshold: 1
+  failureThreshold: 5  # Allow more failures before restart
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 180  # Give model time to load and warm up
+  periodSeconds: 15
+  timeoutSeconds: 10
+  successThreshold: 1
+  failureThreshold: 6  # Allow more failures before marking unready
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+# Persistence configuration for model cache
+persistence:
+  enabled: true
+  # Storage size for model cache (model is ~400MB, but allow extra for cache)
+  size: 5Gi
+  # Access mode: ReadWriteOnce (RWO) is used because:
+  # 1. Only one pod needs to write the model cache
+  # 2. AWS EBS (gp3-csi) only supports RWO
+  # Note: For RWO, pod must be scheduled on the same node as the PVC
+  accessMode: ReadWriteOnce
+  # Storage class (leave empty for default)
+  storageClassName: ""
+
+# Additional volumes on the output Deployment definition.
+# Model cache volume is added automatically if persistence.enabled is true
+volumes: []
+# - name: foo
+#   secret:
+#     secretName: mysecret
+#     optional: false
+
+# Additional volumeMounts on the output Deployment definition.
+# Model cache volumeMount is added automatically if persistence.enabled is true
+volumeMounts: []
+# - name: foo
+#   mountPath: "/etc/foo"
+#   readOnly: true
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+

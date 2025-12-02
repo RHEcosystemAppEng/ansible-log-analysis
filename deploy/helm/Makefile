@@ -9,10 +9,9 @@ NAMESPACE ?= $(shell oc project -q 2>/dev/null || echo "default")
 OPENAI_API_ENDPOINT ?= https://llama-4-scout-17b-16e-w4a16-maas-apicast-production.apps.prod.rhoai.rh-aiservices-bu.com:443/v1
 OPENAI_MODEL ?= llama-4-scout-17b-16e-w4a16
 OPENAI_TEMPERATURE ?= 0.7
-# For RAG Embedding API
-# EMBEDDINGS_LLM_API_KEY = 
-EMBEDDINGS_LLM_URL ?= https://nomic-embed-text-v1-5-maas-apicast-production.apps.prod.rhoai.rh-aiservices-bu.com:443/v1
-EMBEDDINGS_LLM_MODEL_NAME ?= /mnt/models
+# For RAG Embedding API (TEI - text-embeddings-inference)
+EMBEDDINGS_LLM_URL ?= http://alm-embedding:8080
+EMBEDDINGS_LLM_MODEL_NAME ?= nomic-ai/nomic-embed-text-v1.5
 ANSIBLE_LOG_MONITOR_CHART := ansible-log-monitor
 
 # Parameter validation functions
@@ -77,23 +76,10 @@ define prompt_openai_credentials
 	echo "   RAG Embedding API Configuration"; \
 	echo "============================================"; \
 	echo ""; \
-	echo "Configure MAAS embedding API for RAG (Retrieval Augmented Generation)"; \
+	echo "Configure TEI embedding service for RAG (Retrieval Augmented Generation)"; \
 	echo ""; \
-	if [ -z "$$EMBEDDINGS_LLM_API_KEY" ]; then \
-		echo -n "Enter MaaS EMBEDDING API KEY [press Enter to use same as LLM]: "; \
-		read -s EMBEDDINGS_API_KEY_INPUT; \
-		echo ""; \
-		if [ -z "$$EMBEDDINGS_API_KEY_INPUT" ]; then \
-			export EMBEDDINGS_LLM_API_KEY=$$OPENAI_API_TOKEN; \
-			echo "Using same token as LLM"; \
-		else \
-			export EMBEDDINGS_LLM_API_KEY=$$EMBEDDINGS_API_KEY_INPUT; \
-		fi; \
-	else \
-		echo "Using provided EMBEDDINGS_LLM_API_KEY"; \
-	fi; \
 	if [ -z "$$EMBEDDINGS_LLM_URL" ]; then \
-		echo -n "Enter MaaS EMBEDDING API ENDPOINT (include /v1 suffix) [default: $(EMBEDDINGS_LLM_URL)]: "; \
+		echo -n "Enter TEI EMBEDDING SERVICE URL [default: $(EMBEDDINGS_LLM_URL)]: "; \
 		read EMBEDDINGS_URL_INPUT; \
 		if [ -z "$$EMBEDDINGS_URL_INPUT" ]; then \
 			export EMBEDDINGS_LLM_URL="$(EMBEDDINGS_LLM_URL)"; \
@@ -121,7 +107,6 @@ define prompt_openai_credentials
 		--from-literal=OPENAI_API_ENDPOINT=$$OPENAI_API_ENDPOINT \
 		--from-literal=OPENAI_MODEL=$$OPENAI_MODEL \
 		--from-literal=OPENAI_TEMPERATURE=$$OPENAI_TEMPERATURE \
-		--from-literal=EMBEDDINGS_LLM_API_KEY=$$EMBEDDINGS_LLM_API_KEY \
 		--from-literal=EMBEDDINGS_LLM_URL=$$EMBEDDINGS_LLM_URL \
 		--from-literal=EMBEDDINGS_LLM_MODEL_NAME=$$EMBEDDINGS_LLM_MODEL_NAME \
 		-n "$$NAMESPACE_VAR" --dry-run=client -o yaml | oc apply -f -; \

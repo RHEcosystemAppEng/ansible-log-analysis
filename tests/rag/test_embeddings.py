@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-Quick test script to verify Nomic embeddings work correctly.
-Requires MAAS (API-based) configuration via environment variables or .env file.
+Quick test script to verify TEI embeddings work correctly.
+Requires TEI (text-embeddings-inference) configuration via environment variables or .env file.
 """
 
 # Load .env file if it exists
@@ -20,15 +20,14 @@ import numpy as np  # noqa: E402
 
 
 def test_nomic_embeddings():
-    print("Testing Nomic-Embed-Text-v1.5...")
+    print("Testing Nomic-Embed-Text-v1.5 via TEI...")
     print("=" * 60)
 
-    # Get MAAS API configuration (required)
+    # Get TEI configuration (required)
     api_url = config.embeddings.api_url
-    api_key = config.embeddings.api_key
     model_name = config.embeddings.model_name
 
-    print("\n✓ Using MAAS API mode")
+    print("\n✓ Using TEI (text-embeddings-inference) mode")
     print(f"  API URL: {api_url}")
     print(f"  Model: {model_name}")
 
@@ -38,7 +37,6 @@ def test_nomic_embeddings():
         client = EmbeddingClient(
             model_name=model_name,
             api_url=api_url,
-            api_key=api_key,
         )
         print(f"✓ Client initialized: {client.embedding_dim}-dimensional embeddings")
         print("  Mode: API")

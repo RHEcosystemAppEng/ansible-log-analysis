@@ -228,10 +228,13 @@ rag:
   # Embedding model configuration
   # NOTE: API credentials (apiKey, apiUrl, modelName) are provided during 'make install'
   # and stored in the 'model-secret' Kubernetes secret
+  # If apiUrl is empty, it defaults to the internal embedding service (TEI)
   embedding:
     # These are defaults that can be overridden during installation
     modelName: "nomic-ai/nomic-embed-text-v1.5"
-    apiUrl: ""  # Will be set from EMBEDDINGS_LLM_URL in model-secret
+    # Default to internal embedding service (TEI)
+    # Can be overridden by model-secret during installation
+    apiUrl: "http://alm-embedding:8080"  # Points to text-embeddings-inference service
   
   # Data paths
   dataDir: "/app/data/rag"

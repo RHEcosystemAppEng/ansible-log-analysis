@@ -59,6 +59,19 @@ spec:
                 sleep 3
               done
               echo "Phoenix service is ready!"
+        - name: wait-for-embedding
+          image: curlimages/curl:latest
+          command:
+            - sh
+            - -c
+            - |
+              echo "Waiting for embedding service to be ready..."
+              EMBEDDING_URL="http://alm-embedding:8080/health"
+              until curl -f -s "$EMBEDDING_URL" > /dev/null; do
+                echo "Still waiting for embedding service at $EMBEDDING_URL..."
+                sleep 5
+              done
+              echo "Embedding service is ready!"
       containers:
         - name: init-pipeline
           {{- with .Values.securityContext }}

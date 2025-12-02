@@ -3,7 +3,7 @@
 
 """
 Interactive testing tool for the query pipeline.
-Requires MAAS (API-based) configuration via environment variables.
+Requires TEI (text-embeddings-inference) configuration via environment variables.
 
 Usage (from project root):
     # Interactive mode
@@ -15,8 +15,8 @@ Usage (from project root):
     # Batch mode with custom queries file
     python tests/rag/test_queries.py /path/to/queries.txt
 
-Note: Configure EMBEDDINGS_LLM_URL, EMBEDDINGS_LLM_API_KEY, and EMBEDDINGS_LLM_MODEL_NAME
-      as environment variables or in .env file. These are required - see .env.example for reference.
+Note: Configure EMBEDDINGS_LLM_URL and EMBEDDINGS_LLM_MODEL_NAME as environment variables
+      or in .env file. See .env.example for reference.
 """
 
 import sys
@@ -44,7 +44,9 @@ def interactive_mode():
     print("=" * 70)
 
     # Show configuration mode
-    print(f"\n✓ Using MAAS API mode: {config.embeddings.api_url}")
+    print(
+        f"\n✓ Using TEI (text-embeddings-inference) mode: {config.embeddings.api_url}"
+    )
     print(f"  Model: {config.embeddings.model_name}")
 
     print("\nInitializing...")
@@ -118,7 +120,9 @@ def batch_mode(queries_file: str):
     print("=" * 70)
 
     # Show configuration mode
-    print(f"\n✓ Using MAAS API mode: {config.embeddings.api_url}")
+    print(
+        f"\n✓ Using TEI (text-embeddings-inference) mode: {config.embeddings.api_url}"
+    )
     print(f"  Model: {config.embeddings.model_name}")
 
     # Load queries from file
