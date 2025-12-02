@@ -1,0 +1,1423 @@
+Vault password (gpte_vault_0): 
+[WARNING]: Found variable using reserved name: remote_user
+
+PLAY [Step 0000 Set Action] ****************************************************
+
+TASK [Set ACTION to provision] *************************************************
+Monday 04 August 2025  05:05:14 +0000 (0:00:00.012)       0:00:00.012 ********* 
+skipping: [localhost]
+
+PLAY [Step 0000 Setup runtime] *************************************************
+
+TASK [debug] *******************************************************************
+Monday 04 August 2025  05:05:14 +0000 (0:00:00.028)       0:00:00.040 ********* 
+skipping: [localhost]
+
+TASK [Ensure cloud provider is supported] **************************************
+Monday 04 August 2025  05:05:14 +0000 (0:00:00.014)       0:00:00.055 ********* 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+PLAY [Step 0000 Setup Output Directory] ****************************************
+
+TASK [Set output_dir if not defined] *******************************************
+Monday 04 August 2025  05:05:14 +0000 (0:00:00.026)       0:00:00.081 ********* 
+skipping: [localhost]
+
+TASK [Create output_dir if it does not exists] *********************************
+Monday 04 August 2025  05:05:14 +0000 (0:00:00.014)       0:00:00.096 ********* 
+changed: [localhost]
+
+TASK [Attempt to restore output_dir contents] **********************************
+Monday 04 August 2025  05:05:14 +0000 (0:00:00.261)       0:00:00.358 ********* 
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from s3 bucket] ********
+Monday 04 August 2025  05:05:14 +0000 (0:00:00.021)       0:00:00.379 ********* 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/restore-from-s3.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Monday 04 August 2025  05:05:14 +0000 (0:00:00.035)       0:00:00.414 ********* 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/fetch-from-s3-s3_object.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Monday 04 August 2025  05:05:14 +0000 (0:00:00.026)       0:00:00.440 ********* 
+ok: [localhost]
+
+TASK [agnosticd_restore_output_dir : Decrypt archive] **************************
+Monday 04 August 2025  05:05:15 +0000 (0:00:00.865)       0:00:01.306 ********* 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from archive] **********
+Monday 04 August 2025  05:05:15 +0000 (0:00:00.017)       0:00:01.324 ********* 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove archive file from output_dir] ******
+Monday 04 August 2025  05:05:15 +0000 (0:00:00.015)       0:00:01.339 ********* 
+ok: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove encrypted archive file from output_dir] ***
+Monday 04 August 2025  05:05:16 +0000 (0:00:00.181)       0:00:01.521 ********* 
+ok: [localhost]
+
+TASK [Touch file provision-user-data.yaml and provision-user-info.yaml] ********
+Monday 04 August 2025  05:05:16 +0000 (0:00:00.157)       0:00:01.678 ********* 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create empty user-info.yaml and user-data.yaml in output dir] ************
+Monday 04 August 2025  05:05:16 +0000 (0:00:00.330)       0:00:02.009 ********* 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create symlink user-data.yaml -> provision-user-data.yaml] ***************
+Monday 04 August 2025  05:05:17 +0000 (0:00:00.735)       0:00:02.745 ********* 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Monday 04 August 2025  05:05:17 +0000 (0:00:00.321)       0:00:03.066 ********* 
+ok: [localhost]
+
+TASK [Include variables files] *************************************************
+Monday 04 August 2025  05:05:17 +0000 (0:00:00.020)       0:00:03.086 ********* 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars.yml)
+ok: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars_openshift_cnv.yaml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars_openshift_cnv.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_secret_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Monday 04 August 2025  05:05:17 +0000 (0:00:00.060)       0:00:03.147 ********* 
+skipping: [localhost]
+
+TASK [Set passthrough user data] ***********************************************
+Monday 04 August 2025  05:05:17 +0000 (0:00:00.015)       0:00:03.163 ********* 
+skipping: [localhost]
+
+PLAY [Step 0000 Install Galaxy roles and collections] **************************
+
+TASK [Use requirements_content] ************************************************
+Monday 04 August 2025  05:05:17 +0000 (0:00:00.029)       0:00:03.192 ********* 
+skipping: [localhost]
+
+TASK [Copy requirements content to output_dir] *********************************
+Monday 04 August 2025  05:05:17 +0000 (0:00:00.016)       0:00:03.209 ********* 
+skipping: [localhost]
+
+TASK [Use requirements_path from the config] ***********************************
+Monday 04 August 2025  05:05:17 +0000 (0:00:00.017)       0:00:03.226 ********* 
+ok: [localhost]
+
+TASK [Check if requirements.yml exists] ****************************************
+Monday 04 August 2025  05:05:17 +0000 (0:00:00.018)       0:00:03.244 ********* 
+ok: [localhost]
+
+TASK [set_fact] ****************************************************************
+Monday 04 August 2025  05:05:17 +0000 (0:00:00.151)       0:00:03.396 ********* 
+ok: [localhost]
+
+TASK [Install roles from requirements.yml] *************************************
+Monday 04 August 2025  05:05:17 +0000 (0:00:00.016)       0:00:03.412 ********* 
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (Not EE)] **********************
+Monday 04 August 2025  05:05:18 +0000 (0:00:00.592)       0:00:04.005 ********* 
+skipping: [localhost]
+
+TASK [Get installed collections (EE)] ******************************************
+Monday 04 August 2025  05:05:18 +0000 (0:00:00.022)       0:00:04.028 ********* 
+included: /runner/project/ansible/install_collections_ee.yml for localhost
+
+TASK [Get the list of installed collections (EE)] ******************************
+Monday 04 August 2025  05:05:18 +0000 (0:00:00.025)       0:00:04.054 ********* 
+changed: [localhost]
+
+TASK [Create temporary file for requirements.yml (EE)] *************************
+Monday 04 August 2025  05:05:19 +0000 (0:00:00.503)       0:00:04.557 ********* 
+changed: [localhost]
+
+TASK [Rewrite requirements, filter out installed collections (EE)] *************
+Monday 04 August 2025  05:05:19 +0000 (0:00:00.257)       0:00:04.815 ********* 
+[WARNING]: skipping installation of amazon.aws==4.0.0 ; amazon.aws==7.6.0
+already installed in EE
+[WARNING]: skipping installation of community.general==4.8.1 ;
+community.general==8.6.0 already installed in EE
+[WARNING]: skipping installation of containers.podman==1.10.1 ;
+containers.podman==1.13.0 already installed in EE
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (EE)] **************************
+Monday 04 August 2025  05:05:19 +0000 (0:00:00.291)       0:00:05.106 ********* 
+changed: [localhost]
+
+TASK [Cleanup tempfile (EE)] ***************************************************
+Monday 04 August 2025  05:05:20 +0000 (0:00:00.472)       0:00:05.579 ********* 
+changed: [localhost]
+
+TASK [Install dynamic sources] *************************************************
+Monday 04 August 2025  05:05:20 +0000 (0:00:00.157)       0:00:05.736 ********* 
+
+TASK [agnosticd_dynamic : Create dynamic-cache and dynamic-roles directories] ***
+Monday 04 August 2025  05:05:20 +0000 (0:00:00.022)       0:00:05.759 ********* 
+changed: [localhost] => (item=/runner/project/ansible/dynamic-cache)
+changed: [localhost] => (item=/runner/project/ansible/dynamic-roles)
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to dynamic roles dir] ***
+Monday 04 August 2025  05:05:20 +0000 (0:00:00.324)       0:00:06.084 ********* 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to cache] *************
+Monday 04 August 2025  05:05:20 +0000 (0:00:00.016)       0:00:06.100 ********* 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install git sources] *********************************
+Monday 04 August 2025  05:05:20 +0000 (0:00:00.014)       0:00:06.115 ********* 
+skipping: [localhost]
+
+PLAY [Step 000 Pre Infrastructure] *********************************************
+
+TASK [Step 000 Pre Infrastructure] *********************************************
+Monday 04 August 2025  05:05:20 +0000 (0:00:00.024)       0:00:06.139 ********* 
+ok: [localhost] => {
+    "msg": "Step 000 Pre Infrastructure"
+}
+
+PLAY [Step 000 Pre Infrastructure Validation] **********************************
+
+TASK [Step 000 Pre Infrastructure Validation] **********************************
+Monday 04 August 2025  05:05:20 +0000 (0:00:00.024)       0:00:06.164 ********* 
+skipping: [localhost]
+[WARNING]: Could not match supplied host pattern, ignoring: isolated
+
+PLAY [Install Pre Infra workloads for all nodes omit localhost] ****************
+skipping: no hosts matched
+
+PLAY [Install Pre Infra workloads on localhost] ********************************
+
+TASK [Deploying Pre Infra workloads  on localhost] *****************************
+Monday 04 August 2025  05:05:20 +0000 (0:00:00.031)       0:00:06.196 ********* 
+skipping: [localhost]
+[WARNING]: Could not match supplied host pattern, ignoring: windows
+
+PLAY [Install Pre Infra workloads on  all hosts] *******************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: bastions
+
+PLAY [Install Pre Infra workloads on bastion] **********************************
+skipping: no hosts matched
+
+PLAY [Install Pre Infra workloads for windows] *********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: gitlab
+
+PLAY [Install Pre Infra workloads for gitlab] **********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: nodes
+
+PLAY [Install Pre Infra workloads for nodes] ***********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: centos_nodes
+
+PLAY [Install Pre Infra workloads for centos nodes] ****************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: satellites
+
+PLAY [Install Pre Infra workloads for Satellites] ******************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: capsules
+
+PLAY [Install Pre Infra workloads for Satellite Capsules] **********************
+skipping: no hosts matched
+
+PLAY [Step 001.1 Deploy Infrastructure] ****************************************
+
+TASK [Create ssh provision key] ************************************************
+Monday 04 August 2025  05:05:20 +0000 (0:00:00.053)       0:00:06.250 ********* 
+
+TASK [create_ssh_provision_key : include_tasks] ********************************
+Monday 04 August 2025  05:05:20 +0000 (0:00:00.175)       0:00:06.425 ********* 
+included: /runner/project/ansible/roles-infra/create_ssh_provision_key/tasks/checks.yaml for localhost
+
+TASK [create_ssh_provision_key : Ensure key_name is not defined] ***************
+Monday 04 August 2025  05:05:20 +0000 (0:00:00.015)       0:00:06.441 ********* 
+skipping: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH keys] ****************************
+Monday 04 August 2025  05:05:20 +0000 (0:00:00.019)       0:00:06.461 ********* 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Fix permission of ssh key] ********************
+Monday 04 August 2025  05:05:21 +0000 (0:00:00.452)       0:00:06.914 ********* 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH pub key content] *****************
+Monday 04 August 2025  05:05:21 +0000 (0:00:00.162)       0:00:07.076 ********* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Save all facts for SSH] ***********************
+Monday 04 August 2025  05:05:21 +0000 (0:00:00.171)       0:00:07.248 ********* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Write SSH pub key] ****************************
+Monday 04 August 2025  05:05:21 +0000 (0:00:00.018)       0:00:07.266 ********* 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Report user info for SSH provision key as user data] ***
+Monday 04 August 2025  05:05:22 +0000 (0:00:00.289)       0:00:07.556 ********* 
+skipping: [localhost]
+
+TASK [include_role : agnosticd_save_output_dir] ********************************
+Monday 04 August 2025  05:05:22 +0000 (0:00:00.013)       0:00:07.570 ********* 
+
+TASK [agnosticd_save_output_dir : Save output dir if archive file is defined] ***
+Monday 04 August 2025  05:05:22 +0000 (0:00:00.027)       0:00:07.597 ********* 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/save-output-dir.yml for localhost
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Monday 04 August 2025  05:05:22 +0000 (0:00:00.023)       0:00:07.621 ********* 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/create-output-dir-archive.yml for localhost
+
+TASK [agnosticd_save_output_dir : Create tempfile for archive] *****************
+Monday 04 August 2025  05:05:22 +0000 (0:00:00.021)       0:00:07.642 ********* 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Set agnosticd_save_output_dir_archive_tempfile] ***
+Monday 04 August 2025  05:05:22 +0000 (0:00:00.171)       0:00:07.814 ********* 
+ok: [localhost]
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Monday 04 August 2025  05:05:22 +0000 (0:00:00.017)       0:00:07.832 ********* 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Encrypt tarball using password] **************
+Monday 04 August 2025  05:05:22 +0000 (0:00:00.168)       0:00:08.001 ********* 
+skipping: [localhost]
+
+TASK [agnosticd_save_output_dir : Upload output_dir archive to S3] *************
+Monday 04 August 2025  05:05:22 +0000 (0:00:00.020)       0:00:08.021 ********* 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3.yml for localhost
+
+TASK [Run infra-cloud-tags role] ***********************************************
+Monday 04 August 2025  05:05:22 +0000 (0:00:00.028)       0:00:08.050 ********* 
+
+TASK [infra-cloud-tags : Set cloud_tags_final (string)] ************************
+Monday 04 August 2025  05:05:22 +0000 (0:00:00.029)       0:00:08.080 ********* 
+skipping: [localhost]
+
+TASK [infra-cloud-tags : Set cloud_tags_final (dictionary)] ********************
+Monday 04 August 2025  05:05:22 +0000 (0:00:00.018)       0:00:08.098 ********* 
+ok: [localhost]
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Monday 04 August 2025  05:05:22 +0000 (0:00:00.031)       0:00:08.129 ********* 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3-s3_object.yml for localhost
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Monday 04 August 2025  05:05:22 +0000 (0:00:00.030)       0:00:08.160 ********* 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir archive tempfile] **********
+Monday 04 August 2025  05:05:23 +0000 (0:00:00.826)       0:00:08.986 ********* 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir encrypted archive tempfile] ***
+Monday 04 August 2025  05:05:23 +0000 (0:00:00.160)       0:00:09.147 ********* 
+skipping: [localhost]
+
+TASK [agnosticd_save_output_dir : Save output dir if archive file is defined] ***
+Monday 04 August 2025  05:05:23 +0000 (0:00:00.018)       0:00:09.166 ********* 
+skipping: [localhost]
+
+TASK [Run infra-openshift-cnv-resources Role] **********************************
+Monday 04 August 2025  05:05:23 +0000 (0:00:00.019)       0:00:09.185 ********* 
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.include_tasks] ***********
+Monday 04 August 2025  05:05:23 +0000 (0:00:00.028)       0:00:09.214 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.include_tasks] ***********
+Monday 04 August 2025  05:05:23 +0000 (0:00:00.019)       0:00:09.233 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.include_tasks] ***********
+Monday 04 August 2025  05:05:23 +0000 (0:00:00.021)       0:00:09.255 ********* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_networks.yaml for localhost
+
+TASK [infra-openshift-cnv-resources : Create Networks] *************************
+Monday 04 August 2025  05:05:23 +0000 (0:00:00.020)       0:00:09.275 ********* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_network.yaml for localhost => (item={'name': 'default'})
+
+TASK [infra-openshift-cnv-resources : Create network default] ******************
+Monday 04 August 2025  05:05:23 +0000 (0:00:00.153)       0:00:09.428 ********* 
+changed: [localhost]
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.include_tasks] ***********
+Monday 04 August 2025  05:05:24 +0000 (0:00:00.984)       0:00:10.412 ********* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_containers.yaml for localhost
+
+TASK [ansible.builtin.include_role : infra-cloud-tags] *************************
+Monday 04 August 2025  05:05:24 +0000 (0:00:00.019)       0:00:10.431 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : set_fact] ********************************
+Monday 04 August 2025  05:05:24 +0000 (0:00:00.016)       0:00:10.448 ********* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create Containers] ***********************
+Monday 04 August 2025  05:05:24 +0000 (0:00:00.021)       0:00:10.469 ********* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_container.yaml for localhost => (item={'name': 'gitea', 'image': 'quay.io/agonzalezrh/gitea:1.16.8-rootless', 'ports': [{'name': 'gitea', 'containerPort': 3000, 'protocol': 'TCP'}], 'terminals': [{'name': 'terminal-gitea', 'command': 'oc rsh gitea'}], 'environment': {'GITEA__DEFAULT__RUN_MODE': 'dev', 'GITEA__database__DB_TYPE': 'sqlite3', 'GITEA__database__PATH': '/data/gitea/gitea.db', 'GITEA__picture__DISABLE_GRAVATAR': 'true', 'GITEA__repository__DEFAULT_PRIVATE': 'false', 'GITEA__repository__DEFAULT_PUSH_CREATE_PRIVATE': 'false', 'GITEA__repository__ENABLE_PUSH_CREATE_ORG': 'true', 'GITEA__repository__ENABLE_PUSH_CREATE_USER': 'true', 'GITEA__repository__ONLY_ALLOW_PUSH_IF_GITEA_ENVIRONMENT_SET': 'false', 'GITEA__security__INSTALL_LOCK': 'true', 'GITEA__server__SSH_DOMAIN': 'http://gitea', 'GITEA__service__DISABLE_REGISTRATION': 'true', 'GITEA__service__REQUIRE_SIGNIN_VIEW': 'false', 'GITEA__webhook__ALLOWED_HOST_LIST': '*'}, 'volumeMounts': [{'name': 'gitea-varlib', 'mountPath': '/var/lib/gitea/'}, {'name': 'gitea-data', 'mountPath': '/data/'}, {'name': 'gitea-etc', 'mountPath': '/etc/gitea'}], 'volumes': [{'name': 'gitea-data', 'emptyDir': {}}, {'name': 'gitea-etc', 'emptyDir': {}}, {'name': 'gitea-varlib', 'emptyDir': {}}], 'commands': ['gitea admin user create --admin --username gitea --password gitea --email dummy@dummy.com --must-change-password=false', 'curl -X POST -H "accept: application/json" -H "Content-Type: application/json" -u user  -d \\'{"username": "student", "full_name": "student", "description": "student"}\\' http://localhost:3000/api/v1/orgs\\n', 'curl -X POST -H "accept: application/json" -H "Content-Type: application/json" -u user -d \\'{"clone_addr": "https://github.com/ansible-tmm/aap25-roadshow", "repo_name": "aap25-roadshow-content", "owner": "student", "uid": 2, "private": false}\\' http://localhost:3000/api/v1/repos/migrate\\n'], 'memory': '2Gi', 'services': [{'name': 'gitea', 'ports': [{'port': 3000, 'protocol': 'TCP', 'targetPort': 3000, 'name': 'gitea'}]}], 'routes': [{'name': 'gitea', 'host': 'gitea', 'service': 'gitea', 'targetPort': 3000, 'tls': True, 'tls_termination': 'Edge'}]})
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_container.yaml for localhost => (item={'name': 'broker', 'image': 'confluentinc/cp-kafka:7.0.1', 'ports': [{'name': 'broker', 'containerPort': 9092, 'protocol': 'TCP'}], 'environment': {'KAFKA_LISTENER_SECURITY_PROTOCOL_MAP': 'PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT', 'KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR': '1', 'KAFKA_TRANSACTION_STATE_LOG_MIN_ISR': '1', 'KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR': '1', 'KAFKA_ZOOKEEPER_CONNECT': 'zookeeper:2181', 'KAFKA_ADVERTISED_LISTENERS': 'PLAINTEXT://broker:9092,PLAINTEXT_INTERNAL://broker:29092', 'KAFKA_BROKER_ID': '1'}, 'volumeMounts': [{'name': 'kafka-varlog', 'mountPath': '/var/log/kafka/'}], 'volumes': [{'name': 'kafka-varlog', 'emptyDir': {}}], 'memory': '4Gi', 'services': [{'name': 'broker', 'ports': [{'port': 9092, 'protocol': 'TCP', 'targetPort': 9092, 'name': 'broker'}]}]})
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_container.yaml for localhost => (item={'name': 'zookeeper', 'image': 'confluentinc/cp-zookeeper:7.0.1', 'ports': [{'name': 'zookeeper', 'containerPort': 2181, 'protocol': 'TCP'}], 'environment': {'ZOOKEEPER_TICK_TIME': '2000', 'ZOOKEEPER_CLIENT_PORT': '2181'}, 'volumeMounts': [{'name': 'kafka-varlog', 'mountPath': '/var/log/kafka/'}], 'volumes': [{'name': 'kafka-varlog', 'emptyDir': {}}], 'memory': '4Gi', 'services': [{'name': 'zookeeper', 'ports': [{'port': 2181, 'protocol': 'TCP', 'targetPort': 2181, 'name': 'zookeeper'}]}]})
+
+TASK [infra-openshift-cnv-resources : Create Container "gitea"] ****************
+Monday 04 August 2025  05:05:25 +0000 (0:00:00.128)       0:00:10.598 ********* 
+changed: [localhost]
+
+TASK [infra-openshift-cnv-resources : wait till container is running] **********
+Monday 04 August 2025  05:05:25 +0000 (0:00:00.712)       0:00:11.310 ********* 
+FAILED - RETRYING: [localhost]: wait till container is running (30 retries left).
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Run command(s) inside the recently created container] ***
+Monday 04 August 2025  05:05:37 +0000 (0:00:11.756)       0:00:23.066 ********* 
+changed: [localhost] => (item=gitea admin user create --admin --username gitea --password gitea --email dummy@dummy.com --must-change-password=false)
+changed: [localhost] => (item=curl -X POST -H "accept: application/json" -H "Content-Type: application/json" -u [REDACTED_REPLACED]  -d '{"username": "student", "full_name": "student", "description": "student"}' http://localhost:3000/api/v1/orgs
+)
+changed: [localhost] => (item=curl -X POST -H "accept: application/json" -H "Content-Type: application/json" -u [REDACTED_REPLACED] -d '{"clone_addr": "https://github.com/ansible-tmm/aap25-roadshow", "repo_name": "aap25-roadshow-content", "owner": "student", "uid": 2, "private": false}' http://localhost:3000/api/v1/repos/migrate
+)
+[DEPRECATION WARNING]: The 'return_code' return key is being renamed to 'rc'. 
+Both keys are being returned for now to allow users to migrate their 
+automation. This feature will be removed from kubernetes.core in version 4.0.0.
+ Deprecation warnings can be disabled by setting deprecation_warnings=False in 
+ansible.cfg.
+
+TASK [infra-openshift-cnv-resources : Create services for the container] *******
+Monday 04 August 2025  05:05:42 +0000 (0:00:04.676)       0:00:27.743 ********* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_services_container.yaml for localhost
+
+TASK [infra-openshift-cnv-resources : Create services for the containers] ******
+Monday 04 August 2025  05:05:42 +0000 (0:00:00.023)       0:00:27.767 ********* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_service_container.yaml for localhost => (item={'name': 'gitea', 'ports': [{'port': 3000, 'protocol': 'TCP', 'targetPort': 3000, 'name': 'gitea'}]})
+
+TASK [infra-openshift-cnv-resources : Create services for container "gitea"] ***
+Monday 04 August 2025  05:05:42 +0000 (0:00:00.027)       0:00:27.794 ********* 
+changed: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create routes for the container] *********
+Monday 04 August 2025  05:05:42 +0000 (0:00:00.661)       0:00:28.455 ********* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_routes_container.yaml for localhost
+
+TASK [infra-openshift-cnv-resources : Create routes with tls] ******************
+Monday 04 August 2025  05:05:42 +0000 (0:00:00.022)       0:00:28.478 ********* 
+[WARNING]: conditional statements should not include jinja2 templating
+delimiters such as {{ }} or {% %}. Found: {{ route.tls|default(False) == True}}
+changed: [localhost] => (item={'name': 'gitea', 'host': 'gitea', 'service': 'gitea', 'targetPort': 3000, 'tls': True, 'tls_termination': 'Edge'})
+
+TASK [infra-openshift-cnv-resources : Create routes without tls] ***************
+Monday 04 August 2025  05:05:43 +0000 (0:00:00.719)       0:00:29.197 ********* 
+[WARNING]: conditional statements should not include jinja2 templating
+delimiters such as {{ }} or {% %}. Found: {{ route.tls|default(false) == false
+}}
+skipping: [localhost] => (item={'name': 'gitea', 'host': 'gitea', 'service': 'gitea', 'targetPort': 3000, 'tls': True, 'tls_termination': 'Edge'}) 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create Container "broker"] ***************
+Monday 04 August 2025  05:05:43 +0000 (0:00:00.021)       0:00:29.219 ********* 
+changed: [localhost]
+
+TASK [infra-openshift-cnv-resources : wait till container is running] **********
+Monday 04 August 2025  05:05:44 +0000 (0:00:00.662)       0:00:29.882 ********* 
+FAILED - RETRYING: [localhost]: wait till container is running (30 retries left).
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Run command(s) inside the recently created container] ***
+Monday 04 August 2025  05:05:55 +0000 (0:00:11.595)       0:00:41.477 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create services for the container] *******
+Monday 04 August 2025  05:05:55 +0000 (0:00:00.014)       0:00:41.492 ********* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_services_container.yaml for localhost
+
+TASK [infra-openshift-cnv-resources : Create services for the containers] ******
+Monday 04 August 2025  05:05:55 +0000 (0:00:00.018)       0:00:41.510 ********* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_service_container.yaml for localhost => (item={'name': 'broker', 'ports': [{'port': 9092, 'protocol': 'TCP', 'targetPort': 9092, 'name': 'broker'}]})
+
+TASK [infra-openshift-cnv-resources : Create services for container "broker"] ***
+Monday 04 August 2025  05:05:56 +0000 (0:00:00.025)       0:00:41.535 ********* 
+changed: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create routes for the container] *********
+Monday 04 August 2025  05:05:56 +0000 (0:00:00.645)       0:00:42.181 ********* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_routes_container.yaml for localhost
+
+TASK [infra-openshift-cnv-resources : Create routes with tls] ******************
+Monday 04 August 2025  05:05:56 +0000 (0:00:00.029)       0:00:42.210 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create routes without tls] ***************
+Monday 04 August 2025  05:05:56 +0000 (0:00:00.017)       0:00:42.228 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create Container "zookeeper"] ************
+Monday 04 August 2025  05:05:56 +0000 (0:00:00.016)       0:00:42.244 ********* 
+changed: [localhost]
+
+TASK [infra-openshift-cnv-resources : wait till container is running] **********
+Monday 04 August 2025  05:05:57 +0000 (0:00:00.667)       0:00:42.912 ********* 
+FAILED - RETRYING: [localhost]: wait till container is running (30 retries left).
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Run command(s) inside the recently created container] ***
+Monday 04 August 2025  05:06:09 +0000 (0:00:11.631)       0:00:54.543 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create services for the container] *******
+Monday 04 August 2025  05:06:09 +0000 (0:00:00.015)       0:00:54.558 ********* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_services_container.yaml for localhost
+
+TASK [infra-openshift-cnv-resources : Create services for the containers] ******
+Monday 04 August 2025  05:06:09 +0000 (0:00:00.021)       0:00:54.580 ********* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_service_container.yaml for localhost => (item={'name': 'zookeeper', 'ports': [{'port': 2181, 'protocol': 'TCP', 'targetPort': 2181, 'name': 'zookeeper'}]})
+
+TASK [infra-openshift-cnv-resources : Create services for container "zookeeper"] ***
+Monday 04 August 2025  05:06:09 +0000 (0:00:00.025)       0:00:54.605 ********* 
+changed: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create routes for the container] *********
+Monday 04 August 2025  05:06:09 +0000 (0:00:00.707)       0:00:55.313 ********* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_routes_container.yaml for localhost
+
+TASK [infra-openshift-cnv-resources : Create routes with tls] ******************
+Monday 04 August 2025  05:06:09 +0000 (0:00:00.022)       0:00:55.335 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create routes without tls] ***************
+Monday 04 August 2025  05:06:09 +0000 (0:00:00.013)       0:00:55.349 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.include_tasks] ***********
+Monday 04 August 2025  05:06:09 +0000 (0:00:00.013)       0:00:55.362 ********* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_instances.yaml for localhost
+
+TASK [ansible.builtin.include_role : infra-cloud-tags] *************************
+Monday 04 August 2025  05:06:09 +0000 (0:00:00.021)       0:00:55.384 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : set_fact] ********************************
+Monday 04 August 2025  05:06:09 +0000 (0:00:00.017)       0:00:55.401 ********* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create Instances] ************************
+Monday 04 August 2025  05:06:09 +0000 (0:00:00.018)       0:00:55.420 ********* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_instance.yaml for localhost => (item={'name': 'control', 'image': 'base-zero-aap-2.5-container-ce', 'memory': '16G', 'cores': 4, 'image_size': '30Gi', 'terminals': [{'name': 'wetty_sean', 'command': '/home/rhel/roadshow/lab-resources/hackbot.sh'}], 'tags': [{'key': 'AnsibleGroup', 'value': 'isolated'}], 'networks': ['default'], 'userdata': '#cloud-config\\nuser: rhel\\npassword: REDACTED_SECRET { expire: False }\\nruncmd:\\n  - sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/" /etc/ssh/sshd_config\\n  - systemctl reload sshd', 'services': [{'name': 'control-https', 'ports': [{'port': 443, 'protocol': 'TCP', 'targetPort': 443, 'name': 'control-https'}]}], 'routes': [{'name': 'control-https', 'host': 'control', 'service': 'control-https', 'targetPort': 443, 'tls': True, 'tls_termination': 'reencrypt', 'tls_destinationCACertificate': '-----BEGIN CERTIFICATE-----\\nMIIF1jCCA76gAwIBAgIUBQZlbUZlOmMKhspO9U4/nTJAXAEwDQYJKoZIhvcNAQEL\\nBQAwgYIxCzAJBgNVBAYTAlVTMRcwFQYDVQQIDA5Ob3J0aCBDYXJvbGluYTEQMA4G\\nA1UEBwwHUmFsZWlnaDEQMA4GA1UECgwHUmVkIEhhdDEQMA4GA1UECwwHQW5zaWJs\\nZTEkMCIGA1UEAwwbQW5zaWJsZSBBdXRvbWF0aW9uIFBsYXRmb3JtMB4XDTI1MDQy\\nMzA4MjEyOVoXDTM1MDQyMTA4MjEyOVowgYIxCzAJBgNVBAYTAlVTMRcwFQYDVQQI\\nDA5Ob3J0aCBDYXJvbGluYTEQMA4GA1UEBwwHUmFsZWlnaDEQMA4GA1UECgwHUmVk\\nIEhhdDEQMA4GA1UECwwHQW5zaWJsZTEkMCIGA1UEAwwbQW5zaWJsZSBBdXRvbWF0\\naW9uIFBsYXRmb3JtMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2Ytu\\na9MM9qr0UBvlIJPXmeSjzQXmx+CJwQAhDoR8MgOkjvWjjEdsX4VHBfQTO58d5sPr\\noNg95GRe9y9Gjt6Lh7szLk70Q766Ncq8OIBYieiVKctIV+ZZmX7+bBcyzbII/0C9\\nIli3lNd+XKfl5vmCWoYyuQncC1FZgVpHqZDP/+RCCMThdKEvugbQUmXF6pmEFF7Z\\n8PxYpxnVDX2ipOfWcjZDm6pTBd5+dzXHQVsWe25kY6QW0zEYzPJb3q0gP7oNz1uV\\nrXgYBnKQ8NdoSGtS7w9bvSw28Bf1ZFTvBKeCxWNeoJbiszqdsDd6PEwb4uE1Tr6D\\nqsLfPgvQzngQ+a7YrZ+M6GskQkfk+ZWMK8h6066p27Tzs6/9jMiCFuKwRuKWy9Qi\\nDdCSnwVIw4VB40ysoAHprxBHq4y/YJ2RDiC9EehTXsQf/uAy3M7KBBjVGlMfXxUE\\nNfjbeMdSQip04jKQGhJf8teXTymfcjlGaoCtymB+h4s3hc1T7DjfR0Q1Gd3AIL/p\\nlHOgU4TMBzeghqeDRbY4YQRSI1aF/hzTvAJzMaONs161buKOQ47O5UGGJYHHlJbf\\naI0s3Mhld1YvIFk78A4tFI9GIwzj4IzVmCv4MZHg2BXKAU6m3Y6bYNabqP6Ho4Fs\\nDZOVkMvwTGKGfRxjdp0kx6HxNmjnVDMXGM9g8cECAwEAAaNCMEAwDgYDVR0PAQH/\\nBAQDAgIEMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFFugxH0taHxJ0/d71phl\\na1Vt78fTMA0GCSqGSIb3DQEBCwUAA4ICAQApZCo7gI0xdk2TxjOcq+BdNsOvKjWL\\nADceDM78oPy0xpgKd2u9INITzIY2f4KGcepXslnlMQQvny80N1LXu9Tkn4rhoU03\\nDXb9bXSr44T3fIf4JFU2iv5Hb6Az/DiQ3o9fZnhpW0AmzR1LmZUuFBJZefFBMMKl\\ns2W9C3f3nUPzi1qrGSXszXXbIDYsRMhax/MxWR9mxITuN3T6PhW8A1LyQ8dWRCLw\\njFFcNuGjlR8w16XhRCw8uA1RzVwNWoUGvMiapboR25N0DLVCG8qf/mdEI4re8MhM\\nEYHugB/e7vRx6iV9ov7jJSB8BrBPWy/7ncebWIf8OvjM2UcUk0hciAQGD4Udbb3s\\nLGcpjZRJDrnpBdp+CJMCNNjoI0wLbmRDEVPGOSkJSmnj+8VTlQ5s+Dxvj2hh/rq7\\nAPwxbIl1YBpTx65KwhacJbXSByk8bnwEQdRo240kC5ggC6twb/vvslRortZtyfqw\\nE/xGAKc9LOIFiqk1f0IU2ssEBvSFvYjypXsGnFITamNN2lMS2k5XQIA4avwWsoO4\\nrRLV87ua9S7g31PTYCMJBGw/B3PXhXjJG/eXgLyhEoUQP/fqeGiPEBzagyo71qL5\\nfH5qke1XR5LFGpndX1GuSVBhdZq94x0aGXWTQCDNIPQ3QtrQ64PBF1vRFdJ6o/FI\\nuEOWpQhGYHMC0A==\\n-----END CERTIFICATE-----\\n'}]})
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_instance.yaml for localhost => (item={'name': 'node02', 'image': 'rhel-9.5', 'memory': '2G', 'cores': 2, 'image_size': '30Gi', 'tags': [{'key': 'AnsibleGroup', 'value': 'isolated'}], 'networks': ['default'], 'userdata': '#cloud-config\\nuser: rhel\\npassword: REDACTED_SECRET { expire: False }  \\nruncmd:\\n  - echo "PasswordAuthentication yes" > /etc/ssh/sshd_config.d/50-cloud-init.conf\\n  - systemctl reload sshd'})
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_instance.yaml for localhost => (item={'name': 'podman-host', 'image': 'rhel-8.7', 'memory': '4G', 'cores': 16, 'image_size': '30Gi', 'tags': [{'key': 'AnsibleGroup', 'value': 'isolated'}], 'networks': ['default'], 'services': [{'name': 'podman-host-http', 'ports': [{'port': 80, 'protocol': 'TCP', 'targetPort': 80, 'name': 'podman-host'}]}], 'routes': [{'name': 'podman-host-web', 'host': 'podman-host', 'service': 'podman-host-http', 'targetPort': 80, 'tls': True, 'tls_termination': 'Edge'}], 'userdata': '#cloud-config\\nuser: rhel\\npassword: REDACTED_SECRET { expire: False }\\nruncmd:\\n  - sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/" /etc/ssh/sshd_config\\n  - systemctl reload sshd'})
+
+TASK [infra-openshift-cnv-resources : Empty variable _instance_] ***************
+Monday 04 August 2025  05:06:10 +0000 (0:00:00.116)       0:00:55.537 ********* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Set the instances interfaces] ************
+Monday 04 August 2025  05:06:10 +0000 (0:00:00.023)       0:00:55.560 ********* 
+ok: [localhost] => (item=default)
+
+TASK [infra-openshift-cnv-resources : Set the instances disks] *****************
+Monday 04 August 2025  05:06:10 +0000 (0:00:00.053)       0:00:55.614 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Set cloud_config] ************************
+Monday 04 August 2025  05:06:10 +0000 (0:00:00.015)       0:00:55.629 ********* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Set cloud init disk if needed] ***********
+Monday 04 August 2025  05:06:10 +0000 (0:00:00.025)       0:00:55.655 ********* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create instance(s) "control"] ************
+Monday 04 August 2025  05:06:10 +0000 (0:00:00.024)       0:00:55.679 ********* 
+changed: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : Wait till VM is running] *****************
+Monday 04 August 2025  05:06:10 +0000 (0:00:00.722)       0:00:56.402 ********* 
+FAILED - RETRYING: [localhost]: Wait till VM is running (30 retries left).
+ok: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.set_fact] ****************
+Monday 04 August 2025  05:06:22 +0000 (0:00:11.214)       0:01:07.616 ********* 
+ok: [localhost] => (item={'changed': True, 'result': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'isolated', 'Stack': 'zero-touch-base-rhel-tch6p-1', 'env_type': 'zero-touch-base-rhel', 'guid': 'tch6p-1', 'owner': 'zero-touch-base-rhel@opentlc.com', 'uuid': '6a189a68-674a-5792-b85a-c4f71b8e3c50'}, 'creationTimestamp': '2025-08-04T05:06:10Z', 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-04T05:06:10Z'}], 'name': 'control', 'namespace': 'sandbox-tch6p-1-ocp4-cluster', 'resourceVersion': '610175672', 'uid': '2fa1efd9-c812-4be6-a2cf-f3a6431f427f'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'control-tch6p-1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '30Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'base-zero-aap-2.5-container-ce', 'namespace': 'cnv-images'}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'control'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'control-tch6p-1'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': '58111f9a-c5f0-52ae-bef7-5a11f495302d'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '16G'}, 'resources': {}}, 'hostname': 'control', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'control-tch6p-1'}, 'name': 'control-tch6p-1'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==', 'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]'}, 'name': 'cloudinitdisk'}]}}}}, 'method': 'create', 'invocation': {'module_args': {'host': 'https://api.ocpvdev01.dal13.infra.demo.redhat.com:6443', 'api_key': '[REDACTED_Secret Keyword_SECRET]', 'validate_certs': False, 'definition': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'name': 'control', 'namespace': 'sandbox-tch6p-1-ocp4-cluster', 'annotations': {'Stack': 'zero-touch-base-rhel-tch6p-1', 'owner': 'zero-touch-base-rhel@opentlc.com', 'env_type': 'zero-touch-base-rhel', 'guid': 'tch6p-1', 'uuid': '6a189a68-674a-5792-b85a-c4f71b8e3c50', 'AnsibleGroup': 'isolated'}}, 'spec': {'dataVolumeTemplates': [{'metadata': {'name': 'control-tch6p-1'}, 'spec': {'source': {'pvc': {'namespace': 'cnv-images', 'name': 'base-zero-aap-2.5-container-ce'}}, 'pvc': {'accessModes': ['ReadWriteMany'], 'volumeMode': 'Block', 'resources': {'requests': {'storage': '30Gi'}}}}}], 'running': True, 'template': {'metadata': {'labels': {'vm.cnv.io/name': 'control'}}, 'spec': {'hostname': 'control', 'subdomain': 'lab', 'domain': {'firmware': {'uuid': '58111f9a-c5f0-52ae-bef7-5a11f495302d', 'bootloader': {'bios': {}}}, 'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '16G', 'memory': {'hugepages': {'pageSize': '1Gi'}}}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'control-tch6p-1'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'name': 'default', 'model': 'virtio', 'masquerade': {}}]}}, 'networks': [{'name': 'default', 'pod': {}}], 'volumes': [{'dataVolume': {'name': 'control-tch6p-1'}, 'name': 'control-tch6p-1'}, {'name': 'cloudinitdisk', 'cloudInitNoCloud': {'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]', 'networkDataBase64': 'bmV0d29yazogMg=='}}]}}}}, 'resource_definition': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'name': 'control', 'namespace': 'sandbox-tch6p-1-ocp4-cluster', 'annotations': {'Stack': 'zero-touch-base-rhel-tch6p-1', 'owner': 'zero-touch-base-rhel@opentlc.com', 'env_type': 'zero-touch-base-rhel', 'guid': 'tch6p-1', 'uuid': '6a189a68-674a-5792-b85a-c4f71b8e3c50', 'AnsibleGroup': 'isolated'}}, 'spec': {'dataVolumeTemplates': [{'metadata': {'name': 'control-tch6p-1'}, 'spec': {'source': {'pvc': {'namespace': 'cnv-images', 'name': 'base-zero-aap-2.5-container-ce'}}, 'pvc': {'accessModes': ['ReadWriteMany'], 'volumeMode': 'Block', 'resources': {'requests': {'storage': '30Gi'}}}}}], 'running': True, 'template': {'metadata': {'labels': {'vm.cnv.io/name': 'control'}}, 'spec': {'hostname': 'control', 'subdomain': 'lab', 'domain': {'firmware': {'uuid': '58111f9a-c5f0-52ae-bef7-5a11f495302d', 'bootloader': {'bios': {}}}, 'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '16G', 'memory': {'hugepages': {'pageSize': '1Gi'}}}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'control-tch6p-1'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'name': 'default', 'model': 'virtio', 'masquerade': {}}]}}, 'networks': [{'name': 'default', 'pod': {}}], 'volumes': [{'dataVolume': {'name': 'control-tch6p-1'}, 'name': 'control-tch6p-1'}, {'name': 'cloudinitdisk', 'cloudInitNoCloud': {'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]', 'networkDataBase64': 'bmV0d29yazogMg=='}}]}}}}, 'api_version': 'v1', 'wait': False, 'wait_sleep': 5, 'wait_timeout': 120, 'append_hash': False, 'apply': False, 'continue_on_error': False, 'state': 'present', 'force': False, 'delete_all': False, 'kind': None, 'name': None, 'namespace': None, 'src': None, 'kubeconfig': None, 'context': None, 'username': None, 'password': None, 'ca_cert': None, 'client_cert': None, 'client_key': None, 'proxy': None, 'no_proxy': None, 'proxy_headers': None, 'persist_config': None, 'impersonate_user': None, 'impersonate_groups': None, 'wait_condition': None, 'merge_type': None, 'validate': None, 'template': None, 'delete_options': None, 'label_selectors': None, 'generate_name': None, 'server_side_apply': None, 'hidden_fields': None}}, 'failed': False, 'attempts': 1, 'item': 1, 'ansible_loop_var': 'item', '_index': 0, 'ansible_index_var': '_index'})
+
+TASK [infra-openshift-cnv-resources : Empty variable _instance_] ***************
+Monday 04 August 2025  05:06:22 +0000 (0:00:00.050)       0:01:07.667 ********* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Set the instances interfaces] ************
+Monday 04 August 2025  05:06:22 +0000 (0:00:00.021)       0:01:07.689 ********* 
+ok: [localhost] => (item=default)
+
+TASK [infra-openshift-cnv-resources : Set the instances disks] *****************
+Monday 04 August 2025  05:06:22 +0000 (0:00:00.041)       0:01:07.730 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Set cloud_config] ************************
+Monday 04 August 2025  05:06:22 +0000 (0:00:00.014)       0:01:07.745 ********* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Set cloud init disk if needed] ***********
+Monday 04 August 2025  05:06:22 +0000 (0:00:00.022)       0:01:07.767 ********* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create instance(s) "node02"] *************
+Monday 04 August 2025  05:06:22 +0000 (0:00:00.023)       0:01:07.790 ********* 
+changed: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : Wait till VM is running] *****************
+Monday 04 August 2025  05:06:22 +0000 (0:00:00.718)       0:01:08.509 ********* 
+FAILED - RETRYING: [localhost]: Wait till VM is running (30 retries left).
+FAILED - RETRYING: [localhost]: Wait till VM is running (29 retries left).
+FAILED - RETRYING: [localhost]: Wait till VM is running (28 retries left).
+ok: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.set_fact] ****************
+Monday 04 August 2025  05:06:55 +0000 (0:00:32.301)       0:01:40.810 ********* 
+ok: [localhost] => (item={'changed': True, 'result': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'isolated', 'Stack': 'zero-touch-base-rhel-tch6p-1', 'env_type': 'zero-touch-base-rhel', 'guid': 'tch6p-1', 'owner': 'zero-touch-base-rhel@opentlc.com', 'uuid': '6a189a68-674a-5792-b85a-c4f71b8e3c50'}, 'creationTimestamp': '2025-08-04T05:06:22Z', 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-04T05:06:22Z'}], 'name': 'node02', 'namespace': 'sandbox-tch6p-1-ocp4-cluster', 'resourceVersion': '610176123', 'uid': 'd215a11e-576f-432d-bd07-b411f5bc219f'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'node02-tch6p-1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '30Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-9.5', 'namespace': 'cnv-images'}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'node02'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 2, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'node02-tch6p-1'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': 'a94b1c01-b612-5c7c-8d2c-c29ca3860e0c'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '2G'}, 'resources': {}}, 'hostname': 'node02', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'node02-tch6p-1'}, 'name': 'node02-tch6p-1'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==', 'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]'}, 'name': 'cloudinitdisk'}]}}}}, 'method': 'create', 'invocation': {'module_args': {'host': 'https://api.ocpvdev01.dal13.infra.demo.redhat.com:6443', 'api_key': '[REDACTED_Secret Keyword_SECRET]', 'validate_certs': False, 'definition': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'name': 'node02', 'namespace': 'sandbox-tch6p-1-ocp4-cluster', 'annotations': {'Stack': 'zero-touch-base-rhel-tch6p-1', 'owner': 'zero-touch-base-rhel@opentlc.com', 'env_type': 'zero-touch-base-rhel', 'guid': 'tch6p-1', 'uuid': '6a189a68-674a-5792-b85a-c4f71b8e3c50', 'AnsibleGroup': 'isolated'}}, 'spec': {'dataVolumeTemplates': [{'metadata': {'name': 'node02-tch6p-1'}, 'spec': {'source': {'pvc': {'namespace': 'cnv-images', 'name': 'rhel-9.5'}}, 'pvc': {'accessModes': ['ReadWriteMany'], 'volumeMode': 'Block', 'resources': {'requests': {'storage': '30Gi'}}}}}], 'running': True, 'template': {'metadata': {'labels': {'vm.cnv.io/name': 'node02'}}, 'spec': {'hostname': 'node02', 'subdomain': 'lab', 'domain': {'firmware': {'uuid': 'a94b1c01-b612-5c7c-8d2c-c29ca3860e0c', 'bootloader': {'bios': {}}}, 'cpu': {'cores': 2, 'model': 'host-passthrough'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '2G', 'memory': {'hugepages': {'pageSize': '1Gi'}}}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'node02-tch6p-1'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'name': 'default', 'model': 'virtio', 'masquerade': {}}]}}, 'networks': [{'name': 'default', 'pod': {}}], 'volumes': [{'dataVolume': {'name': 'node02-tch6p-1'}, 'name': 'node02-tch6p-1'}, {'name': 'cloudinitdisk', 'cloudInitNoCloud': {'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]', 'networkDataBase64': 'bmV0d29yazogMg=='}}]}}}}, 'resource_definition': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'name': 'node02', 'namespace': 'sandbox-tch6p-1-ocp4-cluster', 'annotations': {'Stack': 'zero-touch-base-rhel-tch6p-1', 'owner': 'zero-touch-base-rhel@opentlc.com', 'env_type': 'zero-touch-base-rhel', 'guid': 'tch6p-1', 'uuid': '6a189a68-674a-5792-b85a-c4f71b8e3c50', 'AnsibleGroup': 'isolated'}}, 'spec': {'dataVolumeTemplates': [{'metadata': {'name': 'node02-tch6p-1'}, 'spec': {'source': {'pvc': {'namespace': 'cnv-images', 'name': 'rhel-9.5'}}, 'pvc': {'accessModes': ['ReadWriteMany'], 'volumeMode': 'Block', 'resources': {'requests': {'storage': '30Gi'}}}}}], 'running': True, 'template': {'metadata': {'labels': {'vm.cnv.io/name': 'node02'}}, 'spec': {'hostname': 'node02', 'subdomain': 'lab', 'domain': {'firmware': {'uuid': 'a94b1c01-b612-5c7c-8d2c-c29ca3860e0c', 'bootloader': {'bios': {}}}, 'cpu': {'cores': 2, 'model': 'host-passthrough'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '2G', 'memory': {'hugepages': {'pageSize': '1Gi'}}}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'node02-tch6p-1'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'name': 'default', 'model': 'virtio', 'masquerade': {}}]}}, 'networks': [{'name': 'default', 'pod': {}}], 'volumes': [{'dataVolume': {'name': 'node02-tch6p-1'}, 'name': 'node02-tch6p-1'}, {'name': 'cloudinitdisk', 'cloudInitNoCloud': {'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]', 'networkDataBase64': 'bmV0d29yazogMg=='}}]}}}}, 'api_version': 'v1', 'wait': False, 'wait_sleep': 5, 'wait_timeout': 120, 'append_hash': False, 'apply': False, 'continue_on_error': False, 'state': 'present', 'force': False, 'delete_all': False, 'kind': None, 'name': None, 'namespace': None, 'src': None, 'kubeconfig': None, 'context': None, 'username': None, 'password': None, 'ca_cert': None, 'client_cert': None, 'client_key': None, 'proxy': None, 'no_proxy': None, 'proxy_headers': None, 'persist_config': None, 'impersonate_user': None, 'impersonate_groups': None, 'wait_condition': None, 'merge_type': None, 'validate': None, 'template': None, 'delete_options': None, 'label_selectors': None, 'generate_name': None, 'server_side_apply': None, 'hidden_fields': None}}, 'failed': False, 'attempts': 1, 'item': 1, 'ansible_loop_var': 'item', '_index': 0, 'ansible_index_var': '_index'})
+
+TASK [infra-openshift-cnv-resources : Empty variable _instance_] ***************
+Monday 04 August 2025  05:06:55 +0000 (0:00:00.059)       0:01:40.869 ********* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Set the instances interfaces] ************
+Monday 04 August 2025  05:06:55 +0000 (0:00:00.020)       0:01:40.890 ********* 
+ok: [localhost] => (item=default)
+
+TASK [infra-openshift-cnv-resources : Set the instances disks] *****************
+Monday 04 August 2025  05:06:55 +0000 (0:00:00.046)       0:01:40.937 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Set cloud_config] ************************
+Monday 04 August 2025  05:06:55 +0000 (0:00:00.016)       0:01:40.954 ********* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Set cloud init disk if needed] ***********
+Monday 04 August 2025  05:06:55 +0000 (0:00:00.025)       0:01:40.980 ********* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create instance(s) "podman-host"] ********
+Monday 04 August 2025  05:06:55 +0000 (0:00:00.024)       0:01:41.005 ********* 
+changed: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : Wait till VM is running] *****************
+Monday 04 August 2025  05:06:56 +0000 (0:00:00.697)       0:01:41.702 ********* 
+FAILED - RETRYING: [localhost]: Wait till VM is running (30 retries left).
+FAILED - RETRYING: [localhost]: Wait till VM is running (29 retries left).
+FAILED - RETRYING: [localhost]: Wait till VM is running (28 retries left).
+ok: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.set_fact] ****************
+Monday 04 August 2025  05:07:28 +0000 (0:00:32.338)       0:02:14.041 ********* 
+ok: [localhost] => (item={'changed': True, 'result': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'isolated', 'Stack': 'zero-touch-base-rhel-tch6p-1', 'env_type': 'zero-touch-base-rhel', 'guid': 'tch6p-1', 'owner': 'zero-touch-base-rhel@opentlc.com', 'uuid': '6a189a68-674a-5792-b85a-c4f71b8e3c50'}, 'creationTimestamp': '2025-08-04T05:06:56Z', 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-04T05:06:56Z'}], 'name': 'podman-host', 'namespace': 'sandbox-tch6p-1-ocp4-cluster', 'resourceVersion': '610177206', 'uid': 'efd81753-a1bb-4b83-ba7b-93ea4ef9932a'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'podman-host-tch6p-1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '30Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-8.7', 'namespace': 'cnv-images'}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'podman-host'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 16, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'podman-host-tch6p-1'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': '5c353eef-b0b1-5d76-8190-23c242943404'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '4G'}, 'resources': {}}, 'hostname': 'podman-host', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'podman-host-tch6p-1'}, 'name': 'podman-host-tch6p-1'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==', 'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]'}, 'name': 'cloudinitdisk'}]}}}}, 'method': 'create', 'invocation': {'module_args': {'host': 'https://api.ocpvdev01.dal13.infra.demo.redhat.com:6443', 'api_key': '[REDACTED_Secret Keyword_SECRET]', 'validate_certs': False, 'definition': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'name': 'podman-host', 'namespace': 'sandbox-tch6p-1-ocp4-cluster', 'annotations': {'Stack': 'zero-touch-base-rhel-tch6p-1', 'owner': 'zero-touch-base-rhel@opentlc.com', 'env_type': 'zero-touch-base-rhel', 'guid': 'tch6p-1', 'uuid': '6a189a68-674a-5792-b85a-c4f71b8e3c50', 'AnsibleGroup': 'isolated'}}, 'spec': {'dataVolumeTemplates': [{'metadata': {'name': 'podman-host-tch6p-1'}, 'spec': {'source': {'pvc': {'namespace': 'cnv-images', 'name': 'rhel-8.7'}}, 'pvc': {'accessModes': ['ReadWriteMany'], 'volumeMode': 'Block', 'resources': {'requests': {'storage': '30Gi'}}}}}], 'running': True, 'template': {'metadata': {'labels': {'vm.cnv.io/name': 'podman-host'}}, 'spec': {'hostname': 'podman-host', 'subdomain': 'lab', 'domain': {'firmware': {'uuid': '5c353eef-b0b1-5d76-8190-23c242943404', 'bootloader': {'bios': {}}}, 'cpu': {'cores': 16, 'model': 'host-passthrough'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '4G', 'memory': {'hugepages': {'pageSize': '1Gi'}}}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'podman-host-tch6p-1'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'name': 'default', 'model': 'virtio', 'masquerade': {}}]}}, 'networks': [{'name': 'default', 'pod': {}}], 'volumes': [{'dataVolume': {'name': 'podman-host-tch6p-1'}, 'name': 'podman-host-tch6p-1'}, {'name': 'cloudinitdisk', 'cloudInitNoCloud': {'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]', 'networkDataBase64': 'bmV0d29yazogMg=='}}]}}}}, 'resource_definition': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'name': 'podman-host', 'namespace': 'sandbox-tch6p-1-ocp4-cluster', 'annotations': {'Stack': 'zero-touch-base-rhel-tch6p-1', 'owner': 'zero-touch-base-rhel@opentlc.com', 'env_type': 'zero-touch-base-rhel', 'guid': 'tch6p-1', 'uuid': '6a189a68-674a-5792-b85a-c4f71b8e3c50', 'AnsibleGroup': 'isolated'}}, 'spec': {'dataVolumeTemplates': [{'metadata': {'name': 'podman-host-tch6p-1'}, 'spec': {'source': {'pvc': {'namespace': 'cnv-images', 'name': 'rhel-8.7'}}, 'pvc': {'accessModes': ['ReadWriteMany'], 'volumeMode': 'Block', 'resources': {'requests': {'storage': '30Gi'}}}}}], 'running': True, 'template': {'metadata': {'labels': {'vm.cnv.io/name': 'podman-host'}}, 'spec': {'hostname': 'podman-host', 'subdomain': 'lab', 'domain': {'firmware': {'uuid': '5c353eef-b0b1-5d76-8190-23c242943404', 'bootloader': {'bios': {}}}, 'cpu': {'cores': 16, 'model': 'host-passthrough'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '4G', 'memory': {'hugepages': {'pageSize': '1Gi'}}}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'podman-host-tch6p-1'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'name': 'default', 'model': 'virtio', 'masquerade': {}}]}}, 'networks': [{'name': 'default', 'pod': {}}], 'volumes': [{'dataVolume': {'name': 'podman-host-tch6p-1'}, 'name': 'podman-host-tch6p-1'}, {'name': 'cloudinitdisk', 'cloudInitNoCloud': {'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]', 'networkDataBase64': 'bmV0d29yazogMg=='}}]}}}}, 'api_version': 'v1', 'wait': False, 'wait_sleep': 5, 'wait_timeout': 120, 'append_hash': False, 'apply': False, 'continue_on_error': False, 'state': 'present', 'force': False, 'delete_all': False, 'kind': None, 'name': None, 'namespace': None, 'src': None, 'kubeconfig': None, 'context': None, 'username': None, 'password': None, 'ca_cert': None, 'client_cert': None, 'client_key': None, 'proxy': None, 'no_proxy': None, 'proxy_headers': None, 'persist_config': None, 'impersonate_user': None, 'impersonate_groups': None, 'wait_condition': None, 'merge_type': None, 'validate': None, 'template': None, 'delete_options': None, 'label_selectors': None, 'generate_name': None, 'server_side_apply': None, 'hidden_fields': None}}, 'failed': False, 'attempts': 1, 'item': 1, 'ansible_loop_var': 'item', '_index': 0, 'ansible_index_var': '_index'})
+
+TASK [infra-openshift-cnv-resources : Create services for the nodes] ***********
+Monday 04 August 2025  05:07:28 +0000 (0:00:00.069)       0:02:14.111 ********* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_services.yaml for localhost => (item={'name': 'control', 'image': 'base-zero-aap-2.5-container-ce', 'memory': '16G', 'cores': 4, 'image_size': '30Gi', 'terminals': [{'name': 'wetty_sean', 'command': '/home/rhel/roadshow/lab-resources/hackbot.sh'}], 'tags': [{'key': 'AnsibleGroup', 'value': 'isolated'}], 'networks': ['default'], 'userdata': '#cloud-config\\nuser: rhel\\npassword: REDACTED_SECRET { expire: False }\\nruncmd:\\n  - sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/" /etc/ssh/sshd_config\\n  - systemctl reload sshd', 'services': [{'name': 'control-https', 'ports': [{'port': 443, 'protocol': 'TCP', 'targetPort': 443, 'name': 'control-https'}]}], 'routes': [{'name': 'control-https', 'host': 'control', 'service': 'control-https', 'targetPort': 443, 'tls': True, 'tls_termination': 'reencrypt', 'tls_destinationCACertificate': '-----BEGIN CERTIFICATE-----\\nMIIF1jCCA76gAwIBAgIUBQZlbUZlOmMKhspO9U4/nTJAXAEwDQYJKoZIhvcNAQEL\\nBQAwgYIxCzAJBgNVBAYTAlVTMRcwFQYDVQQIDA5Ob3J0aCBDYXJvbGluYTEQMA4G\\nA1UEBwwHUmFsZWlnaDEQMA4GA1UECgwHUmVkIEhhdDEQMA4GA1UECwwHQW5zaWJs\\nZTEkMCIGA1UEAwwbQW5zaWJsZSBBdXRvbWF0aW9uIFBsYXRmb3JtMB4XDTI1MDQy\\nMzA4MjEyOVoXDTM1MDQyMTA4MjEyOVowgYIxCzAJBgNVBAYTAlVTMRcwFQYDVQQI\\nDA5Ob3J0aCBDYXJvbGluYTEQMA4GA1UEBwwHUmFsZWlnaDEQMA4GA1UECgwHUmVk\\nIEhhdDEQMA4GA1UECwwHQW5zaWJsZTEkMCIGA1UEAwwbQW5zaWJsZSBBdXRvbWF0\\naW9uIFBsYXRmb3JtMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2Ytu\\na9MM9qr0UBvlIJPXmeSjzQXmx+CJwQAhDoR8MgOkjvWjjEdsX4VHBfQTO58d5sPr\\noNg95GRe9y9Gjt6Lh7szLk70Q766Ncq8OIBYieiVKctIV+ZZmX7+bBcyzbII/0C9\\nIli3lNd+XKfl5vmCWoYyuQncC1FZgVpHqZDP/+RCCMThdKEvugbQUmXF6pmEFF7Z\\n8PxYpxnVDX2ipOfWcjZDm6pTBd5+dzXHQVsWe25kY6QW0zEYzPJb3q0gP7oNz1uV\\nrXgYBnKQ8NdoSGtS7w9bvSw28Bf1ZFTvBKeCxWNeoJbiszqdsDd6PEwb4uE1Tr6D\\nqsLfPgvQzngQ+a7YrZ+M6GskQkfk+ZWMK8h6066p27Tzs6/9jMiCFuKwRuKWy9Qi\\nDdCSnwVIw4VB40ysoAHprxBHq4y/YJ2RDiC9EehTXsQf/uAy3M7KBBjVGlMfXxUE\\nNfjbeMdSQip04jKQGhJf8teXTymfcjlGaoCtymB+h4s3hc1T7DjfR0Q1Gd3AIL/p\\nlHOgU4TMBzeghqeDRbY4YQRSI1aF/hzTvAJzMaONs161buKOQ47O5UGGJYHHlJbf\\naI0s3Mhld1YvIFk78A4tFI9GIwzj4IzVmCv4MZHg2BXKAU6m3Y6bYNabqP6Ho4Fs\\nDZOVkMvwTGKGfRxjdp0kx6HxNmjnVDMXGM9g8cECAwEAAaNCMEAwDgYDVR0PAQH/\\nBAQDAgIEMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFFugxH0taHxJ0/d71phl\\na1Vt78fTMA0GCSqGSIb3DQEBCwUAA4ICAQApZCo7gI0xdk2TxjOcq+BdNsOvKjWL\\nADceDM78oPy0xpgKd2u9INITzIY2f4KGcepXslnlMQQvny80N1LXu9Tkn4rhoU03\\nDXb9bXSr44T3fIf4JFU2iv5Hb6Az/DiQ3o9fZnhpW0AmzR1LmZUuFBJZefFBMMKl\\ns2W9C3f3nUPzi1qrGSXszXXbIDYsRMhax/MxWR9mxITuN3T6PhW8A1LyQ8dWRCLw\\njFFcNuGjlR8w16XhRCw8uA1RzVwNWoUGvMiapboR25N0DLVCG8qf/mdEI4re8MhM\\nEYHugB/e7vRx6iV9ov7jJSB8BrBPWy/7ncebWIf8OvjM2UcUk0hciAQGD4Udbb3s\\nLGcpjZRJDrnpBdp+CJMCNNjoI0wLbmRDEVPGOSkJSmnj+8VTlQ5s+Dxvj2hh/rq7\\nAPwxbIl1YBpTx65KwhacJbXSByk8bnwEQdRo240kC5ggC6twb/vvslRortZtyfqw\\nE/xGAKc9LOIFiqk1f0IU2ssEBvSFvYjypXsGnFITamNN2lMS2k5XQIA4avwWsoO4\\nrRLV87ua9S7g31PTYCMJBGw/B3PXhXjJG/eXgLyhEoUQP/fqeGiPEBzagyo71qL5\\nfH5qke1XR5LFGpndX1GuSVBhdZq94x0aGXWTQCDNIPQ3QtrQ64PBF1vRFdJ6o/FI\\nuEOWpQhGYHMC0A==\\n-----END CERTIFICATE-----\\n'}]})
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_services.yaml for localhost => (item={'name': 'node02', 'image': 'rhel-9.5', 'memory': '2G', 'cores': 2, 'image_size': '30Gi', 'tags': [{'key': 'AnsibleGroup', 'value': 'isolated'}], 'networks': ['default'], 'userdata': '#cloud-config\\nuser: rhel\\npassword: REDACTED_SECRET { expire: False }  \\nruncmd:\\n  - echo "PasswordAuthentication yes" > /etc/ssh/sshd_config.d/50-cloud-init.conf\\n  - systemctl reload sshd'})
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_services.yaml for localhost => (item={'name': 'podman-host', 'image': 'rhel-8.7', 'memory': '4G', 'cores': 16, 'image_size': '30Gi', 'tags': [{'key': 'AnsibleGroup', 'value': 'isolated'}], 'networks': ['default'], 'services': [{'name': 'podman-host-http', 'ports': [{'port': 80, 'protocol': 'TCP', 'targetPort': 80, 'name': 'podman-host'}]}], 'routes': [{'name': 'podman-host-web', 'host': 'podman-host', 'service': 'podman-host-http', 'targetPort': 80, 'tls': True, 'tls_termination': 'Edge'}], 'userdata': '#cloud-config\\nuser: rhel\\npassword: REDACTED_SECRET { expire: False }\\nruncmd:\\n  - sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/" /etc/ssh/sshd_config\\n  - systemctl reload sshd'})
+
+TASK [infra-openshift-cnv-resources : Create a SSH (or defined one) service for internal connections for node control] ***
+Monday 04 August 2025  05:07:28 +0000 (0:00:00.117)       0:02:14.228 ********* 
+changed: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : Create a service for subdomain lab] ******
+Monday 04 August 2025  05:07:29 +0000 (0:00:00.696)       0:02:14.925 ********* 
+[WARNING]: conditional statements should not include jinja2 templating
+delimiters such as {{ }} or {% %}. Found: {{ openshift_cnv_add_lab_subdomain |
+default(True) }}
+changed: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create services for the instances] *******
+Monday 04 August 2025  05:07:30 +0000 (0:00:00.639)       0:02:15.565 ********* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_service.yaml for localhost => (item={'name': 'control-https', 'ports': [{'port': 443, 'protocol': 'TCP', 'targetPort': 443, 'name': 'control-https'}]})
+
+TASK [infra-openshift-cnv-resources : Create services for instance "control"] ***
+Monday 04 August 2025  05:07:30 +0000 (0:00:00.028)       0:02:15.593 ********* 
+changed: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : Wait for the LoadBalancer value] *********
+Monday 04 August 2025  05:07:30 +0000 (0:00:00.815)       0:02:16.409 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : If exist set the external IP for the instance and the ports] ***
+Monday 04 August 2025  05:07:30 +0000 (0:00:00.017)       0:02:16.426 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Add external_ip and external_ports to the instance] ***
+Monday 04 August 2025  05:07:30 +0000 (0:00:00.016)       0:02:16.442 ********* 
+skipping: [localhost] => (item=1) 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create a SSH (or defined one) service for internal connections for node node02] ***
+Monday 04 August 2025  05:07:30 +0000 (0:00:00.023)       0:02:16.466 ********* 
+changed: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : Create a service for subdomain lab] ******
+Monday 04 August 2025  05:07:31 +0000 (0:00:00.651)       0:02:17.117 ********* 
+[WARNING]: conditional statements should not include jinja2 templating
+delimiters such as {{ }} or {% %}. Found: {{ openshift_cnv_add_lab_subdomain |
+default(True) }}
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create services for the instances] *******
+Monday 04 August 2025  05:07:32 +0000 (0:00:00.630)       0:02:17.747 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create a SSH (or defined one) service for internal connections for node podman-host] ***
+Monday 04 August 2025  05:07:32 +0000 (0:00:00.015)       0:02:17.763 ********* 
+changed: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : Create a service for subdomain lab] ******
+Monday 04 August 2025  05:07:32 +0000 (0:00:00.747)       0:02:18.510 ********* 
+[WARNING]: conditional statements should not include jinja2 templating
+delimiters such as {{ }} or {% %}. Found: {{ openshift_cnv_add_lab_subdomain |
+default(True) }}
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create services for the instances] *******
+Monday 04 August 2025  05:07:33 +0000 (0:00:00.625)       0:02:19.136 ********* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_service.yaml for localhost => (item={'name': 'podman-host-http', 'ports': [{'port': 80, 'protocol': 'TCP', 'targetPort': 80, 'name': 'podman-host'}]})
+
+TASK [infra-openshift-cnv-resources : Create services for instance "podman-host"] ***
+Monday 04 August 2025  05:07:33 +0000 (0:00:00.027)       0:02:19.164 ********* 
+changed: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : Wait for the LoadBalancer value] *********
+Monday 04 August 2025  05:07:34 +0000 (0:00:00.664)       0:02:19.828 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : If exist set the external IP for the instance and the ports] ***
+Monday 04 August 2025  05:07:34 +0000 (0:00:00.017)       0:02:19.845 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Add external_ip and external_ports to the instance] ***
+Monday 04 August 2025  05:07:34 +0000 (0:00:00.016)       0:02:19.862 ********* 
+skipping: [localhost] => (item=1) 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create routes for the nodes] *************
+Monday 04 August 2025  05:07:34 +0000 (0:00:00.022)       0:02:19.884 ********* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_routes.yaml for localhost => (item={'name': 'control', 'image': 'base-zero-aap-2.5-container-ce', 'memory': '16G', 'cores': 4, 'image_size': '30Gi', 'terminals': [{'name': 'wetty_sean', 'command': '/home/rhel/roadshow/lab-resources/hackbot.sh'}], 'tags': [{'key': 'AnsibleGroup', 'value': 'isolated'}], 'networks': ['default'], 'userdata': '#cloud-config\\nuser: rhel\\npassword: REDACTED_SECRET { expire: False }\\nruncmd:\\n  - sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/" /etc/ssh/sshd_config\\n  - systemctl reload sshd', 'services': [{'name': 'control-https', 'ports': [{'port': 443, 'protocol': 'TCP', 'targetPort': 443, 'name': 'control-https'}]}], 'routes': [{'name': 'control-https', 'host': 'control', 'service': 'control-https', 'targetPort': 443, 'tls': True, 'tls_termination': 'reencrypt', 'tls_destinationCACertificate': '-----BEGIN CERTIFICATE-----\\nMIIF1jCCA76gAwIBAgIUBQZlbUZlOmMKhspO9U4/nTJAXAEwDQYJKoZIhvcNAQEL\\nBQAwgYIxCzAJBgNVBAYTAlVTMRcwFQYDVQQIDA5Ob3J0aCBDYXJvbGluYTEQMA4G\\nA1UEBwwHUmFsZWlnaDEQMA4GA1UECgwHUmVkIEhhdDEQMA4GA1UECwwHQW5zaWJs\\nZTEkMCIGA1UEAwwbQW5zaWJsZSBBdXRvbWF0aW9uIFBsYXRmb3JtMB4XDTI1MDQy\\nMzA4MjEyOVoXDTM1MDQyMTA4MjEyOVowgYIxCzAJBgNVBAYTAlVTMRcwFQYDVQQI\\nDA5Ob3J0aCBDYXJvbGluYTEQMA4GA1UEBwwHUmFsZWlnaDEQMA4GA1UECgwHUmVk\\nIEhhdDEQMA4GA1UECwwHQW5zaWJsZTEkMCIGA1UEAwwbQW5zaWJsZSBBdXRvbWF0\\naW9uIFBsYXRmb3JtMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2Ytu\\na9MM9qr0UBvlIJPXmeSjzQXmx+CJwQAhDoR8MgOkjvWjjEdsX4VHBfQTO58d5sPr\\noNg95GRe9y9Gjt6Lh7szLk70Q766Ncq8OIBYieiVKctIV+ZZmX7+bBcyzbII/0C9\\nIli3lNd+XKfl5vmCWoYyuQncC1FZgVpHqZDP/+RCCMThdKEvugbQUmXF6pmEFF7Z\\n8PxYpxnVDX2ipOfWcjZDm6pTBd5+dzXHQVsWe25kY6QW0zEYzPJb3q0gP7oNz1uV\\nrXgYBnKQ8NdoSGtS7w9bvSw28Bf1ZFTvBKeCxWNeoJbiszqdsDd6PEwb4uE1Tr6D\\nqsLfPgvQzngQ+a7YrZ+M6GskQkfk+ZWMK8h6066p27Tzs6/9jMiCFuKwRuKWy9Qi\\nDdCSnwVIw4VB40ysoAHprxBHq4y/YJ2RDiC9EehTXsQf/uAy3M7KBBjVGlMfXxUE\\nNfjbeMdSQip04jKQGhJf8teXTymfcjlGaoCtymB+h4s3hc1T7DjfR0Q1Gd3AIL/p\\nlHOgU4TMBzeghqeDRbY4YQRSI1aF/hzTvAJzMaONs161buKOQ47O5UGGJYHHlJbf\\naI0s3Mhld1YvIFk78A4tFI9GIwzj4IzVmCv4MZHg2BXKAU6m3Y6bYNabqP6Ho4Fs\\nDZOVkMvwTGKGfRxjdp0kx6HxNmjnVDMXGM9g8cECAwEAAaNCMEAwDgYDVR0PAQH/\\nBAQDAgIEMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFFugxH0taHxJ0/d71phl\\na1Vt78fTMA0GCSqGSIb3DQEBCwUAA4ICAQApZCo7gI0xdk2TxjOcq+BdNsOvKjWL\\nADceDM78oPy0xpgKd2u9INITzIY2f4KGcepXslnlMQQvny80N1LXu9Tkn4rhoU03\\nDXb9bXSr44T3fIf4JFU2iv5Hb6Az/DiQ3o9fZnhpW0AmzR1LmZUuFBJZefFBMMKl\\ns2W9C3f3nUPzi1qrGSXszXXbIDYsRMhax/MxWR9mxITuN3T6PhW8A1LyQ8dWRCLw\\njFFcNuGjlR8w16XhRCw8uA1RzVwNWoUGvMiapboR25N0DLVCG8qf/mdEI4re8MhM\\nEYHugB/e7vRx6iV9ov7jJSB8BrBPWy/7ncebWIf8OvjM2UcUk0hciAQGD4Udbb3s\\nLGcpjZRJDrnpBdp+CJMCNNjoI0wLbmRDEVPGOSkJSmnj+8VTlQ5s+Dxvj2hh/rq7\\nAPwxbIl1YBpTx65KwhacJbXSByk8bnwEQdRo240kC5ggC6twb/vvslRortZtyfqw\\nE/xGAKc9LOIFiqk1f0IU2ssEBvSFvYjypXsGnFITamNN2lMS2k5XQIA4avwWsoO4\\nrRLV87ua9S7g31PTYCMJBGw/B3PXhXjJG/eXgLyhEoUQP/fqeGiPEBzagyo71qL5\\nfH5qke1XR5LFGpndX1GuSVBhdZq94x0aGXWTQCDNIPQ3QtrQ64PBF1vRFdJ6o/FI\\nuEOWpQhGYHMC0A==\\n-----END CERTIFICATE-----\\n'}]})
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_routes.yaml for localhost => (item={'name': 'node02', 'image': 'rhel-9.5', 'memory': '2G', 'cores': 2, 'image_size': '30Gi', 'tags': [{'key': 'AnsibleGroup', 'value': 'isolated'}], 'networks': ['default'], 'userdata': '#cloud-config\\nuser: rhel\\npassword: REDACTED_SECRET { expire: False }  \\nruncmd:\\n  - echo "PasswordAuthentication yes" > /etc/ssh/sshd_config.d/50-cloud-init.conf\\n  - systemctl reload sshd'})
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_routes.yaml for localhost => (item={'name': 'podman-host', 'image': 'rhel-8.7', 'memory': '4G', 'cores': 16, 'image_size': '30Gi', 'tags': [{'key': 'AnsibleGroup', 'value': 'isolated'}], 'networks': ['default'], 'services': [{'name': 'podman-host-http', 'ports': [{'port': 80, 'protocol': 'TCP', 'targetPort': 80, 'name': 'podman-host'}]}], 'routes': [{'name': 'podman-host-web', 'host': 'podman-host', 'service': 'podman-host-http', 'targetPort': 80, 'tls': True, 'tls_termination': 'Edge'}], 'userdata': '#cloud-config\\nuser: rhel\\npassword: REDACTED_SECRET { expire: False }\\nruncmd:\\n  - sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/" /etc/ssh/sshd_config\\n  - systemctl reload sshd'})
+
+TASK [infra-openshift-cnv-resources : Create routes with tls] ******************
+Monday 04 August 2025  05:07:34 +0000 (0:00:00.120)       0:02:20.005 ********* 
+changed: [localhost] => (item={'name': 'control-https', 'host': 'control', 'service': 'control-https', 'targetPort': 443, 'tls': True, 'tls_termination': 'reencrypt', 'tls_destinationCACertificate': '-----BEGIN CERTIFICATE-----\\nMIIF1jCCA76gAwIBAgIUBQZlbUZlOmMKhspO9U4/nTJAXAEwDQYJKoZIhvcNAQEL\\nBQAwgYIxCzAJBgNVBAYTAlVTMRcwFQYDVQQIDA5Ob3J0aCBDYXJvbGluYTEQMA4G\\nA1UEBwwHUmFsZWlnaDEQMA4GA1UECgwHUmVkIEhhdDEQMA4GA1UECwwHQW5zaWJs\\nZTEkMCIGA1UEAwwbQW5zaWJsZSBBdXRvbWF0aW9uIFBsYXRmb3JtMB4XDTI1MDQy\\nMzA4MjEyOVoXDTM1MDQyMTA4MjEyOVowgYIxCzAJBgNVBAYTAlVTMRcwFQYDVQQI\\nDA5Ob3J0aCBDYXJvbGluYTEQMA4GA1UEBwwHUmFsZWlnaDEQMA4GA1UECgwHUmVk\\nIEhhdDEQMA4GA1UECwwHQW5zaWJsZTEkMCIGA1UEAwwbQW5zaWJsZSBBdXRvbWF0\\naW9uIFBsYXRmb3JtMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2Ytu\\na9MM9qr0UBvlIJPXmeSjzQXmx+CJwQAhDoR8MgOkjvWjjEdsX4VHBfQTO58d5sPr\\noNg95GRe9y9Gjt6Lh7szLk70Q766Ncq8OIBYieiVKctIV+ZZmX7+bBcyzbII/0C9\\nIli3lNd+XKfl5vmCWoYyuQncC1FZgVpHqZDP/+RCCMThdKEvugbQUmXF6pmEFF7Z\\n8PxYpxnVDX2ipOfWcjZDm6pTBd5+dzXHQVsWe25kY6QW0zEYzPJb3q0gP7oNz1uV\\nrXgYBnKQ8NdoSGtS7w9bvSw28Bf1ZFTvBKeCxWNeoJbiszqdsDd6PEwb4uE1Tr6D\\nqsLfPgvQzngQ+a7YrZ+M6GskQkfk+ZWMK8h6066p27Tzs6/9jMiCFuKwRuKWy9Qi\\nDdCSnwVIw4VB40ysoAHprxBHq4y/YJ2RDiC9EehTXsQf/uAy3M7KBBjVGlMfXxUE\\nNfjbeMdSQip04jKQGhJf8teXTymfcjlGaoCtymB+h4s3hc1T7DjfR0Q1Gd3AIL/p\\nlHOgU4TMBzeghqeDRbY4YQRSI1aF/hzTvAJzMaONs161buKOQ47O5UGGJYHHlJbf\\naI0s3Mhld1YvIFk78A4tFI9GIwzj4IzVmCv4MZHg2BXKAU6m3Y6bYNabqP6Ho4Fs\\nDZOVkMvwTGKGfRxjdp0kx6HxNmjnVDMXGM9g8cECAwEAAaNCMEAwDgYDVR0PAQH/\\nBAQDAgIEMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFFugxH0taHxJ0/d71phl\\na1Vt78fTMA0GCSqGSIb3DQEBCwUAA4ICAQApZCo7gI0xdk2TxjOcq+BdNsOvKjWL\\nADceDM78oPy0xpgKd2u9INITzIY2f4KGcepXslnlMQQvny80N1LXu9Tkn4rhoU03\\nDXb9bXSr44T3fIf4JFU2iv5Hb6Az/DiQ3o9fZnhpW0AmzR1LmZUuFBJZefFBMMKl\\ns2W9C3f3nUPzi1qrGSXszXXbIDYsRMhax/MxWR9mxITuN3T6PhW8A1LyQ8dWRCLw\\njFFcNuGjlR8w16XhRCw8uA1RzVwNWoUGvMiapboR25N0DLVCG8qf/mdEI4re8MhM\\nEYHugB/e7vRx6iV9ov7jJSB8BrBPWy/7ncebWIf8OvjM2UcUk0hciAQGD4Udbb3s\\nLGcpjZRJDrnpBdp+CJMCNNjoI0wLbmRDEVPGOSkJSmnj+8VTlQ5s+Dxvj2hh/rq7\\nAPwxbIl1YBpTx65KwhacJbXSByk8bnwEQdRo240kC5ggC6twb/vvslRortZtyfqw\\nE/xGAKc9LOIFiqk1f0IU2ssEBvSFvYjypXsGnFITamNN2lMS2k5XQIA4avwWsoO4\\nrRLV87ua9S7g31PTYCMJBGw/B3PXhXjJG/eXgLyhEoUQP/fqeGiPEBzagyo71qL5\\nfH5qke1XR5LFGpndX1GuSVBhdZq94x0aGXWTQCDNIPQ3QtrQ64PBF1vRFdJ6o/FI\\nuEOWpQhGYHMC0A==\\n-----END CERTIFICATE-----\\n'})
+
+TASK [infra-openshift-cnv-resources : Create routes without tls] ***************
+Monday 04 August 2025  05:07:35 +0000 (0:00:00.713)       0:02:20.719 ********* 
+[WARNING]: conditional statements should not include jinja2 templating
+delimiters such as {{ }} or {% %}. Found: {{ route.tls|default(false) == false
+}}
+skipping: [localhost] => (item={'name': 'control-https', 'host': 'control', 'service': 'control-https', 'targetPort': 443, 'tls': True, 'tls_termination': 'reencrypt', 'tls_destinationCACertificate': '-----BEGIN CERTIFICATE-----\\nMIIF1jCCA76gAwIBAgIUBQZlbUZlOmMKhspO9U4/nTJAXAEwDQYJKoZIhvcNAQEL\\nBQAwgYIxCzAJBgNVBAYTAlVTMRcwFQYDVQQIDA5Ob3J0aCBDYXJvbGluYTEQMA4G\\nA1UEBwwHUmFsZWlnaDEQMA4GA1UECgwHUmVkIEhhdDEQMA4GA1UECwwHQW5zaWJs\\nZTEkMCIGA1UEAwwbQW5zaWJsZSBBdXRvbWF0aW9uIFBsYXRmb3JtMB4XDTI1MDQy\\nMzA4MjEyOVoXDTM1MDQyMTA4MjEyOVowgYIxCzAJBgNVBAYTAlVTMRcwFQYDVQQI\\nDA5Ob3J0aCBDYXJvbGluYTEQMA4GA1UEBwwHUmFsZWlnaDEQMA4GA1UECgwHUmVk\\nIEhhdDEQMA4GA1UECwwHQW5zaWJsZTEkMCIGA1UEAwwbQW5zaWJsZSBBdXRvbWF0\\naW9uIFBsYXRmb3JtMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2Ytu\\na9MM9qr0UBvlIJPXmeSjzQXmx+CJwQAhDoR8MgOkjvWjjEdsX4VHBfQTO58d5sPr\\noNg95GRe9y9Gjt6Lh7szLk70Q766Ncq8OIBYieiVKctIV+ZZmX7+bBcyzbII/0C9\\nIli3lNd+XKfl5vmCWoYyuQncC1FZgVpHqZDP/+RCCMThdKEvugbQUmXF6pmEFF7Z\\n8PxYpxnVDX2ipOfWcjZDm6pTBd5+dzXHQVsWe25kY6QW0zEYzPJb3q0gP7oNz1uV\\nrXgYBnKQ8NdoSGtS7w9bvSw28Bf1ZFTvBKeCxWNeoJbiszqdsDd6PEwb4uE1Tr6D\\nqsLfPgvQzngQ+a7YrZ+M6GskQkfk+ZWMK8h6066p27Tzs6/9jMiCFuKwRuKWy9Qi\\nDdCSnwVIw4VB40ysoAHprxBHq4y/YJ2RDiC9EehTXsQf/uAy3M7KBBjVGlMfXxUE\\nNfjbeMdSQip04jKQGhJf8teXTymfcjlGaoCtymB+h4s3hc1T7DjfR0Q1Gd3AIL/p\\nlHOgU4TMBzeghqeDRbY4YQRSI1aF/hzTvAJzMaONs161buKOQ47O5UGGJYHHlJbf\\naI0s3Mhld1YvIFk78A4tFI9GIwzj4IzVmCv4MZHg2BXKAU6m3Y6bYNabqP6Ho4Fs\\nDZOVkMvwTGKGfRxjdp0kx6HxNmjnVDMXGM9g8cECAwEAAaNCMEAwDgYDVR0PAQH/\\nBAQDAgIEMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFFugxH0taHxJ0/d71phl\\na1Vt78fTMA0GCSqGSIb3DQEBCwUAA4ICAQApZCo7gI0xdk2TxjOcq+BdNsOvKjWL\\nADceDM78oPy0xpgKd2u9INITzIY2f4KGcepXslnlMQQvny80N1LXu9Tkn4rhoU03\\nDXb9bXSr44T3fIf4JFU2iv5Hb6Az/DiQ3o9fZnhpW0AmzR1LmZUuFBJZefFBMMKl\\ns2W9C3f3nUPzi1qrGSXszXXbIDYsRMhax/MxWR9mxITuN3T6PhW8A1LyQ8dWRCLw\\njFFcNuGjlR8w16XhRCw8uA1RzVwNWoUGvMiapboR25N0DLVCG8qf/mdEI4re8MhM\\nEYHugB/e7vRx6iV9ov7jJSB8BrBPWy/7ncebWIf8OvjM2UcUk0hciAQGD4Udbb3s\\nLGcpjZRJDrnpBdp+CJMCNNjoI0wLbmRDEVPGOSkJSmnj+8VTlQ5s+Dxvj2hh/rq7\\nAPwxbIl1YBpTx65KwhacJbXSByk8bnwEQdRo240kC5ggC6twb/vvslRortZtyfqw\\nE/xGAKc9LOIFiqk1f0IU2ssEBvSFvYjypXsGnFITamNN2lMS2k5XQIA4avwWsoO4\\nrRLV87ua9S7g31PTYCMJBGw/B3PXhXjJG/eXgLyhEoUQP/fqeGiPEBzagyo71qL5\\nfH5qke1XR5LFGpndX1GuSVBhdZq94x0aGXWTQCDNIPQ3QtrQ64PBF1vRFdJ6o/FI\\nuEOWpQhGYHMC0A==\\n-----END CERTIFICATE-----\\n'}) 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create routes with tls] ******************
+Monday 04 August 2025  05:07:35 +0000 (0:00:00.025)       0:02:20.744 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create routes without tls] ***************
+Monday 04 August 2025  05:07:35 +0000 (0:00:00.017)       0:02:20.762 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create routes with tls] ******************
+Monday 04 August 2025  05:07:35 +0000 (0:00:00.015)       0:02:20.778 ********* 
+changed: [localhost] => (item={'name': 'podman-host-web', 'host': 'podman-host', 'service': 'podman-host-http', 'targetPort': 80, 'tls': True, 'tls_termination': 'Edge'})
+
+TASK [infra-openshift-cnv-resources : Create routes without tls] ***************
+Monday 04 August 2025  05:07:35 +0000 (0:00:00.656)       0:02:21.434 ********* 
+[WARNING]: conditional statements should not include jinja2 templating
+delimiters such as {{ }} or {% %}. Found: {{ route.tls|default(false) == false
+}}
+skipping: [localhost] => (item={'name': 'podman-host-web', 'host': 'podman-host', 'service': 'podman-host-http', 'targetPort': 80, 'tls': True, 'tls_termination': 'Edge'}) 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.include_tasks] ***********
+Monday 04 August 2025  05:07:35 +0000 (0:00:00.021)       0:02:21.455 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.include_tasks] ***********
+Monday 04 August 2025  05:07:35 +0000 (0:00:00.011)       0:02:21.467 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.include_tasks] ***********
+Monday 04 August 2025  05:07:35 +0000 (0:00:00.012)       0:02:21.480 ********* 
+skipping: [localhost]
+
+PLAY [Step 001.2 Create Inventory and SSH config setup] ************************
+
+TASK [Run infra-dns Role] ******************************************************
+Monday 04 August 2025  05:07:36 +0000 (0:00:00.038)       0:02:21.518 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-create-inventory : include_tasks] ********************
+Monday 04 August 2025  05:07:36 +0000 (0:00:00.019)       0:02:21.538 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-create-inventory : ansible.builtin.include_tasks] ****
+Monday 04 August 2025  05:07:36 +0000 (0:00:00.016)       0:02:21.555 ********* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-create-inventory/tasks/create_inventory.yaml for localhost
+
+TASK [infra-openshift-cnv-create-inventory : Search for all running pods] ******
+Monday 04 August 2025  05:07:36 +0000 (0:00:00.019)       0:02:21.574 ********* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-create-inventory : Debug OpenShift CNV Instances fact] ***
+Monday 04 August 2025  05:07:36 +0000 (0:00:00.648)       0:02:22.223 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-create-inventory : Find the bastion in this batch of hosts] ***
+Monday 04 August 2025  05:07:36 +0000 (0:00:00.020)       0:02:22.243 ********* 
+skipping: [localhost] => (item={'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'isolated', 'Stack': 'zero-touch-base-rhel-tch6p-1', 'env_type': 'zero-touch-base-rhel', 'guid': 'tch6p-1', 'kubevirt.io/latest-observed-api-version': 'v1', 'kubevirt.io/storage-observed-api-version': 'v1', 'owner': 'zero-touch-base-rhel@opentlc.com', 'uuid': '6a189a68-674a-5792-b85a-c4f71b8e3c50'}, 'creationTimestamp': '2025-08-04T05:06:10Z', 'finalizers': ['kubevirt.io/virtualMachineControllerFinalize'], 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-04T05:06:10Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'f:kubevirt.io/latest-observed-api-version': {}, 'f:kubevirt.io/storage-observed-api-version': {}}, 'f:finalizers': {'.': {}, 'v:"kubevirt.io/virtualMachineControllerFinalize"': {}}}}, 'manager': 'virt-controller', 'operation': 'Update', 'time': '2025-08-04T05:06:10Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:status': {'.': {}, 'f:conditions': {}, 'f:created': {}, 'f:desiredGeneration': {}, 'f:observedGeneration': {}, 'f:printableStatus': {}, 'f:ready': {}, 'f:runStrategy': {}, 'f:volumeSnapshotStatuses': {}}}, 'manager': 'virt-controller', 'operation': 'Update', 'subresource': 'status', 'time': '2025-08-04T05:06:29Z'}], 'name': 'control', 'namespace': 'sandbox-tch6p-1-ocp4-cluster', 'resourceVersion': '610176344', 'uid': '2fa1efd9-c812-4be6-a2cf-f3a6431f427f'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'control-tch6p-1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '30Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'base-zero-aap-2.5-container-ce', 'namespace': 'cnv-images'}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'control'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'control-tch6p-1'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': '58111f9a-c5f0-52ae-bef7-5a11f495302d'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '16G'}, 'resources': {}}, 'hostname': 'control', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'control-tch6p-1'}, 'name': 'control-tch6p-1'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==', 'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]'}, 'name': 'cloudinitdisk'}]}}}, 'status': {'conditions': [{'lastProbeTime': None, 'lastTransitionTime': '2025-08-04T05:06:15Z', 'status': 'True', 'type': 'Ready'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'message': "All of the VMI's DVs are bound and not running", 'reason': 'AllDVsReady', 'status': 'True', 'type': 'DataVolumesReady'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'status': 'True', 'type': 'LiveMigratable'}, {'lastProbeTime': '2025-08-04T05:06:29Z', 'lastTransitionTime': None, 'status': 'True', 'type': 'AgentConnected'}], 'created': True, 'desiredGeneration': 1, 'observedGeneration': 1, 'printableStatus': 'Running', 'ready': True, 'runStrategy': 'Always', 'volumeSnapshotStatuses': [{'enabled': True, 'name': 'control-tch6p-1'}, {'enabled': False, 'name': 'cloudinitdisk', 'reason': 'Snapshot is not supported for this volumeSource type [cloudinitdisk]'}]}}) 
+skipping: [localhost] => (item={'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'isolated', 'Stack': 'zero-touch-base-rhel-tch6p-1', 'env_type': 'zero-touch-base-rhel', 'guid': 'tch6p-1', 'kubevirt.io/latest-observed-api-version': 'v1', 'kubevirt.io/storage-observed-api-version': 'v1', 'owner': 'zero-touch-base-rhel@opentlc.com', 'uuid': '6a189a68-674a-5792-b85a-c4f71b8e3c50'}, 'creationTimestamp': '2025-08-04T05:06:22Z', 'finalizers': ['kubevirt.io/virtualMachineControllerFinalize'], 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-04T05:06:22Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'f:kubevirt.io/latest-observed-api-version': {}, 'f:kubevirt.io/storage-observed-api-version': {}}, 'f:finalizers': {'.': {}, 'v:"kubevirt.io/virtualMachineControllerFinalize"': {}}}}, 'manager': 'virt-controller', 'operation': 'Update', 'time': '2025-08-04T05:06:23Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:status': {'.': {}, 'f:conditions': {}, 'f:created': {}, 'f:desiredGeneration': {}, 'f:observedGeneration': {}, 'f:printableStatus': {}, 'f:ready': {}, 'f:runStrategy': {}, 'f:volumeSnapshotStatuses': {}}}, 'manager': 'virt-controller', 'operation': 'Update', 'subresource': 'status', 'time': '2025-08-04T05:07:00Z'}], 'name': 'node02', 'namespace': 'sandbox-tch6p-1-ocp4-cluster', 'resourceVersion': '610177379', 'uid': 'd215a11e-576f-432d-bd07-b411f5bc219f'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'node02-tch6p-1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '30Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-9.5', 'namespace': 'cnv-images'}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'node02'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 2, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'node02-tch6p-1'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': 'a94b1c01-b612-5c7c-8d2c-c29ca3860e0c'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '2G'}, 'resources': {}}, 'hostname': 'node02', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'node02-tch6p-1'}, 'name': 'node02-tch6p-1'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==', 'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]'}, 'name': 'cloudinitdisk'}]}}}, 'status': {'conditions': [{'lastProbeTime': None, 'lastTransitionTime': '2025-08-04T05:06:46Z', 'status': 'True', 'type': 'Ready'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'message': "All of the VMI's DVs are bound and not running", 'reason': 'AllDVsReady', 'status': 'True', 'type': 'DataVolumesReady'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'status': 'True', 'type': 'LiveMigratable'}, {'lastProbeTime': '2025-08-04T05:07:00Z', 'lastTransitionTime': None, 'status': 'True', 'type': 'AgentConnected'}], 'created': True, 'desiredGeneration': 1, 'observedGeneration': 1, 'printableStatus': 'Running', 'ready': True, 'runStrategy': 'Always', 'volumeSnapshotStatuses': [{'enabled': True, 'name': 'node02-tch6p-1'}, {'enabled': False, 'name': 'cloudinitdisk', 'reason': 'Snapshot is not supported for this volumeSource type [cloudinitdisk]'}]}}) 
+skipping: [localhost] => (item={'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'isolated', 'Stack': 'zero-touch-base-rhel-tch6p-1', 'env_type': 'zero-touch-base-rhel', 'guid': 'tch6p-1', 'kubevirt.io/latest-observed-api-version': 'v1', 'kubevirt.io/storage-observed-api-version': 'v1', 'owner': 'zero-touch-base-rhel@opentlc.com', 'uuid': '6a189a68-674a-5792-b85a-c4f71b8e3c50'}, 'creationTimestamp': '2025-08-04T05:06:56Z', 'finalizers': ['kubevirt.io/virtualMachineControllerFinalize'], 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-04T05:06:56Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'f:kubevirt.io/latest-observed-api-version': {}, 'f:kubevirt.io/storage-observed-api-version': {}}, 'f:finalizers': {'.': {}, 'v:"kubevirt.io/virtualMachineControllerFinalize"': {}}}}, 'manager': 'virt-controller', 'operation': 'Update', 'time': '2025-08-04T05:06:56Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:status': {'.': {}, 'f:conditions': {}, 'f:created': {}, 'f:desiredGeneration': {}, 'f:observedGeneration': {}, 'f:printableStatus': {}, 'f:ready': {}, 'f:runStrategy': {}, 'f:volumeSnapshotStatuses': {}}}, 'manager': 'virt-controller', 'operation': 'Update', 'subresource': 'status', 'time': '2025-08-04T05:07:29Z'}], 'name': 'podman-host', 'namespace': 'sandbox-tch6p-1-ocp4-cluster', 'resourceVersion': '610178415', 'uid': 'efd81753-a1bb-4b83-ba7b-93ea4ef9932a'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'podman-host-tch6p-1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '30Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-8.7', 'namespace': 'cnv-images'}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'podman-host'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 16, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'podman-host-tch6p-1'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': '5c353eef-b0b1-5d76-8190-23c242943404'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '4G'}, 'resources': {}}, 'hostname': 'podman-host', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'podman-host-tch6p-1'}, 'name': 'podman-host-tch6p-1'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==', 'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]'}, 'name': 'cloudinitdisk'}]}}}, 'status': {'conditions': [{'lastProbeTime': None, 'lastTransitionTime': '2025-08-04T05:07:16Z', 'status': 'True', 'type': 'Ready'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'message': "All of the VMI's DVs are bound and not running", 'reason': 'AllDVsReady', 'status': 'True', 'type': 'DataVolumesReady'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'status': 'True', 'type': 'LiveMigratable'}, {'lastProbeTime': '2025-08-04T05:07:29Z', 'lastTransitionTime': None, 'status': 'True', 'type': 'AgentConnected'}], 'created': True, 'desiredGeneration': 1, 'observedGeneration': 1, 'printableStatus': 'Running', 'ready': True, 'runStrategy': 'Always', 'volumeSnapshotStatuses': [{'enabled': True, 'name': 'podman-host-tch6p-1'}, {'enabled': False, 'name': 'cloudinitdisk', 'reason': 'Snapshot is not supported for this volumeSource type [cloudinitdisk]'}]}}) 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-create-inventory : Expose bastion externally] ********
+Monday 04 August 2025  05:07:36 +0000 (0:00:00.058)       0:02:22.302 ********* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-create-inventory : Create inventory (add_host)] ******
+Monday 04 August 2025  05:07:36 +0000 (0:00:00.016)       0:02:22.318 ********* 
+changed: [localhost] => (item={'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'isolated', 'Stack': 'zero-touch-base-rhel-tch6p-1', 'env_type': 'zero-touch-base-rhel', 'guid': 'tch6p-1', 'kubevirt.io/latest-observed-api-version': 'v1', 'kubevirt.io/storage-observed-api-version': 'v1', 'owner': 'zero-touch-base-rhel@opentlc.com', 'uuid': '6a189a68-674a-5792-b85a-c4f71b8e3c50'}, 'creationTimestamp': '2025-08-04T05:06:10Z', 'finalizers': ['kubevirt.io/virtualMachineControllerFinalize'], 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-04T05:06:10Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'f:kubevirt.io/latest-observed-api-version': {}, 'f:kubevirt.io/storage-observed-api-version': {}}, 'f:finalizers': {'.': {}, 'v:"kubevirt.io/virtualMachineControllerFinalize"': {}}}}, 'manager': 'virt-controller', 'operation': 'Update', 'time': '2025-08-04T05:06:10Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:status': {'.': {}, 'f:conditions': {}, 'f:created': {}, 'f:desiredGeneration': {}, 'f:observedGeneration': {}, 'f:printableStatus': {}, 'f:ready': {}, 'f:runStrategy': {}, 'f:volumeSnapshotStatuses': {}}}, 'manager': 'virt-controller', 'operation': 'Update', 'subresource': 'status', 'time': '2025-08-04T05:06:29Z'}], 'name': 'control', 'namespace': 'sandbox-tch6p-1-ocp4-cluster', 'resourceVersion': '610176344', 'uid': '2fa1efd9-c812-4be6-a2cf-f3a6431f427f'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'control-tch6p-1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '30Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'base-zero-aap-2.5-container-ce', 'namespace': 'cnv-images'}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'control'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'control-tch6p-1'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': '58111f9a-c5f0-52ae-bef7-5a11f495302d'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '16G'}, 'resources': {}}, 'hostname': 'control', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'control-tch6p-1'}, 'name': 'control-tch6p-1'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==', 'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]'}, 'name': 'cloudinitdisk'}]}}}, 'status': {'conditions': [{'lastProbeTime': None, 'lastTransitionTime': '2025-08-04T05:06:15Z', 'status': 'True', 'type': 'Ready'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'message': "All of the VMI's DVs are bound and not running", 'reason': 'AllDVsReady', 'status': 'True', 'type': 'DataVolumesReady'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'status': 'True', 'type': 'LiveMigratable'}, {'lastProbeTime': '2025-08-04T05:06:29Z', 'lastTransitionTime': None, 'status': 'True', 'type': 'AgentConnected'}], 'created': True, 'desiredGeneration': 1, 'observedGeneration': 1, 'printableStatus': 'Running', 'ready': True, 'runStrategy': 'Always', 'volumeSnapshotStatuses': [{'enabled': True, 'name': 'control-tch6p-1'}, {'enabled': False, 'name': 'cloudinitdisk', 'reason': 'Snapshot is not supported for this volumeSource type [cloudinitdisk]'}]}})
+changed: [localhost] => (item={'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'isolated', 'Stack': 'zero-touch-base-rhel-tch6p-1', 'env_type': 'zero-touch-base-rhel', 'guid': 'tch6p-1', 'kubevirt.io/latest-observed-api-version': 'v1', 'kubevirt.io/storage-observed-api-version': 'v1', 'owner': 'zero-touch-base-rhel@opentlc.com', 'uuid': '6a189a68-674a-5792-b85a-c4f71b8e3c50'}, 'creationTimestamp': '2025-08-04T05:06:22Z', 'finalizers': ['kubevirt.io/virtualMachineControllerFinalize'], 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-04T05:06:22Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'f:kubevirt.io/latest-observed-api-version': {}, 'f:kubevirt.io/storage-observed-api-version': {}}, 'f:finalizers': {'.': {}, 'v:"kubevirt.io/virtualMachineControllerFinalize"': {}}}}, 'manager': 'virt-controller', 'operation': 'Update', 'time': '2025-08-04T05:06:23Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:status': {'.': {}, 'f:conditions': {}, 'f:created': {}, 'f:desiredGeneration': {}, 'f:observedGeneration': {}, 'f:printableStatus': {}, 'f:ready': {}, 'f:runStrategy': {}, 'f:volumeSnapshotStatuses': {}}}, 'manager': 'virt-controller', 'operation': 'Update', 'subresource': 'status', 'time': '2025-08-04T05:07:00Z'}], 'name': 'node02', 'namespace': 'sandbox-tch6p-1-ocp4-cluster', 'resourceVersion': '610177379', 'uid': 'd215a11e-576f-432d-bd07-b411f5bc219f'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'node02-tch6p-1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '30Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-9.5', 'namespace': 'cnv-images'}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'node02'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 2, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'node02-tch6p-1'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': 'a94b1c01-b612-5c7c-8d2c-c29ca3860e0c'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '2G'}, 'resources': {}}, 'hostname': 'node02', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'node02-tch6p-1'}, 'name': 'node02-tch6p-1'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==', 'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]'}, 'name': 'cloudinitdisk'}]}}}, 'status': {'conditions': [{'lastProbeTime': None, 'lastTransitionTime': '2025-08-04T05:06:46Z', 'status': 'True', 'type': 'Ready'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'message': "All of the VMI's DVs are bound and not running", 'reason': 'AllDVsReady', 'status': 'True', 'type': 'DataVolumesReady'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'status': 'True', 'type': 'LiveMigratable'}, {'lastProbeTime': '2025-08-04T05:07:00Z', 'lastTransitionTime': None, 'status': 'True', 'type': 'AgentConnected'}], 'created': True, 'desiredGeneration': 1, 'observedGeneration': 1, 'printableStatus': 'Running', 'ready': True, 'runStrategy': 'Always', 'volumeSnapshotStatuses': [{'enabled': True, 'name': 'node02-tch6p-1'}, {'enabled': False, 'name': 'cloudinitdisk', 'reason': 'Snapshot is not supported for this volumeSource type [cloudinitdisk]'}]}})
+changed: [localhost] => (item={'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'isolated', 'Stack': 'zero-touch-base-rhel-tch6p-1', 'env_type': 'zero-touch-base-rhel', 'guid': 'tch6p-1', 'kubevirt.io/latest-observed-api-version': 'v1', 'kubevirt.io/storage-observed-api-version': 'v1', 'owner': 'zero-touch-base-rhel@opentlc.com', 'uuid': '6a189a68-674a-5792-b85a-c4f71b8e3c50'}, 'creationTimestamp': '2025-08-04T05:06:56Z', 'finalizers': ['kubevirt.io/virtualMachineControllerFinalize'], 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-04T05:06:56Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'f:kubevirt.io/latest-observed-api-version': {}, 'f:kubevirt.io/storage-observed-api-version': {}}, 'f:finalizers': {'.': {}, 'v:"kubevirt.io/virtualMachineControllerFinalize"': {}}}}, 'manager': 'virt-controller', 'operation': 'Update', 'time': '2025-08-04T05:06:56Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:status': {'.': {}, 'f:conditions': {}, 'f:created': {}, 'f:desiredGeneration': {}, 'f:observedGeneration': {}, 'f:printableStatus': {}, 'f:ready': {}, 'f:runStrategy': {}, 'f:volumeSnapshotStatuses': {}}}, 'manager': 'virt-controller', 'operation': 'Update', 'subresource': 'status', 'time': '2025-08-04T05:07:29Z'}], 'name': 'podman-host', 'namespace': 'sandbox-tch6p-1-ocp4-cluster', 'resourceVersion': '610178415', 'uid': 'efd81753-a1bb-4b83-ba7b-93ea4ef9932a'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'podman-host-tch6p-1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '30Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-8.7', 'namespace': 'cnv-images'}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'podman-host'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 16, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'podman-host-tch6p-1'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': '5c353eef-b0b1-5d76-8190-23c242943404'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '4G'}, 'resources': {}}, 'hostname': 'podman-host', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'podman-host-tch6p-1'}, 'name': 'podman-host-tch6p-1'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==', 'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]'}, 'name': 'cloudinitdisk'}]}}}, 'status': {'conditions': [{'lastProbeTime': None, 'lastTransitionTime': '2025-08-04T05:07:16Z', 'status': 'True', 'type': 'Ready'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'message': "All of the VMI's DVs are bound and not running", 'reason': 'AllDVsReady', 'status': 'True', 'type': 'DataVolumesReady'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'status': 'True', 'type': 'LiveMigratable'}, {'lastProbeTime': '2025-08-04T05:07:29Z', 'lastTransitionTime': None, 'status': 'True', 'type': 'AgentConnected'}], 'created': True, 'desiredGeneration': 1, 'observedGeneration': 1, 'printableStatus': 'Running', 'ready': True, 'runStrategy': 'Always', 'volumeSnapshotStatuses': [{'enabled': True, 'name': 'podman-host-tch6p-1'}, {'enabled': False, 'name': 'cloudinitdisk', 'reason': 'Snapshot is not supported for this volumeSource type [cloudinitdisk]'}]}})
+
+TASK [infra-common-ssh-config-generate : Store bastion hostname as a fact] *****
+Monday 04 August 2025  05:07:36 +0000 (0:00:00.100)       0:02:22.419 ********* 
+skipping: [localhost]
+
+TASK [infra-common-ssh-config-generate : Delete dedicated known_host if it exists (new deployment)] ***
+Monday 04 August 2025  05:07:36 +0000 (0:00:00.082)       0:02:22.502 ********* 
+skipping: [localhost]
+
+TASK [infra-common-ssh-config-generate : delete local ssh config, start fresh] ***
+Monday 04 August 2025  05:07:37 +0000 (0:00:00.085)       0:02:22.587 ********* 
+skipping: [localhost]
+
+TASK [infra-common-ssh-config-generate : Create empty local ssh config] ********
+Monday 04 August 2025  05:07:37 +0000 (0:00:00.079)       0:02:22.667 ********* 
+skipping: [localhost]
+
+TASK [infra-common-ssh-config-generate : Add bastion proxy config to workdir ssh config file] ***
+Monday 04 August 2025  05:07:37 +0000 (0:00:00.080)       0:02:22.748 ********* 
+skipping: [localhost]
+
+TASK [infra-common-ssh-config-generate : Add all hosts to workdir ssh config file] ***
+Monday 04 August 2025  05:07:37 +0000 (0:00:00.100)       0:02:22.848 ********* 
+skipping: [localhost] => (item=control) 
+skipping: [localhost] => (item=node02) 
+skipping: [localhost] => (item=podman-host) 
+skipping: [localhost]
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Monday 04 August 2025  05:07:37 +0000 (0:00:00.229)       0:02:23.078 ********* 
+ok: [localhost]
+ok: [control]
+ok: [node02]
+ok: [podman-host]
+
+TASK [Include variables files] *************************************************
+Monday 04 August 2025  05:07:37 +0000 (0:00:00.039)       0:02:23.118 ********* 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yaml) 
+skipping: [control] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yml) 
+skipping: [node02] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yaml) 
+skipping: [podman-host] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yaml) 
+skipping: [control] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_vars.yaml) 
+skipping: [node02] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yml) 
+skipping: [podman-host] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yml) 
+skipping: [control] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_vars.yml) 
+skipping: [podman-host] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_vars.yaml) 
+skipping: [node02] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_vars.yaml) 
+skipping: [control] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars.yaml) 
+skipping: [podman-host] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_vars.yml) 
+skipping: [node02] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_vars.yml) 
+skipping: [control] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars.yaml) 
+skipping: [podman-host] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars.yml)
+skipping: [node02] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars.yaml) 
+ok: [control] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars.yml)
+ok: [podman-host] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars.yml)
+ok: [node02] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars.yml)
+ok: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars_openshift_cnv.yaml)
+ok: [control] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars_openshift_cnv.yaml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars_openshift_cnv.yml) 
+skipping: [control] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars_openshift_cnv.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_secret_vars.yaml) 
+ok: [podman-host] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars_openshift_cnv.yaml)
+skipping: [control] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_secret_vars.yaml) 
+ok: [node02] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars_openshift_cnv.yaml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_secret_vars.yml) 
+skipping: [podman-host] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars_openshift_cnv.yml) 
+skipping: [control] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_secret_vars.yml) 
+skipping: [node02] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars_openshift_cnv.yml) 
+skipping: [podman-host] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_secret_vars.yaml) 
+skipping: [node02] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_secret_vars.yaml) 
+skipping: [podman-host] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_secret_vars.yml) 
+skipping: [node02] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Monday 04 August 2025  05:07:37 +0000 (0:00:00.101)       0:02:23.219 ********* 
+skipping: [localhost]
+skipping: [control]
+skipping: [node02]
+skipping: [podman-host]
+
+TASK [Set passthrough user data] ***********************************************
+Monday 04 August 2025  05:07:37 +0000 (0:00:00.038)       0:02:23.258 ********* 
+skipping: [localhost]
+[WARNING]: Could not match supplied host pattern, ignoring: network
+
+PLAY [Step 001.3 Configure Linux Hosts and Wait for Connection] ****************
+skipping: no hosts matched
+
+PLAY [Step 002 Post Infrastructure] ********************************************
+
+TASK [Step 002 Post Infrastructure] ********************************************
+Monday 04 August 2025  05:07:37 +0000 (0:00:00.063)       0:02:23.322 ********* 
+ok: [localhost] => {
+    "msg": "Step 000 Post Infrastructure"
+}
+
+TASK [Add Subnet and Nic to bastion] *******************************************
+Monday 04 August 2025  05:07:37 +0000 (0:00:00.013)       0:02:23.335 ********* 
+skipping: [localhost]
+
+PLAY [Step 000 post Infrastructure Validation] *********************************
+
+TASK [Step 000 post Infrastructure Validation] *********************************
+Monday 04 August 2025  05:07:37 +0000 (0:00:00.028)       0:02:23.363 ********* 
+skipping: [localhost]
+
+PLAY [Step 002 Post Infrastructure regreSSHion Hotfix] *************************
+skipping: no hosts matched
+
+PLAY [localhost] ***************************************************************
+
+TASK [Export in-memory inventory to inventory file] ****************************
+Monday 04 August 2025  05:07:37 +0000 (0:00:00.028)       0:02:23.392 ********* 
+
+TASK [agnosticd_inventory_exporter : Export in-memory inventory to file] *******
+Monday 04 August 2025  05:07:37 +0000 (0:00:00.019)       0:02:23.412 ********* 
+changed: [localhost]
+
+PLAY [Step 003 Pre Software] ***************************************************
+
+TASK [Step 003 Pre Software] ***************************************************
+Monday 04 August 2025  05:07:39 +0000 (0:00:01.724)       0:02:25.136 ********* 
+ok: [localhost] => {
+    "msg": "Step 000 Pre Software"
+}
+
+TASK [create_ssh_provision_key : include_tasks] ********************************
+Monday 04 August 2025  05:07:39 +0000 (0:00:00.012)       0:02:25.149 ********* 
+included: /runner/project/ansible/roles-infra/create_ssh_provision_key/tasks/checks.yaml for localhost
+
+TASK [create_ssh_provision_key : Ensure key_name is not defined] ***************
+Monday 04 August 2025  05:07:39 +0000 (0:00:00.020)       0:02:25.170 ********* 
+skipping: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH keys] ****************************
+Monday 04 August 2025  05:07:39 +0000 (0:00:00.019)       0:02:25.189 ********* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Fix permission of ssh key] ********************
+Monday 04 August 2025  05:07:39 +0000 (0:00:00.173)       0:02:25.363 ********* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH pub key content] *****************
+Monday 04 August 2025  05:07:40 +0000 (0:00:00.166)       0:02:25.529 ********* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Save all facts for SSH] ***********************
+Monday 04 August 2025  05:07:40 +0000 (0:00:00.157)       0:02:25.686 ********* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Write SSH pub key] ****************************
+Monday 04 August 2025  05:07:40 +0000 (0:00:00.018)       0:02:25.705 ********* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Report user info for SSH provision key as user data] ***
+Monday 04 August 2025  05:07:40 +0000 (0:00:00.288)       0:02:25.994 ********* 
+skipping: [localhost]
+
+TASK [include_role : agnosticd_save_output_dir] ********************************
+Monday 04 August 2025  05:07:40 +0000 (0:00:00.016)       0:02:26.010 ********* 
+skipping: [localhost]
+
+PLAY [Install Pre Software workloads for all nodes omit localhost] *************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads on localhost] *****************************
+
+TASK [Deploying Pre Software workloads  on localhost] **************************
+Monday 04 August 2025  05:07:40 +0000 (0:00:00.036)       0:02:26.047 ********* 
+skipping: [localhost]
+
+PLAY [Install Pre Software workloads on  all hosts] ****************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads on bastion] *******************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for windows] ******************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for gitlab] *******************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for nodes] ********************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for centos nodes] *************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for Satellites] ***************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for Satellite Capsules] *******************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: centos
+
+PLAY [Configure all hosts with Repositories, Common Files and Set environment key] ***
+skipping: no hosts matched
+
+PLAY [Configuring Hosts] *******************************************************
+skipping: no hosts matched
+
+PLAY [Setup legacy systems] ****************************************************
+skipping: no hosts matched
+
+PLAY [Pre-software asset inject] ***********************************************
+skipping: no hosts matched
+
+PLAY [Setup Satellite systems] *************************************************
+skipping: no hosts matched
+
+PLAY [PreSoftware flight-check] ************************************************
+
+TASK [Pre-Software checks completed successfully] ******************************
+Monday 04 August 2025  05:07:40 +0000 (0:00:00.048)       0:02:26.096 ********* 
+ok: [localhost] => {
+    "msg": "Pre-Software checks completed successfully"
+}
+
+PLAY [Step 003 Pre Software Validation] ****************************************
+
+TASK [Step 003 Pre Software Validation] ****************************************
+Monday 04 August 2025  05:07:40 +0000 (0:00:00.026)       0:02:26.122 ********* 
+skipping: [localhost]
+
+PLAY [Step 00xxxxx software] ***************************************************
+
+TASK [Software tasks Started] **************************************************
+Monday 04 August 2025  05:07:40 +0000 (0:00:00.028)       0:02:26.150 ********* 
+ok: [localhost] => {
+    "msg": "Software tasks Started"
+}
+
+PLAY [Install packages defined in the instances] *******************************
+skipping: no hosts matched
+
+PLAY [Install Software workloads for all nodes omit localhost] *****************
+skipping: no hosts matched
+
+PLAY [Install Software workloads on localhost] *********************************
+
+TASK [Deploying Software workloads  on localhost] ******************************
+Monday 04 August 2025  05:07:40 +0000 (0:00:00.028)       0:02:26.179 ********* 
+skipping: [localhost]
+
+PLAY [Install Software workloads on  all hosts] ********************************
+skipping: no hosts matched
+
+PLAY [Install Software workloads on bastion] ***********************************
+skipping: no hosts matched
+
+PLAY [Install Software workloads for windows] **********************************
+skipping: no hosts matched
+
+PLAY [Install Software workloads for gitlab] ***********************************
+skipping: no hosts matched
+
+PLAY [Install Software workloads for nodes] ************************************
+skipping: no hosts matched
+
+PLAY [Install Software workloads for centos nodes] *****************************
+skipping: no hosts matched
+
+PLAY [Install Software workloads for Satellites] *******************************
+skipping: no hosts matched
+
+PLAY [Install Software workloads for Satellite Capsules] ***********************
+skipping: no hosts matched
+
+PLAY [Software flight-check] ***************************************************
+
+TASK [Software checks completed successfully] **********************************
+Monday 04 August 2025  05:07:40 +0000 (0:00:00.040)       0:02:26.220 ********* 
+ok: [localhost] => {
+    "msg": "Software checks completed successfully"
+}
+
+PLAY [Step 000 Pre Infrastructure Validation] **********************************
+
+TASK [Step 000 Pre Infrastructure Validation] **********************************
+Monday 04 August 2025  05:07:40 +0000 (0:00:00.028)       0:02:26.248 ********* 
+skipping: [localhost]
+
+PLAY [Software Playbook NONE] **************************************************
+
+TASK [Print Software (none) message] *******************************************
+Monday 04 August 2025  05:07:40 +0000 (0:00:00.041)       0:02:26.290 ********* 
+ok: [localhost] => {
+    "msg": "Included software playbook for: none [dummy only]"
+}
+
+TASK [Check for hosts_template file] *******************************************
+Monday 04 August 2025  05:07:40 +0000 (0:00:00.015)       0:02:26.305 ********* 
+ok: [localhost]
+
+TASK [Generate ansible hosts file] *********************************************
+Monday 04 August 2025  05:07:40 +0000 (0:00:00.150)       0:02:26.456 ********* 
+skipping: [localhost]
+
+PLAY [Step 00xxxxx bastion preparation for deployment] *************************
+skipping: no hosts matched
+
+PLAY [Step 005 post software] **************************************************
+
+TASK [Post-Software tasks Started] *********************************************
+Monday 04 August 2025  05:07:40 +0000 (0:00:00.026)       0:02:26.482 ********* 
+ok: [localhost] => {
+    "msg": "Post-Software tasks Started"
+}
+
+PLAY [Install Post Software workloads for all nodes omit localhost] ************
+skipping: no hosts matched
+
+PLAY [Install Post Software workloads on localhost] ****************************
+
+TASK [Deploying Post Software workloads  on localhost] *************************
+Monday 04 August 2025  05:07:41 +0000 (0:00:00.034)       0:02:26.516 ********* 
+skipping: [localhost]
+
+PLAY [Install Post Software workloads on  all hosts] ***************************
+skipping: no hosts matched
+
+PLAY [Install Post Software workloads on bastion] ******************************
+skipping: no hosts matched
+
+PLAY [Install Post Software workloads for windows] *****************************
+skipping: no hosts matched
+
+PLAY [Install Post Software workloads for gitlab] ******************************
+skipping: no hosts matched
+
+PLAY [Install Post Software workloads for nodes] *******************************
+skipping: no hosts matched
+
+PLAY [Install Post Software workloads for centos nodes] ************************
+skipping: no hosts matched
+
+PLAY [Install Post Software workloads for Satellites] **************************
+skipping: no hosts matched
+
+PLAY [Install Post Software workloads for Satellite Capsules] ******************
+skipping: no hosts matched
+
+PLAY [Execute task file based on a boolean condition] **************************
+skipping: no hosts matched
+
+PLAY [showroom deployer] *******************************************************
+
+TASK [Gathering Facts] *********************************************************
+Monday 04 August 2025  05:07:41 +0000 (0:00:00.048)       0:02:26.565 ********* 
+ok: [localhost]
+
+TASK [Deploy Showroom as pods on the namespace (cnv)] **************************
+Monday 04 August 2025  05:07:41 +0000 (0:00:00.772)       0:02:27.337 ********* 
+
+TASK [ocp4_workload_showroom : Running Pre Workload Tasks] *********************
+Monday 04 August 2025  05:07:41 +0000 (0:00:00.030)       0:02:27.368 ********* 
+included: /runner/project/ansible/roles_ocp_workloads/ocp4_workload_showroom/tasks/./pre_workload.yml for localhost
+
+TASK [ocp4_workload_showroom : Create temporary file for kubeconfig] ***********
+Monday 04 August 2025  05:07:41 +0000 (0:00:00.021)       0:02:27.390 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Set _showroom_kubeconfig] ***********************
+Monday 04 August 2025  05:07:41 +0000 (0:00:00.020)       0:02:27.410 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Write content to kubeconfig] ********************
+Monday 04 August 2025  05:07:41 +0000 (0:00:00.020)       0:02:27.430 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Pre_workload tasks complete] ********************
+Monday 04 August 2025  05:07:41 +0000 (0:00:00.020)       0:02:27.450 ********* 
+ok: [localhost] => {
+    "msg": "Pre-Workload tasks completed successfully."
+}
+
+TASK [ocp4_workload_showroom : Pre_workload tasks complete] ********************
+Monday 04 August 2025  05:07:41 +0000 (0:00:00.024)       0:02:27.475 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Running Workload Tasks] *************************
+Monday 04 August 2025  05:07:41 +0000 (0:00:00.019)       0:02:27.494 ********* 
+included: /runner/project/ansible/roles_ocp_workloads/ocp4_workload_showroom/tasks/./workload.yml for localhost
+
+TASK [ocp4_workload_showroom : Prepare Variables] ******************************
+Monday 04 August 2025  05:07:42 +0000 (0:00:00.046)       0:02:27.541 ********* 
+included: /runner/project/ansible/roles_ocp_workloads/ocp4_workload_showroom/tasks/prepare-variables.yaml for localhost
+
+TASK [ocp4_workload_showroom : Check for required variables] *******************
+Monday 04 August 2025  05:07:42 +0000 (0:00:00.084)       0:02:27.625 ********* 
+ok: [localhost]
+
+TASK [ocp4_workload_showroom : Set passthrough variables to per-user data, if desired] ***
+Monday 04 August 2025  05:07:42 +0000 (0:00:00.032)       0:02:27.657 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Set showroom_user_data fact from lookup - global value] ***
+Monday 04 August 2025  05:07:42 +0000 (0:00:00.023)       0:02:27.680 ********* 
+ok: [localhost]
+
+TASK [ocp4_workload_showroom : Set fact _user_count] ***************************
+Monday 04 August 2025  05:07:42 +0000 (0:00:00.055)       0:02:27.736 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Read user-info.yaml] ****************************
+Monday 04 August 2025  05:07:42 +0000 (0:00:00.074)       0:02:27.811 ********* 
+ok: [localhost]
+
+TASK [ocp4_workload_showroom : Set fact for user info] *************************
+Monday 04 August 2025  05:07:42 +0000 (0:00:00.247)       0:02:28.058 ********* 
+ok: [localhost]
+
+TASK [ocp4_workload_showroom : Debug user data to services] ********************
+Monday 04 August 2025  05:07:42 +0000 (0:00:00.026)       0:02:28.085 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Retrieve Ingress config] ************************
+Monday 04 August 2025  05:07:42 +0000 (0:00:00.023)       0:02:28.108 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Get OpenShift Apps Domain (Non Equinix)] ********
+Monday 04 August 2025  05:07:42 +0000 (0:00:00.020)       0:02:28.128 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Get OpenShift Apps Domain (Equinix)] ************
+Monday 04 August 2025  05:07:42 +0000 (0:00:00.025)       0:02:28.153 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Set _deployer_domain when environment is CNV] ***
+Monday 04 August 2025  05:07:42 +0000 (0:00:00.021)       0:02:28.175 ********* 
+ok: [localhost]
+
+TASK [ocp4_workload_showroom : Check if ArgoCD has been installed] *************
+Monday 04 August 2025  05:07:42 +0000 (0:00:00.025)       0:02:28.200 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Check if an older ArgoCD has been installed] ****
+Monday 04 August 2025  05:07:42 +0000 (0:00:00.016)       0:02:28.217 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Fail if no ArgoCD detected] *********************
+Monday 04 August 2025  05:07:42 +0000 (0:00:00.017)       0:02:28.234 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Debug showroom_user data] ***********************
+Monday 04 August 2025  05:07:42 +0000 (0:00:00.020)       0:02:28.254 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Install showroom Application (single user)] *****
+Monday 04 August 2025  05:07:42 +0000 (0:00:00.023)       0:02:28.277 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Install showroom ApplicationSet (multi user)] ***
+Monday 04 August 2025  05:07:42 +0000 (0:00:00.024)       0:02:28.302 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Check if Helm needs to be installed] ************
+Monday 04 August 2025  05:07:42 +0000 (0:00:00.020)       0:02:28.322 ********* 
+included: /runner/project/ansible/roles_ocp_workloads/ocp4_workload_showroom/tasks/check-and-install-helm.yaml for localhost
+
+TASK [ocp4_workload_showroom : Check if helm is in /usr/local/bin] *************
+Monday 04 August 2025  05:07:42 +0000 (0:00:00.031)       0:02:28.354 ********* 
+ok: [localhost]
+
+TASK [ocp4_workload_showroom : Check if helm is in /usr/bin] *******************
+Monday 04 August 2025  05:07:43 +0000 (0:00:00.203)       0:02:28.557 ********* 
+ok: [localhost]
+
+TASK [ocp4_workload_showroom : Set URL for helm] *******************************
+Monday 04 August 2025  05:07:43 +0000 (0:00:00.161)       0:02:28.718 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Install helm command] ***************************
+Monday 04 August 2025  05:07:43 +0000 (0:00:00.020)       0:02:28.739 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Link downloaded helm command to helm] ***********
+Monday 04 August 2025  05:07:43 +0000 (0:00:00.019)       0:02:28.758 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Create Helm Bash completion file] ***************
+Monday 04 August 2025  05:07:43 +0000 (0:00:00.022)       0:02:28.781 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Get helm version] *******************************
+Monday 04 August 2025  05:07:43 +0000 (0:00:00.021)       0:02:28.803 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Emit Helm version] ******************************
+Monday 04 August 2025  05:07:43 +0000 (0:00:00.021)       0:02:28.825 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Deploy showroom via Helm (single user)] *********
+Monday 04 August 2025  05:07:43 +0000 (0:00:00.021)       0:02:28.846 ********* 
+included: /runner/project/ansible/roles_ocp_workloads/ocp4_workload_showroom/tasks/deploy-showroom-helm.yaml for localhost
+
+TASK [ocp4_workload_showroom : Print Showroom namespace information] ***********
+Monday 04 August 2025  05:07:43 +0000 (0:00:00.071)       0:02:28.917 ********* 
+ok: [localhost] => {
+    "msg": "Setting up showroom in namespace sandbox-tch6p-1-ocp4-cluster"
+}
+
+TASK [ocp4_workload_showroom : Setup Namespace] ********************************
+Monday 04 August 2025  05:07:43 +0000 (0:00:00.026)       0:02:28.944 ********* 
+included: /runner/project/ansible/roles_ocp_workloads/ocp4_workload_showroom/tasks/setup-namespace.yaml for localhost
+
+TASK [ocp4_workload_showroom : Get showroom namespace] *************************
+Monday 04 August 2025  05:07:43 +0000 (0:00:00.030)       0:02:28.974 ********* 
+ok: [localhost]
+
+TASK [ocp4_workload_showroom : Create showroom namespace] **********************
+Monday 04 August 2025  05:07:44 +0000 (0:00:00.653)       0:02:29.628 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Create a test object in the showroom namespace to validate self-provisioner with retries] ***
+Monday 04 August 2025  05:07:44 +0000 (0:00:00.022)       0:02:29.651 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Remove test object] *****************************
+Monday 04 August 2025  05:07:44 +0000 (0:00:00.020)       0:02:29.671 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Render helm chart with values] ******************
+Monday 04 August 2025  05:07:44 +0000 (0:00:00.020)       0:02:29.691 ********* 
+changed: [localhost]
+
+TASK [ocp4_workload_showroom : Deploy rendered manifests to OpenShift] *********
+Monday 04 August 2025  05:07:45 +0000 (0:00:01.067)       0:02:30.758 ********* 
+changed: [localhost]
+
+TASK [ocp4_workload_showroom : Deploy showroom via Helm (multi user)] **********
+Monday 04 August 2025  05:07:47 +0000 (0:00:02.047)       0:02:32.806 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Report Variables to user_data (single user)] ****
+Monday 04 August 2025  05:07:47 +0000 (0:00:00.083)       0:02:32.890 ********* 
+included: /runner/project/ansible/roles_ocp_workloads/ocp4_workload_showroom/tasks/report-variables.yaml for localhost
+
+TASK [ocp4_workload_showroom : Print route to look for] ************************
+Monday 04 August 2025  05:07:47 +0000 (0:00:00.060)       0:02:32.950 ********* 
+ok: [localhost] => {
+    "msg": "Looking for route showroom in namespace sandbox-tch6p-1-ocp4-cluster."
+}
+
+TASK [ocp4_workload_showroom : Get the Showroom route] *************************
+Monday 04 August 2025  05:07:47 +0000 (0:00:00.025)       0:02:32.975 ********* 
+ok: [localhost]
+
+TASK [ocp4_workload_showroom : Output agnosticd_user_data for showroom] ********
+Monday 04 August 2025  05:07:48 +0000 (0:00:00.595)       0:02:33.571 ********* 
+ok: [localhost] => {
+    "changed": false,
+    "data": {
+        "lab_ui_url": "https://showroom-tch6p-1.apps.ocpvdev01.rhdp.net/",
+        "showroom_primary_view_url": "https://showroom-tch6p-1.apps.ocpvdev01.rhdp.net/"
+    },
+    "msg": "user.info: Lab instructions: https://showroom-tch6p-1.apps.ocpvdev01.rhdp.net/"
+}
+
+TASK [ocp4_workload_showroom : Report Variables to user_data (multi user)] *****
+Monday 04 August 2025  05:07:48 +0000 (0:00:00.037)       0:02:33.608 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Running Post Workload Tasks] ********************
+Monday 04 August 2025  05:07:48 +0000 (0:00:00.080)       0:02:33.689 ********* 
+included: /runner/project/ansible/roles_ocp_workloads/ocp4_workload_showroom/tasks/./post_workload.yml for localhost
+
+TASK [ocp4_workload_showroom : Post_workload tasks complete] *******************
+Monday 04 August 2025  05:07:48 +0000 (0:00:00.028)       0:02:33.718 ********* 
+ok: [localhost] => {
+    "msg": "Post-Workload tasks completed successfully."
+}
+
+TASK [ocp4_workload_showroom : Post_workload tasks complete] *******************
+Monday 04 August 2025  05:07:48 +0000 (0:00:00.025)       0:02:33.744 ********* 
+skipping: [localhost]
+
+TASK [ocp4_workload_showroom : Running Workload removal Tasks] *****************
+Monday 04 August 2025  05:07:48 +0000 (0:00:00.022)       0:02:33.766 ********* 
+skipping: [localhost]
+
+TASK [Wait for showroom pod to be ready] ***************************************
+Monday 04 August 2025  05:07:48 +0000 (0:00:00.027)       0:02:33.794 ********* 
+An exception occurred during task execution. To see the full traceback, use -vvv. The error was: ansible_collections.kubernetes.core.plugins.module_utils.k8s.exceptions.CoreException: Failed to gather information about Pod(s) even after waiting for 601 seconds
+fatal: [localhost]: FAILED! => {"changed": false, "msg": "Failed to gather information about Pod(s) even after waiting for 601 seconds"}
+
+NO MORE HOSTS LEFT *************************************************************
+
+PLAY RECAP *********************************************************************
+control                    : ok=2    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+localhost                  : ok=157  changed=42   unreachable=0    failed=1    skipped=102  rescued=0    ignored=0   
+node02                     : ok=2    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+podman-host                : ok=2    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+Monday 04 August 2025  05:17:50 +0000 (0:10:01.867)       0:12:35.661 ********* 
+=============================================================================== 
+Wait for showroom pod to be ready ------------------------------------- 601.87s
+infra-openshift-cnv-resources : Wait till VM is running ---------------- 32.34s
+infra-openshift-cnv-resources : Wait till VM is running ---------------- 32.30s
+infra-openshift-cnv-resources : wait till container is running --------- 11.76s
+infra-openshift-cnv-resources : wait till container is running --------- 11.63s
+infra-openshift-cnv-resources : wait till container is running --------- 11.60s
+infra-openshift-cnv-resources : Wait till VM is running ---------------- 11.21s
+infra-openshift-cnv-resources : Run command(s) inside the recently created container --- 4.68s
+ocp4_workload_showroom : Deploy rendered manifests to OpenShift --------- 2.05s
+agnosticd_inventory_exporter : Export in-memory inventory to file ------- 1.72s
+ocp4_workload_showroom : Render helm chart with values ------------------ 1.07s
+infra-openshift-cnv-resources : Create network default ------------------ 0.98s
+agnosticd_restore_output_dir : Get output_dir archive from s3 ----------- 0.87s
+agnosticd_save_output_dir : Save output_dir archive to AWS S3 ----------- 0.83s
+infra-openshift-cnv-resources : Create services for instance "control" --- 0.82s
+Gathering Facts --------------------------------------------------------- 0.77s
+infra-openshift-cnv-resources : Create a SSH (or defined one) service for internal connections for node podman-host --- 0.75s
+Create empty user-info.yaml and user-data.yaml in output dir ------------ 0.74s
+infra-openshift-cnv-resources : Create instance(s) "control" ------------ 0.72s
+infra-openshift-cnv-resources : Create routes with tls ------------------ 0.72s

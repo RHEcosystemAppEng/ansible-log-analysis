@@ -1,0 +1,1721 @@
+[DEPRECATION WARNING]: ANSIBLE_COLLECTIONS_PATHS option. Reason: does not fit 
+var naming standard, use the singular form ANSIBLE_COLLECTIONS_PATH instead 
+Alternatives: none. This feature will be removed in version 2.19. Deprecation 
+warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+Vault password (gpte_vault_0): 
+
+PLAY [Step 0000 Set Action] ****************************************************
+
+TASK [Set ACTION to provision] *************************************************
+Monday 04 August 2025  14:52:44 +0000 (0:00:00.008)       0:00:00.008 ********* 
+skipping: [localhost]
+
+PLAY [Step 0000 Setup runtime] *************************************************
+
+TASK [debug] *******************************************************************
+Monday 04 August 2025  14:52:44 +0000 (0:00:00.017)       0:00:00.025 ********* 
+skipping: [localhost]
+
+TASK [Ensure cloud provider is supported] **************************************
+Monday 04 August 2025  14:52:44 +0000 (0:00:00.012)       0:00:00.038 ********* 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+PLAY [Step 0000 Setup Output Directory] ****************************************
+
+TASK [Set output_dir if not defined] *******************************************
+Monday 04 August 2025  14:52:44 +0000 (0:00:00.016)       0:00:00.054 ********* 
+skipping: [localhost]
+
+TASK [Create output_dir if it does not exists] *********************************
+Monday 04 August 2025  14:52:44 +0000 (0:00:00.018)       0:00:00.073 ********* 
+changed: [localhost]
+
+TASK [Attempt to restore output_dir contents] **********************************
+Monday 04 August 2025  14:52:44 +0000 (0:00:00.286)       0:00:00.360 ********* 
+included: agnosticd_restore_output_dir for localhost
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from s3 bucket] ********
+Monday 04 August 2025  14:52:44 +0000 (0:00:00.022)       0:00:00.383 ********* 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/restore-from-s3.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Monday 04 August 2025  14:52:44 +0000 (0:00:00.035)       0:00:00.418 ********* 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/fetch-from-s3-s3_object.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Monday 04 August 2025  14:52:44 +0000 (0:00:00.035)       0:00:00.454 ********* 
+ok: [localhost]
+
+TASK [agnosticd_restore_output_dir : Decrypt archive] **************************
+Monday 04 August 2025  14:52:45 +0000 (0:00:00.921)       0:00:01.375 ********* 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from archive] **********
+Monday 04 August 2025  14:52:45 +0000 (0:00:00.017)       0:00:01.393 ********* 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove archive file from output_dir] ******
+Monday 04 August 2025  14:52:45 +0000 (0:00:00.017)       0:00:01.410 ********* 
+ok: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove encrypted archive file from output_dir] ***
+Monday 04 August 2025  14:52:46 +0000 (0:00:00.161)       0:00:01.572 ********* 
+ok: [localhost]
+
+TASK [Touch file provision-user-data.yaml and provision-user-info.yaml] ********
+Monday 04 August 2025  14:52:46 +0000 (0:00:00.163)       0:00:01.736 ********* 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create empty user-info.yaml and user-data.yaml in output dir] ************
+Monday 04 August 2025  14:52:46 +0000 (0:00:00.317)       0:00:02.053 ********* 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create symlink user-data.yaml -> provision-user-data.yaml] ***************
+Monday 04 August 2025  14:52:47 +0000 (0:00:00.786)       0:00:02.840 ********* 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Monday 04 August 2025  14:52:47 +0000 (0:00:00.330)       0:00:03.170 ********* 
+ok: [localhost]
+
+TASK [Include variables files] *************************************************
+Monday 04 August 2025  14:52:47 +0000 (0:00:00.018)       0:00:03.189 ********* 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Monday 04 August 2025  14:52:47 +0000 (0:00:00.058)       0:00:03.248 ********* 
+skipping: [localhost]
+
+TASK [Set passthrough user data] ***********************************************
+Monday 04 August 2025  14:52:47 +0000 (0:00:00.016)       0:00:03.264 ********* 
+skipping: [localhost]
+
+PLAY [Step 0000 Install Galaxy roles and collections] **************************
+
+TASK [Use requirements_content] ************************************************
+Monday 04 August 2025  14:52:47 +0000 (0:00:00.016)       0:00:03.281 ********* 
+skipping: [localhost]
+
+TASK [Copy requirements content to output_dir] *********************************
+Monday 04 August 2025  14:52:47 +0000 (0:00:00.012)       0:00:03.293 ********* 
+skipping: [localhost]
+
+TASK [Use requirements_path from the config] ***********************************
+Monday 04 August 2025  14:52:47 +0000 (0:00:00.011)       0:00:03.304 ********* 
+ok: [localhost]
+
+TASK [Check if requirements.yml exists] ****************************************
+Monday 04 August 2025  14:52:47 +0000 (0:00:00.018)       0:00:03.322 ********* 
+ok: [localhost]
+
+TASK [set_fact] ****************************************************************
+Monday 04 August 2025  14:52:47 +0000 (0:00:00.172)       0:00:03.495 ********* 
+ok: [localhost]
+
+TASK [Install roles from requirements.yml] *************************************
+Monday 04 August 2025  14:52:47 +0000 (0:00:00.016)       0:00:03.511 ********* 
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (Not EE)] **********************
+Monday 04 August 2025  14:52:48 +0000 (0:00:00.611)       0:00:04.122 ********* 
+skipping: [localhost]
+
+TASK [Get installed collections (EE)] ******************************************
+Monday 04 August 2025  14:52:48 +0000 (0:00:00.029)       0:00:04.151 ********* 
+included: /runner/project/ansible/install_collections_ee.yml for localhost
+
+TASK [Get the list of installed collections (EE)] ******************************
+Monday 04 August 2025  14:52:48 +0000 (0:00:00.027)       0:00:04.178 ********* 
+changed: [localhost]
+
+TASK [Create temporary file for requirements.yml (EE)] *************************
+Monday 04 August 2025  14:52:49 +0000 (0:00:00.509)       0:00:04.688 ********* 
+changed: [localhost]
+
+TASK [Rewrite requirements, filter out installed collections (EE)] *************
+Monday 04 August 2025  14:52:49 +0000 (0:00:00.250)       0:00:04.938 ********* 
+[WARNING]: skipping installation of amazon.aws==4.0.0 ; amazon.aws==9.4.0
+already installed in EE
+[WARNING]: skipping installation of community.general==8.1.0 ;
+community.general==10.5.0 already installed in EE
+[WARNING]: skipping installation of containers.podman==1.10.1 ;
+containers.podman==1.16.3 already installed in EE
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (EE)] **************************
+Monday 04 August 2025  14:52:49 +0000 (0:00:00.306)       0:00:05.244 ********* 
+changed: [localhost]
+
+TASK [Cleanup tempfile (EE)] ***************************************************
+Monday 04 August 2025  14:52:50 +0000 (0:00:00.509)       0:00:05.753 ********* 
+changed: [localhost]
+
+TASK [Install dynamic sources] *************************************************
+Monday 04 August 2025  14:52:50 +0000 (0:00:00.164)       0:00:05.918 ********* 
+included: agnosticd_dynamic for localhost
+
+TASK [agnosticd_dynamic : Create dynamic-cache and dynamic-roles directories] ***
+Monday 04 August 2025  14:52:50 +0000 (0:00:00.020)       0:00:05.938 ********* 
+changed: [localhost] => (item=/runner/project/ansible/dynamic-cache)
+changed: [localhost] => (item=/runner/project/ansible/dynamic-roles)
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to dynamic roles dir] ***
+Monday 04 August 2025  14:52:50 +0000 (0:00:00.325)       0:00:06.263 ********* 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to cache] *************
+Monday 04 August 2025  14:52:50 +0000 (0:00:00.015)       0:00:06.279 ********* 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install git sources] *********************************
+Monday 04 August 2025  14:52:50 +0000 (0:00:00.012)       0:00:06.292 ********* 
+skipping: [localhost]
+
+PLAY [Step 000 Pre Infrastructure] *********************************************
+
+TASK [Generate Petname Hostnames for Systems] **********************************
+Monday 04 August 2025  14:52:50 +0000 (0:00:00.011)       0:00:06.303 ********* 
+skipping: [localhost]
+
+TASK [Pull Latest Windows Image] ***********************************************
+Monday 04 August 2025  14:52:50 +0000 (0:00:00.014)       0:00:06.318 ********* 
+skipping: [localhost]
+
+TASK [Step 000 Pre Infrastructure] *********************************************
+Monday 04 August 2025  14:52:50 +0000 (0:00:00.019)       0:00:06.337 ********* 
+ok: [localhost] => {
+    "msg": "Step 000 Pre Infrastructure"
+}
+
+PLAY [Install Pre Infra workloads for all nodes omit localhost] ****************
+skipping: no hosts matched
+
+PLAY [Install Pre Infra workloads on localhost] ********************************
+
+TASK [Deploying Pre Infra workloads  on localhost] *****************************
+Monday 04 August 2025  14:52:50 +0000 (0:00:00.026)       0:00:06.364 ********* 
+skipping: [localhost]
+[WARNING]: Could not match supplied host pattern, ignoring: windows
+
+PLAY [Install Pre Infra workloads on  all hosts] *******************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: bastions
+
+PLAY [Install Pre Infra workloads on bastion] **********************************
+skipping: no hosts matched
+
+PLAY [Install Pre Infra workloads for windows] *********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: gitlab
+
+PLAY [Install Pre Infra workloads for gitlab] **********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: nodes
+
+PLAY [Install Pre Infra workloads for nodes] ***********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: centos_nodes
+
+PLAY [Install Pre Infra workloads for centos nodes] ****************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: satellites
+
+PLAY [Install Pre Infra workloads for Satellites] ******************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: capsules
+
+PLAY [Install Pre Infra workloads for Satellite Capsules] **********************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: isolated
+
+PLAY [Install Pre Infra workloads for Satellite Isolated] **********************
+skipping: no hosts matched
+
+PLAY [Step 001.0 Infrastructure Pre-Checks] ************************************
+
+TASK [Test aws command] ********************************************************
+Monday 04 August 2025  14:52:50 +0000 (0:00:00.040)       0:00:06.404 ********* 
+ok: [localhost]
+
+TASK [Fail if AWS command CLI if not available] ********************************
+Monday 04 August 2025  14:52:51 +0000 (0:00:00.167)       0:00:06.572 ********* 
+skipping: [localhost]
+
+PLAY [Step 001.1 Deploy Infrastructure] ****************************************
+
+TASK [Run infra-images] ********************************************************
+Monday 04 August 2025  14:52:51 +0000 (0:00:00.019)       0:00:06.591 ********* 
+included: infra-images for localhost
+
+TASK [infra-images : include_tasks] ********************************************
+Monday 04 August 2025  14:52:51 +0000 (0:00:00.024)       0:00:06.616 ********* 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2.yaml for localhost
+
+TASK [infra-images : include_tasks] ********************************************
+Monday 04 August 2025  14:52:51 +0000 (0:00:00.027)       0:00:06.643 ********* 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_images.yaml for localhost => (item={'count': 1, 'flavor': {'ec2': 'g5.xlarge'}, 'floating_ip': True, 'image': 'RHEL95GOLD-latest', 'name': 'rhaiis', 'public_dns': True, 'rootfs_size': '200', 'security_groups': ['BastionSG', 'HostSG', 'ShowroomSG', 'AIServicesSG'], 'tags': [{'key': 'AnsibleGroup', 'value': 'bastions,showroom'}, {'key': 'ostype', 'value': 'linux'}, {'key': 'instance_filter', 'value': 'base-infra-base-infra@opentlc.com'}], 'unique': True})
+
+TASK [infra-images : include_tasks] ********************************************
+Monday 04 August 2025  14:52:51 +0000 (0:00:00.034)       0:00:06.678 ********* 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_image.yaml for localhost => (item={'owner': 309956199498, 'name': 'RHEL-9.5.*_HVM_*Access*', 'architecture': 'x86_64', 'aws_filters': {'is-public': False}})
+
+TASK [infra-images : Lookup image for rhaiis] **********************************
+Monday 04 August 2025  14:52:51 +0000 (0:00:00.048)       0:00:06.727 ********* 
+ok: [localhost]
+
+TASK [infra-images : Fail if no image found for rhaiis] ************************
+Monday 04 August 2025  14:52:52 +0000 (0:00:01.572)       0:00:08.299 ********* 
+skipping: [localhost]
+
+TASK [infra-images : Save image in agnosticd_images, use latest if multiple found] ***
+Monday 04 August 2025  14:52:52 +0000 (0:00:00.021)       0:00:08.321 ********* 
+ok: [localhost]
+
+TASK [infra-images : debug agnosticd_image] ************************************
+Monday 04 August 2025  14:52:52 +0000 (0:00:00.033)       0:00:08.355 ********* 
+skipping: [localhost]
+
+TASK [infra-images : Print images found for each instance] *********************
+Monday 04 August 2025  14:52:52 +0000 (0:00:00.021)       0:00:08.376 ********* 
+ok: [localhost] => (item=rhaiis) => {
+    "msg": "rhaiis - RHEL-9.5.0_HVM_GA-20241029-x86_64-0-Access2-GP3 - ami-00241bc1856d4aff4 - Red Hat BYOL Linux - ap-northeast-2"
+}
+
+TASK [Run infra-aws-capacity-reservation] **************************************
+Monday 04 August 2025  14:52:52 +0000 (0:00:00.031)       0:00:08.408 ********* 
+included: infra-aws-capacity-reservation for localhost
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Monday 04 August 2025  14:52:52 +0000 (0:00:00.025)       0:00:08.434 ********* 
+skipping: [localhost]
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Monday 04 August 2025  14:52:52 +0000 (0:00:00.019)       0:00:08.454 ********* 
+skipping: [localhost]
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Monday 04 August 2025  14:52:52 +0000 (0:00:00.020)       0:00:08.474 ********* 
+skipping: [localhost]
+
+TASK [Empty the agnosticd_images and run the detection again] ******************
+Monday 04 August 2025  14:52:52 +0000 (0:00:00.018)       0:00:08.492 ********* 
+skipping: [localhost]
+
+TASK [Run infra-images again to use the proper region selected by the reservations] ***
+Monday 04 August 2025  14:52:52 +0000 (0:00:00.018)       0:00:08.511 ********* 
+skipping: [localhost]
+
+TASK [Run infra-aws-open-environment Role] *************************************
+Monday 04 August 2025  14:52:52 +0000 (0:00:00.018)       0:00:08.529 ********* 
+skipping: [localhost]
+
+TASK [Create ssh provision key] ************************************************
+Monday 04 August 2025  14:52:52 +0000 (0:00:00.017)       0:00:08.547 ********* 
+included: create_ssh_provision_key for localhost
+
+TASK [create_ssh_provision_key : include_tasks] ********************************
+Monday 04 August 2025  14:52:53 +0000 (0:00:00.132)       0:00:08.680 ********* 
+included: /runner/project/ansible/roles-infra/create_ssh_provision_key/tasks/checks.yaml for localhost
+
+TASK [create_ssh_provision_key : Ensure key_name is not defined] ***************
+Monday 04 August 2025  14:52:53 +0000 (0:00:00.015)       0:00:08.695 ********* 
+skipping: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH keys] ****************************
+Monday 04 August 2025  14:52:53 +0000 (0:00:00.015)       0:00:08.711 ********* 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Fix permission of ssh key] ********************
+Monday 04 August 2025  14:52:53 +0000 (0:00:00.420)       0:00:09.131 ********* 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH pub key content] *****************
+Monday 04 August 2025  14:52:53 +0000 (0:00:00.166)       0:00:09.298 ********* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Save all facts for SSH] ***********************
+Monday 04 August 2025  14:52:53 +0000 (0:00:00.198)       0:00:09.497 ********* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Write SSH pub key] ****************************
+Monday 04 August 2025  14:52:53 +0000 (0:00:00.021)       0:00:09.518 ********* 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Report user info for SSH provision key as user data] ***
+Monday 04 August 2025  14:52:54 +0000 (0:00:00.298)       0:00:09.816 ********* 
+skipping: [localhost]
+
+TASK [include_role : agnosticd_save_output_dir] ********************************
+Monday 04 August 2025  14:52:54 +0000 (0:00:00.016)       0:00:09.832 ********* 
+included: agnosticd_save_output_dir for localhost
+
+TASK [agnosticd_save_output_dir : Save output dir if archive file is defined] ***
+Monday 04 August 2025  14:52:54 +0000 (0:00:00.031)       0:00:09.864 ********* 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/save-output-dir.yml for localhost
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Monday 04 August 2025  14:52:54 +0000 (0:00:00.025)       0:00:09.890 ********* 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/create-output-dir-archive.yml for localhost
+
+TASK [agnosticd_save_output_dir : Create tempfile for archive] *****************
+Monday 04 August 2025  14:52:54 +0000 (0:00:00.025)       0:00:09.915 ********* 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Set agnosticd_save_output_dir_archive_tempfile] ***
+Monday 04 August 2025  14:52:54 +0000 (0:00:00.158)       0:00:10.074 ********* 
+ok: [localhost]
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Monday 04 August 2025  14:52:54 +0000 (0:00:00.021)       0:00:10.095 ********* 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Encrypt tarball using password] **************
+Monday 04 August 2025  14:52:54 +0000 (0:00:00.170)       0:00:10.266 ********* 
+skipping: [localhost]
+
+TASK [agnosticd_save_output_dir : Upload output_dir archive to S3] *************
+Monday 04 August 2025  14:52:54 +0000 (0:00:00.018)       0:00:10.285 ********* 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3.yml for localhost
+
+TASK [Run infra-cloud-tags role] ***********************************************
+Monday 04 August 2025  14:52:54 +0000 (0:00:00.024)       0:00:10.310 ********* 
+included: infra-cloud-tags for localhost
+
+TASK [infra-cloud-tags : Set cloud_tags_final (string)] ************************
+Monday 04 August 2025  14:52:54 +0000 (0:00:00.031)       0:00:10.342 ********* 
+skipping: [localhost]
+
+TASK [infra-cloud-tags : Set cloud_tags_final (dictionary)] ********************
+Monday 04 August 2025  14:52:54 +0000 (0:00:00.026)       0:00:10.369 ********* 
+ok: [localhost]
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Monday 04 August 2025  14:52:54 +0000 (0:00:00.032)       0:00:10.401 ********* 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3-s3_object.yml for localhost
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Monday 04 August 2025  14:52:54 +0000 (0:00:00.037)       0:00:10.438 ********* 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir archive tempfile] **********
+Monday 04 August 2025  14:52:55 +0000 (0:00:00.967)       0:00:11.406 ********* 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir encrypted archive tempfile] ***
+Monday 04 August 2025  14:52:56 +0000 (0:00:00.174)       0:00:11.581 ********* 
+skipping: [localhost]
+
+TASK [agnosticd_save_output_dir : Save output dir if archive file is defined] ***
+Monday 04 August 2025  14:52:56 +0000 (0:00:00.024)       0:00:11.606 ********* 
+skipping: [localhost]
+
+TASK [Locate environment SSH key] **********************************************
+Monday 04 August 2025  14:52:56 +0000 (0:00:00.019)       0:00:11.625 ********* 
+included: locate_env_authorized_key for localhost
+
+TASK [locate_env_authorized_key : Set env_authorized_key_path] *****************
+Monday 04 August 2025  14:52:56 +0000 (0:00:00.033)       0:00:11.658 ********* 
+ok: [localhost]
+
+TASK [locate_env_authorized_key : Set env_authorized_key_path_pub] *************
+Monday 04 August 2025  14:52:56 +0000 (0:00:00.023)       0:00:11.681 ********* 
+ok: [localhost]
+
+TASK [locate_env_authorized_key : Generate SSH pub key content if it doesn't exist] ***
+Monday 04 August 2025  14:52:56 +0000 (0:00:00.022)       0:00:11.703 ********* 
+ok: [localhost]
+
+TASK [locate_env_authorized_key : Save SSH pub key content as fact] ************
+Monday 04 August 2025  14:52:56 +0000 (0:00:00.174)       0:00:11.878 ********* 
+ok: [localhost]
+
+TASK [Create keypair in ec2] ***************************************************
+Monday 04 August 2025  14:52:56 +0000 (0:00:00.024)       0:00:11.902 ********* 
+included: infra-ec2-ssh-key for localhost
+
+TASK [infra-ec2-ssh-key : include_tasks] ***************************************
+Monday 04 August 2025  14:52:56 +0000 (0:00:00.033)       0:00:11.935 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-ssh-key : include_tasks] ***************************************
+Monday 04 August 2025  14:52:56 +0000 (0:00:00.014)       0:00:11.949 ********* 
+included: /runner/project/ansible/roles-infra/infra-ec2-ssh-key/tasks/create.yaml for localhost
+
+TASK [infra-ec2-ssh-key : Stat local infra key] ********************************
+Monday 04 August 2025  14:52:56 +0000 (0:00:00.017)       0:00:11.967 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-ssh-key : Generate SSH pub key content] ************************
+Monday 04 August 2025  14:52:56 +0000 (0:00:00.166)       0:00:12.134 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-ssh-key : Save all facts for SSH] ******************************
+Monday 04 August 2025  14:52:56 +0000 (0:00:00.021)       0:00:12.155 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-ssh-key : Create infra key] ************************************
+Monday 04 August 2025  14:52:56 +0000 (0:00:00.020)       0:00:12.176 ********* 
+changed: [localhost]
+
+TASK [Run infra-ec2-template-generate Role] ************************************
+Monday 04 August 2025  14:52:58 +0000 (0:00:02.219)       0:00:14.395 ********* 
+included: infra-ec2-template-generate for localhost
+
+TASK [infra-ec2-template-generate : Detect all possible Availability Zones that can host all the instance types and pick one] ***
+Monday 04 August 2025  14:52:58 +0000 (0:00:00.047)       0:00:14.443 ********* 
+included: /runner/project/ansible/roles-infra/infra-ec2-template-generate/tasks/locate_availability_zones.yml for localhost
+
+TASK [infra-ec2-template-generate : Get all the instance types] ****************
+Monday 04 August 2025  14:52:58 +0000 (0:00:00.031)       0:00:14.475 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Monday 04 August 2025  14:52:58 +0000 (0:00:00.053)       0:00:14.528 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Check if the AWS CLI has the 'describe-instance-type-offerings' feature] ***
+Monday 04 August 2025  14:52:59 +0000 (0:00:00.042)       0:00:14.570 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Get all subnets or networks in 'instances'] ***
+Monday 04 August 2025  14:52:59 +0000 (0:00:00.973)       0:00:15.544 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : include_tasks] *****************************
+Monday 04 August 2025  14:53:00 +0000 (0:00:00.039)       0:00:15.584 ********* 
+included: /runner/project/ansible/roles-infra/infra-ec2-template-generate/tasks/locate_availability_zones_tasks.yml for localhost
+
+TASK [infra-ec2-template-generate : Get the possible AZs] **********************
+Monday 04 August 2025  14:53:00 +0000 (0:00:00.031)       0:00:15.615 ********* 
+ok: [localhost] => (item=g5.xlarge)
+
+TASK [infra-ec2-template-generate : debug] *************************************
+Monday 04 August 2025  14:53:01 +0000 (0:00:01.566)       0:00:17.181 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Fail if return code is not 0] **************
+Monday 04 August 2025  14:53:01 +0000 (0:00:00.015)       0:00:17.197 ********* 
+skipping: [localhost] => (item=['aws', 'ec2', 'describe-instance-type-offerings', '--location-type', 'availability-zone', '--filters', 'Name=instance-type,Values=g5.xlarge', '--query', 'InstanceTypeOfferings[].Location', '--output', 'json']) 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Set fact of the possible Availability Zones] ***
+Monday 04 August 2025  14:53:01 +0000 (0:00:00.019)       0:00:17.216 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Calculate intersection of all AZs and set_fact] ***
+Monday 04 August 2025  14:53:01 +0000 (0:00:00.034)       0:00:17.251 ********* 
+ok: [localhost] => (item=['ap-northeast-2a', 'ap-northeast-2d', 'ap-northeast-2c'])
+
+TASK [infra-ec2-template-generate : Abort if no AZ is found] *******************
+Monday 04 August 2025  14:53:01 +0000 (0:00:00.019)       0:00:17.271 ********* 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [infra-ec2-template-generate : Print possible availability zones] *********
+Monday 04 August 2025  14:53:01 +0000 (0:00:00.017)       0:00:17.288 ********* 
+ok: [localhost] => {
+    "infra_ec2_template_generate_possible_azs": [
+        "ap-northeast-2a",
+        "ap-northeast-2c",
+        "ap-northeast-2d"
+    ]
+}
+
+TASK [infra-ec2-template-generate : Select the first AZ in the possible AZs and set fact aws_availability_zone] ***
+Monday 04 August 2025  14:53:01 +0000 (0:00:00.014)       0:00:17.303 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Debug] *************************************
+Monday 04 August 2025  14:53:01 +0000 (0:00:00.016)       0:00:17.319 ********* 
+ok: [localhost] => {
+    "aws_availability_zone": "ap-northeast-2a"
+}
+
+TASK [infra-ec2-template-generate : Check if template exists for the environment] ***
+Monday 04 August 2025  14:53:01 +0000 (0:00:00.014)       0:00:17.333 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Use CloudFormation template from the environment] ***
+Monday 04 August 2025  14:53:01 +0000 (0:00:00.180)       0:00:17.514 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Use the default CloudFormation template] ***
+Monday 04 August 2025  14:53:01 +0000 (0:00:00.012)       0:00:17.526 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Print cloudformation_template_src] *********
+Monday 04 August 2025  14:53:01 +0000 (0:00:00.014)       0:00:17.540 ********* 
+ok: [localhost] => {
+    "cloudformation_template_src": "templates/cloud_template.j2"
+}
+
+TASK [infra-ec2-template-generate : Determine the security groups used in 'instances' dictionary] ***
+Monday 04 August 2025  14:53:01 +0000 (0:00:00.014)       0:00:17.554 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Monday 04 August 2025  14:53:02 +0000 (0:00:00.040)       0:00:17.594 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Print cloudformation_template] *************
+Monday 04 August 2025  14:53:02 +0000 (0:00:00.020)       0:00:17.615 ********* 
+ok: [localhost] => {
+    "cloudformation_template": "/tmp/output-7862e466-c702-5469-bd2c-bbecd8400fac/base-infra.phhql.ec2_cloud_template"
+}
+
+TASK [infra-ec2-template-generate : AWS Generate CloudFormation Template] ******
+Monday 04 August 2025  14:53:02 +0000 (0:00:00.021)       0:00:17.637 ********* 
+changed: [localhost]
+
+TASK [infra-ec2-template-generate : Stop if debugging template] ****************
+Monday 04 August 2025  14:53:02 +0000 (0:00:00.408)       0:00:18.045 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Stat CloudFormation template] **************
+Monday 04 August 2025  14:53:02 +0000 (0:00:00.015)       0:00:18.061 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Get user name] *****************************
+Monday 04 August 2025  14:53:02 +0000 (0:00:00.168)       0:00:18.230 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Monday 04 August 2025  14:53:02 +0000 (0:00:00.012)       0:00:18.242 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Monday 04 August 2025  14:53:02 +0000 (0:00:00.011)       0:00:18.253 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Create bucket] *****************************
+Monday 04 August 2025  14:53:02 +0000 (0:00:00.011)       0:00:18.265 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Copy Template to S3] ***********************
+Monday 04 August 2025  14:53:02 +0000 (0:00:00.012)       0:00:18.277 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Check for !Ref in CF template] *************
+Monday 04 August 2025  14:53:02 +0000 (0:00:00.010)       0:00:18.288 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : validation cloudformation template] ********
+Monday 04 August 2025  14:53:02 +0000 (0:00:00.234)       0:00:18.522 ********* 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "Cloudformation template is syntactically valid"
+}
+
+TASK [infra-ec2-template-generate : Copy original !Ref CF template back in place] ***
+Monday 04 August 2025  14:53:02 +0000 (0:00:00.024)       0:00:18.547 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : validate cloudformation template with validate-template (local)] ***
+Monday 04 August 2025  14:53:02 +0000 (0:00:00.012)       0:00:18.559 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : validate cloudformation template with validate-template (S3)] ***
+Monday 04 August 2025  14:53:04 +0000 (0:00:01.659)       0:00:20.219 ********* 
+skipping: [localhost]
+
+TASK [Run infra-ec2-template-create Role] **************************************
+Monday 04 August 2025  14:53:04 +0000 (0:00:00.016)       0:00:20.235 ********* 
+included: infra-ec2-template-create for localhost
+
+TASK [infra-ec2-template-create : Retrieve stack_deployed from provision-user-data.yaml] ***
+Monday 04 August 2025  14:53:04 +0000 (0:00:00.064)       0:00:20.300 ********* 
+ok: [localhost]
+
+TASK [include_role : infra-cloud-tags] *****************************************
+Monday 04 August 2025  14:53:04 +0000 (0:00:00.026)       0:00:20.326 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : set_fact] ************************************
+Monday 04 August 2025  14:53:04 +0000 (0:00:00.019)       0:00:20.345 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Wait a bit for the previous stack and child resources to be deleted] ***
+Monday 04 August 2025  14:53:04 +0000 (0:00:00.028)       0:00:20.374 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : include_tasks] *******************************
+Monday 04 August 2025  14:53:04 +0000 (0:00:00.022)       0:00:20.397 ********* 
+skipping: [localhost]
+
+TASK [Regenerate the CloudFormation template because of custom images] *********
+Monday 04 August 2025  14:53:04 +0000 (0:00:00.029)       0:00:20.427 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Prepare for launch CloudFormation template from local] ***
+Monday 04 August 2025  14:53:04 +0000 (0:00:00.029)       0:00:20.456 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Prepare for launch CloudFormation template from S3 bucket] ***
+Monday 04 August 2025  14:53:04 +0000 (0:00:00.023)       0:00:20.480 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Launch CloudFormation template (local)] ******
+Monday 04 August 2025  14:53:04 +0000 (0:00:00.023)       0:00:20.503 ********* 
+[WARNING]: Using a variable for a task's 'args' is unsafe in some situations
+(see
+https://docs.ansible.com/ansible/devel/reference_appendices/faq.html#argsplat-
+unsafe)
+[DEPRECATION WARNING]: Param 'template' is deprecated. See the module docs for 
+more information. This feature will be removed from amazon.aws in a release 
+after 2026-05-01. Deprecation warnings can be disabled by setting 
+deprecation_warnings=False in ansible.cfg.
+changed: [localhost]
+
+TASK [infra-ec2-template-create : debug cloudformation] ************************
+Monday 04 August 2025  14:55:52 +0000 (0:02:47.218)       0:03:07.722 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : debug cloudformation] ************************
+Monday 04 August 2025  14:55:52 +0000 (0:00:00.018)       0:03:07.740 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Delete S3 bucket if it exists] ***************
+Monday 04 August 2025  14:55:52 +0000 (0:00:00.018)       0:03:07.758 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : report s3 error] *****************************
+Monday 04 August 2025  14:55:52 +0000 (0:00:00.016)       0:03:07.775 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Destroy cloudformation template] *************
+Monday 04 August 2025  14:55:52 +0000 (0:00:00.016)       0:03:07.791 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : report Cloudformation Destroy error] *********
+Monday 04 August 2025  14:55:52 +0000 (0:00:00.016)       0:03:07.807 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : report Cloudformation error] *****************
+Monday 04 August 2025  14:55:52 +0000 (0:00:00.016)       0:03:07.824 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Save aws_region_loop into aws_region_final] ***
+Monday 04 August 2025  14:55:52 +0000 (0:00:00.016)       0:03:07.840 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Output region] *******************************
+Monday 04 August 2025  14:55:52 +0000 (0:00:00.024)       0:03:07.864 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Output region] *******************************
+Monday 04 August 2025  14:55:52 +0000 (0:00:00.017)       0:03:07.881 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : set_fact] ************************************
+Monday 04 August 2025  14:55:52 +0000 (0:00:00.017)       0:03:07.899 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Save stack deployed for futur runs (idempotent)] ***
+Monday 04 August 2025  14:55:52 +0000 (0:00:00.017)       0:03:07.916 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : set_fact] ************************************
+Monday 04 August 2025  14:55:52 +0000 (0:00:00.015)       0:03:07.932 ********* 
+skipping: [localhost]
+
+TASK [Run infra-ec2-template-create Role into FallBack region] *****************
+Monday 04 August 2025  14:55:52 +0000 (0:00:00.017)       0:03:07.949 ********* 
+skipping: [localhost]
+
+TASK [report Cloudformation error] *********************************************
+Monday 04 August 2025  14:55:52 +0000 (0:00:00.029)       0:03:07.978 ********* 
+skipping: [localhost]
+
+PLAY [Step 001.2 Create Inventory and SSH config setup] ************************
+
+TASK [include_tasks] ***********************************************************
+Monday 04 August 2025  14:55:52 +0000 (0:00:00.028)       0:03:08.007 ********* 
+skipping: [localhost]
+
+TASK [Run infra-ec2-create-inventory Role] *************************************
+Monday 04 August 2025  14:55:52 +0000 (0:00:00.023)       0:03:08.030 ********* 
+included: infra-ec2-create-inventory for localhost
+
+TASK [infra-ec2-create-inventory : Report aws region] **************************
+Monday 04 August 2025  14:55:52 +0000 (0:00:00.025)       0:03:08.055 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : Gather EC2 info] ****************************
+Monday 04 August 2025  14:55:52 +0000 (0:00:00.017)       0:03:08.073 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : debug ec2_info] *****************************
+Monday 04 August 2025  14:55:54 +0000 (0:00:01.597)       0:03:09.671 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : windows ostype workaround] ******************
+Monday 04 August 2025  14:55:54 +0000 (0:00:00.017)       0:03:09.688 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : set_fact] ***********************************
+Monday 04 August 2025  14:55:54 +0000 (0:00:00.019)       0:03:09.708 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : Find the bastion in this batch of hosts] ****
+Monday 04 August 2025  14:55:54 +0000 (0:00:00.022)       0:03:09.730 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : Add hosts to the current inventory] *********
+Monday 04 August 2025  14:55:54 +0000 (0:00:00.031)       0:03:09.762 ********* 
+changed: [localhost] => (item=rhaiis.phhql.internal)
+
+TASK [infra-ec2-create-inventory : Add hosts to groups indicated by AnsibleGroup tag] ***
+Monday 04 August 2025  14:55:54 +0000 (0:00:00.045)       0:03:09.807 ********* 
+changed: [localhost] => (item=rhaiis.phhql.internal)
+
+TASK [infra-ec2-create-inventory : debug hostvars] *****************************
+Monday 04 August 2025  14:55:54 +0000 (0:00:00.025)       0:03:09.833 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : debug groups] *******************************
+Monday 04 August 2025  14:55:54 +0000 (0:00:00.015)       0:03:09.849 ********* 
+skipping: [localhost]
+
+TASK [Run Common SSH Config Generator Role] ************************************
+Monday 04 August 2025  14:55:54 +0000 (0:00:00.016)       0:03:09.865 ********* 
+included: infra-common-ssh-config-generate for localhost
+
+TASK [infra-common-ssh-config-generate : Store bastion hostname as a fact] *****
+Monday 04 August 2025  14:55:54 +0000 (0:00:00.032)       0:03:09.898 ********* 
+[WARNING]: Found variable using reserved name: remote_user
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : Delete dedicated known_host if it exists (new deployment)] ***
+Monday 04 August 2025  14:55:54 +0000 (0:00:00.021)       0:03:09.919 ********* 
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : delete local ssh config, start fresh] ***
+Monday 04 August 2025  14:55:54 +0000 (0:00:00.188)       0:03:10.107 ********* 
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : Create empty local ssh config] ********
+Monday 04 August 2025  14:55:54 +0000 (0:00:00.208)       0:03:10.316 ********* 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : Add bastion proxy config to workdir ssh config file] ***
+Monday 04 August 2025  14:55:54 +0000 (0:00:00.179)       0:03:10.495 ********* 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : Add all hosts to workdir ssh config file] ***
+Monday 04 August 2025  14:55:55 +0000 (0:00:00.320)       0:03:10.816 ********* 
+skipping: [localhost] => (item=rhaiis.phhql.internal) 
+skipping: [localhost]
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Monday 04 August 2025  14:55:55 +0000 (0:00:00.025)       0:03:10.841 ********* 
+ok: [localhost]
+ok: [rhaiis.phhql.internal]
+
+TASK [Include variables files] *************************************************
+Monday 04 August 2025  14:55:55 +0000 (0:00:00.025)       0:03:10.866 ********* 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [rhaiis.phhql.internal] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_vars.yaml) 
+skipping: [rhaiis.phhql.internal] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_vars.yml) 
+skipping: [rhaiis.phhql.internal] => (item=/runner/project/ansible/configs/base-infra/env_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars.yaml) 
+skipping: [rhaiis.phhql.internal] => (item=/runner/project/ansible/configs/base-infra/env_vars.yml) 
+skipping: [rhaiis.phhql.internal] => (item=/runner/project/ansible/configs/base-infra/default_vars.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars.yml)
+ok: [rhaiis.phhql.internal] => (item=/runner/project/ansible/configs/base-infra/default_vars.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yaml) 
+skipping: [rhaiis.phhql.internal] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yaml) 
+ok: [rhaiis.phhql.internal] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yml) 
+skipping: [rhaiis.phhql.internal] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yaml) 
+skipping: [rhaiis.phhql.internal] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Monday 04 August 2025  14:55:55 +0000 (0:00:00.066)       0:03:10.933 ********* 
+skipping: [localhost]
+skipping: [rhaiis.phhql.internal]
+
+TASK [Set passthrough user data] ***********************************************
+Monday 04 August 2025  14:55:55 +0000 (0:00:00.021)       0:03:10.955 ********* 
+skipping: [localhost]
+[WARNING]: Could not match supplied host pattern, ignoring: network
+
+PLAY [Step 001.3 Configure Linux Hosts and Wait for Connection] ****************
+
+TASK [set facts for remote access] *********************************************
+Monday 04 August 2025  14:55:55 +0000 (0:00:00.024)       0:03:10.980 ********* 
+ok: [rhaiis.phhql.internal]
+
+TASK [Run infra-ec2-wait_for_linux_hosts Role] *********************************
+Monday 04 August 2025  14:55:55 +0000 (0:00:00.024)       0:03:11.005 ********* 
+included: infra-ec2-wait_for_linux_hosts for rhaiis.phhql.internal
+
+TASK [infra-ec2-wait_for_linux_hosts : wait for linux host to be available] ****
+Monday 04 August 2025  14:55:55 +0000 (0:00:00.020)       0:03:11.025 ********* 
+ok: [rhaiis.phhql.internal]
+
+TASK [infra-ec2-wait_for_linux_hosts : restart instance if wait_for_connection failed] ***
+Monday 04 August 2025  14:56:02 +0000 (0:00:06.734)       0:03:17.759 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [infra-ec2-wait_for_linux_hosts : wait for linux host to be available (retry)] ***
+Monday 04 August 2025  14:56:02 +0000 (0:00:00.018)       0:03:17.778 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [infra-ec2-wait_for_linux_hosts : ping] ***********************************
+Monday 04 August 2025  14:56:02 +0000 (0:00:00.014)       0:03:17.792 ********* 
+[WARNING]: Platform linux on host rhaiis.phhql.internal is using the discovered
+Python interpreter at /usr/bin/python3.9, but future installation of another
+Python interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-
+core/2.18/reference_appendices/interpreter_discovery.html for more information.
+ok: [rhaiis.phhql.internal]
+
+TASK [Run infra-ec2-linux-set-hostname Role] ***********************************
+Monday 04 August 2025  14:56:06 +0000 (0:00:04.609)       0:03:22.402 ********* 
+included: infra-ec2-linux-set-hostname for rhaiis.phhql.internal
+
+TASK [infra-ec2-linux-set-hostname : Set hostname based on tag_internaldns] ****
+Monday 04 August 2025  14:56:06 +0000 (0:00:00.019)       0:03:22.421 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [infra-ec2-linux-set-hostname : stat] *************************************
+Monday 04 August 2025  14:56:11 +0000 (0:00:04.320)       0:03:26.742 ********* 
+ok: [rhaiis.phhql.internal]
+
+TASK [infra-ec2-linux-set-hostname : disable updating hostname in /etc/cloud/cloud.cfg] ***
+Monday 04 August 2025  14:56:14 +0000 (0:00:03.735)       0:03:30.478 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [infra-ec2-linux-set-hostname : Add preserve_hostname to /etc/cloud/cloud.cfg] ***
+Monday 04 August 2025  14:56:18 +0000 (0:00:03.725)       0:03:34.204 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [Add authorized_keys] *****************************************************
+Monday 04 August 2025  14:56:22 +0000 (0:00:03.730)       0:03:37.934 ********* 
+included: ssh_authorized_keys for rhaiis.phhql.internal
+
+TASK [ssh_authorized_keys : Add all authorized keys] ***************************
+Monday 04 August 2025  14:56:22 +0000 (0:00:00.028)       0:03:37.962 ********* 
+changed: [rhaiis.phhql.internal] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvZvn+GL0wTOsAdh1ikIQoqj2Fw/RA6F14O347rgKdpkgOQpGQk1k2gM8wcla2Y1o0bPIzwlNy1oh5o9uNjZDMeDcEXWuXbu0cRBy4pVRhh8a8zAZfssnqoXHHLyPyHWpdTmgIhr0UIGYrzHrnySAnUcDp3gJuE46UEBtrlyv94cVvZf+EZUTaZ+2KjTRLoNryCn7vKoGHQBooYg1DeHLcLSRWEADUo+bP0y64+X/XTMZOAXbf8kTXocqAgfl/usbYdfLOgwU6zWuj8vxzAKuMEXS1AJSp5aeqRKlbbw40IkTmLoQIgJdb2Zt98BH/xHDe9xxhscUCfWeS37XLp75J opentlc_admin_backdoor'})
+changed: [rhaiis.phhql.internal] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCg5PJgwAB8U2NiXh4aRZAg09f3xjT3y1CP322StmT4ljiqhXoqOOZ++qDIKFmtHGmeEjvkCo11M2oVmJTeaibeS0E+Xsoi9wTcit47h2ka7WPdzhy/togFQOVAftbwi3RtHDOweIFL18FQ8inhu9W/oFibsZjQEWtHoHtLkmA5zOSQtWDmVfx3iWrKd4svkNbJ+SNZMnD0tCDoot3y0Knzyt+wpZtVd94YXpUDTCJ8Ie1nFSdm7H/QB9/bDXeOSSnHBq2xSmywodNoyA1gFZ1hhpPNEauQjzeKCMpNLPATg/jtQb1zojG6QnO/7I5euKOlDeJ1Odg35aTG31p8EbT3UL8NZssdn3YY3OEQ/2rN0PaQ+zxzmzfh1otx4Rsh1IbD5S99GuQD2ma7m0zOzrBb8Mil5TCaTaK8mIADq/lclj0sAMrH1EXyFvDiHEG+cV0iMyXOxEMTJs4YLr8DyqsTZ34TvVSJP9/0YwQuRYhg0MJmFbMvl/4yibTgyvTYLN0= instructor-key-2022'})
+changed: [rhaiis.phhql.internal] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIIDDIOD4M5yYo3uCFDBDb6del+NG2fkboWh90kW/S6H elliptical_instructor_key_2024'})
+changed: [rhaiis.phhql.internal] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOBfsRMLCEQt86EZnvQ/rK49wo1odLqpd1NEz3tDjUWY elliptical_admin_key_2023'})
+changed: [rhaiis.phhql.internal] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC3nKRSIwWn7pjMf2i1TyXgjsauEIoDS8Xulad2ZAbsmZrWcKU5hPi23xq0g2AjRYiXml8zSX9jAQfmlKnrXGYo5WN39iXGRI3lFJmXwmEHne3Z0qtUgt9MBA4w0Tcunw7pXniKntvo2oiDYZlXHztRMHMeUkUjLgCGjn2cfi0uqd4pxLmneMziHMKDxcyy+9MaGnWr5Bs27r3b6rWNFqG2fAo1Z5ZWEA/r3MhdI9ZzMRJVTUhunpstwMX8MRxx/OGk0zynyHcSkh91sqZ3xhPpvRkmYLRa5I0aw88AMenWBfc586FyORL2e/UVoIoyMkBMnovaRIoiTj74RuPeZ6gGKbbfpt1ggDs4j9Z1Go51GlGPYcchvLQvx+Ucv5+tLZSqZBhPOXLRqFuQgRZz4R6j5O5UkfdjLJxBoHQZxT0Wdzd/XiGcAlyDOq8puNSxdF3w/8eGGSKDdUONv1tc1dcTFd6kR+jYaedjD1fldVrC+4fRUFkFqEovDPVI4159VSqJWz78WuqazNnCRMVDnS4Le+Er1pvTbk5rOdYUkF67vxVwD3cyJ3D1C49wVsIc3+kngZN2246OEMsbVugEPG4A8/UOlHIE5iBps+mM9GX6UFSj4aLFh15XeOGKs7aH2r1thfvFPSvk12t8QvNDhhhhAf5EzzypvNEbXQ6fk3YSUw== rsa_admin_key_2023'})
+
+TASK [ssh_authorized_keys : Add all authorized keys (legacy var all_ssh_authorized_keys)] ***
+Monday 04 August 2025  14:56:41 +0000 (0:00:18.843)       0:03:56.805 ********* 
+skipping: [rhaiis.phhql.internal]
+
+PLAY [Step 001.4 Configure Windows Hosts and Wait for Connection] **************
+skipping: no hosts matched
+
+PLAY [Step 002 Post Infrastructure] ********************************************
+
+TASK [Step 002 Post Infrastructure] ********************************************
+Monday 04 August 2025  14:56:41 +0000 (0:00:00.018)       0:03:56.824 ********* 
+ok: [localhost] => {
+    "msg": "Step 000 Post Infrastructure"
+}
+
+PLAY [Step 002 Post Infrastructure regreSSHion Hotfix] *************************
+
+TASK [Gathering Facts] *********************************************************
+Monday 04 August 2025  14:56:41 +0000 (0:00:00.018)       0:03:56.843 ********* 
+ok: [rhaiis.phhql.internal]
+
+TASK [Have facts been gathered?] ***********************************************
+Monday 04 August 2025  14:56:46 +0000 (0:00:05.552)       0:04:02.396 ********* 
+ok: [rhaiis.phhql.internal]
+
+TASK [Set sshd LoginGraceTime to 0 in /etc/ssh/sshd_config] ********************
+Monday 04 August 2025  14:56:51 +0000 (0:00:04.332)       0:04:06.728 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [Restart SSH service for regreSSHion fix] *********************************
+Monday 04 August 2025  14:56:54 +0000 (0:00:03.722)       0:04:10.450 ********* 
+changed: [rhaiis.phhql.internal]
+
+PLAY [localhost] ***************************************************************
+
+TASK [Export in-memory inventory to inventory file] ****************************
+Monday 04 August 2025  14:56:59 +0000 (0:00:04.238)       0:04:14.689 ********* 
+included: agnosticd_inventory_exporter for localhost
+
+TASK [agnosticd_inventory_exporter : Export in-memory inventory to file] *******
+Monday 04 August 2025  14:56:59 +0000 (0:00:00.020)       0:04:14.709 ********* 
+changed: [localhost]
+
+PLAY [Step 003 Pre Software] ***************************************************
+
+TASK [Step 003 Pre Software] ***************************************************
+Monday 04 August 2025  14:56:59 +0000 (0:00:00.565)       0:04:15.275 ********* 
+ok: [localhost] => {
+    "msg": "Step 000 Pre Software"
+}
+
+PLAY [Install Pre Software workloads for all nodes omit localhost] *************
+
+TASK [Deploying Pre Software workloads on all nodes omit localhost] ************
+Monday 04 August 2025  14:56:59 +0000 (0:00:00.022)       0:04:15.297 ********* 
+skipping: [rhaiis.phhql.internal]
+
+PLAY [Install Pre Software workloads on localhost] *****************************
+
+TASK [Deploying Pre Software workloads  on localhost] **************************
+Monday 04 August 2025  14:56:59 +0000 (0:00:00.021)       0:04:15.318 ********* 
+skipping: [localhost]
+
+PLAY [Install Pre Software workloads on  all hosts] ****************************
+
+TASK [Deploying Pre Software workloads on all hosts] ***************************
+Monday 04 August 2025  14:56:59 +0000 (0:00:00.023)       0:04:15.342 ********* 
+skipping: [rhaiis.phhql.internal]
+
+PLAY [Install Pre Software workloads on bastion] *******************************
+
+TASK [Deploying Pre Software workloads on bastion] *****************************
+Monday 04 August 2025  14:56:59 +0000 (0:00:00.032)       0:04:15.374 ********* 
+skipping: [rhaiis.phhql.internal]
+
+PLAY [Install Pre Software workloads for windows] ******************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for gitlab] *******************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for nodes] ********************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for centos nodes] *************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for Satellites] ***************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for Satellite Capsules] *******************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for Satellite Isolated] *******************
+skipping: no hosts matched
+
+PLAY [Create local ssh keys] ***************************************************
+
+TASK [create_ssh_provision_key : include_tasks] ********************************
+Monday 04 August 2025  14:56:59 +0000 (0:00:00.042)       0:04:15.416 ********* 
+included: /runner/project/ansible/roles-infra/create_ssh_provision_key/tasks/checks.yaml for localhost
+
+TASK [create_ssh_provision_key : Ensure key_name is not defined] ***************
+Monday 04 August 2025  14:56:59 +0000 (0:00:00.026)       0:04:15.443 ********* 
+skipping: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH keys] ****************************
+Monday 04 August 2025  14:56:59 +0000 (0:00:00.021)       0:04:15.464 ********* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Fix permission of ssh key] ********************
+Monday 04 August 2025  14:57:00 +0000 (0:00:00.168)       0:04:15.633 ********* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH pub key content] *****************
+Monday 04 August 2025  14:57:00 +0000 (0:00:00.175)       0:04:15.808 ********* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Save all facts for SSH] ***********************
+Monday 04 August 2025  14:57:00 +0000 (0:00:00.184)       0:04:15.993 ********* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Write SSH pub key] ****************************
+Monday 04 August 2025  14:57:00 +0000 (0:00:00.019)       0:04:16.012 ********* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Report user info for SSH provision key as user data] ***
+Monday 04 August 2025  14:57:00 +0000 (0:00:00.301)       0:04:16.314 ********* 
+skipping: [localhost]
+
+TASK [include_role : agnosticd_save_output_dir] ********************************
+Monday 04 August 2025  14:57:00 +0000 (0:00:00.016)       0:04:16.331 ********* 
+skipping: [localhost]
+[WARNING]: Could not match supplied host pattern, ignoring: rhelai
+
+PLAY [Configure all hosts with Repositories, and Common Files] *****************
+
+TASK [set-repositories : Run setup if gather_facts hasn't been run] ************
+Monday 04 August 2025  14:57:00 +0000 (0:00:00.031)       0:04:16.362 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [set-repositories : Configure satellite repositories] *********************
+Monday 04 August 2025  14:57:00 +0000 (0:00:00.028)       0:04:16.390 ********* 
+included: /runner/project/ansible/roles/set-repositories/tasks/satellite-repos.yml for rhaiis.phhql.internal
+
+TASK [set-repositories : sat | Check subscription-manager package existence] ***
+Monday 04 August 2025  14:57:00 +0000 (0:00:00.062)       0:04:16.453 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Install subscription-manager package] ***********
+Monday 04 August 2025  14:57:00 +0000 (0:00:00.020)       0:04:16.473 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Remove rh-amazon-rhui-client package] ***********
+Monday 04 August 2025  14:57:00 +0000 (0:00:00.018)       0:04:16.492 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Unregister the system just in case] *************
+Monday 04 August 2025  14:57:05 +0000 (0:00:05.025)       0:04:21.518 ********* 
+included: /runner/project/ansible/roles/set-repositories/tasks/unregister.yml for rhaiis.phhql.internal
+
+TASK [set-repositories : unreg | Unregister From Subscription Manager] *********
+Monday 04 August 2025  14:57:05 +0000 (0:00:00.029)       0:04:21.548 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Install CA certificate from satellite server] ***
+Monday 04 August 2025  14:57:10 +0000 (0:00:04.371)       0:04:25.919 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Update CA Trust Bundle] *************************
+Monday 04 August 2025  14:57:15 +0000 (0:00:04.647)       0:04:30.566 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Remove satellite Cert] **************************
+Monday 04 August 2025  14:57:19 +0000 (0:00:04.811)       0:04:35.378 ********* 
+ok: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Find current repository files] ******************
+Monday 04 August 2025  14:57:24 +0000 (0:00:04.431)       0:04:39.809 ********* 
+ok: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Remove current repository files] ****************
+Monday 04 August 2025  14:57:28 +0000 (0:00:04.029)       0:04:43.838 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Install Satellite CA certificate package] *******
+Monday 04 August 2025  14:57:28 +0000 (0:00:00.012)       0:04:43.851 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Disable Reporting Of Package Profile to Satellite] ***
+Monday 04 August 2025  14:57:34 +0000 (0:00:06.569)       0:04:50.421 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Run setup if gather_facts hasn't been run] ******
+Monday 04 August 2025  14:57:39 +0000 (0:00:04.175)       0:04:54.597 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [set-repositories : Generate UUID for dmi.system.uuid if cloud provider is Equinix Metal] ***
+Monday 04 August 2025  14:57:39 +0000 (0:00:00.019)       0:04:54.616 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Set set_repositories_subscription_hostname with randomization] ***
+Monday 04 August 2025  14:57:39 +0000 (0:00:00.018)       0:04:54.635 ********* 
+ok: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Set network.fqdn in /etc/rhsm/facts/katello.facts] ***
+Monday 04 August 2025  14:57:39 +0000 (0:00:00.024)       0:04:54.660 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Register with activation-key] *******************
+Monday 04 August 2025  14:57:47 +0000 (0:00:08.232)       0:05:02.893 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Register with activation-key with HA] ***********
+Monday 04 August 2025  14:57:47 +0000 (0:00:00.020)       0:05:02.913 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Enable RHSM to manage repositories] *************
+Monday 04 August 2025  14:58:01 +0000 (0:00:13.800)       0:05:16.714 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Lock RHEL 9 release to specific version] ********
+Monday 04 August 2025  14:58:05 +0000 (0:00:04.337)       0:05:21.051 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Lock RHEL 8 release to specific version] ********
+Monday 04 August 2025  14:58:05 +0000 (0:00:00.019)       0:05:21.071 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Lock RHEL 7 release to specific version] ********
+Monday 04 August 2025  14:58:05 +0000 (0:00:00.019)       0:05:21.090 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Enable repos] ***********************************
+Monday 04 August 2025  14:58:05 +0000 (0:00:00.018)       0:05:21.109 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Purge existing repos] ***************************
+Monday 04 August 2025  14:58:19 +0000 (0:00:13.458)       0:05:34.567 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Enable repos for RHEL] **************************
+Monday 04 August 2025  14:58:19 +0000 (0:00:00.019)       0:05:34.586 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Create the certificate and key files] ***********
+Monday 04 August 2025  14:58:19 +0000 (0:00:00.021)       0:05:34.608 ********* 
+skipping: [rhaiis.phhql.internal] => (item=/etc/pki/tls/Red_GPTE.key) 
+skipping: [rhaiis.phhql.internal] => (item=/etc/pki/tls/Red_GPTE.pem) 
+skipping: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | Add certificate and key content] ****************
+Monday 04 August 2025  14:58:19 +0000 (0:00:00.026)       0:05:34.634 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | create open.repo template on host] **************
+Monday 04 August 2025  14:58:19 +0000 (0:00:00.019)       0:05:34.654 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [set-repositories : sat | clean repositories] *****************************
+Monday 04 August 2025  14:58:19 +0000 (0:00:00.017)       0:05:34.672 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [set-repositories : Unregister from subscription manager] *****************
+Monday 04 August 2025  14:58:24 +0000 (0:00:05.536)       0:05:40.208 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [common : Deactivate DNS lookup in sshd] **********************************
+Monday 04 August 2025  14:58:24 +0000 (0:00:00.022)       0:05:40.231 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [common : Update all packages] ********************************************
+Monday 04 August 2025  14:58:28 +0000 (0:00:04.068)       0:05:44.299 ********* 
+ASYNC POLL on rhaiis.phhql.internal: jid=j491869055845.8769 started=1 finished=0
+ASYNC POLL on rhaiis.phhql.internal: jid=j491869055845.8769 started=1 finished=0
+ASYNC POLL on rhaiis.phhql.internal: jid=j491869055845.8769 started=1 finished=0
+ASYNC POLL on rhaiis.phhql.internal: jid=j491869055845.8769 started=1 finished=0
+ASYNC OK on rhaiis.phhql.internal: jid=j491869055845.8769
+changed: [rhaiis.phhql.internal]
+
+TASK [common : Update all packages Legacy] *************************************
+Monday 04 August 2025  15:01:24 +0000 (0:02:56.125)       0:08:40.425 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [common : Determine if reboot is needed] **********************************
+Monday 04 August 2025  15:01:24 +0000 (0:00:00.026)       0:08:40.452 ********* 
+ok: [rhaiis.phhql.internal]
+
+TASK [common : Reboot all VMs] *************************************************
+Monday 04 August 2025  15:01:30 +0000 (0:00:05.325)       0:08:45.778 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [common : Update network facts after reboot] ******************************
+Monday 04 August 2025  15:02:10 +0000 (0:00:40.247)       0:09:26.026 ********* 
+ok: [rhaiis.phhql.internal]
+
+TASK [common : Run setup if gather_facts hasn't been run] **********************
+Monday 04 August 2025  15:02:14 +0000 (0:00:04.480)       0:09:30.506 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [common : install common packages for RHEL 7] *****************************
+Monday 04 August 2025  15:02:14 +0000 (0:00:00.021)       0:09:30.527 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [common : install common packages for RHEL 8] *****************************
+Monday 04 August 2025  15:02:14 +0000 (0:00:00.021)       0:09:30.549 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [common : Set up python alternatives for convenience] *********************
+Monday 04 August 2025  15:02:15 +0000 (0:00:00.026)       0:09:30.576 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [common : install common packages for RHEL 9] *****************************
+Monday 04 August 2025  15:02:15 +0000 (0:00:00.023)       0:09:30.599 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [common : install extra packages] *****************************************
+Monday 04 August 2025  15:03:28 +0000 (0:01:13.513)       0:10:44.112 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [common : Update specified packages] **************************************
+Monday 04 August 2025  15:03:28 +0000 (0:00:00.065)       0:10:44.178 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [common : Determine if reboot is needed] **********************************
+Monday 04 August 2025  15:03:28 +0000 (0:00:00.130)       0:10:44.308 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [common : Reboot VMs] *****************************************************
+Monday 04 August 2025  15:03:28 +0000 (0:00:00.021)       0:10:44.330 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [common : Refresh network facts post-reboot] ******************************
+Monday 04 August 2025  15:03:28 +0000 (0:00:00.021)       0:10:44.351 ********* 
+skipping: [rhaiis.phhql.internal]
+
+RUNNING HANDLER [common : restart_sshd] ****************************************
+Monday 04 August 2025  15:03:28 +0000 (0:00:00.025)       0:10:44.377 ********* 
+changed: [rhaiis.phhql.internal]
+
+PLAY [Configure all hosts with ssh environment key] ****************************
+
+TASK [set_env_authorized_key : create /root/.ssh] ******************************
+Monday 04 August 2025  15:03:33 +0000 (0:00:04.425)       0:10:48.802 ********* 
+ok: [rhaiis.phhql.internal]
+
+TASK [set_env_authorized_key : copy the environment .pem key] ******************
+Monday 04 August 2025  15:03:36 +0000 (0:00:03.758)       0:10:52.561 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [set_env_authorized_key : copy the environment .pub key] ******************
+Monday 04 August 2025  15:03:45 +0000 (0:00:08.309)       0:11:00.870 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [set_env_authorized_key : Set authorized key from file] *******************
+Monday 04 August 2025  15:03:53 +0000 (0:00:08.311)       0:11:09.182 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [set_env_authorized_key : Generate host .ssh/config Template] *************
+Monday 04 August 2025  15:03:57 +0000 (0:00:03.797)       0:11:12.980 ********* 
+changed: [rhaiis.phhql.internal -> localhost]
+
+TASK [set_env_authorized_key : copy over host .ssh/config Template] ************
+Monday 04 August 2025  15:03:57 +0000 (0:00:00.291)       0:11:13.271 ********* 
+changed: [rhaiis.phhql.internal]
+
+PLAY [Configuring Bastion Hosts] ***********************************************
+
+TASK [bastion-base : Setup Red Hat packages for bastion] ***********************
+Monday 04 August 2025  15:04:06 +0000 (0:00:08.308)       0:11:21.580 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [bastion-base : Generate host .ssh/config Template] ***********************
+Monday 04 August 2025  15:04:21 +0000 (0:00:15.004)       0:11:36.585 ********* 
+changed: [rhaiis.phhql.internal -> localhost]
+
+TASK [bastion-base : copy over host .ssh/config Template] **********************
+Monday 04 August 2025  15:04:21 +0000 (0:00:00.303)       0:11:36.888 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [bastion-base : Add GUID to ~ec2-user/.bashrc] ****************************
+Monday 04 August 2025  15:04:30 +0000 (0:00:08.678)       0:11:45.567 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [bastion-student-user : Generate student_password if not defined] *********
+Monday 04 August 2025  15:04:33 +0000 (0:00:03.771)       0:11:49.339 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [bastion-student-user : Create user] **************************************
+Monday 04 August 2025  15:04:33 +0000 (0:00:00.025)       0:11:49.364 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [bastion-student-user : Add student public key] ***************************
+Monday 04 August 2025  15:04:38 +0000 (0:00:04.256)       0:11:53.621 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [bastion-student-user : Add env authorized public key to student user] ****
+Monday 04 August 2025  15:04:38 +0000 (0:00:00.022)       0:11:53.643 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [bastion-student-user : Enable password authentication] *******************
+Monday 04 August 2025  15:04:42 +0000 (0:00:04.000)       0:11:57.644 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [bastion-student-user : Remove PasswordAuthentication line from 50-cloud-init.conf] ***
+Monday 04 August 2025  15:04:45 +0000 (0:00:03.758)       0:12:01.402 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [bastion-student-user : Disable root password authentication] *************
+Monday 04 August 2025  15:04:49 +0000 (0:00:03.758)       0:12:05.161 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [bastion-student-user : Allow passwordless sudo] **************************
+Monday 04 August 2025  15:04:53 +0000 (0:00:03.759)       0:12:08.921 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [bastion-student-user : Restart sshd] *************************************
+Monday 04 August 2025  15:04:57 +0000 (0:00:03.761)       0:12:12.682 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [bastion-student-user : Print access info (non CNV)] **********************
+Monday 04 August 2025  15:05:01 +0000 (0:00:04.081)       0:12:16.763 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [bastion-student-user : Store access info (non CNV)] **********************
+Monday 04 August 2025  15:05:01 +0000 (0:00:00.017)       0:12:16.781 ********* 
+ok: [rhaiis.phhql.internal] => {
+    "changed": false,
+    "data": {
+        "bastion_public_hostname": "ec2-43-203-72-160.ap-northeast-2.compute.amazonaws.com",
+        "bastion_ssh_command": "ssh dev@ec2-43-203-72-160.ap-northeast-2.compute.amazonaws.com",
+        "bastion_ssh_password": "[REDACTED_Secret Keyword_SECRET]",
+        "bastion_ssh_user_name": "dev"
+    }
+}
+
+TASK [bastion-student-user : Print access info (CNV)] **************************
+Monday 04 August 2025  15:05:01 +0000 (0:00:00.042)       0:12:16.823 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [bastion-student-user : Store access info (CNV)] **************************
+Monday 04 August 2025  15:05:01 +0000 (0:00:00.017)       0:12:16.841 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [Prepare student user for using Ansible within the environment] ***********
+Monday 04 August 2025  15:05:01 +0000 (0:00:00.017)       0:12:16.858 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [Install control student user configuration] ******************************
+Monday 04 August 2025  15:05:01 +0000 (0:00:00.027)       0:12:16.886 ********* 
+included: user-create-ansible-service-account for rhaiis.phhql.internal
+
+TASK [user-create-ansible-service-account : Create user skel files] ************
+Monday 04 August 2025  15:05:01 +0000 (0:00:00.050)       0:12:16.937 ********* 
+changed: [rhaiis.phhql.internal] => (item=.vimrc)
+
+TASK [user-create-ansible-service-account : Create user dev] *******************
+Monday 04 August 2025  15:05:09 +0000 (0:00:08.315)       0:12:25.252 ********* 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/create-user.yml for rhaiis.phhql.internal
+
+TASK [user-create-ansible-service-account : Create user dev] *******************
+Monday 04 August 2025  15:05:09 +0000 (0:00:00.021)       0:12:25.273 ********* 
+[WARNING]: 'append' is set, but no 'groups' are specified. Use 'groups' for
+appending new groups.This will change to an error in Ansible 2.14.
+ok: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : Set random ssh user dev password] ***
+Monday 04 August 2025  15:05:13 +0000 (0:00:03.800)       0:12:29.074 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : Setup user's resource directory] ***
+Monday 04 August 2025  15:05:17 +0000 (0:00:04.111)       0:12:33.185 ********* 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/create-directory.yml for rhaiis.phhql.internal
+
+TASK [user-create-ansible-service-account : Create resource directory] *********
+Monday 04 August 2025  15:05:17 +0000 (0:00:00.020)       0:12:33.206 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : Create user's custom directory] ****
+Monday 04 August 2025  15:05:17 +0000 (0:00:00.022)       0:12:33.229 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : Enable sudoers] ********************
+Monday 04 August 2025  15:05:17 +0000 (0:00:00.018)       0:12:33.247 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : ssh setup for user] ****************
+Monday 04 August 2025  15:05:25 +0000 (0:00:08.307)       0:12:41.555 ********* 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/ssh-config.yml for rhaiis.phhql.internal
+
+TASK [user-create-ansible-service-account : create /home/dev/.ssh] *************
+Monday 04 August 2025  15:05:26 +0000 (0:00:00.026)       0:12:41.581 ********* 
+ok: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : copy the environment .pem key] *****
+Monday 04 August 2025  15:05:29 +0000 (0:00:03.755)       0:12:45.337 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : copy the environment .pub key] *****
+Monday 04 August 2025  15:05:38 +0000 (0:00:08.314)       0:12:53.651 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : copy custom ssh key] ***************
+Monday 04 August 2025  15:05:46 +0000 (0:00:08.310)       0:13:01.962 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : Copy ssh config template] **********
+Monday 04 August 2025  15:05:46 +0000 (0:00:00.022)       0:13:01.985 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : Enable password ssh authentication] ***
+Monday 04 August 2025  15:05:54 +0000 (0:00:08.328)       0:13:10.313 ********* 
+ok: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : Disable root password ssh authentication] ***
+Monday 04 August 2025  15:05:58 +0000 (0:00:03.767)       0:13:14.081 ********* 
+ok: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : Restart sshd to read conf changes] ***
+Monday 04 August 2025  15:06:02 +0000 (0:00:03.766)       0:13:17.847 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : Copy files] ************************
+Monday 04 August 2025  15:06:06 +0000 (0:00:04.088)       0:13:21.935 ********* 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/copy-files.yml for rhaiis.phhql.internal
+
+TASK [user-create-ansible-service-account : Copy user's file to resource dir] ***
+Monday 04 August 2025  15:06:06 +0000 (0:00:00.028)       0:13:21.964 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : Copy user's template to resource dir] ***
+Monday 04 August 2025  15:06:06 +0000 (0:00:00.019)       0:13:21.984 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : Copy user's contentto resource dir] ***
+Monday 04 August 2025  15:06:06 +0000 (0:00:00.020)       0:13:22.005 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : Copy templates] ********************
+Monday 04 August 2025  15:06:06 +0000 (0:00:00.026)       0:13:22.031 ********* 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/copy-templates.yml for rhaiis.phhql.internal
+
+TASK [user-create-ansible-service-account : Copy user's template to resource dir] ***
+Monday 04 August 2025  15:06:06 +0000 (0:00:00.042)       0:13:22.073 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : Copy user's template to home dir] ***
+Monday 04 August 2025  15:06:06 +0000 (0:00:00.026)       0:13:22.100 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : Copy user's template to path] ******
+Monday 04 August 2025  15:06:06 +0000 (0:00:00.024)       0:13:22.124 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : Copy contents] *********************
+Monday 04 August 2025  15:06:06 +0000 (0:00:00.022)       0:13:22.147 ********* 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/copy-contents.yml for rhaiis.phhql.internal
+
+TASK [user-create-ansible-service-account : Copy user's content to resource dir] ***
+Monday 04 August 2025  15:06:06 +0000 (0:00:00.034)       0:13:22.182 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : Copy user's content to home dir] ***
+Monday 04 August 2025  15:06:06 +0000 (0:00:00.025)       0:13:22.208 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : Copy user's content to path] *******
+Monday 04 August 2025  15:06:06 +0000 (0:00:00.026)       0:13:22.234 ********* 
+skipping: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : Install preferred python] **********
+Monday 04 August 2025  15:06:06 +0000 (0:00:00.019)       0:13:22.254 ********* 
+ok: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : Ensure Python 3.9 default python3] ***
+Monday 04 August 2025  15:06:14 +0000 (0:00:07.781)       0:13:30.035 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [user-create-ansible-service-account : Ensure Python 3.9 default python] ***
+Monday 04 August 2025  15:06:18 +0000 (0:00:04.246)       0:13:34.282 ********* 
+ok: [rhaiis.phhql.internal]
+
+TASK [Inject assets onto host(s)] **********************************************
+Monday 04 August 2025  15:06:22 +0000 (0:00:03.770)       0:13:38.053 ********* 
+included: asset_injector for rhaiis.phhql.internal
+
+TASK [asset_injector : Simple user management] *********************************
+Monday 04 August 2025  15:06:22 +0000 (0:00:00.056)       0:13:38.109 ********* 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [rhaiis.phhql.internal]
+
+TASK [asset_injector : Clone Git repositories] *********************************
+Monday 04 August 2025  15:06:22 +0000 (0:00:00.035)       0:13:38.145 ********* 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [rhaiis.phhql.internal]
+
+TASK [asset_injector : Fetch files via HTTP server] ****************************
+Monday 04 August 2025  15:06:22 +0000 (0:00:00.034)       0:13:38.179 ********* 
+skipping: [rhaiis.phhql.internal] => (item=None) 
+skipping: [rhaiis.phhql.internal] => (item=None) 
+skipping: [rhaiis.phhql.internal] => (item=None) 
+skipping: [rhaiis.phhql.internal] => (item=None) 
+skipping: [rhaiis.phhql.internal]
+
+TASK [asset_injector : Copy local files] ***************************************
+Monday 04 August 2025  15:06:22 +0000 (0:00:00.028)       0:13:38.208 ********* 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [rhaiis.phhql.internal]
+
+TASK [asset_injector : Inject local templates] *********************************
+Monday 04 August 2025  15:06:22 +0000 (0:00:00.026)       0:13:38.235 ********* 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [rhaiis.phhql.internal]
+
+TASK [asset_injector : Unarchive archive] **************************************
+Monday 04 August 2025  15:06:22 +0000 (0:00:00.026)       0:13:38.261 ********* 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [rhaiis.phhql.internal]
+
+TASK [asset_injector : Remove files] *******************************************
+Monday 04 August 2025  15:06:22 +0000 (0:00:00.027)       0:13:38.289 ********* 
+changed: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'})
+changed: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'})
+skipping: [rhaiis.phhql.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+
+TASK [asset_injector : Create blockinfile entries] *****************************
+Monday 04 August 2025  15:06:30 +0000 (0:00:07.520)       0:13:45.809 ********* 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+changed: [rhaiis.phhql.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'})
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+
+TASK [asset_injector : Manage dnf packages] ************************************
+Monday 04 August 2025  15:06:34 +0000 (0:00:03.791)       0:13:49.601 ********* 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [rhaiis.phhql.internal]
+
+TASK [asset_injector : Manage services] ****************************************
+Monday 04 August 2025  15:06:34 +0000 (0:00:00.025)       0:13:49.627 ********* 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+changed: [rhaiis.phhql.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'})
+
+TASK [asset_injector : Manage capabilities] ************************************
+Monday 04 August 2025  15:06:38 +0000 (0:00:04.087)       0:13:53.714 ********* 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [rhaiis.phhql.internal]
+
+TASK [asset_injector : Manage files] *******************************************
+Monday 04 August 2025  15:06:38 +0000 (0:00:00.027)       0:13:53.742 ********* 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [rhaiis.phhql.internal]
+
+TASK [asset_injector : Execute Commands] ***************************************
+Monday 04 August 2025  15:06:38 +0000 (0:00:00.025)       0:13:53.768 ********* 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [rhaiis.phhql.internal]
+
+TASK [asset_injector : Manage groups] ******************************************
+Monday 04 August 2025  15:06:38 +0000 (0:00:00.024)       0:13:53.792 ********* 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [rhaiis.phhql.internal]
+
+TASK [asset_injector : Create lineinfile entries] ******************************
+Monday 04 August 2025  15:06:38 +0000 (0:00:00.025)       0:13:53.817 ********* 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [rhaiis.phhql.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [rhaiis.phhql.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [rhaiis.phhql.internal]
+
+PLAY [PreSoftware flight-check] ************************************************
+
+TASK [Pre-Software checks completed successfully] ******************************
+Monday 04 August 2025  15:06:38 +0000 (0:00:00.042)       0:13:53.859 ********* 
+ok: [localhost] => {
+    "msg": "Pre-Software checks completed successfully"
+}
+
+PLAY [Step 00xxxxx software] ***************************************************
+
+TASK [Software tasks Started] **************************************************
+Monday 04 August 2025  15:06:38 +0000 (0:00:00.029)       0:13:53.889 ********* 
+ok: [localhost] => {
+    "msg": "Software tasks Started"
+}
+
+PLAY [Install Software workloads for all nodes omit localhost] *****************
+
+TASK [Deploying Software workloads on all nodes omit localhost] ****************
+Monday 04 August 2025  15:06:38 +0000 (0:00:00.026)       0:13:53.916 ********* 
+skipping: [rhaiis.phhql.internal]
+
+PLAY [Install Software workloads on localhost] *********************************
+
+TASK [Deploying Software workloads  on localhost] ******************************
+Monday 04 August 2025  15:06:38 +0000 (0:00:00.026)       0:13:53.943 ********* 
+skipping: [localhost]
+
+PLAY [Install Software workloads on  all hosts] ********************************
+
+TASK [Deploying Software workloads on all hosts] *******************************
+Monday 04 August 2025  15:06:38 +0000 (0:00:00.027)       0:13:53.970 ********* 
+skipping: [rhaiis.phhql.internal]
+
+PLAY [Install Software workloads on bastion] ***********************************
+
+TASK [Deploying Software workloads on bastion] *********************************
+Monday 04 August 2025  15:06:38 +0000 (0:00:00.027)       0:13:53.998 ********* 
+included: agnosticd.ai.setup_nvidia_cuda for rhaiis.phhql.internal => (item=agnosticd.ai.setup_nvidia_cuda)
+included: agnosticd.ai.setup_python_env for rhaiis.phhql.internal => (item=agnosticd.ai.setup_python_env)
+included: agnosticd.ai.setup_rhaiis_on_rhel for rhaiis.phhql.internal => (item=agnosticd.ai.setup_rhaiis_on_rhel)
+
+TASK [agnosticd.ai.setup_nvidia_cuda : Install EPEL] ***************************
+Monday 04 August 2025  15:06:38 +0000 (0:00:00.064)       0:13:54.063 ********* 
+changed: [rhaiis.phhql.internal]
+
+TASK [agnosticd.ai.setup_nvidia_cuda : Setup repos] ****************************
+Monday 04 August 2025  15:06:48 +0000 (0:00:09.544)       0:14:03.607 ********* 
+changed: [rhaiis.phhql.internal] => (item={'name': 'cuda-rhel-x86_64', 'description': 'NVIDIA CUDA Repository', 'baseurl': 'https://developer.download.nvidia.com/compute/cuda/repos/rhel9/x86_64', 'enabled': True, 'gpgcheck': False})
+
+TASK [agnosticd.ai.setup_nvidia_cuda : Install nvdia drivers and CUDA] *********
+Monday 04 August 2025  15:06:52 +0000 (0:00:04.233)       0:14:07.841 ********* 
+changed: [rhaiis.phhql.internal] => (item=@nvidia-driver:latest-dkms)
+changed: [rhaiis.phhql.internal] => (item=cuda-toolkit-12-8)
+failed: [rhaiis.phhql.internal] (item=nvidia-gds) => {"ansible_loop_var": "package", "changed": false, "failures": [], "msg": "Depsolve Error occurred: \\n Problem: package nvidia-gds-13-0-13.0.0-1.x86_64 from cuda-rhel-x86_64 requires nvidia-fs >= 2.26.6, but none of the providers can be installed\\n  - package nvidia-fs-2.26.6-1.x86_64 from cuda-rhel-x86_64 requires nvidia-fs-dkms = 2.26.6, but none of the providers can be installed\\n  - package nvidia-gds-13.0.0-1.x86_64 from cuda-rhel-x86_64 requires nvidia-gds-13-0 >= 13.0.0, but none of the providers can be installed\\n  - package nvidia-fs-dkms-2.26.6-1.x86_64 from cuda-rhel-x86_64 requires kmod-nvidia-open-dkms >= 515.43.04, but none of the providers can be installed\\n  - cannot install the best candidate for the job\\n  - package kmod-nvidia-open-dkms-3:515.105.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:515.48.07-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:515.65.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:515.65.07-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:515.86.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:520.61.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:525.105.17-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:525.125.06-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:525.147.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:525.60.13-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:525.85.12-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:530.30.02-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.104.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.104.12-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.129.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.154.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.161.07-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.161.08-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.183.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.183.06-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.216.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.216.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.230.02-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.247.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.261.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.54.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.86.10-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:545.23.06-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:545.23.08-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.127.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.127.08-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.144.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.163.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.54.14-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.54.15-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.90.07-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.90.12-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:555.42.02-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:555.42.06-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:560.28.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:560.35.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:560.35.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:565.57.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.124.06-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.133.20-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.148.08-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.158.01-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.172.08-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.86.10-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.86.15-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:575.51.03-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:575.57.08-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:580.65.06-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering", "package": "nvidia-gds", "rc": 1, "results": []}
+changed: [rhaiis.phhql.internal] => (item=libcudnn8)
+changed: [rhaiis.phhql.internal] => (item=libcudnn8-devel)
+ok: [rhaiis.phhql.internal] => (item=cuda-cccl-12-8)
+changed: [rhaiis.phhql.internal] => (item=libnccl-2.26.2-1+cuda12.8.x86_64)
+changed: [rhaiis.phhql.internal] => (item=nvidia-container-toolkit)
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=122  changed=26   unreachable=0    failed=0    skipped=76   rescued=0    ignored=0   
+rhaiis.phhql.internal      : ok=88   changed=51   unreachable=0    failed=1    skipped=65   rescued=0    ignored=0   
+
+TASKS RECAP ********************************************************************
+Monday 04 August 2025  15:19:12 +0000 (0:12:19.729)       0:26:27.571 ********* 
+=============================================================================== 
+agnosticd.ai.setup_nvidia_cuda : Install nvdia drivers and CUDA ------- 739.73s
+common : Update all packages ------------------------------------------ 176.13s
+infra-ec2-template-create : Launch CloudFormation template (local) ---- 167.22s
+common : install common packages for RHEL 9 ---------------------------- 73.51s
+common : Reboot all VMs ------------------------------------------------ 40.25s
+ssh_authorized_keys : Add all authorized keys -------------------------- 18.84s
+bastion-base : Setup Red Hat packages for bastion ---------------------- 15.00s
+set-repositories : sat | Register with activation-key with HA ---------- 13.80s
+set-repositories : sat | Enable repos ---------------------------------- 13.46s
+agnosticd.ai.setup_nvidia_cuda : Install EPEL --------------------------- 9.54s
+bastion-base : copy over host .ssh/config Template ---------------------- 8.68s
+user-create-ansible-service-account : Copy ssh config template ---------- 8.33s
+user-create-ansible-service-account : Create user skel files ------------ 8.32s
+user-create-ansible-service-account : copy the environment .pem key ----- 8.31s
+set_env_authorized_key : copy the environment .pub key ------------------ 8.31s
+user-create-ansible-service-account : copy the environment .pub key ----- 8.31s
+set_env_authorized_key : copy the environment .pem key ------------------ 8.31s
+set_env_authorized_key : copy over host .ssh/config Template ------------ 8.31s
+user-create-ansible-service-account : Enable sudoers -------------------- 8.31s
+set-repositories : sat | Set network.fqdn in /etc/rhsm/facts/katello.facts --- 8.23s

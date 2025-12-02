@@ -1,0 +1,474 @@
+Vault password (gpte_vault_0): 
+
+PLAY [Step 0000 Set Action] ****************************************************
+
+TASK [Set ACTION to destroy] ***************************************************
+Tuesday 05 August 2025  10:15:03 +0000 (0:00:00.012)       0:00:00.012 ******** 
+skipping: [localhost]
+
+PLAY [Step 0000 Setup runtime] *************************************************
+
+TASK [debug] *******************************************************************
+Tuesday 05 August 2025  10:15:03 +0000 (0:00:00.031)       0:00:00.043 ******** 
+skipping: [localhost]
+
+TASK [Ensure cloud provider is supported] **************************************
+Tuesday 05 August 2025  10:15:03 +0000 (0:00:00.015)       0:00:00.059 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+PLAY [Step 0000 Setup Output Directory] ****************************************
+
+TASK [Set output_dir if not defined] *******************************************
+Tuesday 05 August 2025  10:15:03 +0000 (0:00:00.027)       0:00:00.086 ******** 
+skipping: [localhost]
+
+TASK [Create output_dir if it does not exists] *********************************
+Tuesday 05 August 2025  10:15:03 +0000 (0:00:00.014)       0:00:00.101 ******** 
+changed: [localhost]
+
+TASK [Attempt to restore output_dir contents] **********************************
+Tuesday 05 August 2025  10:15:03 +0000 (0:00:00.252)       0:00:00.354 ******** 
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from s3 bucket] ********
+Tuesday 05 August 2025  10:15:03 +0000 (0:00:00.021)       0:00:00.376 ******** 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/restore-from-s3.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Tuesday 05 August 2025  10:15:03 +0000 (0:00:00.037)       0:00:00.413 ******** 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/fetch-from-s3-s3_object.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Tuesday 05 August 2025  10:15:04 +0000 (0:00:00.116)       0:00:00.530 ******** 
+changed: [localhost]
+
+TASK [agnosticd_restore_output_dir : Decrypt archive] **************************
+Tuesday 05 August 2025  10:15:05 +0000 (0:00:00.946)       0:00:01.476 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from archive] **********
+Tuesday 05 August 2025  10:15:05 +0000 (0:00:00.016)       0:00:01.493 ******** 
+changed: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove archive file from output_dir] ******
+Tuesday 05 August 2025  10:15:05 +0000 (0:00:00.601)       0:00:02.095 ******** 
+changed: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove encrypted archive file from output_dir] ***
+Tuesday 05 August 2025  10:15:05 +0000 (0:00:00.167)       0:00:02.262 ******** 
+ok: [localhost]
+
+TASK [Touch file provision-user-data.yaml and provision-user-info.yaml] ********
+Tuesday 05 August 2025  10:15:06 +0000 (0:00:00.167)       0:00:02.430 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create empty user-info.yaml and user-data.yaml in output dir] ************
+Tuesday 05 August 2025  10:15:06 +0000 (0:00:00.337)       0:00:02.767 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create symlink user-data.yaml -> provision-user-data.yaml] ***************
+Tuesday 05 August 2025  10:15:07 +0000 (0:00:00.719)       0:00:03.487 ******** 
+ok: [localhost] => (item=user-info.yaml)
+ok: [localhost] => (item=user-data.yaml)
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Tuesday 05 August 2025  10:15:07 +0000 (0:00:00.376)       0:00:03.863 ******** 
+ok: [localhost]
+
+TASK [Include variables files] *************************************************
+Tuesday 05 August 2025  10:15:07 +0000 (0:00:00.021)       0:00:03.885 ******** 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars_openshift_cnv.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars_openshift_cnv.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_secret_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Tuesday 05 August 2025  10:15:07 +0000 (0:00:00.087)       0:00:03.973 ******** 
+skipping: [localhost]
+
+TASK [Set passthrough user data] ***********************************************
+Tuesday 05 August 2025  10:15:07 +0000 (0:00:00.019)       0:00:03.992 ******** 
+skipping: [localhost]
+
+PLAY [Step 0000 Install Galaxy roles and collections] **************************
+
+TASK [Use requirements_content] ************************************************
+Tuesday 05 August 2025  10:15:07 +0000 (0:00:00.030)       0:00:04.023 ******** 
+skipping: [localhost]
+
+TASK [Copy requirements content to output_dir] *********************************
+Tuesday 05 August 2025  10:15:07 +0000 (0:00:00.027)       0:00:04.050 ******** 
+skipping: [localhost]
+
+TASK [Use requirements_path from the config] ***********************************
+Tuesday 05 August 2025  10:15:07 +0000 (0:00:00.026)       0:00:04.077 ******** 
+ok: [localhost]
+
+TASK [Check if requirements.yml exists] ****************************************
+Tuesday 05 August 2025  10:15:07 +0000 (0:00:00.030)       0:00:04.107 ******** 
+ok: [localhost]
+
+TASK [set_fact] ****************************************************************
+Tuesday 05 August 2025  10:15:07 +0000 (0:00:00.176)       0:00:04.284 ******** 
+ok: [localhost]
+
+TASK [Install roles from requirements.yml] *************************************
+Tuesday 05 August 2025  10:15:07 +0000 (0:00:00.032)       0:00:04.316 ******** 
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (Not EE)] **********************
+Tuesday 05 August 2025  10:15:08 +0000 (0:00:00.875)       0:00:05.192 ******** 
+skipping: [localhost]
+
+TASK [Get installed collections (EE)] ******************************************
+Tuesday 05 August 2025  10:15:08 +0000 (0:00:00.035)       0:00:05.228 ******** 
+included: /runner/project/ansible/install_collections_ee.yml for localhost
+
+TASK [Get the list of installed collections (EE)] ******************************
+Tuesday 05 August 2025  10:15:08 +0000 (0:00:00.038)       0:00:05.266 ******** 
+changed: [localhost]
+
+TASK [Create temporary file for requirements.yml (EE)] *************************
+Tuesday 05 August 2025  10:15:09 +0000 (0:00:00.499)       0:00:05.765 ******** 
+changed: [localhost]
+
+TASK [Rewrite requirements, filter out installed collections (EE)] *************
+Tuesday 05 August 2025  10:15:09 +0000 (0:00:00.243)       0:00:06.009 ******** 
+[WARNING]: skipping installation of community.general==9.2.0 ;
+community.general==8.6.0 already installed in EE
+[WARNING]: skipping installation of community.crypto==2.21.1 ;
+community.crypto==2.19.1 already installed in EE
+[WARNING]: skipping installation of ansible.posix==1.5.4 ; ansible.posix==1.5.4
+already installed in EE
+[WARNING]: skipping installation of kubernetes.core==5.0.0 ;
+kubernetes.core==3.0.1 already installed in EE
+[WARNING]: skipping installation of amazon.aws==8.1.0 ; amazon.aws==7.6.0
+already installed in EE
+[WARNING]: skipping installation of community.vmware==4.5.0 ;
+community.vmware==4.3.0 already installed in EE
+[WARNING]: skipping installation of google.cloud==1.3.0 ; google.cloud==1.3.0
+already installed in EE
+[WARNING]: skipping installation of openstack.cloud==2.2.0 ;
+openstack.cloud==2.2.0 already installed in EE
+[WARNING]: skipping installation of community.okd==4.0.0 ; community.okd==3.0.1
+already installed in EE
+[WARNING]: skipping installation of kubevirt.core==2.0.0 ; kubevirt.core==1.3.2
+already installed in EE
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (EE)] **************************
+Tuesday 05 August 2025  10:15:09 +0000 (0:00:00.308)       0:00:06.317 ******** 
+changed: [localhost]
+
+TASK [Cleanup tempfile (EE)] ***************************************************
+Tuesday 05 August 2025  10:15:20 +0000 (0:00:11.057)       0:00:17.374 ******** 
+changed: [localhost]
+
+TASK [Install dynamic sources] *************************************************
+Tuesday 05 August 2025  10:15:21 +0000 (0:00:00.163)       0:00:17.538 ******** 
+
+TASK [agnosticd_dynamic : Create dynamic-cache and dynamic-roles directories] ***
+Tuesday 05 August 2025  10:15:21 +0000 (0:00:00.021)       0:00:17.559 ******** 
+changed: [localhost] => (item=/runner/project/ansible/dynamic-cache)
+changed: [localhost] => (item=/runner/project/ansible/dynamic-roles)
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to dynamic roles dir] ***
+Tuesday 05 August 2025  10:15:21 +0000 (0:00:00.330)       0:00:17.889 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to cache] *************
+Tuesday 05 August 2025  10:15:21 +0000 (0:00:00.029)       0:00:17.919 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install git sources] *********************************
+Tuesday 05 August 2025  10:15:21 +0000 (0:00:00.026)       0:00:17.945 ******** 
+skipping: [localhost]
+
+PLAY [Step 0000 Detect in what region the stack is] ****************************
+
+TASK [include_tasks] ***********************************************************
+Tuesday 05 August 2025  10:15:21 +0000 (0:00:00.029)       0:00:17.975 ******** 
+skipping: [localhost]
+
+PLAY [Destroy environment on OpenShift CNV] ************************************
+
+TASK [Run host-ocp4-assisted-destroy role] *************************************
+Tuesday 05 August 2025  10:15:21 +0000 (0:00:00.033)       0:00:18.009 ******** 
+
+TASK [host-ocp4-assisted-destroy : Log in (obtain access token)] ***************
+Tuesday 05 August 2025  10:15:21 +0000 (0:00:00.081)       0:00:18.090 ******** 
+skipping: [localhost]
+
+TASK [host-ocp4-assisted-destroy : Create a job to cleanup Ceph] ***************
+Tuesday 05 August 2025  10:15:21 +0000 (0:00:00.030)       0:00:18.121 ******** 
+changed: [localhost]
+
+TASK [host-ocp4-assisted-destroy : Delete dns records] *************************
+Tuesday 05 August 2025  10:15:22 +0000 (0:00:00.955)       0:00:19.077 ******** 
+skipping: [localhost] => (item=api) 
+skipping: [localhost] => (item=*.apps) 
+skipping: [localhost]
+
+TASK [host-ocp4-assisted-destroy : DNS entry (present)] ************************
+Tuesday 05 August 2025  10:15:22 +0000 (0:00:00.036)       0:00:19.113 ******** 
+ok: [localhost] => (item=api)
+ok: [localhost] => (item=*.apps)
+
+TASK [host-ocp4-assisted-destroy : Get a list of clusters] *********************
+Tuesday 05 August 2025  10:15:29 +0000 (0:00:06.728)       0:00:25.842 ******** 
+ok: [localhost]
+
+TASK [host-ocp4-assisted-destroy : Filter the created clusters] ****************
+Tuesday 05 August 2025  10:15:30 +0000 (0:00:01.254)       0:00:27.096 ******** 
+skipping: [localhost] => (item=cluster-k6stp) 
+skipping: [localhost] => (item=cluster-4qdkt) 
+skipping: [localhost] => (item=cluster-v47np) 
+skipping: [localhost] => (item=cluster-s6cc2) 
+skipping: [localhost] => (item=cluster-md9wk) 
+skipping: [localhost] => (item=cluster-jgdd4) 
+skipping: [localhost] => (item=cluster-hjps8) 
+skipping: [localhost] => (item=cluster-9xnq5) 
+skipping: [localhost] => (item=cluster-ngglp) 
+skipping: [localhost] => (item=cluster-flkc9) 
+skipping: [localhost] => (item=cluster-csdq6-1) 
+skipping: [localhost] => (item=cluster-h6c8t) 
+skipping: [localhost] => (item=cluster-tpcrn-1) 
+skipping: [localhost] => (item=cluster-wqv28) 
+skipping: [localhost] => (item=cluster-ntslj) 
+skipping: [localhost] => (item=cluster-fnrdv) 
+skipping: [localhost] => (item=cluster-644kh) 
+skipping: [localhost] => (item=cluster-gjnpd) 
+skipping: [localhost] => (item=cluster-d2r9s-1) 
+skipping: [localhost] => (item=cluster-fsm9z) 
+skipping: [localhost] => (item=cluster-27nh2) 
+skipping: [localhost] => (item=cluster-sd7tx-1) 
+skipping: [localhost] => (item=cluster-jn7wf) 
+skipping: [localhost] => (item=cluster-qpssx-1) 
+skipping: [localhost] => (item=cluster-rf9w9) 
+skipping: [localhost] => (item=cluster-nr89v) 
+skipping: [localhost] => (item=cluster-pzdvj) 
+skipping: [localhost] => (item=cluster-4266z) 
+skipping: [localhost] => (item=cluster-w28j7) 
+skipping: [localhost] => (item=cluster-ms78k-1) 
+skipping: [localhost] => (item=cluster-vmmkp) 
+skipping: [localhost] => (item=cluster-w5jck) 
+skipping: [localhost] => (item=cluster-tk2vs) 
+skipping: [localhost] => (item=cluster-cqk5j) 
+skipping: [localhost] => (item=cluster-7htpp) 
+skipping: [localhost] => (item=cluster-lsf6m) 
+skipping: [localhost] => (item=cluster-h8vmd) 
+skipping: [localhost] => (item=cluster-cd5cp) 
+skipping: [localhost] => (item=cluster-6kbhs) 
+skipping: [localhost] => (item=cluster-58wkn) 
+skipping: [localhost] => (item=cluster-5cjhk) 
+skipping: [localhost] => (item=cluster-tzltl) 
+skipping: [localhost] => (item=cluster-7ckwm-1) 
+skipping: [localhost] => (item=cluster-2z9qq) 
+skipping: [localhost] => (item=cluster-2qkhj) 
+skipping: [localhost] => (item=cluster-rnh9l) 
+skipping: [localhost] => (item=cluster-2thll) 
+skipping: [localhost] => (item=cluster-g8zlc) 
+skipping: [localhost] => (item=cluster-4xs6l) 
+skipping: [localhost] => (item=cluster-8jptg) 
+skipping: [localhost] => (item=cluster-dmsgc) 
+skipping: [localhost] => (item=cluster-b9g28) 
+skipping: [localhost] => (item=cluster-c7fdj) 
+skipping: [localhost] => (item=cluster-vgjvq) 
+skipping: [localhost] => (item=cluster-65tbk) 
+skipping: [localhost] => (item=cluster-wsdsl) 
+skipping: [localhost] => (item=cluster-6gf5t) 
+skipping: [localhost] => (item=cluster-h7mms) 
+skipping: [localhost] => (item=cluster-l66tz) 
+skipping: [localhost] => (item=cluster-p6m4g-1) 
+skipping: [localhost] => (item=cluster-2xj54) 
+skipping: [localhost] => (item=cluster-m929l) 
+skipping: [localhost] => (item=cluster-pxnfd-1) 
+skipping: [localhost] => (item=cluster-xqk4d) 
+skipping: [localhost] => (item=cluster-msmt7-1) 
+skipping: [localhost] => (item=cluster-gqrff) 
+skipping: [localhost] => (item=cluster-ml6ff) 
+skipping: [localhost] => (item=cluster-wbbw6) 
+skipping: [localhost] => (item=cluster-6zrlj) 
+skipping: [localhost] => (item=cluster-grh2p) 
+skipping: [localhost] => (item=cluster-nr7mz) 
+skipping: [localhost] => (item=cluster-szkp6) 
+skipping: [localhost] => (item=cluster-xxdsm) 
+skipping: [localhost] => (item=cluster-4ksw7) 
+skipping: [localhost] => (item=cluster-vljbz) 
+skipping: [localhost] => (item=cluster-xvkgh) 
+skipping: [localhost] => (item=cluster-cqlgg) 
+skipping: [localhost] => (item=cluster-zn5gq) 
+skipping: [localhost] => (item=cluster-852vg) 
+skipping: [localhost] => (item=cluster-t9mb4) 
+skipping: [localhost] => (item=cluster-ldnqt) 
+skipping: [localhost] => (item=cluster-jhphw) 
+skipping: [localhost] => (item=cluster-kjxvj) 
+skipping: [localhost] => (item=cluster-nnrgk) 
+skipping: [localhost] => (item=cluster-2cftp) 
+skipping: [localhost] => (item=cluster-kg6t2) 
+skipping: [localhost] => (item=cluster-kgmk8) 
+skipping: [localhost] => (item=cluster-9xmkh-1) 
+skipping: [localhost] => (item=cluster-44dhd) 
+skipping: [localhost] => (item=cluster-d9f84) 
+skipping: [localhost] => (item=cluster-spflf) 
+skipping: [localhost] => (item=cluster-slm8b) 
+skipping: [localhost] => (item=cluster-hwl9v) 
+skipping: [localhost] => (item=cluster-lptdb) 
+skipping: [localhost] => (item=cluster-zbrs7) 
+skipping: [localhost] => (item=cluster-9gz5s) 
+skipping: [localhost] => (item=cluster-zk9jx) 
+skipping: [localhost] => (item=cluster-9qtzn) 
+skipping: [localhost] => (item=cluster-785jl-1) 
+skipping: [localhost] => (item=cluster-pq42h) 
+skipping: [localhost] => (item=cluster-pmgmv) 
+skipping: [localhost] => (item=cluster-7h2rf) 
+skipping: [localhost] => (item=cluster-p6xsc) 
+skipping: [localhost] => (item=cluster-4lw9k) 
+skipping: [localhost] => (item=cluster-l9sjt) 
+skipping: [localhost] => (item=cluster-t6hbz) 
+skipping: [localhost] => (item=cluster-9cr25) 
+skipping: [localhost] => (item=cluster-cjhhn) 
+skipping: [localhost] => (item=cluster-78m8x-1) 
+skipping: [localhost] => (item=cluster-vdsqn) 
+skipping: [localhost] => (item=cluster-z99g2) 
+skipping: [localhost] => (item=cluster-g2ts8) 
+skipping: [localhost] => (item=cluster-f887w) 
+skipping: [localhost] => (item=cluster-c5mrv) 
+skipping: [localhost] => (item=cluster-c89jz) 
+skipping: [localhost] => (item=cluster-wstcx-1) 
+skipping: [localhost] => (item=cluster-mp9dl) 
+skipping: [localhost] => (item=cluster-pl76t) 
+skipping: [localhost] => (item=cluster-nzftd) 
+skipping: [localhost] => (item=cluster-slc9n-1) 
+skipping: [localhost] => (item=cluster-x7njq) 
+skipping: [localhost] => (item=cluster-xmdjp) 
+skipping: [localhost] => (item=cluster-c4brr) 
+skipping: [localhost] => (item=cluster-tzd8b) 
+skipping: [localhost] => (item=cluster-967mh) 
+skipping: [localhost] => (item=cluster-8487g) 
+skipping: [localhost] => (item=cluster-2jtnx) 
+skipping: [localhost] => (item=cluster-4khnz) 
+skipping: [localhost] => (item=cluster-qq8jh) 
+skipping: [localhost] => (item=cluster-cxr6x) 
+skipping: [localhost] => (item=cluster-sg6m9) 
+skipping: [localhost] => (item=cluster-6sk8r) 
+skipping: [localhost] => (item=cluster-97fzw) 
+skipping: [localhost] => (item=cluster-tdwcn-1) 
+skipping: [localhost] => (item=cluster-zkxrz) 
+skipping: [localhost] => (item=cluster-r9fs4) 
+skipping: [localhost] => (item=cluster-qz5sl) 
+skipping: [localhost] => (item=cluster-lvmvx) 
+skipping: [localhost] => (item=cluster-hgnr5) 
+skipping: [localhost] => (item=cluster-djbh2) 
+skipping: [localhost] => (item=cluster-9w4w4) 
+skipping: [localhost] => (item=cluster-mtph8) 
+skipping: [localhost] => (item=cluster-j9gb6-1) 
+skipping: [localhost] => (item=cluster-jnqbt) 
+skipping: [localhost] => (item=cluster-cltv7) 
+skipping: [localhost] => (item=cluster-s7l2r) 
+skipping: [localhost] => (item=cluster-bvssh) 
+skipping: [localhost] => (item=cluster-csn8p) 
+skipping: [localhost] => (item=cluster-8knzd) 
+skipping: [localhost] => (item=cluster-dqgpl) 
+skipping: [localhost] => (item=cluster-svfqx) 
+skipping: [localhost] => (item=cluster-t2cs8-1) 
+skipping: [localhost] => (item=cluster-sr76k) 
+skipping: [localhost] => (item=cluster-mq85v) 
+skipping: [localhost] => (item=cluster-4dvtm) 
+skipping: [localhost] => (item=cluster-4cl6w) 
+skipping: [localhost] => (item=cluster-ndzl4) 
+skipping: [localhost] => (item=cluster-vsdj5) 
+skipping: [localhost] => (item=cluster-7zlft-1) 
+skipping: [localhost] => (item=cluster-wqrw2) 
+skipping: [localhost] => (item=cluster-6mrnq) 
+skipping: [localhost] => (item=cluster-jdxb2) 
+skipping: [localhost] => (item=cluster-vg2br) 
+skipping: [localhost] => (item=cluster-rnw4h) 
+skipping: [localhost] => (item=cluster-zngzv) 
+skipping: [localhost] => (item=cluster-qsw2n) 
+skipping: [localhost] => (item=cluster-4g752) 
+skipping: [localhost] => (item=cluster-wmkr6) 
+skipping: [localhost] => (item=cluster-4bphc) 
+skipping: [localhost] => (item=cluster-5vtpc-1) 
+skipping: [localhost] => (item=cluster-w9rj8) 
+skipping: [localhost] => (item=cluster-z7b6v) 
+skipping: [localhost] => (item=cluster-28vd8) 
+skipping: [localhost] => (item=cluster-pxwnb) 
+skipping: [localhost] => (item=cluster-cd25h) 
+skipping: [localhost] => (item=cluster-dnkg9) 
+skipping: [localhost] => (item=cluster-klbw6) 
+skipping: [localhost] => (item=cluster-j6qn4) 
+skipping: [localhost] => (item=cluster-vclkx) 
+skipping: [localhost] => (item=cluster-5vx9t) 
+skipping: [localhost] => (item=cluster-m8g2r) 
+skipping: [localhost] => (item=cluster-tnq2w) 
+skipping: [localhost] => (item=cluster-bv4p7) 
+skipping: [localhost] => (item=cluster-7vlqk) 
+skipping: [localhost] => (item=cluster-5fmdb-1) 
+skipping: [localhost] => (item=cluster-dqdwx) 
+skipping: [localhost] => (item=cluster-74xnt) 
+skipping: [localhost] => (item=cluster-9rxrp) 
+skipping: [localhost] => (item=cluster-v5wx5-1) 
+skipping: [localhost] => (item=cluster-ql7fc) 
+skipping: [localhost] => (item=cluster-74xf6) 
+skipping: [localhost] => (item=cluster-vxqdr) 
+skipping: [localhost] => (item=cluster-8bg2c) 
+skipping: [localhost] => (item=cluster-lhp6d) 
+skipping: [localhost] => (item=cluster-zttgk) 
+skipping: [localhost] => (item=cluster-j6727) 
+skipping: [localhost] => (item=cluster-xpgpm) 
+skipping: [localhost] => (item=cluster-wc6r7) 
+ok: [localhost] => (item=cluster-f6bqv)
+skipping: [localhost] => (item=cluster-qbmv6) 
+skipping: [localhost] => (item=cluster-5pn6g) 
+skipping: [localhost] => (item=cluster-89nzh) 
+skipping: [localhost] => (item=cluster-95v5r) 
+skipping: [localhost] => (item=cluster-7dtbq) 
+skipping: [localhost] => (item=cluster-nknrs) 
+skipping: [localhost] => (item=cluster-cnp7x) 
+skipping: [localhost] => (item=cluster-7vk2v) 
+skipping: [localhost] => (item=cluster-snrzv) 
+skipping: [localhost] => (item=cluster-mrtdm-1) 
+
+TASK [host-ocp4-assisted-destroy : Remove Assisted Installer Cluster] **********
+Tuesday 05 August 2025  10:15:31 +0000 (0:00:01.269)       0:00:28.365 ******** 
+fatal: [localhost]: FAILED! => {"changed": false, "msg": "Request failed: ", "result": {"code": "409", "href": "", "id": 409, "kind": "Error", "reason": "cluster b13cc168-01d6-4282-a120-484051b50142 can not be removed while being installed, wait for the installation to timeout or reset the installation"}}
+
+NO MORE HOSTS LEFT *************************************************************
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=28   changed=14   unreachable=0    failed=1    skipped=15   rescued=0    ignored=0   
+Tuesday 05 August 2025  10:15:32 +0000 (0:00:00.593)       0:00:28.958 ******** 
+=============================================================================== 
+Install collections from requirements.yml (EE) ------------------------- 11.06s
+host-ocp4-assisted-destroy : DNS entry (present) ------------------------ 6.73s
+host-ocp4-assisted-destroy : Filter the created clusters ---------------- 1.27s
+host-ocp4-assisted-destroy : Get a list of clusters --------------------- 1.25s
+host-ocp4-assisted-destroy : Create a job to cleanup Ceph --------------- 0.96s
+agnosticd_restore_output_dir : Get output_dir archive from s3 ----------- 0.95s
+Install roles from requirements.yml ------------------------------------- 0.88s
+Create empty user-info.yaml and user-data.yaml in output dir ------------ 0.72s
+agnosticd_restore_output_dir : Restore output_dir from archive ---------- 0.60s
+host-ocp4-assisted-destroy : Remove Assisted Installer Cluster ---------- 0.59s
+Get the list of installed collections (EE) ------------------------------ 0.50s
+Create symlink user-data.yaml -> provision-user-data.yaml --------------- 0.38s
+Touch file provision-user-data.yaml and provision-user-info.yaml -------- 0.34s
+agnosticd_dynamic : Create dynamic-cache and dynamic-roles directories --- 0.33s
+Rewrite requirements, filter out installed collections (EE) ------------- 0.31s
+Create output_dir if it does not exists --------------------------------- 0.25s
+Create temporary file for requirements.yml (EE) ------------------------- 0.24s
+Check if requirements.yml exists ---------------------------------------- 0.18s
+agnosticd_restore_output_dir : Remove archive file from output_dir ------ 0.17s
+agnosticd_restore_output_dir : Remove encrypted archive file from output_dir --- 0.17s

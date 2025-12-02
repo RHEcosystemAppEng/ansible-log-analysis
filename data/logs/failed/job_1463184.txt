@@ -1,0 +1,239 @@
+Vault password (gpte_vault_0): 
+
+PLAY [Step 0000 Set Action] ****************************************************
+
+TASK [Set ACTION to destroy] ***************************************************
+Tuesday 05 August 2025  09:55:23 +0000 (0:00:00.013)       0:00:00.014 ******** 
+skipping: [localhost]
+
+PLAY [Step 0000 Setup runtime] *************************************************
+
+TASK [debug] *******************************************************************
+Tuesday 05 August 2025  09:55:23 +0000 (0:00:00.035)       0:00:00.049 ******** 
+skipping: [localhost]
+
+TASK [Ensure cloud provider is supported] **************************************
+Tuesday 05 August 2025  09:55:23 +0000 (0:00:00.019)       0:00:00.068 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+PLAY [Step 0000 Setup Output Directory] ****************************************
+
+TASK [Set output_dir if not defined] *******************************************
+Tuesday 05 August 2025  09:55:23 +0000 (0:00:00.032)       0:00:00.101 ******** 
+skipping: [localhost]
+
+TASK [Create output_dir if it does not exists] *********************************
+Tuesday 05 August 2025  09:55:23 +0000 (0:00:00.025)       0:00:00.126 ******** 
+changed: [localhost]
+
+TASK [Attempt to restore output_dir contents] **********************************
+Tuesday 05 August 2025  09:55:23 +0000 (0:00:00.289)       0:00:00.416 ******** 
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from s3 bucket] ********
+Tuesday 05 August 2025  09:55:23 +0000 (0:00:00.026)       0:00:00.442 ******** 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/restore-from-s3.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Tuesday 05 August 2025  09:55:23 +0000 (0:00:00.050)       0:00:00.492 ******** 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/fetch-from-s3-s3_object.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Tuesday 05 August 2025  09:55:24 +0000 (0:00:00.121)       0:00:00.613 ******** 
+ok: [localhost]
+
+TASK [agnosticd_restore_output_dir : Decrypt archive] **************************
+Tuesday 05 August 2025  09:55:24 +0000 (0:00:00.837)       0:00:01.451 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from archive] **********
+Tuesday 05 August 2025  09:55:24 +0000 (0:00:00.020)       0:00:01.471 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove archive file from output_dir] ******
+Tuesday 05 August 2025  09:55:24 +0000 (0:00:00.014)       0:00:01.486 ******** 
+ok: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove encrypted archive file from output_dir] ***
+Tuesday 05 August 2025  09:55:25 +0000 (0:00:00.180)       0:00:01.666 ******** 
+ok: [localhost]
+
+TASK [Touch file provision-user-data.yaml and provision-user-info.yaml] ********
+Tuesday 05 August 2025  09:55:25 +0000 (0:00:00.165)       0:00:01.831 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create empty user-info.yaml and user-data.yaml in output dir] ************
+Tuesday 05 August 2025  09:55:25 +0000 (0:00:00.351)       0:00:02.182 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create symlink user-data.yaml -> provision-user-data.yaml] ***************
+Tuesday 05 August 2025  09:55:26 +0000 (0:00:00.825)       0:00:03.008 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Tuesday 05 August 2025  09:55:26 +0000 (0:00:00.389)       0:00:03.398 ******** 
+ok: [localhost]
+
+TASK [Include variables files] *************************************************
+Tuesday 05 August 2025  09:55:26 +0000 (0:00:00.029)       0:00:03.427 ******** 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/azure_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/azure_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/open-environment-azure-subscription/env_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/open-environment-azure-subscription/env_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/open-environment-azure-subscription/default_vars.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/open-environment-azure-subscription/default_vars.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/open-environment-azure-subscription/default_vars_azure.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/open-environment-azure-subscription/default_vars_azure.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/open-environment-azure-subscription/env_secret_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/open-environment-azure-subscription/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Tuesday 05 August 2025  09:55:26 +0000 (0:00:00.091)       0:00:03.518 ******** 
+skipping: [localhost]
+
+TASK [Set passthrough user data] ***********************************************
+Tuesday 05 August 2025  09:55:26 +0000 (0:00:00.021)       0:00:03.540 ******** 
+skipping: [localhost]
+
+PLAY [Step 0000 Install Galaxy roles and collections] **************************
+
+TASK [Use requirements_content] ************************************************
+Tuesday 05 August 2025  09:55:27 +0000 (0:00:00.056)       0:00:03.597 ******** 
+skipping: [localhost]
+
+TASK [Copy requirements content to output_dir] *********************************
+Tuesday 05 August 2025  09:55:27 +0000 (0:00:00.043)       0:00:03.640 ******** 
+skipping: [localhost]
+
+TASK [Use requirements_path from the config] ***********************************
+Tuesday 05 August 2025  09:55:27 +0000 (0:00:00.038)       0:00:03.678 ******** 
+ok: [localhost]
+
+TASK [Check if requirements.yml exists] ****************************************
+Tuesday 05 August 2025  09:55:27 +0000 (0:00:00.036)       0:00:03.715 ******** 
+ok: [localhost]
+
+TASK [set_fact] ****************************************************************
+Tuesday 05 August 2025  09:55:27 +0000 (0:00:00.173)       0:00:03.889 ******** 
+ok: [localhost]
+
+TASK [Install roles from requirements.yml] *************************************
+Tuesday 05 August 2025  09:55:27 +0000 (0:00:00.039)       0:00:03.929 ******** 
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (Not EE)] **********************
+Tuesday 05 August 2025  09:55:28 +0000 (0:00:00.724)       0:00:04.653 ******** 
+skipping: [localhost]
+
+TASK [Get installed collections (EE)] ******************************************
+Tuesday 05 August 2025  09:55:28 +0000 (0:00:00.088)       0:00:04.741 ******** 
+included: /runner/project/ansible/install_collections_ee.yml for localhost
+
+TASK [Get the list of installed collections (EE)] ******************************
+Tuesday 05 August 2025  09:55:28 +0000 (0:00:00.076)       0:00:04.818 ******** 
+changed: [localhost]
+
+TASK [Create temporary file for requirements.yml (EE)] *************************
+Tuesday 05 August 2025  09:55:28 +0000 (0:00:00.568)       0:00:05.386 ******** 
+changed: [localhost]
+
+TASK [Rewrite requirements, filter out installed collections (EE)] *************
+Tuesday 05 August 2025  09:55:29 +0000 (0:00:00.282)       0:00:05.668 ******** 
+[WARNING]: skipping installation of ansible.posix==1.5.4 ; ansible.posix==1.5.4
+already installed in EE
+[WARNING]: skipping installation of community.general==7.2.1 ;
+community.general==7.4.0 already installed in EE
+[WARNING]: skipping installation of kubernetes.core==2.4.0 ;
+kubernetes.core==2.4.0 already installed in EE
+[WARNING]: skipping installation of azure.azcollection==1.18.1 ;
+azure.azcollection==1.18.1 already installed in EE
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (EE)] **************************
+Tuesday 05 August 2025  09:55:29 +0000 (0:00:00.350)       0:00:06.019 ******** 
+changed: [localhost]
+
+TASK [Cleanup tempfile (EE)] ***************************************************
+Tuesday 05 August 2025  09:55:31 +0000 (0:00:02.456)       0:00:08.475 ******** 
+changed: [localhost]
+
+TASK [Install dynamic sources] *************************************************
+Tuesday 05 August 2025  09:55:32 +0000 (0:00:00.168)       0:00:08.643 ******** 
+
+TASK [agnosticd_dynamic : Create dynamic-cache and dynamic-roles directories] ***
+Tuesday 05 August 2025  09:55:32 +0000 (0:00:00.024)       0:00:08.668 ******** 
+changed: [localhost] => (item=/runner/project/ansible/dynamic-cache)
+changed: [localhost] => (item=/runner/project/ansible/dynamic-roles)
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to dynamic roles dir] ***
+Tuesday 05 August 2025  09:55:32 +0000 (0:00:00.336)       0:00:09.004 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to cache] *************
+Tuesday 05 August 2025  09:55:32 +0000 (0:00:00.041)       0:00:09.046 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install git sources] *********************************
+Tuesday 05 August 2025  09:55:32 +0000 (0:00:00.047)       0:00:09.093 ******** 
+skipping: [localhost]
+
+PLAY [Step 0000 Detect in what region the stack is] ****************************
+
+TASK [include_tasks] ***********************************************************
+Tuesday 05 August 2025  09:55:32 +0000 (0:00:00.031)       0:00:09.125 ******** 
+skipping: [localhost]
+
+PLAY [Cleanup Azure Subscription Based Sandbox] ********************************
+
+TASK [Run the azure remove user from subscription ROLE] ************************
+Tuesday 05 August 2025  09:55:32 +0000 (0:00:00.031)       0:00:09.156 ******** 
+
+TASK [open-env-azure-remove-user-from-subscription : Log into Azure CLI] *******
+Tuesday 05 August 2025  09:55:32 +0000 (0:00:00.041)       0:00:09.198 ******** 
+changed: [localhost]
+
+TASK [open-env-azure-remove-user-from-subscription : Check if email is Red Hat associate] ***
+Tuesday 05 August 2025  09:55:34 +0000 (0:00:02.279)       0:00:11.478 ******** 
+ok: [localhost]
+
+TASK [open-env-azure-remove-user-from-subscription : Check if email is not a Red Hat associate] ***
+Tuesday 05 August 2025  09:55:34 +0000 (0:00:00.055)       0:00:11.534 ******** 
+skipping: [localhost]
+
+TASK [open-env-azure-remove-user-from-subscription : Checking if user is in Active Directory] ***
+Tuesday 05 August 2025  09:55:34 +0000 (0:00:00.013)       0:00:11.547 ******** 
+fatal: [localhost]: FAILED! => {"changed": false, "msg": "failed to get ad user info Access blocked to AAD Graph API for this application. https://aka.ms/AzureADGraphMigration."}
+
+NO MORE HOSTS LEFT *************************************************************
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=25   changed=12   unreachable=0    failed=1    skipped=15   rescued=0    ignored=0   
+Tuesday 05 August 2025  09:55:36 +0000 (0:00:01.340)       0:00:12.888 ******** 
+=============================================================================== 
+Install collections from requirements.yml (EE) -------------------------- 2.46s
+open-env-azure-remove-user-from-subscription : Log into Azure CLI ------- 2.28s
+open-env-azure-remove-user-from-subscription : Checking if user is in Active Directory --- 1.34s
+agnosticd_restore_output_dir : Get output_dir archive from s3 ----------- 0.84s
+Create empty user-info.yaml and user-data.yaml in output dir ------------ 0.83s
+Install roles from requirements.yml ------------------------------------- 0.72s
+Get the list of installed collections (EE) ------------------------------ 0.57s
+Create symlink user-data.yaml -> provision-user-data.yaml --------------- 0.39s
+Touch file provision-user-data.yaml and provision-user-info.yaml -------- 0.35s
+Rewrite requirements, filter out installed collections (EE) ------------- 0.35s
+agnosticd_dynamic : Create dynamic-cache and dynamic-roles directories --- 0.34s
+Create output_dir if it does not exists --------------------------------- 0.29s
+Create temporary file for requirements.yml (EE) ------------------------- 0.28s
+agnosticd_restore_output_dir : Remove archive file from output_dir ------ 0.18s
+Check if requirements.yml exists ---------------------------------------- 0.17s
+Cleanup tempfile (EE) --------------------------------------------------- 0.17s
+agnosticd_restore_output_dir : Remove encrypted archive file from output_dir --- 0.17s
+agnosticd_restore_output_dir : Get output_dir archive from s3 ----------- 0.12s
+Include variables files ------------------------------------------------- 0.09s
+Install collections from requirements.yml (Not EE) ---------------------- 0.09s

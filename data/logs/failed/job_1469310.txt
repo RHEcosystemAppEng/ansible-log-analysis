@@ -1,0 +1,1372 @@
+[DEPRECATION WARNING]: ANSIBLE_COLLECTIONS_PATHS option. Reason: does not fit 
+var naming standard, use the singular form ANSIBLE_COLLECTIONS_PATH instead 
+Alternatives: none. This feature will be removed in version 2.19. Deprecation 
+warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+Vault password (gpte_vault_0): 
+
+PLAY [Step 0000 Set Action] ****************************************************
+
+TASK [Set ACTION to provision] *************************************************
+Thursday 07 August 2025  12:31:48 +0000 (0:00:00.007)       0:00:00.007 ******* 
+skipping: [localhost]
+
+PLAY [Step 0000 Setup runtime] *************************************************
+
+TASK [debug] *******************************************************************
+Thursday 07 August 2025  12:31:48 +0000 (0:00:00.016)       0:00:00.024 ******* 
+skipping: [localhost]
+
+TASK [Ensure cloud provider is supported] **************************************
+Thursday 07 August 2025  12:31:48 +0000 (0:00:00.013)       0:00:00.037 ******* 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+PLAY [Step 0000 Setup Output Directory] ****************************************
+
+TASK [Set output_dir if not defined] *******************************************
+Thursday 07 August 2025  12:31:48 +0000 (0:00:00.016)       0:00:00.053 ******* 
+skipping: [localhost]
+
+TASK [Create output_dir if it does not exists] *********************************
+Thursday 07 August 2025  12:31:48 +0000 (0:00:00.015)       0:00:00.068 ******* 
+changed: [localhost]
+
+TASK [Attempt to restore output_dir contents] **********************************
+Thursday 07 August 2025  12:31:49 +0000 (0:00:00.298)       0:00:00.367 ******* 
+included: agnosticd_restore_output_dir for localhost
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from s3 bucket] ********
+Thursday 07 August 2025  12:31:49 +0000 (0:00:00.025)       0:00:00.392 ******* 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/restore-from-s3.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Thursday 07 August 2025  12:31:49 +0000 (0:00:00.036)       0:00:00.429 ******* 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/fetch-from-s3-s3_object.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Thursday 07 August 2025  12:31:49 +0000 (0:00:00.026)       0:00:00.455 ******* 
+ok: [localhost]
+
+TASK [agnosticd_restore_output_dir : Decrypt archive] **************************
+Thursday 07 August 2025  12:31:50 +0000 (0:00:00.816)       0:00:01.271 ******* 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from archive] **********
+Thursday 07 August 2025  12:31:50 +0000 (0:00:00.015)       0:00:01.286 ******* 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove archive file from output_dir] ******
+Thursday 07 August 2025  12:31:50 +0000 (0:00:00.012)       0:00:01.299 ******* 
+ok: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove encrypted archive file from output_dir] ***
+Thursday 07 August 2025  12:31:50 +0000 (0:00:00.166)       0:00:01.465 ******* 
+ok: [localhost]
+
+TASK [Touch file provision-user-data.yaml and provision-user-info.yaml] ********
+Thursday 07 August 2025  12:31:50 +0000 (0:00:00.146)       0:00:01.612 ******* 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create empty user-info.yaml and user-data.yaml in output dir] ************
+Thursday 07 August 2025  12:31:50 +0000 (0:00:00.312)       0:00:01.924 ******* 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create symlink user-data.yaml -> provision-user-data.yaml] ***************
+Thursday 07 August 2025  12:31:51 +0000 (0:00:00.761)       0:00:02.686 ******* 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Thursday 07 August 2025  12:31:51 +0000 (0:00:00.306)       0:00:02.993 ******* 
+ok: [localhost]
+
+TASK [Include variables files] *************************************************
+Thursday 07 August 2025  12:31:51 +0000 (0:00:00.015)       0:00:03.008 ******* 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars.yml)
+ok: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars_openshift_cnv.yaml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars_openshift_cnv.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yml) 
+[WARNING]: Found variable using reserved name: remote_user
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Thursday 07 August 2025  12:31:51 +0000 (0:00:00.055)       0:00:03.064 ******* 
+skipping: [localhost]
+
+TASK [Set passthrough user data] ***********************************************
+Thursday 07 August 2025  12:31:51 +0000 (0:00:00.016)       0:00:03.081 ******* 
+skipping: [localhost]
+
+PLAY [Step 0000 Install Galaxy roles and collections] **************************
+
+TASK [Use requirements_content] ************************************************
+Thursday 07 August 2025  12:31:51 +0000 (0:00:00.017)       0:00:03.098 ******* 
+ok: [localhost]
+
+TASK [Copy requirements content to output_dir] *********************************
+Thursday 07 August 2025  12:31:51 +0000 (0:00:00.016)       0:00:03.115 ******* 
+changed: [localhost]
+
+TASK [Use requirements_path from the config] ***********************************
+Thursday 07 August 2025  12:31:52 +0000 (0:00:00.290)       0:00:03.405 ******* 
+skipping: [localhost]
+
+TASK [Check if requirements.yml exists] ****************************************
+Thursday 07 August 2025  12:31:52 +0000 (0:00:00.012)       0:00:03.418 ******* 
+ok: [localhost]
+
+TASK [set_fact] ****************************************************************
+Thursday 07 August 2025  12:31:52 +0000 (0:00:00.141)       0:00:03.559 ******* 
+ok: [localhost]
+
+TASK [Install roles from requirements.yml] *************************************
+Thursday 07 August 2025  12:31:52 +0000 (0:00:00.014)       0:00:03.573 ******* 
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (Not EE)] **********************
+Thursday 07 August 2025  12:31:53 +0000 (0:00:00.760)       0:00:04.334 ******* 
+skipping: [localhost]
+
+TASK [Get installed collections (EE)] ******************************************
+Thursday 07 August 2025  12:31:53 +0000 (0:00:00.020)       0:00:04.354 ******* 
+skipping: [localhost]
+
+TASK [Install dynamic sources] *************************************************
+Thursday 07 August 2025  12:31:53 +0000 (0:00:00.020)       0:00:04.375 ******* 
+included: agnosticd_dynamic for localhost
+
+TASK [agnosticd_dynamic : Create dynamic-cache and dynamic-roles directories] ***
+Thursday 07 August 2025  12:31:53 +0000 (0:00:00.021)       0:00:04.397 ******* 
+changed: [localhost] => (item=/runner/project/ansible/dynamic-cache)
+ok: [localhost] => (item=/runner/project/ansible/dynamic-roles)
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to dynamic roles dir] ***
+Thursday 07 August 2025  12:31:53 +0000 (0:00:00.305)       0:00:04.702 ******* 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to cache] *************
+Thursday 07 August 2025  12:31:53 +0000 (0:00:00.016)       0:00:04.719 ******* 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install git sources] *********************************
+Thursday 07 August 2025  12:31:53 +0000 (0:00:00.011)       0:00:04.730 ******* 
+skipping: [localhost]
+
+PLAY [Step 000 Pre Infrastructure] *********************************************
+
+TASK [Generate Petname Hostnames for Systems] **********************************
+Thursday 07 August 2025  12:31:53 +0000 (0:00:00.011)       0:00:04.742 ******* 
+skipping: [localhost]
+
+TASK [Pull Latest Windows Image] ***********************************************
+Thursday 07 August 2025  12:31:53 +0000 (0:00:00.011)       0:00:04.754 ******* 
+skipping: [localhost]
+
+TASK [Step 000 Pre Infrastructure] *********************************************
+Thursday 07 August 2025  12:31:53 +0000 (0:00:00.012)       0:00:04.766 ******* 
+ok: [localhost] => {
+    "msg": "Step 000 Pre Infrastructure"
+}
+
+PLAY [Install Pre Infra workloads for all nodes omit localhost] ****************
+skipping: no hosts matched
+
+PLAY [Install Pre Infra workloads on localhost] ********************************
+
+TASK [Deploying Pre Infra workloads  on localhost] *****************************
+Thursday 07 August 2025  12:31:53 +0000 (0:00:00.016)       0:00:04.783 ******* 
+skipping: [localhost]
+[WARNING]: Could not match supplied host pattern, ignoring: windows
+
+PLAY [Install Pre Infra workloads on  all hosts] *******************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: bastions
+
+PLAY [Install Pre Infra workloads on bastion] **********************************
+skipping: no hosts matched
+
+PLAY [Install Pre Infra workloads for windows] *********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: gitlab
+
+PLAY [Install Pre Infra workloads for gitlab] **********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: nodes
+
+PLAY [Install Pre Infra workloads for nodes] ***********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: centos_nodes
+
+PLAY [Install Pre Infra workloads for centos nodes] ****************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: satellites
+
+PLAY [Install Pre Infra workloads for Satellites] ******************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: capsules
+
+PLAY [Install Pre Infra workloads for Satellite Capsules] **********************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: isolated
+
+PLAY [Install Pre Infra workloads for Satellite Isolated] **********************
+skipping: no hosts matched
+
+PLAY [Step 001.1 Deploy Infrastructure] ****************************************
+
+TASK [Create ssh provision key] ************************************************
+Thursday 07 August 2025  12:31:53 +0000 (0:00:00.032)       0:00:04.815 ******* 
+included: create_ssh_provision_key for localhost
+
+TASK [create_ssh_provision_key : include_tasks] ********************************
+Thursday 07 August 2025  12:31:53 +0000 (0:00:00.100)       0:00:04.916 ******* 
+included: /runner/project/ansible/roles-infra/create_ssh_provision_key/tasks/checks.yaml for localhost
+
+TASK [create_ssh_provision_key : Ensure key_name is not defined] ***************
+Thursday 07 August 2025  12:31:53 +0000 (0:00:00.019)       0:00:04.935 ******* 
+skipping: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH keys] ****************************
+Thursday 07 August 2025  12:31:53 +0000 (0:00:00.019)       0:00:04.955 ******* 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Fix permission of ssh key] ********************
+Thursday 07 August 2025  12:31:54 +0000 (0:00:00.603)       0:00:05.558 ******* 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH pub key content] *****************
+Thursday 07 August 2025  12:31:54 +0000 (0:00:00.152)       0:00:05.710 ******* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Save all facts for SSH] ***********************
+Thursday 07 August 2025  12:31:54 +0000 (0:00:00.149)       0:00:05.859 ******* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Write SSH pub key] ****************************
+Thursday 07 August 2025  12:31:54 +0000 (0:00:00.019)       0:00:05.879 ******* 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Report user info for SSH provision key as user data] ***
+Thursday 07 August 2025  12:31:54 +0000 (0:00:00.275)       0:00:06.154 ******* 
+skipping: [localhost]
+
+TASK [include_role : agnosticd_save_output_dir] ********************************
+Thursday 07 August 2025  12:31:54 +0000 (0:00:00.014)       0:00:06.169 ******* 
+included: agnosticd_save_output_dir for localhost
+
+TASK [agnosticd_save_output_dir : Save output dir if archive file is defined] ***
+Thursday 07 August 2025  12:31:55 +0000 (0:00:00.026)       0:00:06.196 ******* 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/save-output-dir.yml for localhost
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Thursday 07 August 2025  12:31:55 +0000 (0:00:00.021)       0:00:06.217 ******* 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/create-output-dir-archive.yml for localhost
+
+TASK [agnosticd_save_output_dir : Create tempfile for archive] *****************
+Thursday 07 August 2025  12:31:55 +0000 (0:00:00.018)       0:00:06.235 ******* 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Set agnosticd_save_output_dir_archive_tempfile] ***
+Thursday 07 August 2025  12:31:55 +0000 (0:00:00.211)       0:00:06.447 ******* 
+ok: [localhost]
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Thursday 07 August 2025  12:31:55 +0000 (0:00:00.020)       0:00:06.467 ******* 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Encrypt tarball using password] **************
+Thursday 07 August 2025  12:31:55 +0000 (0:00:00.150)       0:00:06.618 ******* 
+skipping: [localhost]
+
+TASK [agnosticd_save_output_dir : Upload output_dir archive to S3] *************
+Thursday 07 August 2025  12:31:55 +0000 (0:00:00.019)       0:00:06.637 ******* 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3.yml for localhost
+
+TASK [Run infra-cloud-tags role] ***********************************************
+Thursday 07 August 2025  12:31:55 +0000 (0:00:00.030)       0:00:06.668 ******* 
+included: infra-cloud-tags for localhost
+
+TASK [infra-cloud-tags : Set cloud_tags_final (string)] ************************
+Thursday 07 August 2025  12:31:55 +0000 (0:00:00.026)       0:00:06.695 ******* 
+skipping: [localhost]
+
+TASK [infra-cloud-tags : Set cloud_tags_final (dictionary)] ********************
+Thursday 07 August 2025  12:31:55 +0000 (0:00:00.016)       0:00:06.711 ******* 
+ok: [localhost]
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Thursday 07 August 2025  12:31:55 +0000 (0:00:00.025)       0:00:06.737 ******* 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3-s3_object.yml for localhost
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Thursday 07 August 2025  12:31:55 +0000 (0:00:00.023)       0:00:06.761 ******* 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir archive tempfile] **********
+Thursday 07 August 2025  12:31:56 +0000 (0:00:00.930)       0:00:07.692 ******* 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir encrypted archive tempfile] ***
+Thursday 07 August 2025  12:31:56 +0000 (0:00:00.156)       0:00:07.849 ******* 
+skipping: [localhost]
+
+TASK [agnosticd_save_output_dir : Save output dir if archive file is defined] ***
+Thursday 07 August 2025  12:31:56 +0000 (0:00:00.016)       0:00:07.865 ******* 
+skipping: [localhost]
+
+TASK [Run infra-openshift-cnv-resources Role] **********************************
+Thursday 07 August 2025  12:31:56 +0000 (0:00:00.019)       0:00:07.885 ******* 
+included: infra-openshift-cnv-resources for localhost
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.include_tasks] ***********
+Thursday 07 August 2025  12:31:56 +0000 (0:00:00.027)       0:00:07.912 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.include_tasks] ***********
+Thursday 07 August 2025  12:31:56 +0000 (0:00:00.016)       0:00:07.929 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.include_tasks] ***********
+Thursday 07 August 2025  12:31:56 +0000 (0:00:00.018)       0:00:07.947 ******* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_networks.yaml for localhost
+
+TASK [infra-openshift-cnv-resources : Create Networks] *************************
+Thursday 07 August 2025  12:31:56 +0000 (0:00:00.015)       0:00:07.962 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.include_tasks] ***********
+Thursday 07 August 2025  12:31:56 +0000 (0:00:00.012)       0:00:07.975 ******* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_containers.yaml for localhost
+
+TASK [ansible.builtin.include_role : infra-cloud-tags] *************************
+Thursday 07 August 2025  12:31:56 +0000 (0:00:00.016)       0:00:07.991 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : set_fact] ********************************
+Thursday 07 August 2025  12:31:56 +0000 (0:00:00.015)       0:00:08.006 ******* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create Containers] ***********************
+Thursday 07 August 2025  12:31:56 +0000 (0:00:00.016)       0:00:08.022 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.include_tasks] ***********
+Thursday 07 August 2025  12:31:56 +0000 (0:00:00.010)       0:00:08.033 ******* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_instances.yaml for localhost
+
+TASK [ansible.builtin.include_role : infra-cloud-tags] *************************
+Thursday 07 August 2025  12:31:56 +0000 (0:00:00.019)       0:00:08.052 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : set_fact] ********************************
+Thursday 07 August 2025  12:31:56 +0000 (0:00:00.016)       0:00:08.069 ******* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create Instances] ************************
+Thursday 07 August 2025  12:31:56 +0000 (0:00:00.019)       0:00:08.089 ******* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_instance.yaml for localhost => (item={'cores': 4, 'count': 1, 'floating_ip': False, 'image': 'rhel-9.4', 'image_size': '100Gi', 'memory': '8G', 'name': 'bastion', 'networks': ['default'], 'public_dns': False, 'routes': [{'host': 'bastion', 'name': 'bastion-https', 'service': 'bastion', 'targetPort': 443, 'tls': True}], 'services': [{'name': 'bastion', 'ports': [{'name': 'bastion-https', 'port': 443, 'protocol': 'TCP', 'targetPort': 443}]}], 'tags': [{'key': 'AnsibleGroup', 'value': 'bastions,showroom'}, {'key': 'ostype', 'value': 'linux'}], 'unique': True})
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_instance.yaml for localhost => (item={'cores': 4, 'count': 2, 'disks': [{'metadata': {'name': 'nodefn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'nodefn8ch1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'nodefn8ch2'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'nodefn8ch3'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}], 'floating_ip': False, 'image': 'rhel-10.0', 'image_size': '50Gi', 'memory': '8G', 'name': 'node', 'public_dns': False, 'routes': [{'host': 'node', 'name': 'node-https', 'service': 'node', 'targetPort': 443, 'tls': True}], 'services': [{'name': 'node', 'ports': [{'name': 'node-https', 'port': 443, 'protocol': 'TCP', 'targetPort': 443}]}], 'tags': [{'key': 'AnsibleGroup', 'value': 'isolated'}, {'key': 'ostype', 'value': 'linux'}], 'unique': True})
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_instance.yaml for localhost => (item={'cores': 4, 'count': 1, 'disks': [{'metadata': {'name': 'node3fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'node3fn8ch1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'node3fn8ch2'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'node3fn8ch3'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}], 'floating_ip': False, 'image': 'rhel-10.0', 'image_size': '50Gi', 'memory': '8G', 'name': 'node3', 'public_dns': False, 'routes': [{'host': 'node3', 'name': 'node-http', 'service': 'nodehttp', 'targetPort': 80, 'tls': False}, {'host': 'node', 'name': 'node-https', 'service': 'node', 'targetPort': 443, 'tls': True}, {'host': 'node3', 'name': 'cockpit-https', 'service': 'cockpit', 'targetPort': 9090, 'tls': True}], 'services': [{'name': 'nodehttp', 'ports': [{'name': 'node-http', 'port': 80, 'protocol': 'TCP', 'targetPort': 80}]}, {'name': 'node', 'ports': [{'name': 'node-https', 'port': 443, 'protocol': 'TCP', 'targetPort': 443}]}, {'name': 'cockpit', 'ports': [{'name': 'cockpit-https', 'port': 9090, 'protocol': 'TCP', 'targetPort': 9090}]}], 'tags': [{'key': 'AnsibleGroup', 'value': 'isolated'}, {'key': 'ostype', 'value': 'linux'}], 'unique': True})
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_instance.yaml for localhost => (item={'cores': 4, 'count': 1, 'floating_ip': False, 'image': 'rhel-9.4', 'image_size': '50Gi', 'memory': '8G', 'name': 'leapp', 'public_dns': False, 'routes': [{'host': 'leapp', 'name': 'leapp-https', 'service': 'leapp', 'targetPort': 443, 'tls': True}], 'services': [{'name': 'leapp', 'ports': [{'name': 'leapp-https', 'port': 443, 'protocol': 'TCP', 'targetPort': 443}]}], 'tags': [{'key': 'AnsibleGroup', 'value': 'nodes'}, {'key': 'ostype', 'value': 'linux'}], 'unique': True})
+
+TASK [infra-openshift-cnv-resources : Empty variable _instance_] ***************
+Thursday 07 August 2025  12:31:56 +0000 (0:00:00.073)       0:00:08.162 ******* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Set the instances interfaces] ************
+Thursday 07 August 2025  12:31:57 +0000 (0:00:00.025)       0:00:08.187 ******* 
+ok: [localhost] => (item=default)
+
+TASK [infra-openshift-cnv-resources : Set the instances disks] *****************
+Thursday 07 August 2025  12:31:57 +0000 (0:00:00.049)       0:00:08.237 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Set cloud_config] ************************
+Thursday 07 August 2025  12:31:57 +0000 (0:00:00.012)       0:00:08.250 ******* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Set cloud init disk if needed] ***********
+Thursday 07 August 2025  12:31:57 +0000 (0:00:00.019)       0:00:08.270 ******* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create instance(s) "bastion"] ************
+Thursday 07 August 2025  12:31:57 +0000 (0:00:00.023)       0:00:08.293 ******* 
+changed: [localhost] => (item=1)
+[WARNING]: unknown field "spec.template.spec.domain.memory.memory"
+
+TASK [infra-openshift-cnv-resources : Wait till VM is running] *****************
+Thursday 07 August 2025  12:31:58 +0000 (0:00:01.086)       0:00:09.380 ******* 
+FAILED - RETRYING: [localhost]: Wait till VM is running (30 retries left).
+FAILED - RETRYING: [localhost]: Wait till VM is running (29 retries left).
+ok: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.set_fact] ****************
+Thursday 07 August 2025  12:32:20 +0000 (0:00:21.992)       0:00:31.372 ******* 
+ok: [localhost] => (item={'changed': True, 'result': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'bastions,showroom', 'Stack': 'base-infra-fn8ch', 'env_type': 'base-infra', 'guid': 'fn8ch', 'ostype': 'linux', 'owner': 'base-infra@opentlc.com', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a'}, 'creationTimestamp': '2025-08-07T12:31:58Z', 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:ostype': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-07T12:31:58Z'}], 'name': 'bastion', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'resourceVersion': '612851339', 'uid': 'cec41cc6-54da-4f1f-9d45-c686b8cb9e04'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'bastion-fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '100Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-9.4', 'namespace': 'cnv-images'}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'bastion'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'bastion-fn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': 'd218efa4-2c8e-5ffe-8458-c3c302e13c1c'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G'}, 'resources': {}}, 'hostname': 'bastion', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'bastion-fn8ch'}, 'name': 'bastion-fn8ch'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==', 'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]'}, 'name': 'cloudinitdisk'}]}}}}, 'method': 'create', 'invocation': {'module_args': {'host': 'https://api.ocpv06.dal10.infra.demo.redhat.com:6443', 'api_key': '[REDACTED_Secret Keyword_SECRET]', 'validate_certs': False, 'definition': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'name': 'bastion', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'annotations': {'Stack': 'base-infra-fn8ch', 'owner': 'base-infra@opentlc.com', 'env_type': 'base-infra', 'guid': 'fn8ch', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a', 'AnsibleGroup': 'bastions,showroom', 'ostype': 'linux'}}, 'spec': {'dataVolumeTemplates': [{'metadata': {'name': 'bastion-fn8ch'}, 'spec': {'source': {'pvc': {'namespace': 'cnv-images', 'name': 'rhel-9.4'}}, 'pvc': {'accessModes': ['ReadWriteMany'], 'volumeMode': 'Block', 'resources': {'requests': {'storage': '100Gi'}}}}}], 'running': True, 'template': {'metadata': {'labels': {'vm.cnv.io/name': 'bastion'}}, 'spec': {'hostname': 'bastion', 'subdomain': 'lab', 'domain': {'firmware': {'uuid': 'd218efa4-2c8e-5ffe-8458-c3c302e13c1c', 'bootloader': {'bios': {}}}, 'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G', 'memory': {'hugepages': {'pageSize': '1Gi'}}}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'bastion-fn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'name': 'default', 'model': 'virtio', 'masquerade': {}}]}}, 'networks': [{'name': 'default', 'pod': {}}], 'volumes': [{'dataVolume': {'name': 'bastion-fn8ch'}, 'name': 'bastion-fn8ch'}, {'name': 'cloudinitdisk', 'cloudInitNoCloud': {'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]', 'networkDataBase64': 'bmV0d29yazogMg=='}}]}}}}, 'resource_definition': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'name': 'bastion', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'annotations': {'Stack': 'base-infra-fn8ch', 'owner': 'base-infra@opentlc.com', 'env_type': 'base-infra', 'guid': 'fn8ch', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a', 'AnsibleGroup': 'bastions,showroom', 'ostype': 'linux'}}, 'spec': {'dataVolumeTemplates': [{'metadata': {'name': 'bastion-fn8ch'}, 'spec': {'source': {'pvc': {'namespace': 'cnv-images', 'name': 'rhel-9.4'}}, 'pvc': {'accessModes': ['ReadWriteMany'], 'volumeMode': 'Block', 'resources': {'requests': {'storage': '100Gi'}}}}}], 'running': True, 'template': {'metadata': {'labels': {'vm.cnv.io/name': 'bastion'}}, 'spec': {'hostname': 'bastion', 'subdomain': 'lab', 'domain': {'firmware': {'uuid': 'd218efa4-2c8e-5ffe-8458-c3c302e13c1c', 'bootloader': {'bios': {}}}, 'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G', 'memory': {'hugepages': {'pageSize': '1Gi'}}}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'bastion-fn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'name': 'default', 'model': 'virtio', 'masquerade': {}}]}}, 'networks': [{'name': 'default', 'pod': {}}], 'volumes': [{'dataVolume': {'name': 'bastion-fn8ch'}, 'name': 'bastion-fn8ch'}, {'name': 'cloudinitdisk', 'cloudInitNoCloud': {'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]', 'networkDataBase64': 'bmV0d29yazogMg=='}}]}}}}, 'api_version': 'v1', 'wait': False, 'wait_sleep': 5, 'wait_timeout': 120, 'append_hash': False, 'apply': False, 'continue_on_error': False, 'state': 'present', 'force': False, 'delete_all': False, 'kind': None, 'name': None, 'namespace': None, 'src': None, 'kubeconfig': None, 'context': None, 'username': None, 'password': None, 'ca_cert': None, 'client_cert': None, 'client_key': None, 'proxy': None, 'no_proxy': None, 'proxy_headers': None, 'persist_config': None, 'impersonate_user': None, 'impersonate_groups': None, 'wait_condition': None, 'merge_type': None, 'validate': None, 'template': None, 'delete_options': None, 'label_selectors': None, 'generate_name': None, 'server_side_apply': None, 'hidden_fields': None}}, 'failed': False, 'attempts': 1, 'item': 1, 'ansible_loop_var': 'item', '_index': 0, 'ansible_index_var': '_index'})
+
+TASK [infra-openshift-cnv-resources : Empty variable _instance_] ***************
+Thursday 07 August 2025  12:32:20 +0000 (0:00:00.045)       0:00:31.418 ******* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Set the instances interfaces] ************
+Thursday 07 August 2025  12:32:20 +0000 (0:00:00.025)       0:00:31.444 ******* 
+ok: [localhost] => (item=default)
+
+TASK [infra-openshift-cnv-resources : Set the instances disks] *****************
+Thursday 07 August 2025  12:32:20 +0000 (0:00:00.043)       0:00:31.488 ******* 
+ok: [localhost] => (item={'metadata': {'name': 'nodefn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}})
+ok: [localhost] => (item={'metadata': {'name': 'nodefn8ch1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}})
+ok: [localhost] => (item={'metadata': {'name': 'nodefn8ch2'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}})
+ok: [localhost] => (item={'metadata': {'name': 'nodefn8ch3'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}})
+
+TASK [infra-openshift-cnv-resources : Set cloud_config] ************************
+Thursday 07 August 2025  12:32:20 +0000 (0:00:00.055)       0:00:31.543 ******* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Set cloud init disk if needed] ***********
+Thursday 07 August 2025  12:32:20 +0000 (0:00:00.019)       0:00:31.563 ******* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create instance(s) "node"] ***************
+Thursday 07 August 2025  12:32:20 +0000 (0:00:00.021)       0:00:31.584 ******* 
+changed: [localhost] => (item=1)
+changed: [localhost] => (item=2)
+
+TASK [infra-openshift-cnv-resources : Wait till VM is running] *****************
+Thursday 07 August 2025  12:32:21 +0000 (0:00:01.364)       0:00:32.949 ******* 
+FAILED - RETRYING: [localhost]: Wait till VM is running (30 retries left).
+FAILED - RETRYING: [localhost]: Wait till VM is running (29 retries left).
+FAILED - RETRYING: [localhost]: Wait till VM is running (28 retries left).
+ok: [localhost] => (item=1)
+ok: [localhost] => (item=2)
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.set_fact] ****************
+Thursday 07 August 2025  12:32:54 +0000 (0:00:32.998)       0:01:05.947 ******* 
+ok: [localhost] => (item={'changed': True, 'result': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'isolated', 'Stack': 'base-infra-fn8ch', 'env_type': 'base-infra', 'guid': 'fn8ch', 'ostype': 'linux', 'owner': 'base-infra@opentlc.com', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a'}, 'creationTimestamp': '2025-08-07T12:32:21Z', 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:ostype': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-07T12:32:21Z'}], 'name': 'node1', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'resourceVersion': '612852087', 'uid': 'c2674b42-f690-4d4a-9edb-43a209853697'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'node1-fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '50Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-10.0', 'namespace': 'cnv-images'}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch2'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch3'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'node1'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'node1-fn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch1'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch2'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch3'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': '07a82b5c-371f-5332-8aab-37a5904b3c2e'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G'}, 'resources': {}}, 'hostname': 'node1', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'node1-fn8ch'}, 'name': 'node1-fn8ch'}, {'dataVolume': {'name': 'nodefn8ch'}, 'name': 'nodefn8ch'}, {'dataVolume': {'name': 'nodefn8ch1'}, 'name': 'nodefn8ch1'}, {'dataVolume': {'name': 'nodefn8ch2'}, 'name': 'nodefn8ch2'}, {'dataVolume': {'name': 'nodefn8ch3'}, 'name': 'nodefn8ch3'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==', 'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]'}, 'name': 'cloudinitdisk'}]}}}}, 'method': 'create', 'invocation': {'module_args': {'host': 'https://api.ocpv06.dal10.infra.demo.redhat.com:6443', 'api_key': '[REDACTED_Secret Keyword_SECRET]', 'validate_certs': False, 'definition': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'name': 'node1', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'annotations': {'Stack': 'base-infra-fn8ch', 'owner': 'base-infra@opentlc.com', 'env_type': 'base-infra', 'guid': 'fn8ch', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a', 'AnsibleGroup': 'isolated', 'ostype': 'linux'}}, 'spec': {'dataVolumeTemplates': [{'metadata': {'name': 'node1-fn8ch'}, 'spec': {'source': {'pvc': {'namespace': 'cnv-images', 'name': 'rhel-10.0'}}, 'pvc': {'accessModes': ['ReadWriteMany'], 'volumeMode': 'Block', 'resources': {'requests': {'storage': '50Gi'}}}}}, {'metadata': {'name': 'nodefn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'nodefn8ch1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'nodefn8ch2'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'nodefn8ch3'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}], 'running': True, 'template': {'metadata': {'labels': {'vm.cnv.io/name': 'node1'}}, 'spec': {'hostname': 'node1', 'subdomain': 'lab', 'domain': {'firmware': {'uuid': '07a82b5c-371f-5332-8aab-37a5904b3c2e', 'bootloader': {'bios': {}}}, 'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G', 'memory': {'hugepages': {'pageSize': '1Gi'}}}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'node1-fn8ch'}, {'name': 'nodefn8ch', 'disk': {'bus': 'virtio'}}, {'name': 'nodefn8ch1', 'disk': {'bus': 'virtio'}}, {'name': 'nodefn8ch2', 'disk': {'bus': 'virtio'}}, {'name': 'nodefn8ch3', 'disk': {'bus': 'virtio'}}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'name': 'default', 'model': 'virtio', 'masquerade': {}}]}}, 'networks': [{'name': 'default', 'pod': {}}], 'volumes': [{'dataVolume': {'name': 'node1-fn8ch'}, 'name': 'node1-fn8ch'}, {'name': 'nodefn8ch', 'dataVolume': {'name': 'nodefn8ch'}}, {'name': 'nodefn8ch1', 'dataVolume': {'name': 'nodefn8ch1'}}, {'name': 'nodefn8ch2', 'dataVolume': {'name': 'nodefn8ch2'}}, {'name': 'nodefn8ch3', 'dataVolume': {'name': 'nodefn8ch3'}}, {'name': 'cloudinitdisk', 'cloudInitNoCloud': {'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]', 'networkDataBase64': 'bmV0d29yazogMg=='}}]}}}}, 'resource_definition': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'name': 'node1', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'annotations': {'Stack': 'base-infra-fn8ch', 'owner': 'base-infra@opentlc.com', 'env_type': 'base-infra', 'guid': 'fn8ch', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a', 'AnsibleGroup': 'isolated', 'ostype': 'linux'}}, 'spec': {'dataVolumeTemplates': [{'metadata': {'name': 'node1-fn8ch'}, 'spec': {'source': {'pvc': {'namespace': 'cnv-images', 'name': 'rhel-10.0'}}, 'pvc': {'accessModes': ['ReadWriteMany'], 'volumeMode': 'Block', 'resources': {'requests': {'storage': '50Gi'}}}}}, {'metadata': {'name': 'nodefn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'nodefn8ch1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'nodefn8ch2'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'nodefn8ch3'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}], 'running': True, 'template': {'metadata': {'labels': {'vm.cnv.io/name': 'node1'}}, 'spec': {'hostname': 'node1', 'subdomain': 'lab', 'domain': {'firmware': {'uuid': '07a82b5c-371f-5332-8aab-37a5904b3c2e', 'bootloader': {'bios': {}}}, 'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G', 'memory': {'hugepages': {'pageSize': '1Gi'}}}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'node1-fn8ch'}, {'name': 'nodefn8ch', 'disk': {'bus': 'virtio'}}, {'name': 'nodefn8ch1', 'disk': {'bus': 'virtio'}}, {'name': 'nodefn8ch2', 'disk': {'bus': 'virtio'}}, {'name': 'nodefn8ch3', 'disk': {'bus': 'virtio'}}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'name': 'default', 'model': 'virtio', 'masquerade': {}}]}}, 'networks': [{'name': 'default', 'pod': {}}], 'volumes': [{'dataVolume': {'name': 'node1-fn8ch'}, 'name': 'node1-fn8ch'}, {'name': 'nodefn8ch', 'dataVolume': {'name': 'nodefn8ch'}}, {'name': 'nodefn8ch1', 'dataVolume': {'name': 'nodefn8ch1'}}, {'name': 'nodefn8ch2', 'dataVolume': {'name': 'nodefn8ch2'}}, {'name': 'nodefn8ch3', 'dataVolume': {'name': 'nodefn8ch3'}}, {'name': 'cloudinitdisk', 'cloudInitNoCloud': {'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]', 'networkDataBase64': 'bmV0d29yazogMg=='}}]}}}}, 'api_version': 'v1', 'wait': False, 'wait_sleep': 5, 'wait_timeout': 120, 'append_hash': False, 'apply': False, 'continue_on_error': False, 'state': 'present', 'force': False, 'delete_all': False, 'kind': None, 'name': None, 'namespace': None, 'src': None, 'kubeconfig': None, 'context': None, 'username': None, 'password': None, 'ca_cert': None, 'client_cert': None, 'client_key': None, 'proxy': None, 'no_proxy': None, 'proxy_headers': None, 'persist_config': None, 'impersonate_user': None, 'impersonate_groups': None, 'wait_condition': None, 'merge_type': None, 'validate': None, 'template': None, 'delete_options': None, 'label_selectors': None, 'generate_name': None, 'server_side_apply': None, 'hidden_fields': None}}, 'failed': False, 'attempts': 1, 'item': 1, 'ansible_loop_var': 'item', '_index': 0, 'ansible_index_var': '_index'})
+ok: [localhost] => (item={'changed': True, 'result': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'isolated', 'Stack': 'base-infra-fn8ch', 'env_type': 'base-infra', 'guid': 'fn8ch', 'ostype': 'linux', 'owner': 'base-infra@opentlc.com', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a'}, 'creationTimestamp': '2025-08-07T12:32:21Z', 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:ostype': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-07T12:32:21Z'}], 'name': 'node2', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'resourceVersion': '612852253', 'uid': 'c7585ebc-1512-4f42-bc39-702e392c431c'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'node2-fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '50Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-10.0', 'namespace': 'cnv-images'}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch2'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch3'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'node2'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'node2-fn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch1'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch2'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch3'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': 'ee8e3f89-4433-54d6-b3ef-6b809dd6db24'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G'}, 'resources': {}}, 'hostname': 'node2', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'node2-fn8ch'}, 'name': 'node2-fn8ch'}, {'dataVolume': {'name': 'nodefn8ch'}, 'name': 'nodefn8ch'}, {'dataVolume': {'name': 'nodefn8ch1'}, 'name': 'nodefn8ch1'}, {'dataVolume': {'name': 'nodefn8ch2'}, 'name': 'nodefn8ch2'}, {'dataVolume': {'name': 'nodefn8ch3'}, 'name': 'nodefn8ch3'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==', 'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]'}, 'name': 'cloudinitdisk'}]}}}}, 'method': 'create', 'invocation': {'module_args': {'host': 'https://api.ocpv06.dal10.infra.demo.redhat.com:6443', 'api_key': '[REDACTED_Secret Keyword_SECRET]', 'validate_certs': False, 'definition': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'name': 'node2', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'annotations': {'Stack': 'base-infra-fn8ch', 'owner': 'base-infra@opentlc.com', 'env_type': 'base-infra', 'guid': 'fn8ch', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a', 'AnsibleGroup': 'isolated', 'ostype': 'linux'}}, 'spec': {'dataVolumeTemplates': [{'metadata': {'name': 'node2-fn8ch'}, 'spec': {'source': {'pvc': {'namespace': 'cnv-images', 'name': 'rhel-10.0'}}, 'pvc': {'accessModes': ['ReadWriteMany'], 'volumeMode': 'Block', 'resources': {'requests': {'storage': '50Gi'}}}}}, {'metadata': {'name': 'nodefn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'nodefn8ch1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'nodefn8ch2'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'nodefn8ch3'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}], 'running': True, 'template': {'metadata': {'labels': {'vm.cnv.io/name': 'node2'}}, 'spec': {'hostname': 'node2', 'subdomain': 'lab', 'domain': {'firmware': {'uuid': 'ee8e3f89-4433-54d6-b3ef-6b809dd6db24', 'bootloader': {'bios': {}}}, 'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G', 'memory': {'hugepages': {'pageSize': '1Gi'}}}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'node2-fn8ch'}, {'name': 'nodefn8ch', 'disk': {'bus': 'virtio'}}, {'name': 'nodefn8ch1', 'disk': {'bus': 'virtio'}}, {'name': 'nodefn8ch2', 'disk': {'bus': 'virtio'}}, {'name': 'nodefn8ch3', 'disk': {'bus': 'virtio'}}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'name': 'default', 'model': 'virtio', 'masquerade': {}}]}}, 'networks': [{'name': 'default', 'pod': {}}], 'volumes': [{'dataVolume': {'name': 'node2-fn8ch'}, 'name': 'node2-fn8ch'}, {'name': 'nodefn8ch', 'dataVolume': {'name': 'nodefn8ch'}}, {'name': 'nodefn8ch1', 'dataVolume': {'name': 'nodefn8ch1'}}, {'name': 'nodefn8ch2', 'dataVolume': {'name': 'nodefn8ch2'}}, {'name': 'nodefn8ch3', 'dataVolume': {'name': 'nodefn8ch3'}}, {'name': 'cloudinitdisk', 'cloudInitNoCloud': {'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]', 'networkDataBase64': 'bmV0d29yazogMg=='}}]}}}}, 'resource_definition': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'name': 'node2', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'annotations': {'Stack': 'base-infra-fn8ch', 'owner': 'base-infra@opentlc.com', 'env_type': 'base-infra', 'guid': 'fn8ch', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a', 'AnsibleGroup': 'isolated', 'ostype': 'linux'}}, 'spec': {'dataVolumeTemplates': [{'metadata': {'name': 'node2-fn8ch'}, 'spec': {'source': {'pvc': {'namespace': 'cnv-images', 'name': 'rhel-10.0'}}, 'pvc': {'accessModes': ['ReadWriteMany'], 'volumeMode': 'Block', 'resources': {'requests': {'storage': '50Gi'}}}}}, {'metadata': {'name': 'nodefn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'nodefn8ch1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'nodefn8ch2'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'nodefn8ch3'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}], 'running': True, 'template': {'metadata': {'labels': {'vm.cnv.io/name': 'node2'}}, 'spec': {'hostname': 'node2', 'subdomain': 'lab', 'domain': {'firmware': {'uuid': 'ee8e3f89-4433-54d6-b3ef-6b809dd6db24', 'bootloader': {'bios': {}}}, 'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G', 'memory': {'hugepages': {'pageSize': '1Gi'}}}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'node2-fn8ch'}, {'name': 'nodefn8ch', 'disk': {'bus': 'virtio'}}, {'name': 'nodefn8ch1', 'disk': {'bus': 'virtio'}}, {'name': 'nodefn8ch2', 'disk': {'bus': 'virtio'}}, {'name': 'nodefn8ch3', 'disk': {'bus': 'virtio'}}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'name': 'default', 'model': 'virtio', 'masquerade': {}}]}}, 'networks': [{'name': 'default', 'pod': {}}], 'volumes': [{'dataVolume': {'name': 'node2-fn8ch'}, 'name': 'node2-fn8ch'}, {'name': 'nodefn8ch', 'dataVolume': {'name': 'nodefn8ch'}}, {'name': 'nodefn8ch1', 'dataVolume': {'name': 'nodefn8ch1'}}, {'name': 'nodefn8ch2', 'dataVolume': {'name': 'nodefn8ch2'}}, {'name': 'nodefn8ch3', 'dataVolume': {'name': 'nodefn8ch3'}}, {'name': 'cloudinitdisk', 'cloudInitNoCloud': {'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]', 'networkDataBase64': 'bmV0d29yazogMg=='}}]}}}}, 'api_version': 'v1', 'wait': False, 'wait_sleep': 5, 'wait_timeout': 120, 'append_hash': False, 'apply': False, 'continue_on_error': False, 'state': 'present', 'force': False, 'delete_all': False, 'kind': None, 'name': None, 'namespace': None, 'src': None, 'kubeconfig': None, 'context': None, 'username': None, 'password': None, 'ca_cert': None, 'client_cert': None, 'client_key': None, 'proxy': None, 'no_proxy': None, 'proxy_headers': None, 'persist_config': None, 'impersonate_user': None, 'impersonate_groups': None, 'wait_condition': None, 'merge_type': None, 'validate': None, 'template': None, 'delete_options': None, 'label_selectors': None, 'generate_name': None, 'server_side_apply': None, 'hidden_fields': None}}, 'failed': False, 'attempts': 1, 'item': 2, 'ansible_loop_var': 'item', '_index': 1, 'ansible_index_var': '_index'})
+
+TASK [infra-openshift-cnv-resources : Empty variable _instance_] ***************
+Thursday 07 August 2025  12:32:54 +0000 (0:00:00.129)       0:01:06.076 ******* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Set the instances interfaces] ************
+Thursday 07 August 2025  12:32:54 +0000 (0:00:00.023)       0:01:06.100 ******* 
+ok: [localhost] => (item=default)
+
+TASK [infra-openshift-cnv-resources : Set the instances disks] *****************
+Thursday 07 August 2025  12:32:54 +0000 (0:00:00.041)       0:01:06.141 ******* 
+ok: [localhost] => (item={'metadata': {'name': 'node3fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}})
+ok: [localhost] => (item={'metadata': {'name': 'node3fn8ch1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}})
+ok: [localhost] => (item={'metadata': {'name': 'node3fn8ch2'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}})
+ok: [localhost] => (item={'metadata': {'name': 'node3fn8ch3'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}})
+
+TASK [infra-openshift-cnv-resources : Set cloud_config] ************************
+Thursday 07 August 2025  12:32:55 +0000 (0:00:00.055)       0:01:06.197 ******* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Set cloud init disk if needed] ***********
+Thursday 07 August 2025  12:32:55 +0000 (0:00:00.020)       0:01:06.217 ******* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create instance(s) "node3"] **************
+Thursday 07 August 2025  12:32:55 +0000 (0:00:00.022)       0:01:06.239 ******* 
+changed: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : Wait till VM is running] *****************
+Thursday 07 August 2025  12:32:55 +0000 (0:00:00.725)       0:01:06.965 ******* 
+FAILED - RETRYING: [localhost]: Wait till VM is running (30 retries left).
+FAILED - RETRYING: [localhost]: Wait till VM is running (29 retries left).
+FAILED - RETRYING: [localhost]: Wait till VM is running (28 retries left).
+ok: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.set_fact] ****************
+Thursday 07 August 2025  12:33:28 +0000 (0:00:32.375)       0:01:39.340 ******* 
+ok: [localhost] => (item={'changed': True, 'result': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'isolated', 'Stack': 'base-infra-fn8ch', 'env_type': 'base-infra', 'guid': 'fn8ch', 'ostype': 'linux', 'owner': 'base-infra@opentlc.com', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a'}, 'creationTimestamp': '2025-08-07T12:32:55Z', 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:ostype': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-07T12:32:55Z'}], 'name': 'node3', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'resourceVersion': '612853812', 'uid': '7718ae4d-39a4-491b-b5ed-28b1b2ff5b49'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'node3-fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '50Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-10.0', 'namespace': 'cnv-images'}}}}, {'metadata': {'creationTimestamp': None, 'name': 'node3fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'node3fn8ch1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'node3fn8ch2'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'node3fn8ch3'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'node3'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'node3-fn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'node3fn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'node3fn8ch1'}, {'disk': {'bus': 'virtio'}, 'name': 'node3fn8ch2'}, {'disk': {'bus': 'virtio'}, 'name': 'node3fn8ch3'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': 'ad784994-7a25-574e-b967-e8f459e73671'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G'}, 'resources': {}}, 'hostname': 'node3', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'node3-fn8ch'}, 'name': 'node3-fn8ch'}, {'dataVolume': {'name': 'node3fn8ch'}, 'name': 'node3fn8ch'}, {'dataVolume': {'name': 'node3fn8ch1'}, 'name': 'node3fn8ch1'}, {'dataVolume': {'name': 'node3fn8ch2'}, 'name': 'node3fn8ch2'}, {'dataVolume': {'name': 'node3fn8ch3'}, 'name': 'node3fn8ch3'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==', 'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]'}, 'name': 'cloudinitdisk'}]}}}}, 'method': 'create', 'invocation': {'module_args': {'host': 'https://api.ocpv06.dal10.infra.demo.redhat.com:6443', 'api_key': '[REDACTED_Secret Keyword_SECRET]', 'validate_certs': False, 'definition': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'name': 'node3', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'annotations': {'Stack': 'base-infra-fn8ch', 'owner': 'base-infra@opentlc.com', 'env_type': 'base-infra', 'guid': 'fn8ch', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a', 'AnsibleGroup': 'isolated', 'ostype': 'linux'}}, 'spec': {'dataVolumeTemplates': [{'metadata': {'name': 'node3-fn8ch'}, 'spec': {'source': {'pvc': {'namespace': 'cnv-images', 'name': 'rhel-10.0'}}, 'pvc': {'accessModes': ['ReadWriteMany'], 'volumeMode': 'Block', 'resources': {'requests': {'storage': '50Gi'}}}}}, {'metadata': {'name': 'node3fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'node3fn8ch1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'node3fn8ch2'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'node3fn8ch3'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}], 'running': True, 'template': {'metadata': {'labels': {'vm.cnv.io/name': 'node3'}}, 'spec': {'hostname': 'node3', 'subdomain': 'lab', 'domain': {'firmware': {'uuid': 'ad784994-7a25-574e-b967-e8f459e73671', 'bootloader': {'bios': {}}}, 'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G', 'memory': {'hugepages': {'pageSize': '1Gi'}}}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'node3-fn8ch'}, {'name': 'node3fn8ch', 'disk': {'bus': 'virtio'}}, {'name': 'node3fn8ch1', 'disk': {'bus': 'virtio'}}, {'name': 'node3fn8ch2', 'disk': {'bus': 'virtio'}}, {'name': 'node3fn8ch3', 'disk': {'bus': 'virtio'}}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'name': 'default', 'model': 'virtio', 'masquerade': {}}]}}, 'networks': [{'name': 'default', 'pod': {}}], 'volumes': [{'dataVolume': {'name': 'node3-fn8ch'}, 'name': 'node3-fn8ch'}, {'name': 'node3fn8ch', 'dataVolume': {'name': 'node3fn8ch'}}, {'name': 'node3fn8ch1', 'dataVolume': {'name': 'node3fn8ch1'}}, {'name': 'node3fn8ch2', 'dataVolume': {'name': 'node3fn8ch2'}}, {'name': 'node3fn8ch3', 'dataVolume': {'name': 'node3fn8ch3'}}, {'name': 'cloudinitdisk', 'cloudInitNoCloud': {'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]', 'networkDataBase64': 'bmV0d29yazogMg=='}}]}}}}, 'resource_definition': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'name': 'node3', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'annotations': {'Stack': 'base-infra-fn8ch', 'owner': 'base-infra@opentlc.com', 'env_type': 'base-infra', 'guid': 'fn8ch', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a', 'AnsibleGroup': 'isolated', 'ostype': 'linux'}}, 'spec': {'dataVolumeTemplates': [{'metadata': {'name': 'node3-fn8ch'}, 'spec': {'source': {'pvc': {'namespace': 'cnv-images', 'name': 'rhel-10.0'}}, 'pvc': {'accessModes': ['ReadWriteMany'], 'volumeMode': 'Block', 'resources': {'requests': {'storage': '50Gi'}}}}}, {'metadata': {'name': 'node3fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'node3fn8ch1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'node3fn8ch2'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'node3fn8ch3'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}], 'running': True, 'template': {'metadata': {'labels': {'vm.cnv.io/name': 'node3'}}, 'spec': {'hostname': 'node3', 'subdomain': 'lab', 'domain': {'firmware': {'uuid': 'ad784994-7a25-574e-b967-e8f459e73671', 'bootloader': {'bios': {}}}, 'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G', 'memory': {'hugepages': {'pageSize': '1Gi'}}}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'node3-fn8ch'}, {'name': 'node3fn8ch', 'disk': {'bus': 'virtio'}}, {'name': 'node3fn8ch1', 'disk': {'bus': 'virtio'}}, {'name': 'node3fn8ch2', 'disk': {'bus': 'virtio'}}, {'name': 'node3fn8ch3', 'disk': {'bus': 'virtio'}}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'name': 'default', 'model': 'virtio', 'masquerade': {}}]}}, 'networks': [{'name': 'default', 'pod': {}}], 'volumes': [{'dataVolume': {'name': 'node3-fn8ch'}, 'name': 'node3-fn8ch'}, {'name': 'node3fn8ch', 'dataVolume': {'name': 'node3fn8ch'}}, {'name': 'node3fn8ch1', 'dataVolume': {'name': 'node3fn8ch1'}}, {'name': 'node3fn8ch2', 'dataVolume': {'name': 'node3fn8ch2'}}, {'name': 'node3fn8ch3', 'dataVolume': {'name': 'node3fn8ch3'}}, {'name': 'cloudinitdisk', 'cloudInitNoCloud': {'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]', 'networkDataBase64': 'bmV0d29yazogMg=='}}]}}}}, 'api_version': 'v1', 'wait': False, 'wait_sleep': 5, 'wait_timeout': 120, 'append_hash': False, 'apply': False, 'continue_on_error': False, 'state': 'present', 'force': False, 'delete_all': False, 'kind': None, 'name': None, 'namespace': None, 'src': None, 'kubeconfig': None, 'context': None, 'username': None, 'password': None, 'ca_cert': None, 'client_cert': None, 'client_key': None, 'proxy': None, 'no_proxy': None, 'proxy_headers': None, 'persist_config': None, 'impersonate_user': None, 'impersonate_groups': None, 'wait_condition': None, 'merge_type': None, 'validate': None, 'template': None, 'delete_options': None, 'label_selectors': None, 'generate_name': None, 'server_side_apply': None, 'hidden_fields': None}}, 'failed': False, 'attempts': 1, 'item': 1, 'ansible_loop_var': 'item', '_index': 0, 'ansible_index_var': '_index'})
+
+TASK [infra-openshift-cnv-resources : Empty variable _instance_] ***************
+Thursday 07 August 2025  12:33:28 +0000 (0:00:00.126)       0:01:39.467 ******* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Set the instances interfaces] ************
+Thursday 07 August 2025  12:33:28 +0000 (0:00:00.020)       0:01:39.487 ******* 
+ok: [localhost] => (item=default)
+
+TASK [infra-openshift-cnv-resources : Set the instances disks] *****************
+Thursday 07 August 2025  12:33:28 +0000 (0:00:00.068)       0:01:39.556 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Set cloud_config] ************************
+Thursday 07 August 2025  12:33:28 +0000 (0:00:00.015)       0:01:39.571 ******* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Set cloud init disk if needed] ***********
+Thursday 07 August 2025  12:33:28 +0000 (0:00:00.026)       0:01:39.597 ******* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create instance(s) "leapp"] **************
+Thursday 07 August 2025  12:33:28 +0000 (0:00:00.030)       0:01:39.628 ******* 
+changed: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : Wait till VM is running] *****************
+Thursday 07 August 2025  12:33:29 +0000 (0:00:00.810)       0:01:40.438 ******* 
+FAILED - RETRYING: [localhost]: Wait till VM is running (30 retries left).
+FAILED - RETRYING: [localhost]: Wait till VM is running (29 retries left).
+ok: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.set_fact] ****************
+Thursday 07 August 2025  12:33:51 +0000 (0:00:21.853)       0:02:02.291 ******* 
+ok: [localhost] => (item={'changed': True, 'result': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'nodes', 'Stack': 'base-infra-fn8ch', 'env_type': 'base-infra', 'guid': 'fn8ch', 'ostype': 'linux', 'owner': 'base-infra@opentlc.com', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a'}, 'creationTimestamp': '2025-08-07T12:33:29Z', 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:ostype': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-07T12:33:29Z'}], 'name': 'leapp', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'resourceVersion': '612855280', 'uid': '551eb6db-9eb0-4b57-bcb1-e5119c2a7184'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'leapp-fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '50Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-9.4', 'namespace': 'cnv-images'}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'leapp'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'leapp-fn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': 'f8332eab-92c5-5a5b-9b19-cb186b16f3f5'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G'}, 'resources': {}}, 'hostname': 'leapp', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'leapp-fn8ch'}, 'name': 'leapp-fn8ch'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==', 'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]'}, 'name': 'cloudinitdisk'}]}}}}, 'method': 'create', 'invocation': {'module_args': {'host': 'https://api.ocpv06.dal10.infra.demo.redhat.com:6443', 'api_key': '[REDACTED_Secret Keyword_SECRET]', 'validate_certs': False, 'definition': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'name': 'leapp', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'annotations': {'Stack': 'base-infra-fn8ch', 'owner': 'base-infra@opentlc.com', 'env_type': 'base-infra', 'guid': 'fn8ch', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a', 'AnsibleGroup': 'nodes', 'ostype': 'linux'}}, 'spec': {'dataVolumeTemplates': [{'metadata': {'name': 'leapp-fn8ch'}, 'spec': {'source': {'pvc': {'namespace': 'cnv-images', 'name': 'rhel-9.4'}}, 'pvc': {'accessModes': ['ReadWriteMany'], 'volumeMode': 'Block', 'resources': {'requests': {'storage': '50Gi'}}}}}], 'running': True, 'template': {'metadata': {'labels': {'vm.cnv.io/name': 'leapp'}}, 'spec': {'hostname': 'leapp', 'subdomain': 'lab', 'domain': {'firmware': {'uuid': 'f8332eab-92c5-5a5b-9b19-cb186b16f3f5', 'bootloader': {'bios': {}}}, 'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G', 'memory': {'hugepages': {'pageSize': '1Gi'}}}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'leapp-fn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'name': 'default', 'model': 'virtio', 'masquerade': {}}]}}, 'networks': [{'name': 'default', 'pod': {}}], 'volumes': [{'dataVolume': {'name': 'leapp-fn8ch'}, 'name': 'leapp-fn8ch'}, {'name': 'cloudinitdisk', 'cloudInitNoCloud': {'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]', 'networkDataBase64': 'bmV0d29yazogMg=='}}]}}}}, 'resource_definition': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'name': 'leapp', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'annotations': {'Stack': 'base-infra-fn8ch', 'owner': 'base-infra@opentlc.com', 'env_type': 'base-infra', 'guid': 'fn8ch', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a', 'AnsibleGroup': 'nodes', 'ostype': 'linux'}}, 'spec': {'dataVolumeTemplates': [{'metadata': {'name': 'leapp-fn8ch'}, 'spec': {'source': {'pvc': {'namespace': 'cnv-images', 'name': 'rhel-9.4'}}, 'pvc': {'accessModes': ['ReadWriteMany'], 'volumeMode': 'Block', 'resources': {'requests': {'storage': '50Gi'}}}}}], 'running': True, 'template': {'metadata': {'labels': {'vm.cnv.io/name': 'leapp'}}, 'spec': {'hostname': 'leapp', 'subdomain': 'lab', 'domain': {'firmware': {'uuid': 'f8332eab-92c5-5a5b-9b19-cb186b16f3f5', 'bootloader': {'bios': {}}}, 'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G', 'memory': {'hugepages': {'pageSize': '1Gi'}}}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'leapp-fn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'name': 'default', 'model': 'virtio', 'masquerade': {}}]}}, 'networks': [{'name': 'default', 'pod': {}}], 'volumes': [{'dataVolume': {'name': 'leapp-fn8ch'}, 'name': 'leapp-fn8ch'}, {'name': 'cloudinitdisk', 'cloudInitNoCloud': {'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]', 'networkDataBase64': 'bmV0d29yazogMg=='}}]}}}}, 'api_version': 'v1', 'wait': False, 'wait_sleep': 5, 'wait_timeout': 120, 'append_hash': False, 'apply': False, 'continue_on_error': False, 'state': 'present', 'force': False, 'delete_all': False, 'kind': None, 'name': None, 'namespace': None, 'src': None, 'kubeconfig': None, 'context': None, 'username': None, 'password': None, 'ca_cert': None, 'client_cert': None, 'client_key': None, 'proxy': None, 'no_proxy': None, 'proxy_headers': None, 'persist_config': None, 'impersonate_user': None, 'impersonate_groups': None, 'wait_condition': None, 'merge_type': None, 'validate': None, 'template': None, 'delete_options': None, 'label_selectors': None, 'generate_name': None, 'server_side_apply': None, 'hidden_fields': None}}, 'failed': False, 'attempts': 1, 'item': 1, 'ansible_loop_var': 'item', '_index': 0, 'ansible_index_var': '_index'})
+
+TASK [infra-openshift-cnv-resources : Create services for the nodes] ***********
+Thursday 07 August 2025  12:33:51 +0000 (0:00:00.099)       0:02:02.390 ******* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_services.yaml for localhost => (item={'cores': 4, 'count': 1, 'floating_ip': False, 'image': 'rhel-9.4', 'image_size': '100Gi', 'memory': '8G', 'name': 'bastion', 'networks': ['default'], 'public_dns': False, 'routes': [{'host': 'bastion', 'name': 'bastion-https', 'service': 'bastion', 'targetPort': 443, 'tls': True}], 'services': [{'name': 'bastion', 'ports': [{'name': 'bastion-https', 'port': 443, 'protocol': 'TCP', 'targetPort': 443}]}], 'tags': [{'key': 'AnsibleGroup', 'value': 'bastions,showroom'}, {'key': 'ostype', 'value': 'linux'}], 'unique': True})
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_services.yaml for localhost => (item={'cores': 4, 'count': 2, 'disks': [{'metadata': {'name': 'nodefn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'nodefn8ch1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'nodefn8ch2'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'nodefn8ch3'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}], 'floating_ip': False, 'image': 'rhel-10.0', 'image_size': '50Gi', 'memory': '8G', 'name': 'node', 'public_dns': False, 'routes': [{'host': 'node', 'name': 'node-https', 'service': 'node', 'targetPort': 443, 'tls': True}], 'services': [{'name': 'node', 'ports': [{'name': 'node-https', 'port': 443, 'protocol': 'TCP', 'targetPort': 443}]}], 'tags': [{'key': 'AnsibleGroup', 'value': 'isolated'}, {'key': 'ostype', 'value': 'linux'}], 'unique': True})
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_services.yaml for localhost => (item={'cores': 4, 'count': 1, 'disks': [{'metadata': {'name': 'node3fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'node3fn8ch1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'node3fn8ch2'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'node3fn8ch3'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}], 'floating_ip': False, 'image': 'rhel-10.0', 'image_size': '50Gi', 'memory': '8G', 'name': 'node3', 'public_dns': False, 'routes': [{'host': 'node3', 'name': 'node-http', 'service': 'nodehttp', 'targetPort': 80, 'tls': False}, {'host': 'node', 'name': 'node-https', 'service': 'node', 'targetPort': 443, 'tls': True}, {'host': 'node3', 'name': 'cockpit-https', 'service': 'cockpit', 'targetPort': 9090, 'tls': True}], 'services': [{'name': 'nodehttp', 'ports': [{'name': 'node-http', 'port': 80, 'protocol': 'TCP', 'targetPort': 80}]}, {'name': 'node', 'ports': [{'name': 'node-https', 'port': 443, 'protocol': 'TCP', 'targetPort': 443}]}, {'name': 'cockpit', 'ports': [{'name': 'cockpit-https', 'port': 9090, 'protocol': 'TCP', 'targetPort': 9090}]}], 'tags': [{'key': 'AnsibleGroup', 'value': 'isolated'}, {'key': 'ostype', 'value': 'linux'}], 'unique': True})
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_services.yaml for localhost => (item={'cores': 4, 'count': 1, 'floating_ip': False, 'image': 'rhel-9.4', 'image_size': '50Gi', 'memory': '8G', 'name': 'leapp', 'public_dns': False, 'routes': [{'host': 'leapp', 'name': 'leapp-https', 'service': 'leapp', 'targetPort': 443, 'tls': True}], 'services': [{'name': 'leapp', 'ports': [{'name': 'leapp-https', 'port': 443, 'protocol': 'TCP', 'targetPort': 443}]}], 'tags': [{'key': 'AnsibleGroup', 'value': 'nodes'}, {'key': 'ostype', 'value': 'linux'}], 'unique': True})
+
+TASK [infra-openshift-cnv-resources : Create a SSH (or defined one) service for internal connections for node bastion] ***
+Thursday 07 August 2025  12:33:51 +0000 (0:00:00.067)       0:02:02.458 ******* 
+changed: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : Create a service for subdomain lab] ******
+Thursday 07 August 2025  12:33:51 +0000 (0:00:00.716)       0:02:03.174 ******* 
+[WARNING]: conditional statements should not include jinja2 templating
+delimiters such as {{ }} or {% %}. Found: {{ openshift_cnv_add_lab_subdomain |
+default(True) }}
+changed: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create services for the instances] *******
+Thursday 07 August 2025  12:33:52 +0000 (0:00:00.651)       0:02:03.826 ******* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_service.yaml for localhost => (item={'name': 'bastion', 'ports': [{'name': 'bastion-https', 'port': 443, 'protocol': 'TCP', 'targetPort': 443}]})
+
+TASK [infra-openshift-cnv-resources : Create services for instance "bastion"] ***
+Thursday 07 August 2025  12:33:52 +0000 (0:00:00.024)       0:02:03.851 ******* 
+changed: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : Wait for the LoadBalancer value] *********
+Thursday 07 August 2025  12:33:53 +0000 (0:00:00.710)       0:02:04.561 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : If exist set the external IP for the instance and the ports] ***
+Thursday 07 August 2025  12:33:53 +0000 (0:00:00.023)       0:02:04.585 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Add external_ip and external_ports to the instance] ***
+Thursday 07 August 2025  12:33:53 +0000 (0:00:00.019)       0:02:04.604 ******* 
+skipping: [localhost] => (item=1) 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create a SSH (or defined one) service for internal connections for node node] ***
+Thursday 07 August 2025  12:33:53 +0000 (0:00:00.026)       0:02:04.630 ******* 
+changed: [localhost] => (item=1)
+changed: [localhost] => (item=2)
+
+TASK [infra-openshift-cnv-resources : Create a service for subdomain lab] ******
+Thursday 07 August 2025  12:33:54 +0000 (0:00:01.384)       0:02:06.015 ******* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create services for the instances] *******
+Thursday 07 August 2025  12:33:55 +0000 (0:00:00.677)       0:02:06.693 ******* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_service.yaml for localhost => (item={'name': 'node', 'ports': [{'name': 'node-https', 'port': 443, 'protocol': 'TCP', 'targetPort': 443}]})
+
+TASK [infra-openshift-cnv-resources : Create services for instance "node"] *****
+Thursday 07 August 2025  12:33:55 +0000 (0:00:00.025)       0:02:06.718 ******* 
+changed: [localhost] => (item=1)
+changed: [localhost] => (item=2)
+
+TASK [infra-openshift-cnv-resources : Wait for the LoadBalancer value] *********
+Thursday 07 August 2025  12:33:56 +0000 (0:00:01.369)       0:02:08.088 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : If exist set the external IP for the instance and the ports] ***
+Thursday 07 August 2025  12:33:56 +0000 (0:00:00.015)       0:02:08.104 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Add external_ip and external_ports to the instance] ***
+Thursday 07 August 2025  12:33:56 +0000 (0:00:00.014)       0:02:08.118 ******* 
+skipping: [localhost] => (item=1) 
+skipping: [localhost] => (item=2) 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create a SSH (or defined one) service for internal connections for node node3] ***
+Thursday 07 August 2025  12:33:56 +0000 (0:00:00.030)       0:02:08.149 ******* 
+changed: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : Create a service for subdomain lab] ******
+Thursday 07 August 2025  12:33:57 +0000 (0:00:00.674)       0:02:08.823 ******* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create services for the instances] *******
+Thursday 07 August 2025  12:33:58 +0000 (0:00:00.664)       0:02:09.488 ******* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_service.yaml for localhost => (item={'name': 'nodehttp', 'ports': [{'name': 'node-http', 'port': 80, 'protocol': 'TCP', 'targetPort': 80}]})
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_service.yaml for localhost => (item={'name': 'node', 'ports': [{'name': 'node-https', 'port': 443, 'protocol': 'TCP', 'targetPort': 443}]})
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_service.yaml for localhost => (item={'name': 'cockpit', 'ports': [{'name': 'cockpit-https', 'port': 9090, 'protocol': 'TCP', 'targetPort': 9090}]})
+
+TASK [infra-openshift-cnv-resources : Create services for instance "node3"] ****
+Thursday 07 August 2025  12:33:58 +0000 (0:00:00.038)       0:02:09.526 ******* 
+changed: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : Wait for the LoadBalancer value] *********
+Thursday 07 August 2025  12:33:59 +0000 (0:00:00.657)       0:02:10.184 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : If exist set the external IP for the instance and the ports] ***
+Thursday 07 August 2025  12:33:59 +0000 (0:00:00.014)       0:02:10.199 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Add external_ip and external_ports to the instance] ***
+Thursday 07 August 2025  12:33:59 +0000 (0:00:00.013)       0:02:10.212 ******* 
+skipping: [localhost] => (item=1) 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create services for instance "node3"] ****
+Thursday 07 August 2025  12:33:59 +0000 (0:00:00.019)       0:02:10.232 ******* 
+changed: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : Wait for the LoadBalancer value] *********
+Thursday 07 August 2025  12:33:59 +0000 (0:00:00.662)       0:02:10.894 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : If exist set the external IP for the instance and the ports] ***
+Thursday 07 August 2025  12:33:59 +0000 (0:00:00.015)       0:02:10.910 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Add external_ip and external_ports to the instance] ***
+Thursday 07 August 2025  12:33:59 +0000 (0:00:00.013)       0:02:10.924 ******* 
+skipping: [localhost] => (item=1) 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create services for instance "node3"] ****
+Thursday 07 August 2025  12:33:59 +0000 (0:00:00.020)       0:02:10.945 ******* 
+changed: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : Wait for the LoadBalancer value] *********
+Thursday 07 August 2025  12:34:00 +0000 (0:00:00.693)       0:02:11.639 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : If exist set the external IP for the instance and the ports] ***
+Thursday 07 August 2025  12:34:00 +0000 (0:00:00.016)       0:02:11.655 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Add external_ip and external_ports to the instance] ***
+Thursday 07 August 2025  12:34:00 +0000 (0:00:00.014)       0:02:11.669 ******* 
+skipping: [localhost] => (item=1) 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create a SSH (or defined one) service for internal connections for node leapp] ***
+Thursday 07 August 2025  12:34:00 +0000 (0:00:00.019)       0:02:11.689 ******* 
+changed: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : Create a service for subdomain lab] ******
+Thursday 07 August 2025  12:34:01 +0000 (0:00:00.671)       0:02:12.360 ******* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create services for the instances] *******
+Thursday 07 August 2025  12:34:01 +0000 (0:00:00.650)       0:02:13.011 ******* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_service.yaml for localhost => (item={'name': 'leapp', 'ports': [{'name': 'leapp-https', 'port': 443, 'protocol': 'TCP', 'targetPort': 443}]})
+
+TASK [infra-openshift-cnv-resources : Create services for instance "leapp"] ****
+Thursday 07 August 2025  12:34:01 +0000 (0:00:00.024)       0:02:13.035 ******* 
+changed: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : Wait for the LoadBalancer value] *********
+Thursday 07 August 2025  12:34:02 +0000 (0:00:00.710)       0:02:13.745 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : If exist set the external IP for the instance and the ports] ***
+Thursday 07 August 2025  12:34:02 +0000 (0:00:00.014)       0:02:13.760 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Add external_ip and external_ports to the instance] ***
+Thursday 07 August 2025  12:34:02 +0000 (0:00:00.013)       0:02:13.773 ******* 
+skipping: [localhost] => (item=1) 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create routes for the nodes] *************
+Thursday 07 August 2025  12:34:02 +0000 (0:00:00.018)       0:02:13.792 ******* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_routes.yaml for localhost => (item={'cores': 4, 'count': 1, 'floating_ip': False, 'image': 'rhel-9.4', 'image_size': '100Gi', 'memory': '8G', 'name': 'bastion', 'networks': ['default'], 'public_dns': False, 'routes': [{'host': 'bastion', 'name': 'bastion-https', 'service': 'bastion', 'targetPort': 443, 'tls': True}], 'services': [{'name': 'bastion', 'ports': [{'name': 'bastion-https', 'port': 443, 'protocol': 'TCP', 'targetPort': 443}]}], 'tags': [{'key': 'AnsibleGroup', 'value': 'bastions,showroom'}, {'key': 'ostype', 'value': 'linux'}], 'unique': True})
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_routes.yaml for localhost => (item={'cores': 4, 'count': 2, 'disks': [{'metadata': {'name': 'nodefn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'nodefn8ch1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'nodefn8ch2'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'nodefn8ch3'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}], 'floating_ip': False, 'image': 'rhel-10.0', 'image_size': '50Gi', 'memory': '8G', 'name': 'node', 'public_dns': False, 'routes': [{'host': 'node', 'name': 'node-https', 'service': 'node', 'targetPort': 443, 'tls': True}], 'services': [{'name': 'node', 'ports': [{'name': 'node-https', 'port': 443, 'protocol': 'TCP', 'targetPort': 443}]}], 'tags': [{'key': 'AnsibleGroup', 'value': 'isolated'}, {'key': 'ostype', 'value': 'linux'}], 'unique': True})
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_routes.yaml for localhost => (item={'cores': 4, 'count': 1, 'disks': [{'metadata': {'name': 'node3fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'node3fn8ch1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'node3fn8ch2'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'name': 'node3fn8ch3'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}], 'floating_ip': False, 'image': 'rhel-10.0', 'image_size': '50Gi', 'memory': '8G', 'name': 'node3', 'public_dns': False, 'routes': [{'host': 'node3', 'name': 'node-http', 'service': 'nodehttp', 'targetPort': 80, 'tls': False}, {'host': 'node', 'name': 'node-https', 'service': 'node', 'targetPort': 443, 'tls': True}, {'host': 'node3', 'name': 'cockpit-https', 'service': 'cockpit', 'targetPort': 9090, 'tls': True}], 'services': [{'name': 'nodehttp', 'ports': [{'name': 'node-http', 'port': 80, 'protocol': 'TCP', 'targetPort': 80}]}, {'name': 'node', 'ports': [{'name': 'node-https', 'port': 443, 'protocol': 'TCP', 'targetPort': 443}]}, {'name': 'cockpit', 'ports': [{'name': 'cockpit-https', 'port': 9090, 'protocol': 'TCP', 'targetPort': 9090}]}], 'tags': [{'key': 'AnsibleGroup', 'value': 'isolated'}, {'key': 'ostype', 'value': 'linux'}], 'unique': True})
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_routes.yaml for localhost => (item={'cores': 4, 'count': 1, 'floating_ip': False, 'image': 'rhel-9.4', 'image_size': '50Gi', 'memory': '8G', 'name': 'leapp', 'public_dns': False, 'routes': [{'host': 'leapp', 'name': 'leapp-https', 'service': 'leapp', 'targetPort': 443, 'tls': True}], 'services': [{'name': 'leapp', 'ports': [{'name': 'leapp-https', 'port': 443, 'protocol': 'TCP', 'targetPort': 443}]}], 'tags': [{'key': 'AnsibleGroup', 'value': 'nodes'}, {'key': 'ostype', 'value': 'linux'}], 'unique': True})
+
+TASK [infra-openshift-cnv-resources : Create routes with tls] ******************
+Thursday 07 August 2025  12:34:02 +0000 (0:00:00.065)       0:02:13.858 ******* 
+changed: [localhost] => (item={'host': 'bastion', 'name': 'bastion-https', 'service': 'bastion', 'targetPort': 443, 'tls': True})
+
+TASK [infra-openshift-cnv-resources : Create routes without tls] ***************
+Thursday 07 August 2025  12:34:03 +0000 (0:00:00.709)       0:02:14.568 ******* 
+[WARNING]: conditional statements should not include jinja2 templating
+delimiters such as {{ }} or {% %}. Found: {{ route.tls|default(false) == false
+}}
+skipping: [localhost] => (item={'host': 'bastion', 'name': 'bastion-https', 'service': 'bastion', 'targetPort': 443, 'tls': True}) 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create routes with tls] ******************
+Thursday 07 August 2025  12:34:03 +0000 (0:00:00.018)       0:02:14.587 ******* 
+changed: [localhost] => (item={'host': 'node', 'name': 'node-https', 'service': 'node', 'targetPort': 443, 'tls': True})
+
+TASK [infra-openshift-cnv-resources : Create routes without tls] ***************
+Thursday 07 August 2025  12:34:04 +0000 (0:00:00.665)       0:02:15.253 ******* 
+skipping: [localhost] => (item={'host': 'node', 'name': 'node-https', 'service': 'node', 'targetPort': 443, 'tls': True}) 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create routes with tls] ******************
+Thursday 07 August 2025  12:34:04 +0000 (0:00:00.018)       0:02:15.272 ******* 
+skipping: [localhost] => (item={'host': 'node3', 'name': 'node-http', 'service': 'nodehttp', 'targetPort': 80, 'tls': False}) 
+ok: [localhost] => (item={'host': 'node', 'name': 'node-https', 'service': 'node', 'targetPort': 443, 'tls': True})
+changed: [localhost] => (item={'host': 'node3', 'name': 'cockpit-https', 'service': 'cockpit', 'targetPort': 9090, 'tls': True})
+
+TASK [infra-openshift-cnv-resources : Create routes without tls] ***************
+Thursday 07 August 2025  12:34:05 +0000 (0:00:01.310)       0:02:16.582 ******* 
+changed: [localhost] => (item={'host': 'node3', 'name': 'node-http', 'service': 'nodehttp', 'targetPort': 80, 'tls': False})
+skipping: [localhost] => (item={'host': 'node', 'name': 'node-https', 'service': 'node', 'targetPort': 443, 'tls': True}) 
+skipping: [localhost] => (item={'host': 'node3', 'name': 'cockpit-https', 'service': 'cockpit', 'targetPort': 9090, 'tls': True}) 
+
+TASK [infra-openshift-cnv-resources : Create routes with tls] ******************
+Thursday 07 August 2025  12:34:06 +0000 (0:00:00.666)       0:02:17.249 ******* 
+changed: [localhost] => (item={'host': 'leapp', 'name': 'leapp-https', 'service': 'leapp', 'targetPort': 443, 'tls': True})
+
+TASK [infra-openshift-cnv-resources : Create routes without tls] ***************
+Thursday 07 August 2025  12:34:06 +0000 (0:00:00.654)       0:02:17.903 ******* 
+skipping: [localhost] => (item={'host': 'leapp', 'name': 'leapp-https', 'service': 'leapp', 'targetPort': 443, 'tls': True}) 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.include_tasks] ***********
+Thursday 07 August 2025  12:34:06 +0000 (0:00:00.018)       0:02:17.921 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.include_tasks] ***********
+Thursday 07 August 2025  12:34:06 +0000 (0:00:00.010)       0:02:17.932 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.include_tasks] ***********
+Thursday 07 August 2025  12:34:06 +0000 (0:00:00.009)       0:02:17.941 ******* 
+skipping: [localhost]
+
+PLAY [Step 001.2 Create Inventory and SSH config setup] ************************
+
+TASK [Run infra-dns Role] ******************************************************
+Thursday 07 August 2025  12:34:06 +0000 (0:00:00.014)       0:02:17.956 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-create-inventory : include_tasks] ********************
+Thursday 07 August 2025  12:34:06 +0000 (0:00:00.015)       0:02:17.971 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-create-inventory : ansible.builtin.include_tasks] ****
+Thursday 07 August 2025  12:34:06 +0000 (0:00:00.012)       0:02:17.984 ******* 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-create-inventory/tasks/create_inventory.yaml for localhost
+
+TASK [infra-openshift-cnv-create-inventory : Search for all running pods] ******
+Thursday 07 August 2025  12:34:06 +0000 (0:00:00.015)       0:02:17.999 ******* 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-create-inventory : Debug OpenShift CNV Instances fact] ***
+Thursday 07 August 2025  12:34:07 +0000 (0:00:00.662)       0:02:18.662 ******* 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-create-inventory : Find the bastion in this batch of hosts] ***
+Thursday 07 August 2025  12:34:07 +0000 (0:00:00.018)       0:02:18.680 ******* 
+ok: [localhost] => (item={'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'bastions,showroom', 'Stack': 'base-infra-fn8ch', 'env_type': 'base-infra', 'guid': 'fn8ch', 'kubevirt.io/latest-observed-api-version': 'v1', 'kubevirt.io/storage-observed-api-version': 'v1', 'ostype': 'linux', 'owner': 'base-infra@opentlc.com', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a'}, 'creationTimestamp': '2025-08-07T12:31:58Z', 'finalizers': ['kubevirt.io/virtualMachineControllerFinalize'], 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:ostype': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-07T12:31:58Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'f:kubevirt.io/latest-observed-api-version': {}, 'f:kubevirt.io/storage-observed-api-version': {}}, 'f:finalizers': {'.': {}, 'v:"kubevirt.io/virtualMachineControllerFinalize"': {}}}}, 'manager': 'virt-controller', 'operation': 'Update', 'time': '2025-08-07T12:31:58Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:status': {'.': {}, 'f:conditions': {}, 'f:created': {}, 'f:desiredGeneration': {}, 'f:observedGeneration': {}, 'f:printableStatus': {}, 'f:ready': {}, 'f:runStrategy': {}, 'f:volumeSnapshotStatuses': {}}}, 'manager': 'virt-controller', 'operation': 'Update', 'subresource': 'status', 'time': '2025-08-07T12:32:27Z'}], 'name': 'bastion', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'resourceVersion': '612852609', 'uid': 'cec41cc6-54da-4f1f-9d45-c686b8cb9e04'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'bastion-fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '100Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-9.4', 'namespace': 'cnv-images'}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'bastion'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'bastion-fn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': 'd218efa4-2c8e-5ffe-8458-c3c302e13c1c'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G'}, 'resources': {}}, 'hostname': 'bastion', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'bastion-fn8ch'}, 'name': 'bastion-fn8ch'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==', 'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]'}, 'name': 'cloudinitdisk'}]}}}, 'status': {'conditions': [{'lastProbeTime': None, 'lastTransitionTime': '2025-08-07T12:32:09Z', 'status': 'True', 'type': 'Ready'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'message': "All of the VMI's DVs are bound and not running", 'reason': 'AllDVsReady', 'status': 'True', 'type': 'DataVolumesReady'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'status': 'True', 'type': 'LiveMigratable'}, {'lastProbeTime': '2025-08-07T12:32:27Z', 'lastTransitionTime': None, 'status': 'True', 'type': 'AgentConnected'}], 'created': True, 'desiredGeneration': 1, 'observedGeneration': 1, 'printableStatus': 'Running', 'ready': True, 'runStrategy': 'Always', 'volumeSnapshotStatuses': [{'enabled': True, 'name': 'bastion-fn8ch'}, {'enabled': False, 'name': 'cloudinitdisk', 'reason': 'Snapshot is not supported for this volumeSource type [cloudinitdisk]'}]}})
+skipping: [localhost] => (item={'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'nodes', 'Stack': 'base-infra-fn8ch', 'env_type': 'base-infra', 'guid': 'fn8ch', 'kubevirt.io/latest-observed-api-version': 'v1', 'kubevirt.io/storage-observed-api-version': 'v1', 'ostype': 'linux', 'owner': 'base-infra@opentlc.com', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a'}, 'creationTimestamp': '2025-08-07T12:33:29Z', 'finalizers': ['kubevirt.io/virtualMachineControllerFinalize'], 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:ostype': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-07T12:33:29Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'f:kubevirt.io/latest-observed-api-version': {}, 'f:kubevirt.io/storage-observed-api-version': {}}, 'f:finalizers': {'.': {}, 'v:"kubevirt.io/virtualMachineControllerFinalize"': {}}}}, 'manager': 'virt-controller', 'operation': 'Update', 'time': '2025-08-07T12:33:29Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:status': {'.': {}, 'f:conditions': {}, 'f:created': {}, 'f:desiredGeneration': {}, 'f:observedGeneration': {}, 'f:printableStatus': {}, 'f:ready': {}, 'f:runStrategy': {}, 'f:volumeSnapshotStatuses': {}}}, 'manager': 'virt-controller', 'operation': 'Update', 'subresource': 'status', 'time': '2025-08-07T12:33:57Z'}], 'name': 'leapp', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'resourceVersion': '612856186', 'uid': '551eb6db-9eb0-4b57-bcb1-e5119c2a7184'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'leapp-fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '50Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-9.4', 'namespace': 'cnv-images'}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'leapp'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'leapp-fn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': 'f8332eab-92c5-5a5b-9b19-cb186b16f3f5'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G'}, 'resources': {}}, 'hostname': 'leapp', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'leapp-fn8ch'}, 'name': 'leapp-fn8ch'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==',  'name': 'cloudinitdisk'}]}}}, 'status': {'conditions': [{'lastProbeTime': None, 'lastTransitionTime': '2025-08-07T12:33:41Z', 'status': 'True', 'type': 'Ready'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'message': "All of the VMI's DVs are bound and not running", 'reason': 'AllDVsReady', 'status': 'True', 'type': 'DataVolumesReady'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'status': 'True', 'type': 'LiveMigratable'}, {'lastProbeTime': '2025-08-07T12:33:57Z', 'lastTransitionTime': None, 'status': 'True', 'type': 'AgentConnected'}], 'created': True, 'desiredGeneration': 1, 'observedGeneration': 1, 'printableStatus': 'Running', 'ready': True, 'runStrategy': 'Always', 'volumeSnapshotStatuses': [{'enabled': True, 'name': 'leapp-fn8ch'}, {'enabled': False, 'name': 'cloudinitdisk', 'reason': 'Snapshot is not supported for this volumeSource type [cloudinitdisk]'}]}}) 
+skipping: [localhost] => (item={'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'isolated', 'Stack': 'base-infra-fn8ch', 'env_type': 'base-infra', 'guid': 'fn8ch', 'kubevirt.io/latest-observed-api-version': 'v1', 'kubevirt.io/storage-observed-api-version': 'v1', 'ostype': 'linux', 'owner': 'base-infra@opentlc.com', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a'}, 'creationTimestamp': '2025-08-07T12:32:21Z', 'finalizers': ['kubevirt.io/virtualMachineControllerFinalize'], 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:ostype': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-07T12:32:21Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'f:kubevirt.io/latest-observed-api-version': {}, 'f:kubevirt.io/storage-observed-api-version': {}}, 'f:finalizers': {'.': {}, 'v:"kubevirt.io/virtualMachineControllerFinalize"': {}}}}, 'manager': 'virt-controller', 'operation': 'Update', 'time': '2025-08-07T12:32:21Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:status': {'.': {}, 'f:conditions': {}, 'f:created': {}, 'f:desiredGeneration': {}, 'f:observedGeneration': {}, 'f:printableStatus': {}, 'f:ready': {}, 'f:runStrategy': {}, 'f:volumeSnapshotStatuses': {}}}, 'manager': 'virt-controller', 'operation': 'Update', 'subresource': 'status', 'time': '2025-08-07T12:33:09Z'}], 'name': 'node1', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'resourceVersion': '612854605', 'uid': 'c2674b42-f690-4d4a-9edb-43a209853697'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'node1-fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '50Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-10.0', 'namespace': 'cnv-images'}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch2'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch3'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'node1'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'node1-fn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch1'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch2'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch3'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': '07a82b5c-371f-5332-8aab-37a5904b3c2e'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G'}, 'resources': {}}, 'hostname': 'node1', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'node1-fn8ch'}, 'name': 'node1-fn8ch'}, {'dataVolume': {'name': 'nodefn8ch'}, 'name': 'nodefn8ch'}, {'dataVolume': {'name': 'nodefn8ch1'}, 'name': 'nodefn8ch1'}, {'dataVolume': {'name': 'nodefn8ch2'}, 'name': 'nodefn8ch2'}, {'dataVolume': {'name': 'nodefn8ch3'}, 'name': 'nodefn8ch3'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==',  'name': 'cloudinitdisk'}]}}}, 'status': {'conditions': [{'lastProbeTime': None, 'lastTransitionTime': '2025-08-07T12:32:49Z', 'status': 'True', 'type': 'Ready'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'message': "All of the VMI's DVs are bound and not running", 'reason': 'AllDVsReady', 'status': 'True', 'type': 'DataVolumesReady'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'status': 'True', 'type': 'LiveMigratable'}, {'lastProbeTime': '2025-08-07T12:33:09Z', 'lastTransitionTime': None, 'status': 'True', 'type': 'AgentConnected'}], 'created': True, 'desiredGeneration': 1, 'observedGeneration': 1, 'printableStatus': 'Running', 'ready': True, 'runStrategy': 'Always', 'volumeSnapshotStatuses': [{'enabled': True, 'name': 'node1-fn8ch'}, {'enabled': True, 'name': 'nodefn8ch'}, {'enabled': True, 'name': 'nodefn8ch1'}, {'enabled': True, 'name': 'nodefn8ch2'}, {'enabled': True, 'name': 'nodefn8ch3'}, {'enabled': False, 'name': 'cloudinitdisk', 'reason': 'Snapshot is not supported for this volumeSource type [cloudinitdisk]'}]}}) 
+skipping: [localhost] => (item={'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'isolated', 'Stack': 'base-infra-fn8ch', 'env_type': 'base-infra', 'guid': 'fn8ch', 'kubevirt.io/latest-observed-api-version': 'v1', 'kubevirt.io/storage-observed-api-version': 'v1', 'ostype': 'linux', 'owner': 'base-infra@opentlc.com', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a'}, 'creationTimestamp': '2025-08-07T12:32:21Z', 'finalizers': ['kubevirt.io/virtualMachineControllerFinalize'], 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:ostype': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-07T12:32:21Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'f:kubevirt.io/latest-observed-api-version': {}, 'f:kubevirt.io/storage-observed-api-version': {}}, 'f:finalizers': {'.': {}, 'v:"kubevirt.io/virtualMachineControllerFinalize"': {}}}}, 'manager': 'virt-controller', 'operation': 'Update', 'time': '2025-08-07T12:32:21Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:status': {'.': {}, 'f:conditions': {}, 'f:created': {}, 'f:desiredGeneration': {}, 'f:observedGeneration': {}, 'f:printableStatus': {}, 'f:ready': {}, 'f:runStrategy': {}, 'f:volumeSnapshotStatuses': {}}}, 'manager': 'virt-controller', 'operation': 'Update', 'subresource': 'status', 'time': '2025-08-07T12:33:09Z'}], 'name': 'node2', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'resourceVersion': '612854602', 'uid': 'c7585ebc-1512-4f42-bc39-702e392c431c'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'node2-fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '50Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-10.0', 'namespace': 'cnv-images'}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch2'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch3'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'node2'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'node2-fn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch1'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch2'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch3'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': 'ee8e3f89-4433-54d6-b3ef-6b809dd6db24'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G'}, 'resources': {}}, 'hostname': 'node2', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'node2-fn8ch'}, 'name': 'node2-fn8ch'}, {'dataVolume': {'name': 'nodefn8ch'}, 'name': 'nodefn8ch'}, {'dataVolume': {'name': 'nodefn8ch1'}, 'name': 'nodefn8ch1'}, {'dataVolume': {'name': 'nodefn8ch2'}, 'name': 'nodefn8ch2'}, {'dataVolume': {'name': 'nodefn8ch3'}, 'name': 'nodefn8ch3'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==',  'name': 'cloudinitdisk'}]}}}, 'status': {'conditions': [{'lastProbeTime': None, 'lastTransitionTime': '2025-08-07T12:32:49Z', 'status': 'True', 'type': 'Ready'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'message': "All of the VMI's DVs are bound and not running", 'reason': 'AllDVsReady', 'status': 'True', 'type': 'DataVolumesReady'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'status': 'True', 'type': 'LiveMigratable'}, {'lastProbeTime': '2025-08-07T12:33:09Z', 'lastTransitionTime': None, 'status': 'True', 'type': 'AgentConnected'}], 'created': True, 'desiredGeneration': 1, 'observedGeneration': 1, 'printableStatus': 'Running', 'ready': True, 'runStrategy': 'Always', 'volumeSnapshotStatuses': [{'enabled': True, 'name': 'node2-fn8ch'}, {'enabled': True, 'name': 'nodefn8ch'}, {'enabled': True, 'name': 'nodefn8ch1'}, {'enabled': True, 'name': 'nodefn8ch2'}, {'enabled': True, 'name': 'nodefn8ch3'}, {'enabled': False, 'name': 'cloudinitdisk', 'reason': 'Snapshot is not supported for this volumeSource type [cloudinitdisk]'}]}}) 
+skipping: [localhost] => (item={'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'isolated', 'Stack': 'base-infra-fn8ch', 'env_type': 'base-infra', 'guid': 'fn8ch', 'kubevirt.io/latest-observed-api-version': 'v1', 'kubevirt.io/storage-observed-api-version': 'v1', 'ostype': 'linux', 'owner': 'base-infra@opentlc.com', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a'}, 'creationTimestamp': '2025-08-07T12:32:55Z', 'finalizers': ['kubevirt.io/virtualMachineControllerFinalize'], 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:ostype': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-07T12:32:55Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'f:kubevirt.io/latest-observed-api-version': {}, 'f:kubevirt.io/storage-observed-api-version': {}}, 'f:finalizers': {'.': {}, 'v:"kubevirt.io/virtualMachineControllerFinalize"': {}}}}, 'manager': 'virt-controller', 'operation': 'Update', 'time': '2025-08-07T12:32:55Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:status': {'.': {}, 'f:conditions': {}, 'f:created': {}, 'f:desiredGeneration': {}, 'f:observedGeneration': {}, 'f:printableStatus': {}, 'f:ready': {}, 'f:runStrategy': {}, 'f:volumeSnapshotStatuses': {}}}, 'manager': 'virt-controller', 'operation': 'Update', 'subresource': 'status', 'time': '2025-08-07T12:33:36Z'}], 'name': 'node3', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'resourceVersion': '612855541', 'uid': '7718ae4d-39a4-491b-b5ed-28b1b2ff5b49'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'node3-fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '50Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-10.0', 'namespace': 'cnv-images'}}}}, {'metadata': {'creationTimestamp': None, 'name': 'node3fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'node3fn8ch1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'node3fn8ch2'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'node3fn8ch3'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'node3'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'node3-fn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'node3fn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'node3fn8ch1'}, {'disk': {'bus': 'virtio'}, 'name': 'node3fn8ch2'}, {'disk': {'bus': 'virtio'}, 'name': 'node3fn8ch3'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': 'ad784994-7a25-574e-b967-e8f459e73671'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G'}, 'resources': {}}, 'hostname': 'node3', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'node3-fn8ch'}, 'name': 'node3-fn8ch'}, {'dataVolume': {'name': 'node3fn8ch'}, 'name': 'node3fn8ch'}, {'dataVolume': {'name': 'node3fn8ch1'}, 'name': 'node3fn8ch1'}, {'dataVolume': {'name': 'node3fn8ch2'}, 'name': 'node3fn8ch2'}, {'dataVolume': {'name': 'node3fn8ch3'}, 'name': 'node3fn8ch3'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==',  'name': 'cloudinitdisk'}]}}}, 'status': {'conditions': [{'lastProbeTime': None, 'lastTransitionTime': '2025-08-07T12:33:17Z', 'status': 'True', 'type': 'Ready'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'message': "All of the VMI's DVs are bound and not running", 'reason': 'AllDVsReady', 'status': 'True', 'type': 'DataVolumesReady'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'status': 'True', 'type': 'LiveMigratable'}, {'lastProbeTime': '2025-08-07T12:33:35Z', 'lastTransitionTime': None, 'status': 'True', 'type': 'AgentConnected'}], 'created': True, 'desiredGeneration': 1, 'observedGeneration': 1, 'printableStatus': 'Running', 'ready': True, 'runStrategy': 'Always', 'volumeSnapshotStatuses': [{'enabled': True, 'name': 'node3-fn8ch'}, {'enabled': True, 'name': 'node3fn8ch'}, {'enabled': True, 'name': 'node3fn8ch1'}, {'enabled': True, 'name': 'node3fn8ch2'}, {'enabled': True, 'name': 'node3fn8ch3'}, {'enabled': False, 'name': 'cloudinitdisk', 'reason': 'Snapshot is not supported for this volumeSource type [cloudinitdisk]'}]}}) 
+
+TASK [infra-openshift-cnv-create-inventory : Expose bastion externally] ********
+Thursday 07 August 2025  12:34:07 +0000 (0:00:00.086)       0:02:18.766 ******* 
+changed: [localhost]
+
+TASK [infra-openshift-cnv-create-inventory : Create inventory (add_host)] ******
+Thursday 07 August 2025  12:34:08 +0000 (0:00:00.670)       0:02:19.437 ******* 
+changed: [localhost] => (item={'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'bastions,showroom', 'Stack': 'base-infra-fn8ch', 'env_type': 'base-infra', 'guid': 'fn8ch', 'kubevirt.io/latest-observed-api-version': 'v1', 'kubevirt.io/storage-observed-api-version': 'v1', 'ostype': 'linux', 'owner': 'base-infra@opentlc.com', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a'}, 'creationTimestamp': '2025-08-07T12:31:58Z', 'finalizers': ['kubevirt.io/virtualMachineControllerFinalize'], 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:ostype': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-07T12:31:58Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'f:kubevirt.io/latest-observed-api-version': {}, 'f:kubevirt.io/storage-observed-api-version': {}}, 'f:finalizers': {'.': {}, 'v:"kubevirt.io/virtualMachineControllerFinalize"': {}}}}, 'manager': 'virt-controller', 'operation': 'Update', 'time': '2025-08-07T12:31:58Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:status': {'.': {}, 'f:conditions': {}, 'f:created': {}, 'f:desiredGeneration': {}, 'f:observedGeneration': {}, 'f:printableStatus': {}, 'f:ready': {}, 'f:runStrategy': {}, 'f:volumeSnapshotStatuses': {}}}, 'manager': 'virt-controller', 'operation': 'Update', 'subresource': 'status', 'time': '2025-08-07T12:32:27Z'}], 'name': 'bastion', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'resourceVersion': '612852609', 'uid': 'cec41cc6-54da-4f1f-9d45-c686b8cb9e04'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'bastion-fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '100Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-9.4', 'namespace': 'cnv-images'}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'bastion'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'bastion-fn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': 'd218efa4-2c8e-5ffe-8458-c3c302e13c1c'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G'}, 'resources': {}}, 'hostname': 'bastion', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'bastion-fn8ch'}, 'name': 'bastion-fn8ch'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==',  'name': 'cloudinitdisk'}]}}}, 'status': {'conditions': [{'lastProbeTime': None, 'lastTransitionTime': '2025-08-07T12:32:09Z', 'status': 'True', 'type': 'Ready'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'message': "All of the VMI's DVs are bound and not running", 'reason': 'AllDVsReady', 'status': 'True', 'type': 'DataVolumesReady'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'status': 'True', 'type': 'LiveMigratable'}, {'lastProbeTime': '2025-08-07T12:32:27Z', 'lastTransitionTime': None, 'status': 'True', 'type': 'AgentConnected'}], 'created': True, 'desiredGeneration': 1, 'observedGeneration': 1, 'printableStatus': 'Running', 'ready': True, 'runStrategy': 'Always', 'volumeSnapshotStatuses': [{'enabled': True, 'name': 'bastion-fn8ch'}, {'enabled': False, 'name': 'cloudinitdisk', 'reason': 'Snapshot is not supported for this volumeSource type [cloudinitdisk]'}]}})
+changed: [localhost] => (item={'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'nodes', 'Stack': 'base-infra-fn8ch', 'env_type': 'base-infra', 'guid': 'fn8ch', 'kubevirt.io/latest-observed-api-version': 'v1', 'kubevirt.io/storage-observed-api-version': 'v1', 'ostype': 'linux', 'owner': 'base-infra@opentlc.com', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a'}, 'creationTimestamp': '2025-08-07T12:33:29Z', 'finalizers': ['kubevirt.io/virtualMachineControllerFinalize'], 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:ostype': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-07T12:33:29Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'f:kubevirt.io/latest-observed-api-version': {}, 'f:kubevirt.io/storage-observed-api-version': {}}, 'f:finalizers': {'.': {}, 'v:"kubevirt.io/virtualMachineControllerFinalize"': {}}}}, 'manager': 'virt-controller', 'operation': 'Update', 'time': '2025-08-07T12:33:29Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:status': {'.': {}, 'f:conditions': {}, 'f:created': {}, 'f:desiredGeneration': {}, 'f:observedGeneration': {}, 'f:printableStatus': {}, 'f:ready': {}, 'f:runStrategy': {}, 'f:volumeSnapshotStatuses': {}}}, 'manager': 'virt-controller', 'operation': 'Update', 'subresource': 'status', 'time': '2025-08-07T12:33:57Z'}], 'name': 'leapp', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'resourceVersion': '612856186', 'uid': '551eb6db-9eb0-4b57-bcb1-e5119c2a7184'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'leapp-fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '50Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-9.4', 'namespace': 'cnv-images'}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'leapp'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'leapp-fn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': 'f8332eab-92c5-5a5b-9b19-cb186b16f3f5'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G'}, 'resources': {}}, 'hostname': 'leapp', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'leapp-fn8ch'}, 'name': 'leapp-fn8ch'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==',  'name': 'cloudinitdisk'}]}}}, 'status': {'conditions': [{'lastProbeTime': None, 'lastTransitionTime': '2025-08-07T12:33:41Z', 'status': 'True', 'type': 'Ready'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'message': "All of the VMI's DVs are bound and not running", 'reason': 'AllDVsReady', 'status': 'True', 'type': 'DataVolumesReady'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'status': 'True', 'type': 'LiveMigratable'}, {'lastProbeTime': '2025-08-07T12:33:57Z', 'lastTransitionTime': None, 'status': 'True', 'type': 'AgentConnected'}], 'created': True, 'desiredGeneration': 1, 'observedGeneration': 1, 'printableStatus': 'Running', 'ready': True, 'runStrategy': 'Always', 'volumeSnapshotStatuses': [{'enabled': True, 'name': 'leapp-fn8ch'}, {'enabled': False, 'name': 'cloudinitdisk', 'reason': 'Snapshot is not supported for this volumeSource type [cloudinitdisk]'}]}})
+changed: [localhost] => (item={'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'isolated', 'Stack': 'base-infra-fn8ch', 'env_type': 'base-infra', 'guid': 'fn8ch', 'kubevirt.io/latest-observed-api-version': 'v1', 'kubevirt.io/storage-observed-api-version': 'v1', 'ostype': 'linux', 'owner': 'base-infra@opentlc.com', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a'}, 'creationTimestamp': '2025-08-07T12:32:21Z', 'finalizers': ['kubevirt.io/virtualMachineControllerFinalize'], 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:ostype': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-07T12:32:21Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'f:kubevirt.io/latest-observed-api-version': {}, 'f:kubevirt.io/storage-observed-api-version': {}}, 'f:finalizers': {'.': {}, 'v:"kubevirt.io/virtualMachineControllerFinalize"': {}}}}, 'manager': 'virt-controller', 'operation': 'Update', 'time': '2025-08-07T12:32:21Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:status': {'.': {}, 'f:conditions': {}, 'f:created': {}, 'f:desiredGeneration': {}, 'f:observedGeneration': {}, 'f:printableStatus': {}, 'f:ready': {}, 'f:runStrategy': {}, 'f:volumeSnapshotStatuses': {}}}, 'manager': 'virt-controller', 'operation': 'Update', 'subresource': 'status', 'time': '2025-08-07T12:33:09Z'}], 'name': 'node1', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'resourceVersion': '612854605', 'uid': 'c2674b42-f690-4d4a-9edb-43a209853697'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'node1-fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '50Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-10.0', 'namespace': 'cnv-images'}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch2'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch3'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'node1'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'node1-fn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch1'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch2'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch3'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': '07a82b5c-371f-5332-8aab-37a5904b3c2e'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G'}, 'resources': {}}, 'hostname': 'node1', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'node1-fn8ch'}, 'name': 'node1-fn8ch'}, {'dataVolume': {'name': 'nodefn8ch'}, 'name': 'nodefn8ch'}, {'dataVolume': {'name': 'nodefn8ch1'}, 'name': 'nodefn8ch1'}, {'dataVolume': {'name': 'nodefn8ch2'}, 'name': 'nodefn8ch2'}, {'dataVolume': {'name': 'nodefn8ch3'}, 'name': 'nodefn8ch3'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==',  'name': 'cloudinitdisk'}]}}}, 'status': {'conditions': [{'lastProbeTime': None, 'lastTransitionTime': '2025-08-07T12:32:49Z', 'status': 'True', 'type': 'Ready'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'message': "All of the VMI's DVs are bound and not running", 'reason': 'AllDVsReady', 'status': 'True', 'type': 'DataVolumesReady'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'status': 'True', 'type': 'LiveMigratable'}, {'lastProbeTime': '2025-08-07T12:33:09Z', 'lastTransitionTime': None, 'status': 'True', 'type': 'AgentConnected'}], 'created': True, 'desiredGeneration': 1, 'observedGeneration': 1, 'printableStatus': 'Running', 'ready': True, 'runStrategy': 'Always', 'volumeSnapshotStatuses': [{'enabled': True, 'name': 'node1-fn8ch'}, {'enabled': True, 'name': 'nodefn8ch'}, {'enabled': True, 'name': 'nodefn8ch1'}, {'enabled': True, 'name': 'nodefn8ch2'}, {'enabled': True, 'name': 'nodefn8ch3'}, {'enabled': False, 'name': 'cloudinitdisk', 'reason': 'Snapshot is not supported for this volumeSource type [cloudinitdisk]'}]}})
+changed: [localhost] => (item={'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'isolated', 'Stack': 'base-infra-fn8ch', 'env_type': 'base-infra', 'guid': 'fn8ch', 'kubevirt.io/latest-observed-api-version': 'v1', 'kubevirt.io/storage-observed-api-version': 'v1', 'ostype': 'linux', 'owner': 'base-infra@opentlc.com', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a'}, 'creationTimestamp': '2025-08-07T12:32:21Z', 'finalizers': ['kubevirt.io/virtualMachineControllerFinalize'], 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:ostype': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-07T12:32:21Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'f:kubevirt.io/latest-observed-api-version': {}, 'f:kubevirt.io/storage-observed-api-version': {}}, 'f:finalizers': {'.': {}, 'v:"kubevirt.io/virtualMachineControllerFinalize"': {}}}}, 'manager': 'virt-controller', 'operation': 'Update', 'time': '2025-08-07T12:32:21Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:status': {'.': {}, 'f:conditions': {}, 'f:created': {}, 'f:desiredGeneration': {}, 'f:observedGeneration': {}, 'f:printableStatus': {}, 'f:ready': {}, 'f:runStrategy': {}, 'f:volumeSnapshotStatuses': {}}}, 'manager': 'virt-controller', 'operation': 'Update', 'subresource': 'status', 'time': '2025-08-07T12:33:09Z'}], 'name': 'node2', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'resourceVersion': '612854602', 'uid': 'c7585ebc-1512-4f42-bc39-702e392c431c'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'node2-fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '50Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-10.0', 'namespace': 'cnv-images'}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch2'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'nodefn8ch3'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'node2'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'node2-fn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch1'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch2'}, {'disk': {'bus': 'virtio'}, 'name': 'nodefn8ch3'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': 'ee8e3f89-4433-54d6-b3ef-6b809dd6db24'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G'}, 'resources': {}}, 'hostname': 'node2', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'node2-fn8ch'}, 'name': 'node2-fn8ch'}, {'dataVolume': {'name': 'nodefn8ch'}, 'name': 'nodefn8ch'}, {'dataVolume': {'name': 'nodefn8ch1'}, 'name': 'nodefn8ch1'}, {'dataVolume': {'name': 'nodefn8ch2'}, 'name': 'nodefn8ch2'}, {'dataVolume': {'name': 'nodefn8ch3'}, 'name': 'nodefn8ch3'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==',  'name': 'cloudinitdisk'}]}}}, 'status': {'conditions': [{'lastProbeTime': None, 'lastTransitionTime': '2025-08-07T12:32:49Z', 'status': 'True', 'type': 'Ready'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'message': "All of the VMI's DVs are bound and not running", 'reason': 'AllDVsReady', 'status': 'True', 'type': 'DataVolumesReady'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'status': 'True', 'type': 'LiveMigratable'}, {'lastProbeTime': '2025-08-07T12:33:09Z', 'lastTransitionTime': None, 'status': 'True', 'type': 'AgentConnected'}], 'created': True, 'desiredGeneration': 1, 'observedGeneration': 1, 'printableStatus': 'Running', 'ready': True, 'runStrategy': 'Always', 'volumeSnapshotStatuses': [{'enabled': True, 'name': 'node2-fn8ch'}, {'enabled': True, 'name': 'nodefn8ch'}, {'enabled': True, 'name': 'nodefn8ch1'}, {'enabled': True, 'name': 'nodefn8ch2'}, {'enabled': True, 'name': 'nodefn8ch3'}, {'enabled': False, 'name': 'cloudinitdisk', 'reason': 'Snapshot is not supported for this volumeSource type [cloudinitdisk]'}]}})
+changed: [localhost] => (item={'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'isolated', 'Stack': 'base-infra-fn8ch', 'env_type': 'base-infra', 'guid': 'fn8ch', 'kubevirt.io/latest-observed-api-version': 'v1', 'kubevirt.io/storage-observed-api-version': 'v1', 'ostype': 'linux', 'owner': 'base-infra@opentlc.com', 'uuid': '21d3f41f-e829-571d-b7b1-3024b0dcfc0a'}, 'creationTimestamp': '2025-08-07T12:32:55Z', 'finalizers': ['kubevirt.io/virtualMachineControllerFinalize'], 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:guid': {}, 'f:ostype': {}, 'f:owner': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:hostname': {}, 'f:networks': {}, 'f:subdomain': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-07T12:32:55Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'f:kubevirt.io/latest-observed-api-version': {}, 'f:kubevirt.io/storage-observed-api-version': {}}, 'f:finalizers': {'.': {}, 'v:"kubevirt.io/virtualMachineControllerFinalize"': {}}}}, 'manager': 'virt-controller', 'operation': 'Update', 'time': '2025-08-07T12:32:55Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:status': {'.': {}, 'f:conditions': {}, 'f:created': {}, 'f:desiredGeneration': {}, 'f:observedGeneration': {}, 'f:printableStatus': {}, 'f:ready': {}, 'f:runStrategy': {}, 'f:volumeSnapshotStatuses': {}}}, 'manager': 'virt-controller', 'operation': 'Update', 'subresource': 'status', 'time': '2025-08-07T12:33:36Z'}], 'name': 'node3', 'namespace': 'sandbox-fn8ch-ocp4-cluster', 'resourceVersion': '612855541', 'uid': '7718ae4d-39a4-491b-b5ed-28b1b2ff5b49'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'node3-fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '50Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-10.0', 'namespace': 'cnv-images'}}}}, {'metadata': {'creationTimestamp': None, 'name': 'node3fn8ch'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'node3fn8ch1'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'node3fn8ch2'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}, {'metadata': {'creationTimestamp': None, 'name': 'node3fn8ch3'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '4Gi'}}, 'volumeMode': 'Block'}, 'source': {'blank': {}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'node3'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 4, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'node3-fn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'node3fn8ch'}, {'disk': {'bus': 'virtio'}, 'name': 'node3fn8ch1'}, {'disk': {'bus': 'virtio'}, 'name': 'node3fn8ch2'}, {'disk': {'bus': 'virtio'}, 'name': 'node3fn8ch3'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'virtio', 'name': 'default'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': 'ad784994-7a25-574e-b967-e8f459e73671'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '8G'}, 'resources': {}}, 'hostname': 'node3', 'networks': [{'name': 'default', 'pod': {}}], 'subdomain': 'lab', 'volumes': [{'dataVolume': {'name': 'node3-fn8ch'}, 'name': 'node3-fn8ch'}, {'dataVolume': {'name': 'node3fn8ch'}, 'name': 'node3fn8ch'}, {'dataVolume': {'name': 'node3fn8ch1'}, 'name': 'node3fn8ch1'}, {'dataVolume': {'name': 'node3fn8ch2'}, 'name': 'node3fn8ch2'}, {'dataVolume': {'name': 'node3fn8ch3'}, 'name': 'node3fn8ch3'}, {'cloudInitNoCloud': {'networkDataBase64': 'bmV0d29yazogMg==',  'name': 'cloudinitdisk'}]}}}, 'status': {'conditions': [{'lastProbeTime': None, 'lastTransitionTime': '2025-08-07T12:33:17Z', 'status': 'True', 'type': 'Ready'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'message': "All of the VMI's DVs are bound and not running", 'reason': 'AllDVsReady', 'status': 'True', 'type': 'DataVolumesReady'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'status': 'True', 'type': 'LiveMigratable'}, {'lastProbeTime': '2025-08-07T12:33:35Z', 'lastTransitionTime': None, 'status': 'True', 'type': 'AgentConnected'}], 'created': True, 'desiredGeneration': 1, 'observedGeneration': 1, 'printableStatus': 'Running', 'ready': True, 'runStrategy': 'Always', 'volumeSnapshotStatuses': [{'enabled': True, 'name': 'node3-fn8ch'}, {'enabled': True, 'name': 'node3fn8ch'}, {'enabled': True, 'name': 'node3fn8ch1'}, {'enabled': True, 'name': 'node3fn8ch2'}, {'enabled': True, 'name': 'node3fn8ch3'}, {'enabled': False, 'name': 'cloudinitdisk', 'reason': 'Snapshot is not supported for this volumeSource type [cloudinitdisk]'}]}})
+
+TASK [infra-common-ssh-config-generate : Store bastion hostname as a fact] *****
+Thursday 07 August 2025  12:34:08 +0000 (0:00:00.148)       0:02:19.586 ******* 
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : Delete dedicated known_host if it exists (new deployment)] ***
+Thursday 07 August 2025  12:34:08 +0000 (0:00:00.029)       0:02:19.615 ******* 
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : delete local ssh config, start fresh] ***
+Thursday 07 August 2025  12:34:08 +0000 (0:00:00.188)       0:02:19.803 ******* 
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : Create empty local ssh config] ********
+Thursday 07 August 2025  12:34:08 +0000 (0:00:00.169)       0:02:19.973 ******* 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : Add bastion proxy config to workdir ssh config file] ***
+Thursday 07 August 2025  12:34:08 +0000 (0:00:00.164)       0:02:20.137 ******* 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : Add all hosts to workdir ssh config file] ***
+Thursday 07 August 2025  12:34:09 +0000 (0:00:00.274)       0:02:20.412 ******* 
+skipping: [localhost] => (item=bastion) 
+changed: [localhost] => (item=leapp)
+changed: [localhost] => (item=node1)
+changed: [localhost] => (item=node2)
+changed: [localhost] => (item=node3)
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Thursday 07 August 2025  12:34:09 +0000 (0:00:00.643)       0:02:21.055 ******* 
+ok: [localhost]
+ok: [bastion]
+ok: [leapp]
+ok: [node1]
+ok: [node2]
+ok: [node3]
+
+TASK [Include variables files] *************************************************
+Thursday 07 August 2025  12:34:09 +0000 (0:00:00.042)       0:02:21.097 ******* 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yaml) 
+skipping: [bastion] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yml) 
+skipping: [bastion] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yml) 
+skipping: [leapp] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_vars.yaml) 
+skipping: [bastion] => (item=/runner/project/ansible/configs/base-infra/env_vars.yaml) 
+skipping: [leapp] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_vars.yml) 
+skipping: [bastion] => (item=/runner/project/ansible/configs/base-infra/env_vars.yml) 
+skipping: [node1] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yaml) 
+skipping: [leapp] => (item=/runner/project/ansible/configs/base-infra/env_vars.yaml) 
+skipping: [bastion] => (item=/runner/project/ansible/configs/base-infra/default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars.yaml) 
+skipping: [node2] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yaml) 
+skipping: [leapp] => (item=/runner/project/ansible/configs/base-infra/env_vars.yml) 
+skipping: [node1] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yml) 
+skipping: [node2] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yml) 
+skipping: [leapp] => (item=/runner/project/ansible/configs/base-infra/default_vars.yaml) 
+skipping: [node1] => (item=/runner/project/ansible/configs/base-infra/env_vars.yaml) 
+skipping: [node2] => (item=/runner/project/ansible/configs/base-infra/env_vars.yaml) 
+ok: [bastion] => (item=/runner/project/ansible/configs/base-infra/default_vars.yml)
+ok: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars.yml)
+skipping: [node3] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yaml) 
+skipping: [node2] => (item=/runner/project/ansible/configs/base-infra/env_vars.yml) 
+skipping: [node1] => (item=/runner/project/ansible/configs/base-infra/env_vars.yml) 
+ok: [leapp] => (item=/runner/project/ansible/configs/base-infra/default_vars.yml)
+skipping: [node3] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yml) 
+skipping: [node2] => (item=/runner/project/ansible/configs/base-infra/default_vars.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars_openshift_cnv.yaml)
+skipping: [node3] => (item=/runner/project/ansible/configs/base-infra/env_vars.yaml) 
+skipping: [node1] => (item=/runner/project/ansible/configs/base-infra/default_vars.yaml) 
+ok: [bastion] => (item=/runner/project/ansible/configs/base-infra/default_vars_openshift_cnv.yaml)
+skipping: [node3] => (item=/runner/project/ansible/configs/base-infra/env_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars_openshift_cnv.yml) 
+ok: [node2] => (item=/runner/project/ansible/configs/base-infra/default_vars.yml)
+skipping: [bastion] => (item=/runner/project/ansible/configs/base-infra/default_vars_openshift_cnv.yml) 
+ok: [leapp] => (item=/runner/project/ansible/configs/base-infra/default_vars_openshift_cnv.yaml)
+skipping: [node3] => (item=/runner/project/ansible/configs/base-infra/default_vars.yaml) 
+ok: [node1] => (item=/runner/project/ansible/configs/base-infra/default_vars.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yaml) 
+skipping: [bastion] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yaml) 
+skipping: [leapp] => (item=/runner/project/ansible/configs/base-infra/default_vars_openshift_cnv.yml) 
+skipping: [bastion] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yml) 
+skipping: [leapp] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yaml) 
+ok: [node2] => (item=/runner/project/ansible/configs/base-infra/default_vars_openshift_cnv.yaml)
+ok: [node3] => (item=/runner/project/ansible/configs/base-infra/default_vars.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yml) 
+skipping: [leapp] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yml) 
+ok: [node1] => (item=/runner/project/ansible/configs/base-infra/default_vars_openshift_cnv.yaml)
+skipping: [node2] => (item=/runner/project/ansible/configs/base-infra/default_vars_openshift_cnv.yml) 
+skipping: [node1] => (item=/runner/project/ansible/configs/base-infra/default_vars_openshift_cnv.yml) 
+ok: [node3] => (item=/runner/project/ansible/configs/base-infra/default_vars_openshift_cnv.yaml)
+skipping: [node2] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yaml) 
+skipping: [node1] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yaml) 
+skipping: [node3] => (item=/runner/project/ansible/configs/base-infra/default_vars_openshift_cnv.yml) 
+skipping: [node2] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yml) 
+skipping: [node1] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yml) 
+skipping: [node3] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yaml) 
+skipping: [node3] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Thursday 07 August 2025  12:34:10 +0000 (0:00:00.091)       0:02:21.188 ******* 
+skipping: [localhost]
+skipping: [bastion]
+skipping: [leapp]
+skipping: [node1]
+skipping: [node2]
+skipping: [node3]
+
+TASK [Set passthrough user data] ***********************************************
+Thursday 07 August 2025  12:34:10 +0000 (0:00:00.059)       0:02:21.248 ******* 
+skipping: [localhost]
+[WARNING]: Could not match supplied host pattern, ignoring: network
+
+PLAY [Step 001.3 Configure Linux Hosts and Wait for Connection] ****************
+
+TASK [set facts for remote access] *********************************************
+Thursday 07 August 2025  12:34:10 +0000 (0:00:00.020)       0:02:21.268 ******* 
+ok: [bastion]
+ok: [leapp]
+
+TASK [Run infra-generic-wait_for_linux_hosts Role] *****************************
+Thursday 07 August 2025  12:34:10 +0000 (0:00:00.023)       0:02:21.291 ******* 
+included: infra-generic-wait_for_linux_hosts for bastion, leapp
+
+TASK [infra-generic-wait_for_linux_hosts : wait for linux host to be available] ***
+Thursday 07 August 2025  12:34:10 +0000 (0:00:00.019)       0:02:21.311 ******* 
+ok: [bastion]
+ok: [leapp]
+
+TASK [infra-generic-wait_for_linux_hosts : ping] *******************************
+Thursday 07 August 2025  12:34:42 +0000 (0:00:32.850)       0:02:54.162 ******* 
+[WARNING]: Platform linux on host bastion is using the discovered Python
+interpreter at /usr/bin/python3.9, but future installation of another Python
+interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-
+core/2.18/reference_appendices/interpreter_discovery.html for more information.
+ok: [bastion]
+[WARNING]: Platform linux on host leapp is using the discovered Python
+interpreter at /usr/bin/python3.9, but future installation of another Python
+interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-
+core/2.18/reference_appendices/interpreter_discovery.html for more information.
+ok: [leapp]
+
+TASK [Add authorized_keys] *****************************************************
+Thursday 07 August 2025  12:34:44 +0000 (0:00:01.639)       0:02:55.802 ******* 
+included: ssh_authorized_keys for bastion, leapp
+
+TASK [ssh_authorized_keys : Add all authorized keys] ***************************
+Thursday 07 August 2025  12:34:44 +0000 (0:00:00.028)       0:02:55.831 ******* 
+changed: [bastion] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvZvn+GL0wTOsAdh1ikIQoqj2Fw/RA6F14O347rgKdpkgOQpGQk1k2gM8wcla2Y1o0bPIzwlNy1oh5o9uNjZDMeDcEXWuXbu0cRBy4pVRhh8a8zAZfssnqoXHHLyPyHWpdTmgIhr0UIGYrzHrnySAnUcDp3gJuE46UEBtrlyv94cVvZf+EZUTaZ+2KjTRLoNryCn7vKoGHQBooYg1DeHLcLSRWEADUo+bP0y64+X/XTMZOAXbf8kTXocqAgfl/usbYdfLOgwU6zWuj8vxzAKuMEXS1AJSp5aeqRKlbbw40IkTmLoQIgJdb2Zt98BH/xHDe9xxhscUCfWeS37XLp75J opentlc_admin_backdoor'})
+changed: [leapp] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvZvn+GL0wTOsAdh1ikIQoqj2Fw/RA6F14O347rgKdpkgOQpGQk1k2gM8wcla2Y1o0bPIzwlNy1oh5o9uNjZDMeDcEXWuXbu0cRBy4pVRhh8a8zAZfssnqoXHHLyPyHWpdTmgIhr0UIGYrzHrnySAnUcDp3gJuE46UEBtrlyv94cVvZf+EZUTaZ+2KjTRLoNryCn7vKoGHQBooYg1DeHLcLSRWEADUo+bP0y64+X/XTMZOAXbf8kTXocqAgfl/usbYdfLOgwU6zWuj8vxzAKuMEXS1AJSp5aeqRKlbbw40IkTmLoQIgJdb2Zt98BH/xHDe9xxhscUCfWeS37XLp75J opentlc_admin_backdoor'})
+changed: [bastion] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCg5PJgwAB8U2NiXh4aRZAg09f3xjT3y1CP322StmT4ljiqhXoqOOZ++qDIKFmtHGmeEjvkCo11M2oVmJTeaibeS0E+Xsoi9wTcit47h2ka7WPdzhy/togFQOVAftbwi3RtHDOweIFL18FQ8inhu9W/oFibsZjQEWtHoHtLkmA5zOSQtWDmVfx3iWrKd4svkNbJ+SNZMnD0tCDoot3y0Knzyt+wpZtVd94YXpUDTCJ8Ie1nFSdm7H/QB9/bDXeOSSnHBq2xSmywodNoyA1gFZ1hhpPNEauQjzeKCMpNLPATg/jtQb1zojG6QnO/7I5euKOlDeJ1Odg35aTG31p8EbT3UL8NZssdn3YY3OEQ/2rN0PaQ+zxzmzfh1otx4Rsh1IbD5S99GuQD2ma7m0zOzrBb8Mil5TCaTaK8mIADq/lclj0sAMrH1EXyFvDiHEG+cV0iMyXOxEMTJs4YLr8DyqsTZ34TvVSJP9/0YwQuRYhg0MJmFbMvl/4yibTgyvTYLN0= instructor-key-2022'})
+changed: [leapp] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCg5PJgwAB8U2NiXh4aRZAg09f3xjT3y1CP322StmT4ljiqhXoqOOZ++qDIKFmtHGmeEjvkCo11M2oVmJTeaibeS0E+Xsoi9wTcit47h2ka7WPdzhy/togFQOVAftbwi3RtHDOweIFL18FQ8inhu9W/oFibsZjQEWtHoHtLkmA5zOSQtWDmVfx3iWrKd4svkNbJ+SNZMnD0tCDoot3y0Knzyt+wpZtVd94YXpUDTCJ8Ie1nFSdm7H/QB9/bDXeOSSnHBq2xSmywodNoyA1gFZ1hhpPNEauQjzeKCMpNLPATg/jtQb1zojG6QnO/7I5euKOlDeJ1Odg35aTG31p8EbT3UL8NZssdn3YY3OEQ/2rN0PaQ+zxzmzfh1otx4Rsh1IbD5S99GuQD2ma7m0zOzrBb8Mil5TCaTaK8mIADq/lclj0sAMrH1EXyFvDiHEG+cV0iMyXOxEMTJs4YLr8DyqsTZ34TvVSJP9/0YwQuRYhg0MJmFbMvl/4yibTgyvTYLN0= instructor-key-2022'})
+changed: [bastion] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIIDDIOD4M5yYo3uCFDBDb6del+NG2fkboWh90kW/S6H elliptical_instructor_key_2024'})
+changed: [leapp] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIIDDIOD4M5yYo3uCFDBDb6del+NG2fkboWh90kW/S6H elliptical_instructor_key_2024'})
+changed: [bastion] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOBfsRMLCEQt86EZnvQ/rK49wo1odLqpd1NEz3tDjUWY elliptical_admin_key_2023'})
+changed: [leapp] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOBfsRMLCEQt86EZnvQ/rK49wo1odLqpd1NEz3tDjUWY elliptical_admin_key_2023'})
+changed: [bastion] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC3nKRSIwWn7pjMf2i1TyXgjsauEIoDS8Xulad2ZAbsmZrWcKU5hPi23xq0g2AjRYiXml8zSX9jAQfmlKnrXGYo5WN39iXGRI3lFJmXwmEHne3Z0qtUgt9MBA4w0Tcunw7pXniKntvo2oiDYZlXHztRMHMeUkUjLgCGjn2cfi0uqd4pxLmneMziHMKDxcyy+9MaGnWr5Bs27r3b6rWNFqG2fAo1Z5ZWEA/r3MhdI9ZzMRJVTUhunpstwMX8MRxx/OGk0zynyHcSkh91sqZ3xhPpvRkmYLRa5I0aw88AMenWBfc586FyORL2e/UVoIoyMkBMnovaRIoiTj74RuPeZ6gGKbbfpt1ggDs4j9Z1Go51GlGPYcchvLQvx+Ucv5+tLZSqZBhPOXLRqFuQgRZz4R6j5O5UkfdjLJxBoHQZxT0Wdzd/XiGcAlyDOq8puNSxdF3w/8eGGSKDdUONv1tc1dcTFd6kR+jYaedjD1fldVrC+4fRUFkFqEovDPVI4159VSqJWz78WuqazNnCRMVDnS4Le+Er1pvTbk5rOdYUkF67vxVwD3cyJ3D1C49wVsIc3+kngZN2246OEMsbVugEPG4A8/UOlHIE5iBps+mM9GX6UFSj4aLFh15XeOGKs7aH2r1thfvFPSvk12t8QvNDhhhhAf5EzzypvNEbXQ6fk3YSUw== rsa_admin_key_2023'})
+changed: [leapp] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC3nKRSIwWn7pjMf2i1TyXgjsauEIoDS8Xulad2ZAbsmZrWcKU5hPi23xq0g2AjRYiXml8zSX9jAQfmlKnrXGYo5WN39iXGRI3lFJmXwmEHne3Z0qtUgt9MBA4w0Tcunw7pXniKntvo2oiDYZlXHztRMHMeUkUjLgCGjn2cfi0uqd4pxLmneMziHMKDxcyy+9MaGnWr5Bs27r3b6rWNFqG2fAo1Z5ZWEA/r3MhdI9ZzMRJVTUhunpstwMX8MRxx/OGk0zynyHcSkh91sqZ3xhPpvRkmYLRa5I0aw88AMenWBfc586FyORL2e/UVoIoyMkBMnovaRIoiTj74RuPeZ6gGKbbfpt1ggDs4j9Z1Go51GlGPYcchvLQvx+Ucv5+tLZSqZBhPOXLRqFuQgRZz4R6j5O5UkfdjLJxBoHQZxT0Wdzd/XiGcAlyDOq8puNSxdF3w/8eGGSKDdUONv1tc1dcTFd6kR+jYaedjD1fldVrC+4fRUFkFqEovDPVI4159VSqJWz78WuqazNnCRMVDnS4Le+Er1pvTbk5rOdYUkF67vxVwD3cyJ3D1C49wVsIc3+kngZN2246OEMsbVugEPG4A8/UOlHIE5iBps+mM9GX6UFSj4aLFh15XeOGKs7aH2r1thfvFPSvk12t8QvNDhhhhAf5EzzypvNEbXQ6fk3YSUw== rsa_admin_key_2023'})
+
+TASK [ssh_authorized_keys : Add all authorized keys (legacy var all_ssh_authorized_keys)] ***
+Thursday 07 August 2025  12:34:51 +0000 (0:00:06.480)       0:03:02.311 ******* 
+skipping: [bastion]
+skipping: [leapp]
+
+PLAY [Step 002 Post Infrastructure] ********************************************
+
+TASK [Step 002 Post Infrastructure] ********************************************
+Thursday 07 August 2025  12:34:51 +0000 (0:00:00.021)       0:03:02.333 ******* 
+ok: [localhost] => {
+    "msg": "Step 000 Post Infrastructure"
+}
+
+PLAY [Step 002 Post Infrastructure regreSSHion Hotfix] *************************
+
+TASK [Gathering Facts] *********************************************************
+Thursday 07 August 2025  12:34:51 +0000 (0:00:00.017)       0:03:02.350 ******* 
+fatal: [node1]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: Could not resolve hostname node1: Name or service not known", "unreachable": true}
+fatal: [node3]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: Could not resolve hostname node3: Name or service not known", "unreachable": true}
+fatal: [node2]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: Could not resolve hostname node2: Name or service not known", "unreachable": true}
+ok: [bastion]
+ok: [leapp]
+
+PLAY [localhost] ***************************************************************
+
+TASK [Export in-memory inventory to inventory file] ****************************
+Thursday 07 August 2025  12:34:53 +0000 (0:00:01.994)       0:03:04.345 ******* 
+included: agnosticd_inventory_exporter for localhost
+
+TASK [agnosticd_inventory_exporter : Export in-memory inventory to file] *******
+Thursday 07 August 2025  12:34:53 +0000 (0:00:00.019)       0:03:04.364 ******* 
+changed: [localhost]
+
+PLAY [Step 003 Pre Software] ***************************************************
+
+TASK [Step 003 Pre Software] ***************************************************
+Thursday 07 August 2025  12:34:54 +0000 (0:00:01.090)       0:03:05.455 ******* 
+ok: [localhost] => {
+    "msg": "Step 000 Pre Software"
+}
+
+PLAY [Install Pre Software workloads for all nodes omit localhost] *************
+
+PLAY [Install Pre Software workloads on localhost] *****************************
+
+TASK [Deploying Pre Software workloads  on localhost] **************************
+Thursday 07 August 2025  12:34:54 +0000 (0:00:00.019)       0:03:05.474 ******* 
+skipping: [localhost]
+
+PLAY [Install Pre Software workloads on  all hosts] ****************************
+
+PLAY [Install Pre Software workloads on bastion] *******************************
+
+PLAY [Install Pre Software workloads for windows] ******************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for gitlab] *******************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for nodes] ********************************
+
+PLAY [Install Pre Software workloads for centos nodes] *************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for Satellites] ***************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for Satellite Capsules] *******************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for Satellite Isolated] *******************
+
+PLAY [Create local ssh keys] ***************************************************
+
+TASK [create_ssh_provision_key : include_tasks] ********************************
+Thursday 07 August 2025  12:34:54 +0000 (0:00:00.045)       0:03:05.520 ******* 
+included: /runner/project/ansible/roles-infra/create_ssh_provision_key/tasks/checks.yaml for localhost
+
+TASK [create_ssh_provision_key : Ensure key_name is not defined] ***************
+Thursday 07 August 2025  12:34:54 +0000 (0:00:00.030)       0:03:05.550 ******* 
+skipping: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH keys] ****************************
+Thursday 07 August 2025  12:34:54 +0000 (0:00:00.023)       0:03:05.573 ******* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Fix permission of ssh key] ********************
+Thursday 07 August 2025  12:34:54 +0000 (0:00:00.153)       0:03:05.727 ******* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH pub key content] *****************
+Thursday 07 August 2025  12:34:54 +0000 (0:00:00.184)       0:03:05.911 ******* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Save all facts for SSH] ***********************
+Thursday 07 August 2025  12:34:54 +0000 (0:00:00.158)       0:03:06.070 ******* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Write SSH pub key] ****************************
+Thursday 07 August 2025  12:34:54 +0000 (0:00:00.019)       0:03:06.089 ******* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Report user info for SSH provision key as user data] ***
+Thursday 07 August 2025  12:34:55 +0000 (0:00:00.279)       0:03:06.368 ******* 
+skipping: [localhost]
+
+TASK [include_role : agnosticd_save_output_dir] ********************************
+Thursday 07 August 2025  12:34:55 +0000 (0:00:00.015)       0:03:06.384 ******* 
+skipping: [localhost]
+[WARNING]: Could not match supplied host pattern, ignoring: rhelai
+
+PLAY [Configure all hosts with Repositories, and Common Files] *****************
+
+PLAY [Configure all hosts with ssh environment key] ****************************
+
+PLAY [Configuring Bastion Hosts] ***********************************************
+
+PLAY [PreSoftware flight-check] ************************************************
+
+TASK [Pre-Software checks completed successfully] ******************************
+Thursday 07 August 2025  12:34:55 +0000 (0:00:00.074)       0:03:06.459 ******* 
+ok: [localhost] => {
+    "msg": "Pre-Software checks completed successfully"
+}
+
+PLAY [Step 00xxxxx software] ***************************************************
+
+TASK [Software tasks Started] **************************************************
+Thursday 07 August 2025  12:34:55 +0000 (0:00:00.015)       0:03:06.475 ******* 
+ok: [localhost] => {
+    "msg": "Software tasks Started"
+}
+
+PLAY [Install Software workloads for all nodes omit localhost] *****************
+
+PLAY [Install Software workloads on localhost] *********************************
+
+TASK [Deploying Software workloads  on localhost] ******************************
+Thursday 07 August 2025  12:34:55 +0000 (0:00:00.023)       0:03:06.498 ******* 
+skipping: [localhost]
+
+PLAY [Install Software workloads on  all hosts] ********************************
+
+PLAY [Install Software workloads on bastion] ***********************************
+
+PLAY [Install Software workloads for windows] **********************************
+skipping: no hosts matched
+
+PLAY [Install Software workloads for gitlab] ***********************************
+skipping: no hosts matched
+
+PLAY [Install Software workloads for nodes] ************************************
+
+PLAY [Install Software workloads for centos nodes] *****************************
+skipping: no hosts matched
+
+PLAY [Install Software workloads for Satellites] *******************************
+skipping: no hosts matched
+
+PLAY [Install Software workloads for Satellite Capsules] ***********************
+skipping: no hosts matched
+
+PLAY [Install Software workloads for Satellite Isolated] ***********************
+
+PLAY [Software flight-check] ***************************************************
+
+TASK [Software checks completed successfully] **********************************
+Thursday 07 August 2025  12:34:55 +0000 (0:00:00.042)       0:03:06.541 ******* 
+ok: [localhost] => {
+    "msg": "Software checks completed successfully"
+}
+
+PLAY [Software Playbook NONE] **************************************************
+
+TASK [Print Software (none) message] *******************************************
+Thursday 07 August 2025  12:34:55 +0000 (0:00:00.023)       0:03:06.564 ******* 
+ok: [localhost] => {
+    "msg": "Included software playbook for: none [dummy only]"
+}
+
+TASK [Check for hosts_template file] *******************************************
+Thursday 07 August 2025  12:34:55 +0000 (0:00:00.015)       0:03:06.580 ******* 
+ok: [localhost]
+
+TASK [Generate ansible hosts file] *********************************************
+Thursday 07 August 2025  12:34:55 +0000 (0:00:00.146)       0:03:06.726 ******* 
+changed: [localhost]
+
+PLAY [Step 00xxxxx bastion preparation for deployment] *************************
+
+PLAY [Step 005 post software] **************************************************
+
+TASK [debug] *******************************************************************
+Thursday 07 August 2025  12:34:55 +0000 (0:00:00.304)       0:03:07.030 ******* 
+ok: [localhost] => {
+    "msg": "Post-Software tasks Started"
+}
+
+PLAY [Install Post Software workloads for all nodes omit localhost] ************
+
+PLAY [Install Post Software workloads on localhost] ****************************
+
+TASK [Deploying Post Software workloads  on localhost] *************************
+Thursday 07 August 2025  12:34:55 +0000 (0:00:00.018)       0:03:07.049 ******* 
+included: agnosticv-userdata-import for localhost => (item=agnosticv-userdata-import)
+
+TASK [agnosticv-userdata-import : Import user data from agnosticV] *************
+Thursday 07 August 2025  12:34:55 +0000 (0:00:00.023)       0:03:07.073 ******* 
+ok: [localhost] => {
+    "changed": false,
+    "data": {
+        "guid": "fn8ch",
+        "workshop_cockpit_url": "https://node3.fn8ch.apps.ocpv06.rhdp.net",
+        "workshop_cockpit_user_name": "lab-user",
+        "workshop_cockpit_user_password": "[REDACTED_Secret Keyword_SECRET]"
+    }
+}
+
+PLAY [Install Post Software workloads on  all hosts] ***************************
+
+PLAY [Install Post Software workloads on bastion] ******************************
+
+PLAY [Install Post Software workloads for windows] *****************************
+skipping: no hosts matched
+
+PLAY [Install Post Software workloads for gitlab] ******************************
+skipping: no hosts matched
+
+PLAY [Install Post Software workloads for nodes] *******************************
+
+PLAY [Install Post Software workloads for centos nodes] ************************
+skipping: no hosts matched
+
+PLAY [Install Post Software workloads for Satellites] **************************
+skipping: no hosts matched
+
+PLAY [Install Post Software workloads for Satellite Capsules] ******************
+skipping: no hosts matched
+
+PLAY [Install Post Software workloads for Satellite Isolated] ******************
+
+PLAY [Deploy user setup] *******************************************************
+
+TASK [Print access user info] **************************************************
+Thursday 07 August 2025  12:34:55 +0000 (0:00:00.041)       0:03:07.115 ******* 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "user.info: You can access your bastion via SSH:\\nssh lab-user@ssh.ocpv06.rhdp.net  "
+}
+
+TASK [Print the external instance IP] ******************************************
+Thursday 07 August 2025  12:34:55 +0000 (0:00:00.026)       0:03:07.141 ******* 
+skipping: [localhost]
+
+TASK [save user data] **********************************************************
+Thursday 07 August 2025  12:34:55 +0000 (0:00:00.015)       0:03:07.156 ******* 
+ok: [localhost] => {
+    "changed": false,
+    "data": {
+        "cloud_provider": "openshift_cnv",
+        "guid": "fn8ch",
+        "ssh_command": "ssh lab-user@ssh.ocpv06.rhdp.net 
+        "ssh_password": "[REDACTED_Secret Keyword_SECRET]",
+        "ssh_username": "lab-user",
+        "subdomain": "fn8ch.apps.ocpv06.rhdp.net",
+        "subdomain_internal": "",
+        "targethost": "ssh.ocpv06.rhdp.net",
+        "targetport": "30595"
+    }
+}
+
+TASK [Set ssh user_info] *******************************************************
+Thursday 07 August 2025  12:34:56 +0000 (0:00:00.031)       0:03:07.188 ******* 
+skipping: [localhost] => (item=To Access development node via SSH:) 
+skipping: [localhost] => (item=ssh_command: ssh lab-user@bastion.fn8ch.apps.ocpv06.rhdp.net) 
+skipping: [localhost] => (item=Enter  
+skipping: [localhost] => (item=) 
+skipping: [localhost]
+
+TASK [Save user data] **********************************************************
+Thursday 07 August 2025  12:34:56 +0000 (0:00:00.025)       0:03:07.214 ******* 
+skipping: [localhost]
+
+TASK [Deploy Bookbag] **********************************************************
+Thursday 07 August 2025  12:34:56 +0000 (0:00:00.011)       0:03:07.225 ******* 
+skipping: [localhost]
+
+PLAY [PostSoftware flight-check] ***********************************************
+
+PLAY [Post Software Configuration - Reset Repos] *******************************
+
+PLAY [Post Software Configuration - Lab Roles] *********************************
+
+PLAY [PostSoftware flight-check] ***********************************************
+
+TASK [Deploy Showroom on shared cluster] ***************************************
+Thursday 07 August 2025  12:34:56 +0000 (0:00:00.029)       0:03:07.255 ******* 
+skipping: [localhost]
+
+TASK [Post-Software checks completed successfully] *****************************
+Thursday 07 August 2025  12:34:56 +0000 (0:00:00.016)       0:03:07.271 ******* 
+ok: [localhost] => {
+    "msg": "Post-Software checks completed successfully"
+}
+
+PLAY [localhost] ***************************************************************
+
+TASK [Export in-memory inventory to inventory file] ****************************
+Thursday 07 August 2025  12:34:56 +0000 (0:00:00.018)       0:03:07.290 ******* 
+included: agnosticd_inventory_exporter for localhost
+
+TASK [agnosticd_inventory_exporter : Export in-memory inventory to file] *******
+Thursday 07 August 2025  12:34:56 +0000 (0:00:00.026)       0:03:07.317 ******* 
+changed: [localhost]
+
+PLAY [Save output directory] ***************************************************
+
+TASK [Save output_dir archive] *************************************************
+Thursday 07 August 2025  12:34:57 +0000 (0:00:01.120)       0:03:08.437 ******* 
+included: agnosticd_save_output_dir for localhost
+
+TASK [agnosticd_save_output_dir : Save output dir if archive file is defined] ***
+Thursday 07 August 2025  12:34:57 +0000 (0:00:00.019)       0:03:08.457 ******* 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/save-output-dir.yml for localhost
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Thursday 07 August 2025  12:34:57 +0000 (0:00:00.019)       0:03:08.476 ******* 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/create-output-dir-archive.yml for localhost
+
+TASK [agnosticd_save_output_dir : Create tempfile for archive] *****************
+Thursday 07 August 2025  12:34:57 +0000 (0:00:00.017)       0:03:08.493 ******* 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Set agnosticd_save_output_dir_archive_tempfile] ***
+Thursday 07 August 2025  12:34:57 +0000 (0:00:00.175)       0:03:08.668 ******* 
+ok: [localhost]
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Thursday 07 August 2025  12:34:57 +0000 (0:00:00.013)       0:03:08.682 ******* 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Encrypt tarball using password] **************
+Thursday 07 August 2025  12:34:57 +0000 (0:00:00.209)       0:03:08.891 ******* 
+skipping: [localhost]
+
+TASK [agnosticd_save_output_dir : Upload output_dir archive to S3] *************
+Thursday 07 August 2025  12:34:57 +0000 (0:00:00.016)       0:03:08.908 ******* 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3.yml for localhost
+
+TASK [Run infra-cloud-tags role] ***********************************************
+Thursday 07 August 2025  12:34:57 +0000 (0:00:00.022)       0:03:08.930 ******* 
+skipping: [localhost]
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Thursday 07 August 2025  12:34:57 +0000 (0:00:00.015)       0:03:08.946 ******* 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3-s3_object.yml for localhost
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Thursday 07 August 2025  12:34:57 +0000 (0:00:00.021)       0:03:08.968 ******* 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir archive tempfile] **********
+Thursday 07 August 2025  12:34:58 +0000 (0:00:01.182)       0:03:10.150 ******* 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir encrypted archive tempfile] ***
+Thursday 07 August 2025  12:34:59 +0000 (0:00:00.170)       0:03:10.321 ******* 
+skipping: [localhost]
+
+TASK [agnosticd_save_output_dir : Save output dir if archive file is defined] ***
+Thursday 07 August 2025  12:34:59 +0000 (0:00:00.015)       0:03:10.336 ******* 
+skipping: [localhost]
+
+PLAY [Completion Callback] *****************************************************
+
+TASK [Attempt completion callback] *********************************************
+Thursday 07 August 2025  12:34:59 +0000 (0:00:00.017)       0:03:10.353 ******* 
+ok: [localhost]
+
+PLAY RECAP *********************************************************************
+bastion                    : ok=9    changed=1    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+leapp                      : ok=9    changed=1    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+localhost                  : ok=161  changed=46   unreachable=0    failed=0    skipped=73   rescued=0    ignored=0   
+node1                      : ok=2    changed=0    unreachable=1    failed=0    skipped=1    rescued=0    ignored=0   
+node2                      : ok=2    changed=0    unreachable=1    failed=0    skipped=1    rescued=0    ignored=0   
+node3                      : ok=2    changed=0    unreachable=1    failed=0    skipped=1    rescued=0    ignored=0   
+
+TASKS RECAP ********************************************************************
+Thursday 07 August 2025  12:34:59 +0000 (0:00:00.444)       0:03:10.797 ******* 
+=============================================================================== 
+infra-openshift-cnv-resources : Wait till VM is running ---------------- 33.00s
+infra-generic-wait_for_linux_hosts : wait for linux host to be available -- 32.85s
+infra-openshift-cnv-resources : Wait till VM is running ---------------- 32.38s
+infra-openshift-cnv-resources : Wait till VM is running ---------------- 21.99s
+infra-openshift-cnv-resources : Wait till VM is running ---------------- 21.85s
+ssh_authorized_keys : Add all authorized keys --------------------------- 6.48s
+Gathering Facts --------------------------------------------------------- 1.99s
+infra-generic-wait_for_linux_hosts : ping ------------------------------- 1.64s
+infra-openshift-cnv-resources : Create a SSH (or defined one) service for internal connections for node node --- 1.38s
+infra-openshift-cnv-resources : Create services for instance "node" ----- 1.37s
+infra-openshift-cnv-resources : Create instance(s) "node" --------------- 1.36s
+infra-openshift-cnv-resources : Create routes with tls ------------------ 1.31s
+agnosticd_save_output_dir : Save output_dir archive to AWS S3 ----------- 1.18s
+agnosticd_inventory_exporter : Export in-memory inventory to file ------- 1.12s
+agnosticd_inventory_exporter : Export in-memory inventory to file ------- 1.09s
+infra-openshift-cnv-resources : Create instance(s) "bastion" ------------ 1.09s
+agnosticd_save_output_dir : Save output_dir archive to AWS S3 ----------- 0.93s
+agnosticd_restore_output_dir : Get output_dir archive from s3 ----------- 0.82s
+infra-openshift-cnv-resources : Create instance(s) "leapp" -------------- 0.81s
+Create empty user-info.yaml and user-data.yaml in output dir ------------ 0.76s

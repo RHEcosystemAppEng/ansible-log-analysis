@@ -1,0 +1,2101 @@
+[DEPRECATION WARNING]: ANSIBLE_COLLECTIONS_PATHS option. Reason: does not fit 
+var naming standard, use the singular form ANSIBLE_COLLECTIONS_PATH instead 
+Alternatives: none. This feature will be removed in version 2.19. Deprecation 
+warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+Vault password (gpte_vault_0): 
+
+PLAY [Step 0000 Set Action] ****************************************************
+
+TASK [Set ACTION to provision] *************************************************
+Tuesday 05 August 2025  10:45:00 +0000 (0:00:00.007)       0:00:00.007 ******** 
+skipping: [localhost]
+
+PLAY [Step 0000 Setup runtime] *************************************************
+
+TASK [debug] *******************************************************************
+Tuesday 05 August 2025  10:45:00 +0000 (0:00:00.016)       0:00:00.023 ******** 
+skipping: [localhost]
+
+TASK [Ensure cloud provider is supported] **************************************
+Tuesday 05 August 2025  10:45:00 +0000 (0:00:00.012)       0:00:00.035 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+PLAY [Step 0000 Setup Output Directory] ****************************************
+
+TASK [Set output_dir if not defined] *******************************************
+Tuesday 05 August 2025  10:45:00 +0000 (0:00:00.014)       0:00:00.049 ******** 
+skipping: [localhost]
+
+TASK [Create output_dir if it does not exists] *********************************
+Tuesday 05 August 2025  10:45:00 +0000 (0:00:00.012)       0:00:00.061 ******** 
+changed: [localhost]
+
+TASK [Attempt to restore output_dir contents] **********************************
+Tuesday 05 August 2025  10:45:00 +0000 (0:00:00.279)       0:00:00.340 ******** 
+included: agnosticd_restore_output_dir for localhost
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from s3 bucket] ********
+Tuesday 05 August 2025  10:45:00 +0000 (0:00:00.018)       0:00:00.359 ******** 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/restore-from-s3.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Tuesday 05 August 2025  10:45:00 +0000 (0:00:00.030)       0:00:00.389 ******** 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/fetch-from-s3-s3_object.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Tuesday 05 August 2025  10:45:00 +0000 (0:00:00.029)       0:00:00.419 ******** 
+ok: [localhost]
+
+TASK [agnosticd_restore_output_dir : Decrypt archive] **************************
+Tuesday 05 August 2025  10:45:01 +0000 (0:00:00.777)       0:00:01.197 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from archive] **********
+Tuesday 05 August 2025  10:45:01 +0000 (0:00:00.014)       0:00:01.211 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove archive file from output_dir] ******
+Tuesday 05 August 2025  10:45:01 +0000 (0:00:00.013)       0:00:01.225 ******** 
+ok: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove encrypted archive file from output_dir] ***
+Tuesday 05 August 2025  10:45:01 +0000 (0:00:00.158)       0:00:01.383 ******** 
+ok: [localhost]
+
+TASK [Touch file provision-user-data.yaml and provision-user-info.yaml] ********
+Tuesday 05 August 2025  10:45:01 +0000 (0:00:00.162)       0:00:01.546 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create empty user-info.yaml and user-data.yaml in output dir] ************
+Tuesday 05 August 2025  10:45:01 +0000 (0:00:00.317)       0:00:01.864 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create symlink user-data.yaml -> provision-user-data.yaml] ***************
+Tuesday 05 August 2025  10:45:02 +0000 (0:00:00.702)       0:00:02.566 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Tuesday 05 August 2025  10:45:02 +0000 (0:00:00.303)       0:00:02.869 ******** 
+ok: [localhost]
+
+TASK [Include variables files] *************************************************
+Tuesday 05 August 2025  10:45:02 +0000 (0:00:00.015)       0:00:02.885 ******** 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Tuesday 05 August 2025  10:45:03 +0000 (0:00:00.056)       0:00:02.941 ******** 
+skipping: [localhost]
+
+TASK [Set passthrough user data] ***********************************************
+Tuesday 05 August 2025  10:45:03 +0000 (0:00:00.014)       0:00:02.955 ******** 
+skipping: [localhost]
+
+PLAY [Step 0000 Install Galaxy roles and collections] **************************
+
+TASK [Use requirements_content] ************************************************
+Tuesday 05 August 2025  10:45:03 +0000 (0:00:00.016)       0:00:02.972 ******** 
+ok: [localhost]
+
+TASK [Copy requirements content to output_dir] *********************************
+Tuesday 05 August 2025  10:45:03 +0000 (0:00:00.013)       0:00:02.985 ******** 
+changed: [localhost]
+
+TASK [Use requirements_path from the config] ***********************************
+Tuesday 05 August 2025  10:45:03 +0000 (0:00:00.300)       0:00:03.286 ******** 
+skipping: [localhost]
+
+TASK [Check if requirements.yml exists] ****************************************
+Tuesday 05 August 2025  10:45:03 +0000 (0:00:00.011)       0:00:03.298 ******** 
+ok: [localhost]
+
+TASK [set_fact] ****************************************************************
+Tuesday 05 August 2025  10:45:03 +0000 (0:00:00.160)       0:00:03.459 ******** 
+ok: [localhost]
+
+TASK [Install roles from requirements.yml] *************************************
+Tuesday 05 August 2025  10:45:03 +0000 (0:00:00.014)       0:00:03.473 ******** 
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (Not EE)] **********************
+Tuesday 05 August 2025  10:45:04 +0000 (0:00:00.568)       0:00:04.042 ******** 
+skipping: [localhost]
+
+TASK [Get installed collections (EE)] ******************************************
+Tuesday 05 August 2025  10:45:04 +0000 (0:00:00.026)       0:00:04.069 ******** 
+included: /runner/project/ansible/install_collections_ee.yml for localhost
+
+TASK [Get the list of installed collections (EE)] ******************************
+Tuesday 05 August 2025  10:45:04 +0000 (0:00:00.030)       0:00:04.100 ******** 
+changed: [localhost]
+
+TASK [Create temporary file for requirements.yml (EE)] *************************
+Tuesday 05 August 2025  10:45:04 +0000 (0:00:00.460)       0:00:04.561 ******** 
+changed: [localhost]
+
+TASK [Rewrite requirements, filter out installed collections (EE)] *************
+Tuesday 05 August 2025  10:45:04 +0000 (0:00:00.237)       0:00:04.798 ******** 
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (EE)] **************************
+Tuesday 05 August 2025  10:45:05 +0000 (0:00:00.287)       0:00:05.086 ******** 
+changed: [localhost]
+
+TASK [Cleanup tempfile (EE)] ***************************************************
+Tuesday 05 August 2025  10:45:05 +0000 (0:00:00.726)       0:00:05.812 ******** 
+changed: [localhost]
+
+TASK [Install dynamic sources] *************************************************
+Tuesday 05 August 2025  10:45:06 +0000 (0:00:00.151)       0:00:05.963 ******** 
+included: agnosticd_dynamic for localhost
+
+TASK [agnosticd_dynamic : Create dynamic-cache and dynamic-roles directories] ***
+Tuesday 05 August 2025  10:45:06 +0000 (0:00:00.019)       0:00:05.982 ******** 
+changed: [localhost] => (item=/runner/project/ansible/dynamic-cache)
+changed: [localhost] => (item=/runner/project/ansible/dynamic-roles)
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to dynamic roles dir] ***
+Tuesday 05 August 2025  10:45:06 +0000 (0:00:00.310)       0:00:06.292 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to cache] *************
+Tuesday 05 August 2025  10:45:06 +0000 (0:00:00.016)       0:00:06.309 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install git sources] *********************************
+Tuesday 05 August 2025  10:45:06 +0000 (0:00:00.012)       0:00:06.321 ******** 
+skipping: [localhost]
+
+PLAY [Step 000 Pre Infrastructure] *********************************************
+
+TASK [Generate Petname Hostnames for Systems] **********************************
+Tuesday 05 August 2025  10:45:06 +0000 (0:00:00.012)       0:00:06.334 ******** 
+skipping: [localhost]
+
+TASK [Pull Latest Windows Image] ***********************************************
+Tuesday 05 August 2025  10:45:06 +0000 (0:00:00.016)       0:00:06.351 ******** 
+skipping: [localhost]
+
+TASK [Step 000 Pre Infrastructure] *********************************************
+Tuesday 05 August 2025  10:45:06 +0000 (0:00:00.014)       0:00:06.366 ******** 
+ok: [localhost] => {
+    "msg": "Step 000 Pre Infrastructure"
+}
+
+PLAY [Install Pre Infra workloads for all nodes omit localhost] ****************
+skipping: no hosts matched
+
+PLAY [Install Pre Infra workloads on localhost] ********************************
+
+TASK [Deploying Pre Infra workloads  on localhost] *****************************
+Tuesday 05 August 2025  10:45:06 +0000 (0:00:00.019)       0:00:06.386 ******** 
+skipping: [localhost]
+[WARNING]: Could not match supplied host pattern, ignoring: windows
+
+PLAY [Install Pre Infra workloads on  all hosts] *******************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: bastions
+
+PLAY [Install Pre Infra workloads on bastion] **********************************
+skipping: no hosts matched
+
+PLAY [Install Pre Infra workloads for windows] *********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: gitlab
+
+PLAY [Install Pre Infra workloads for gitlab] **********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: nodes
+
+PLAY [Install Pre Infra workloads for nodes] ***********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: centos_nodes
+
+PLAY [Install Pre Infra workloads for centos nodes] ****************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: satellites
+
+PLAY [Install Pre Infra workloads for Satellites] ******************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: capsules
+
+PLAY [Install Pre Infra workloads for Satellite Capsules] **********************
+skipping: no hosts matched
+
+PLAY [Step 001.0 Infrastructure Pre-Checks] ************************************
+
+TASK [Test aws command] ********************************************************
+Tuesday 05 August 2025  10:45:06 +0000 (0:00:00.039)       0:00:06.425 ******** 
+ok: [localhost]
+
+TASK [Fail if AWS command CLI if not available] ********************************
+Tuesday 05 August 2025  10:45:06 +0000 (0:00:00.189)       0:00:06.615 ******** 
+skipping: [localhost]
+
+PLAY [Step 001.1 Deploy Infrastructure] ****************************************
+
+TASK [Run infra-images] ********************************************************
+Tuesday 05 August 2025  10:45:06 +0000 (0:00:00.016)       0:00:06.631 ******** 
+included: infra-images for localhost
+
+TASK [infra-images : include_tasks] ********************************************
+Tuesday 05 August 2025  10:45:06 +0000 (0:00:00.021)       0:00:06.653 ******** 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2.yaml for localhost
+
+TASK [infra-images : include_tasks] ********************************************
+Tuesday 05 August 2025  10:45:06 +0000 (0:00:00.030)       0:00:06.683 ******** 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_images.yaml for localhost => (item={'count': 1, 'dns_loadbalancer': True, 'flavor': {'ec2': 'g6.xlarge'}, 'floating_ip': True, 'image': 'RHEL94GOLD-latest', 'name': 'desktop', 'public_dns': True, 'rootfs_size': '1024', 'security_groups': ['BastionSG', 'HostSG', 'RhelSG'], 'tags': [{'key': 'AnsibleGroup', 'value': 'bastions,showroom'}, {'key': 'ostype', 'value': 'linux'}, {'key': 'instance_filter', 'value': 'base-infra-base-infra@opentlc.com'}], 'unique': True})
+
+TASK [infra-images : include_tasks] ********************************************
+Tuesday 05 August 2025  10:45:06 +0000 (0:00:00.033)       0:00:06.717 ******** 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_image.yaml for localhost => (item={'owner': 309956199498, 'name': 'RHEL-9.4.*_HVM-*Access*', 'architecture': 'x86_64', 'aws_filters': {'is-public': False}})
+
+TASK [infra-images : Lookup image for desktop] *********************************
+Tuesday 05 August 2025  10:45:06 +0000 (0:00:00.045)       0:00:06.763 ******** 
+ok: [localhost]
+
+TASK [infra-images : Fail if no image found for desktop] ***********************
+Tuesday 05 August 2025  10:45:07 +0000 (0:00:00.938)       0:00:07.702 ******** 
+skipping: [localhost]
+
+TASK [infra-images : Save image in agnosticd_images, use latest if multiple found] ***
+Tuesday 05 August 2025  10:45:07 +0000 (0:00:00.018)       0:00:07.720 ******** 
+ok: [localhost]
+
+TASK [infra-images : debug agnosticd_image] ************************************
+Tuesday 05 August 2025  10:45:07 +0000 (0:00:00.025)       0:00:07.745 ******** 
+skipping: [localhost]
+
+TASK [infra-images : Print images found for each instance] *********************
+Tuesday 05 August 2025  10:45:07 +0000 (0:00:00.016)       0:00:07.762 ******** 
+ok: [localhost] => (item=desktop) => {
+    "msg": "desktop - RHEL-9.4.0_HVM-20250624-x86_64-0-Access2-GP3 - ami-07996050bcabaa915 - Red Hat BYOL Linux - us-east-2"
+}
+
+TASK [Run infra-aws-capacity-reservation] **************************************
+Tuesday 05 August 2025  10:45:07 +0000 (0:00:00.024)       0:00:07.786 ******** 
+included: infra-aws-capacity-reservation for localhost
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Tuesday 05 August 2025  10:45:07 +0000 (0:00:00.016)       0:00:07.803 ******** 
+skipping: [localhost]
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Tuesday 05 August 2025  10:45:07 +0000 (0:00:00.017)       0:00:07.820 ******** 
+skipping: [localhost]
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Tuesday 05 August 2025  10:45:07 +0000 (0:00:00.018)       0:00:07.838 ******** 
+skipping: [localhost]
+
+TASK [Empty the agnosticd_images and run the detection again] ******************
+Tuesday 05 August 2025  10:45:07 +0000 (0:00:00.022)       0:00:07.861 ******** 
+skipping: [localhost]
+
+TASK [Run infra-images again to use the proper region selected by the reservations] ***
+Tuesday 05 August 2025  10:45:07 +0000 (0:00:00.016)       0:00:07.878 ******** 
+skipping: [localhost]
+
+TASK [Run infra-aws-open-environment Role] *************************************
+Tuesday 05 August 2025  10:45:08 +0000 (0:00:00.062)       0:00:07.940 ******** 
+skipping: [localhost]
+
+TASK [Create ssh provision key] ************************************************
+Tuesday 05 August 2025  10:45:08 +0000 (0:00:00.052)       0:00:07.993 ******** 
+included: create_ssh_provision_key for localhost
+
+TASK [create_ssh_provision_key : include_tasks] ********************************
+Tuesday 05 August 2025  10:45:08 +0000 (0:00:00.081)       0:00:08.074 ******** 
+included: /runner/project/ansible/roles-infra/create_ssh_provision_key/tasks/checks.yaml for localhost
+
+TASK [create_ssh_provision_key : Ensure key_name is not defined] ***************
+Tuesday 05 August 2025  10:45:08 +0000 (0:00:00.013)       0:00:08.088 ******** 
+skipping: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH keys] ****************************
+Tuesday 05 August 2025  10:45:08 +0000 (0:00:00.018)       0:00:08.106 ******** 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Fix permission of ssh key] ********************
+Tuesday 05 August 2025  10:45:08 +0000 (0:00:00.404)       0:00:08.510 ******** 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH pub key content] *****************
+Tuesday 05 August 2025  10:45:08 +0000 (0:00:00.161)       0:00:08.672 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Save all facts for SSH] ***********************
+Tuesday 05 August 2025  10:45:08 +0000 (0:00:00.150)       0:00:08.822 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Write SSH pub key] ****************************
+Tuesday 05 August 2025  10:45:08 +0000 (0:00:00.017)       0:00:08.840 ******** 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Report user info for SSH provision key as user data] ***
+Tuesday 05 August 2025  10:45:09 +0000 (0:00:00.290)       0:00:09.130 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "data": {
+        "ssh_provision_key": "-----[REDACTED_Private Key_SECRET]-----\\nb3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn\\nNhAAAAAwEAAQAAAYEA3CmZtHg97IUaDPqJ+AyR1e9dFJTutGmTWs6cCNHUeefzywJyhMxE\\n2oW7y2Yo+nWy1xK/WOLCjhTT7HELszM9GuArGYWldc0XYmcYBWJxZhfy901922v9csntkM\\nRRwD2LAdc/sG53tbpjNWs/BrfTZ8+il3PwZQEgK9voXNBKCIqmwC0yONjOkwGMV3Sa4Tv0\\nfFra1E2P4h/6zba4yTiVVhUugLyV/xZuPVra99ZAzYN4FLz5HC15nCQbS6pt85Nad2as9s\\nJkDDl4KPlTzClCmyXVP1GL9OflsdTGmBgp21KczdMBiFFR6dh/G4QUXVTknlRujAAmb8Pd\\nQ341uJcjAzB9f7k1fJD5FtoSmt5uS3hge0+L5MVrEBf2rRBf9P20KI0kADe90/16qAry8E\\nNSCY5/pMKXP/8B5aIFuDpphYYIKQ9ql5dNnzg0+XSz3PMxFh3b7roNgO/82TZYJRERO3R9\\nYx8KLbzMk9sMXXW+IJJbn7Z6an/EGMv3eiq9dO1xAAAFiNGHca7Rh3GuAAAAB3NzaC1yc2\\nEAAAGBANwpmbR4PeyFGgz6ifgMkdXvXRSU7rRpk1rOnAjR1Hnn88sCcoTMRNqFu8tmKPp1\\nstcSv1jiwo4U0+xxC7MzPRrgKxmFpXXNF2JnGAVicWYX8vdNfdtr/XLJ7ZDEUcA9iwHXP7\\nBud7W6YzVrPwa302fPopdz8GUBICvb6FzQSgiKpsAtMjjYzpMBjFd0muE79Hxa2tRNj+If\\n+s22uMk4lVYVLoC8lf8Wbj1a2vfWQM2DeBS8+RwteZwkG0uqbfOTWndmrPbCZAw5eCj5U8\\nwpQpsl1T9Ri/Tn5bHUxpgYKdtSnM3TAYhRUenYfxuEFF1U5J5UbowAJm/D3UN+NbiXIwMw\\nfX+5NXyQ+RbaEprebkt4YHtPi+TFaxAX9q0QX/T9tCiNJAA3vdP9eqgK8vBDUgmOf6TClz\\n//AeWiBbg6aYWGCCkPapeXTZ84NPl0s9zzMRYd2+66DYDv/Nk2WCURETt0fWMfCi28zJPb\\nDF11viCSW5+2emp/xBjL93oqvXTtcQAAAAMBAAEAAAGAFKWKFpSYKhApa0Iroil7m7aA4i\\nc9Y4nrGb76fxE+fdg00rr+BlopstyLyf1gpmxXQzgs3acWW8C0Rx4q3LlXZ6fSIuiXpb6A\\nDOhiJk8fF1XzoSGRRfyQni01rDfc+sxKtvd6r48Mhuxd1WqjVHv0xW2Bb/adertqSvKqjd\\nmyt65ZCPi0FwSuCrdAdAspYyn+OZNDpllHvwsEuDoEhkpaJuKBo+0LnAp8eCCHHGrpVNyZ\\nbEh0jCHvn6b7MFNhUFBnJPgnEFh1ibhibW+jT88waroV2GfhFxU9CHU7QqwpL1u3HsJka0\\nkZK7/ZVhXKSSAvkTfemZUmGBTKBngPOC23DuDnkTdktPKfqjQ8AIHII/LyICOsjANrwjoO\\nOyJ99DMOa4uv7CQMXrqp6JtpjtMLitV88M9kq1NkpTSW231LlUbbkzM9Xa7A9RQerGgX6D\\nvV/eRWYWAL2Yq7avpMKVFJOA6l+h7Ct5nfPwbR+GDkq6oNGpQ/RDe+TZMIGeBsXv/hAAAA\\nwQCIGdYqI6aD/ibM/+F3ZkXFS0hFWzpUrct/OkUcIiuegxA4dF4m1mkTguZg3pmYuvTQVP\\nyTOKLk5Bx98fnMhQgWEUqIVPDbaV65PZLj/wM11jpdaCGd3qihLmuVIsoW0K0evQ9QpVbY\\noAPNV0SGeeTRL4NKypxFuBUHMLDtWe7lIrRDHQ2E6q4kljGRM8pK2d8CzYuw1LAwMez0EZ\\n22TcedvoFR5eXlHuWGNy5kHiXrzb3fmRh30HV+xrORMYGypKgAAADBAO41lcDIJ8sGcvmq\\n6zNNoTeTXr2fQludpiTog2+xfczAv7m78AJlGQc2zck4PEcQR2fUCT1+nUlEtbVv65SmWe\\nHhJ1nF4U4NAYqNjLAJyHQXMQRtmq/bvFIqTJcF7uZ8e/0lrYU2z5blJK8uhkWSefXKd5PE\\nJL3qE3XFx1Xyq62i+6dAUJ+qXBJfz4iBnHfRHPrs0+g0DExiTSYiwGXjEf8Ngk7cekoUu9\\nShKJWUjzWHivPnKkpGqxdovTNxbVIwxQAAAMEA7Jr4szTjRrNjlAVRYLBNQNAAm527WuFH\\nD4k5FO53mBIinpC60JXQjPNJm6RiFlTpy89LVoOMbm+9CYMZECh3THbOGqoFxr5sJGuWdu\\nCd8D4xlcwrs198sIYYgCSN72O0BVQobgJTVwslmgDn3eYlDqQidkfHSK5h9S6hg9imU76x\\nHiQM2djXENc9g/6oauRW2IhogYyI7aK5Crn9usmXNr4zcgg2fJUJS5gmoDCdG+m151FG8V\\nzlzO6yHbcjAfy9AAAAEXJvb3RAMWJhN2FlNzc3YzVhAQ==\\n-----END OPENSSH PRIVATE KEY-----",
+        "ssh_provision_pubkey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDcKZm0eD3shRoM+on4DJHV710UlO60aZNazpwI0dR55/PLAnKEzETahbvLZij6dbLXEr9Y4sKOFNPscQuzMz0a4CsZhaV1zRdiZxgFYnFmF/L3TX3ba/1yye2QxFHAPYsB1z+wbne1umM1az8Gt9Nnz6KXc/BlASAr2+hc0EoIiqbALTI42M6TAYxXdJrhO/R8WtrUTY/iH/rNtrjJOJVWFS6AvJX/Fm49Wtr31kDNg3gUvPkcLXmcJBtLqm3zk1p3Zqz2wmQMOXgo+VPMKUKbJdU/UYv05+Wx1MaYGCnbUpzN0wGIUVHp2H8bhBRdVOSeVG6MACZvw91DfjW4lyMDMH1/uTV8kPkW2hKa3m5LeGB7T4vkxWsQF/atEF/0/bQojSQAN73T/XqoCvLwQ1IJjn+kwpc//wHlogW4OmmFhggpD2qXl02fODT5dLPc8zEWHdvuug2A7/zZNlglERE7dH1jHwotvMyT2wxddb4gkluftnpqf8QYy/d6Kr107XE="
+    }
+}
+
+TASK [include_role : agnosticd_save_output_dir] ********************************
+Tuesday 05 August 2025  10:45:09 +0000 (0:00:00.027)       0:00:09.157 ******** 
+included: agnosticd_save_output_dir for localhost
+
+TASK [agnosticd_save_output_dir : Save output dir if archive file is defined] ***
+Tuesday 05 August 2025  10:45:09 +0000 (0:00:00.023)       0:00:09.180 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/save-output-dir.yml for localhost
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Tuesday 05 August 2025  10:45:09 +0000 (0:00:00.019)       0:00:09.200 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/create-output-dir-archive.yml for localhost
+
+TASK [agnosticd_save_output_dir : Create tempfile for archive] *****************
+Tuesday 05 August 2025  10:45:09 +0000 (0:00:00.017)       0:00:09.218 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Set agnosticd_save_output_dir_archive_tempfile] ***
+Tuesday 05 August 2025  10:45:09 +0000 (0:00:00.155)       0:00:09.373 ******** 
+ok: [localhost]
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Tuesday 05 August 2025  10:45:09 +0000 (0:00:00.015)       0:00:09.389 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Encrypt tarball using password] **************
+Tuesday 05 August 2025  10:45:09 +0000 (0:00:00.171)       0:00:09.561 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_save_output_dir : Upload output_dir archive to S3] *************
+Tuesday 05 August 2025  10:45:09 +0000 (0:00:00.015)       0:00:09.576 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3.yml for localhost
+
+TASK [Run infra-cloud-tags role] ***********************************************
+Tuesday 05 August 2025  10:45:09 +0000 (0:00:00.024)       0:00:09.600 ******** 
+included: infra-cloud-tags for localhost
+
+TASK [infra-cloud-tags : Set cloud_tags_final (string)] ************************
+Tuesday 05 August 2025  10:45:09 +0000 (0:00:00.026)       0:00:09.627 ******** 
+skipping: [localhost]
+
+TASK [infra-cloud-tags : Set cloud_tags_final (dictionary)] ********************
+Tuesday 05 August 2025  10:45:09 +0000 (0:00:00.021)       0:00:09.649 ******** 
+ok: [localhost]
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Tuesday 05 August 2025  10:45:09 +0000 (0:00:00.034)       0:00:09.684 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3-s3_object.yml for localhost
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Tuesday 05 August 2025  10:45:09 +0000 (0:00:00.036)       0:00:09.720 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir archive tempfile] **********
+Tuesday 05 August 2025  10:45:10 +0000 (0:00:00.943)       0:00:10.663 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir encrypted archive tempfile] ***
+Tuesday 05 August 2025  10:45:10 +0000 (0:00:00.163)       0:00:10.827 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_save_output_dir : Save output dir if archive file is defined] ***
+Tuesday 05 August 2025  10:45:10 +0000 (0:00:00.016)       0:00:10.844 ******** 
+skipping: [localhost]
+
+TASK [Locate environment SSH key] **********************************************
+Tuesday 05 August 2025  10:45:10 +0000 (0:00:00.020)       0:00:10.864 ******** 
+included: locate_env_authorized_key for localhost
+
+TASK [locate_env_authorized_key : Set env_authorized_key_path] *****************
+Tuesday 05 August 2025  10:45:10 +0000 (0:00:00.033)       0:00:10.898 ******** 
+ok: [localhost]
+
+TASK [locate_env_authorized_key : Set env_authorized_key_path_pub] *************
+Tuesday 05 August 2025  10:45:11 +0000 (0:00:00.026)       0:00:10.924 ******** 
+ok: [localhost]
+
+TASK [locate_env_authorized_key : Generate SSH pub key content if it doesn't exist] ***
+Tuesday 05 August 2025  10:45:11 +0000 (0:00:00.025)       0:00:10.950 ******** 
+ok: [localhost]
+
+TASK [locate_env_authorized_key : Save SSH pub key content as fact] ************
+Tuesday 05 August 2025  10:45:11 +0000 (0:00:00.154)       0:00:11.104 ******** 
+ok: [localhost]
+
+TASK [Create keypair in ec2] ***************************************************
+Tuesday 05 August 2025  10:45:11 +0000 (0:00:00.020)       0:00:11.125 ******** 
+included: infra-ec2-ssh-key for localhost
+
+TASK [infra-ec2-ssh-key : include_tasks] ***************************************
+Tuesday 05 August 2025  10:45:11 +0000 (0:00:00.030)       0:00:11.155 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-ssh-key : include_tasks] ***************************************
+Tuesday 05 August 2025  10:45:11 +0000 (0:00:00.013)       0:00:11.169 ******** 
+included: /runner/project/ansible/roles-infra/infra-ec2-ssh-key/tasks/create.yaml for localhost
+
+TASK [infra-ec2-ssh-key : Stat local infra key] ********************************
+Tuesday 05 August 2025  10:45:11 +0000 (0:00:00.022)       0:00:11.191 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-ssh-key : Generate SSH pub key content] ************************
+Tuesday 05 August 2025  10:45:11 +0000 (0:00:00.155)       0:00:11.347 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-ssh-key : Save all facts for SSH] ******************************
+Tuesday 05 August 2025  10:45:11 +0000 (0:00:00.018)       0:00:11.365 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-ssh-key : Create infra key] ************************************
+Tuesday 05 August 2025  10:45:11 +0000 (0:00:00.017)       0:00:11.382 ******** 
+changed: [localhost]
+
+TASK [Run infra-ec2-template-generate Role] ************************************
+Tuesday 05 August 2025  10:45:12 +0000 (0:00:00.840)       0:00:12.222 ******** 
+included: infra-ec2-template-generate for localhost
+
+TASK [infra-ec2-template-generate : Detect all possible Availability Zones that can host all the instance types and pick one] ***
+Tuesday 05 August 2025  10:45:12 +0000 (0:00:00.044)       0:00:12.267 ******** 
+included: /runner/project/ansible/roles-infra/infra-ec2-template-generate/tasks/locate_availability_zones.yml for localhost
+
+TASK [infra-ec2-template-generate : Get all the instance types] ****************
+Tuesday 05 August 2025  10:45:12 +0000 (0:00:00.027)       0:00:12.295 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Tuesday 05 August 2025  10:45:12 +0000 (0:00:00.048)       0:00:12.343 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Check if the AWS CLI has the 'describe-instance-type-offerings' feature] ***
+Tuesday 05 August 2025  10:45:12 +0000 (0:00:00.043)       0:00:12.387 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Get all subnets or networks in 'instances'] ***
+Tuesday 05 August 2025  10:45:13 +0000 (0:00:00.760)       0:00:13.148 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : include_tasks] *****************************
+Tuesday 05 August 2025  10:45:13 +0000 (0:00:00.035)       0:00:13.183 ******** 
+included: /runner/project/ansible/roles-infra/infra-ec2-template-generate/tasks/locate_availability_zones_tasks.yml for localhost
+
+TASK [infra-ec2-template-generate : Get the possible AZs] **********************
+Tuesday 05 August 2025  10:45:13 +0000 (0:00:00.020)       0:00:13.204 ******** 
+ok: [localhost] => (item=g6.xlarge)
+
+TASK [infra-ec2-template-generate : debug] *************************************
+Tuesday 05 August 2025  10:45:14 +0000 (0:00:00.790)       0:00:13.995 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Fail if return code is not 0] **************
+Tuesday 05 August 2025  10:45:14 +0000 (0:00:00.013)       0:00:14.008 ******** 
+skipping: [localhost] => (item=['aws', 'ec2', 'describe-instance-type-offerings', '--location-type', 'availability-zone', '--filters', 'Name=instance-type,Values=g6.xlarge', '--query', 'InstanceTypeOfferings[].Location', '--output', 'json']) 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Set fact of the possible Availability Zones] ***
+Tuesday 05 August 2025  10:45:14 +0000 (0:00:00.018)       0:00:14.026 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Calculate intersection of all AZs and set_fact] ***
+Tuesday 05 August 2025  10:45:14 +0000 (0:00:00.035)       0:00:14.062 ******** 
+ok: [localhost] => (item=['us-east-2a', 'us-east-2c', 'us-east-2b'])
+
+TASK [infra-ec2-template-generate : Abort if no AZ is found] *******************
+Tuesday 05 August 2025  10:45:14 +0000 (0:00:00.019)       0:00:14.081 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [infra-ec2-template-generate : Print possible availability zones] *********
+Tuesday 05 August 2025  10:45:14 +0000 (0:00:00.017)       0:00:14.098 ******** 
+ok: [localhost] => {
+    "infra_ec2_template_generate_possible_azs": [
+        "us-east-2a",
+        "us-east-2b",
+        "us-east-2c"
+    ]
+}
+
+TASK [infra-ec2-template-generate : Select the first AZ in the possible AZs and set fact aws_availability_zone] ***
+Tuesday 05 August 2025  10:45:14 +0000 (0:00:00.016)       0:00:14.115 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Debug] *************************************
+Tuesday 05 August 2025  10:45:14 +0000 (0:00:00.016)       0:00:14.131 ******** 
+ok: [localhost] => {
+    "aws_availability_zone": "us-east-2a"
+}
+
+TASK [infra-ec2-template-generate : Check if template exists for the environment] ***
+Tuesday 05 August 2025  10:45:14 +0000 (0:00:00.015)       0:00:14.146 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Use CloudFormation template from the environment] ***
+Tuesday 05 August 2025  10:45:14 +0000 (0:00:00.158)       0:00:14.304 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Use the default CloudFormation template] ***
+Tuesday 05 August 2025  10:45:14 +0000 (0:00:00.011)       0:00:14.316 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Print cloudformation_template_src] *********
+Tuesday 05 August 2025  10:45:14 +0000 (0:00:00.012)       0:00:14.328 ******** 
+ok: [localhost] => {
+    "cloudformation_template_src": "templates/cloud_template.j2"
+}
+
+TASK [infra-ec2-template-generate : Determine the security groups used in 'instances' dictionary] ***
+Tuesday 05 August 2025  10:45:14 +0000 (0:00:00.012)       0:00:14.340 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Tuesday 05 August 2025  10:45:14 +0000 (0:00:00.041)       0:00:14.382 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Print cloudformation_template] *************
+Tuesday 05 August 2025  10:45:14 +0000 (0:00:00.014)       0:00:14.396 ******** 
+ok: [localhost] => {
+    "cloudformation_template": "/tmp/output-204fbf55-dc35-522e-bdbf-87f20f052a49/base-infra.kpw85.ec2_cloud_template"
+}
+
+TASK [infra-ec2-template-generate : AWS Generate CloudFormation Template] ******
+Tuesday 05 August 2025  10:45:14 +0000 (0:00:00.014)       0:00:14.410 ******** 
+changed: [localhost]
+
+TASK [infra-ec2-template-generate : Stop if debugging template] ****************
+Tuesday 05 August 2025  10:45:14 +0000 (0:00:00.387)       0:00:14.798 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Stat CloudFormation template] **************
+Tuesday 05 August 2025  10:45:14 +0000 (0:00:00.016)       0:00:14.814 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Get user name] *****************************
+Tuesday 05 August 2025  10:45:15 +0000 (0:00:00.169)       0:00:14.984 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Tuesday 05 August 2025  10:45:15 +0000 (0:00:00.011)       0:00:14.995 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Tuesday 05 August 2025  10:45:15 +0000 (0:00:00.010)       0:00:15.005 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Create bucket] *****************************
+Tuesday 05 August 2025  10:45:15 +0000 (0:00:00.010)       0:00:15.016 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Copy Template to S3] ***********************
+Tuesday 05 August 2025  10:45:15 +0000 (0:00:00.010)       0:00:15.027 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Check for !Ref in CF template] *************
+Tuesday 05 August 2025  10:45:15 +0000 (0:00:00.010)       0:00:15.038 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : validation cloudformation template] ********
+Tuesday 05 August 2025  10:45:15 +0000 (0:00:00.233)       0:00:15.271 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "Cloudformation template is syntactically valid"
+}
+
+TASK [infra-ec2-template-generate : Copy original !Ref CF template back in place] ***
+Tuesday 05 August 2025  10:45:15 +0000 (0:00:00.023)       0:00:15.295 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : validate cloudformation template with validate-template (local)] ***
+Tuesday 05 August 2025  10:45:15 +0000 (0:00:00.010)       0:00:15.305 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : validate cloudformation template with validate-template (S3)] ***
+Tuesday 05 August 2025  10:45:16 +0000 (0:00:00.751)       0:00:16.057 ******** 
+skipping: [localhost]
+
+TASK [Run infra-ec2-template-create Role] **************************************
+Tuesday 05 August 2025  10:45:16 +0000 (0:00:00.012)       0:00:16.069 ******** 
+included: infra-ec2-template-create for localhost
+
+TASK [infra-ec2-template-create : Retrieve stack_deployed from provision-user-data.yaml] ***
+Tuesday 05 August 2025  10:45:16 +0000 (0:00:00.049)       0:00:16.119 ******** 
+ok: [localhost]
+
+TASK [include_role : infra-cloud-tags] *****************************************
+Tuesday 05 August 2025  10:45:16 +0000 (0:00:00.025)       0:00:16.144 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : set_fact] ************************************
+Tuesday 05 August 2025  10:45:16 +0000 (0:00:00.019)       0:00:16.164 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Wait a bit for the previous stack and child resources to be deleted] ***
+Tuesday 05 August 2025  10:45:16 +0000 (0:00:00.022)       0:00:16.186 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : include_tasks] *******************************
+Tuesday 05 August 2025  10:45:16 +0000 (0:00:00.021)       0:00:16.207 ******** 
+skipping: [localhost]
+
+TASK [Regenerate the CloudFormation template because of custom images] *********
+Tuesday 05 August 2025  10:45:16 +0000 (0:00:00.021)       0:00:16.228 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Prepare for launch CloudFormation template from local] ***
+Tuesday 05 August 2025  10:45:16 +0000 (0:00:00.020)       0:00:16.248 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Prepare for launch CloudFormation template from S3 bucket] ***
+Tuesday 05 August 2025  10:45:16 +0000 (0:00:00.017)       0:00:16.266 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Launch CloudFormation template (local)] ******
+Tuesday 05 August 2025  10:45:16 +0000 (0:00:00.016)       0:00:16.282 ******** 
+[WARNING]: Using a variable for a task's 'args' is unsafe in some situations
+(see
+https://docs.ansible.com/ansible/devel/reference_appendices/faq.html#argsplat-
+unsafe)
+[DEPRECATION WARNING]: Param 'template' is deprecated. See the module docs for 
+more information. This feature will be removed from amazon.aws in a release 
+after 2026-05-01. Deprecation warnings can be disabled by setting 
+deprecation_warnings=False in ansible.cfg.
+changed: [localhost]
+
+TASK [infra-ec2-template-create : debug cloudformation] ************************
+Tuesday 05 August 2025  10:47:54 +0000 (0:02:37.837)       0:02:54.120 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : debug cloudformation] ************************
+Tuesday 05 August 2025  10:47:54 +0000 (0:00:00.015)       0:02:54.135 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Delete S3 bucket if it exists] ***************
+Tuesday 05 August 2025  10:47:54 +0000 (0:00:00.016)       0:02:54.151 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : report s3 error] *****************************
+Tuesday 05 August 2025  10:47:54 +0000 (0:00:00.015)       0:02:54.167 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Destroy cloudformation template] *************
+Tuesday 05 August 2025  10:47:54 +0000 (0:00:00.019)       0:02:54.186 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : report Cloudformation Destroy error] *********
+Tuesday 05 August 2025  10:47:54 +0000 (0:00:00.019)       0:02:54.205 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : report Cloudformation error] *****************
+Tuesday 05 August 2025  10:47:54 +0000 (0:00:00.020)       0:02:54.226 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Save aws_region_loop into aws_region_final] ***
+Tuesday 05 August 2025  10:47:54 +0000 (0:00:00.024)       0:02:54.250 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Output region] *******************************
+Tuesday 05 August 2025  10:47:54 +0000 (0:00:00.028)       0:02:54.278 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Output region] *******************************
+Tuesday 05 August 2025  10:47:54 +0000 (0:00:00.018)       0:02:54.297 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : set_fact] ************************************
+Tuesday 05 August 2025  10:47:54 +0000 (0:00:00.016)       0:02:54.314 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Save stack deployed for futur runs (idempotent)] ***
+Tuesday 05 August 2025  10:47:54 +0000 (0:00:00.016)       0:02:54.330 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : set_fact] ************************************
+Tuesday 05 August 2025  10:47:54 +0000 (0:00:00.013)       0:02:54.344 ******** 
+skipping: [localhost]
+
+TASK [Run infra-ec2-template-create Role into FallBack region] *****************
+Tuesday 05 August 2025  10:47:54 +0000 (0:00:00.015)       0:02:54.360 ******** 
+skipping: [localhost]
+
+TASK [report Cloudformation error] *********************************************
+Tuesday 05 August 2025  10:47:54 +0000 (0:00:00.020)       0:02:54.381 ******** 
+skipping: [localhost]
+
+PLAY [Step 001.2 Create Inventory and SSH config setup] ************************
+
+TASK [include_tasks] ***********************************************************
+Tuesday 05 August 2025  10:47:54 +0000 (0:00:00.021)       0:02:54.402 ******** 
+skipping: [localhost]
+
+TASK [Run infra-ec2-create-inventory Role] *************************************
+Tuesday 05 August 2025  10:47:54 +0000 (0:00:00.018)       0:02:54.420 ******** 
+included: infra-ec2-create-inventory for localhost
+
+TASK [infra-ec2-create-inventory : Report aws region] **************************
+Tuesday 05 August 2025  10:47:54 +0000 (0:00:00.028)       0:02:54.449 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : Gather EC2 info] ****************************
+Tuesday 05 August 2025  10:47:54 +0000 (0:00:00.019)       0:02:54.469 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : debug ec2_info] *****************************
+Tuesday 05 August 2025  10:47:55 +0000 (0:00:00.748)       0:02:55.217 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : windows ostype workaround] ******************
+Tuesday 05 August 2025  10:47:55 +0000 (0:00:00.016)       0:02:55.234 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : set_fact] ***********************************
+Tuesday 05 August 2025  10:47:55 +0000 (0:00:00.016)       0:02:55.251 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : Find the bastion in this batch of host] *****
+Tuesday 05 August 2025  10:47:55 +0000 (0:00:00.017)       0:02:55.268 ******** 
+ok: [localhost] => (item=desktop.kpw85.internal)
+
+TASK [infra-ec2-create-inventory : Add hosts to the current inventory] *********
+Tuesday 05 August 2025  10:47:55 +0000 (0:00:00.025)       0:02:55.294 ******** 
+changed: [localhost] => (item=desktop.kpw85.internal)
+
+TASK [infra-ec2-create-inventory : Add hosts to groups indicated by AnsibleGroup tag] ***
+Tuesday 05 August 2025  10:47:55 +0000 (0:00:00.040)       0:02:55.334 ******** 
+changed: [localhost] => (item=desktop.kpw85.internal)
+
+TASK [infra-ec2-create-inventory : debug hostvars] *****************************
+Tuesday 05 August 2025  10:47:55 +0000 (0:00:00.024)       0:02:55.359 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : debug groups] *******************************
+Tuesday 05 August 2025  10:47:55 +0000 (0:00:00.014)       0:02:55.373 ******** 
+skipping: [localhost]
+
+TASK [Run Common SSH Config Generator Role] ************************************
+Tuesday 05 August 2025  10:47:55 +0000 (0:00:00.015)       0:02:55.389 ******** 
+included: infra-common-ssh-config-generate for localhost
+
+TASK [infra-common-ssh-config-generate : Store bastion hostname as a fact] *****
+Tuesday 05 August 2025  10:47:55 +0000 (0:00:00.030)       0:02:55.420 ******** 
+[WARNING]: Found variable using reserved name: remote_user
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : Delete dedicated known_host if it exists (new deployment)] ***
+Tuesday 05 August 2025  10:47:55 +0000 (0:00:00.022)       0:02:55.442 ******** 
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : delete local ssh config, start fresh] ***
+Tuesday 05 August 2025  10:47:55 +0000 (0:00:00.176)       0:02:55.619 ******** 
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : Create empty local ssh config] ********
+Tuesday 05 August 2025  10:47:55 +0000 (0:00:00.177)       0:02:55.797 ******** 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : Add bastion proxy config to workdir ssh config file] ***
+Tuesday 05 August 2025  10:47:56 +0000 (0:00:00.163)       0:02:55.961 ******** 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : Add all hosts to workdir ssh config file] ***
+Tuesday 05 August 2025  10:47:56 +0000 (0:00:00.266)       0:02:56.227 ******** 
+skipping: [localhost] => (item=desktop.kpw85.internal) 
+skipping: [localhost]
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Tuesday 05 August 2025  10:47:56 +0000 (0:00:00.021)       0:02:56.249 ******** 
+ok: [localhost]
+ok: [desktop.kpw85.internal]
+
+TASK [Include variables files] *************************************************
+Tuesday 05 August 2025  10:47:56 +0000 (0:00:00.020)       0:02:56.269 ******** 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [desktop.kpw85.internal] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [desktop.kpw85.internal] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_vars.yaml) 
+skipping: [desktop.kpw85.internal] => (item=/runner/project/ansible/configs/base-infra/env_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_vars.yml) 
+skipping: [desktop.kpw85.internal] => (item=/runner/project/ansible/configs/base-infra/env_vars.yml) 
+skipping: [desktop.kpw85.internal] => (item=/runner/project/ansible/configs/base-infra/default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars.yaml) 
+ok: [desktop.kpw85.internal] => (item=/runner/project/ansible/configs/base-infra/default_vars.yml)
+ok: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars.yml)
+skipping: [desktop.kpw85.internal] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yaml) 
+ok: [desktop.kpw85.internal] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yml)
+ok: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yml)
+skipping: [desktop.kpw85.internal] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yaml) 
+skipping: [desktop.kpw85.internal] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Tuesday 05 August 2025  10:47:56 +0000 (0:00:00.062)       0:02:56.332 ******** 
+skipping: [localhost]
+skipping: [desktop.kpw85.internal]
+
+TASK [Set passthrough user data] ***********************************************
+Tuesday 05 August 2025  10:47:56 +0000 (0:00:00.018)       0:02:56.350 ******** 
+skipping: [localhost]
+[WARNING]: Could not match supplied host pattern, ignoring: network
+
+PLAY [Step 001.3 Configure Linux Hosts and Wait for Connection] ****************
+
+TASK [set facts for remote access] *********************************************
+Tuesday 05 August 2025  10:47:56 +0000 (0:00:00.017)       0:02:56.367 ******** 
+ok: [desktop.kpw85.internal]
+
+TASK [Run infra-ec2-wait_for_linux_hosts Role] *********************************
+Tuesday 05 August 2025  10:47:56 +0000 (0:00:00.017)       0:02:56.384 ******** 
+included: infra-ec2-wait_for_linux_hosts for desktop.kpw85.internal
+
+TASK [infra-ec2-wait_for_linux_hosts : wait for linux host to be available] ****
+Tuesday 05 August 2025  10:47:56 +0000 (0:00:00.017)       0:02:56.402 ******** 
+ok: [desktop.kpw85.internal]
+
+TASK [infra-ec2-wait_for_linux_hosts : restart instance if wait_for_connection failed] ***
+Tuesday 05 August 2025  10:47:57 +0000 (0:00:00.750)       0:02:57.152 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [infra-ec2-wait_for_linux_hosts : wait for linux host to be available (retry)] ***
+Tuesday 05 August 2025  10:47:57 +0000 (0:00:00.017)       0:02:57.169 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [infra-ec2-wait_for_linux_hosts : ping] ***********************************
+Tuesday 05 August 2025  10:47:57 +0000 (0:00:00.015)       0:02:57.185 ******** 
+[WARNING]: Platform linux on host desktop.kpw85.internal is using the
+discovered Python interpreter at /usr/bin/python3.9, but future installation of
+another Python interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-
+core/2.18/reference_appendices/interpreter_discovery.html for more information.
+ok: [desktop.kpw85.internal]
+
+TASK [Run infra-ec2-linux-set-hostname Role] ***********************************
+Tuesday 05 August 2025  10:47:57 +0000 (0:00:00.352)       0:02:57.538 ******** 
+included: infra-ec2-linux-set-hostname for desktop.kpw85.internal
+
+TASK [infra-ec2-linux-set-hostname : Set hostname based on tag_internaldns] ****
+Tuesday 05 August 2025  10:47:57 +0000 (0:00:00.019)       0:02:57.557 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [infra-ec2-linux-set-hostname : stat] *************************************
+Tuesday 05 August 2025  10:47:58 +0000 (0:00:00.715)       0:02:58.272 ******** 
+ok: [desktop.kpw85.internal]
+
+TASK [infra-ec2-linux-set-hostname : disable updating hostname in /etc/cloud/cloud.cfg] ***
+Tuesday 05 August 2025  10:47:58 +0000 (0:00:00.293)       0:02:58.566 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [infra-ec2-linux-set-hostname : Add preserve_hostname to /etc/cloud/cloud.cfg] ***
+Tuesday 05 August 2025  10:47:58 +0000 (0:00:00.295)       0:02:58.862 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [Add authorized_keys] *****************************************************
+Tuesday 05 August 2025  10:47:59 +0000 (0:00:00.293)       0:02:59.156 ******** 
+included: ssh_authorized_keys for desktop.kpw85.internal
+
+TASK [ssh_authorized_keys : Add all authorized keys] ***************************
+Tuesday 05 August 2025  10:47:59 +0000 (0:00:00.025)       0:02:59.181 ******** 
+changed: [desktop.kpw85.internal] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvZvn+GL0wTOsAdh1ikIQoqj2Fw/RA6F14O347rgKdpkgOQpGQk1k2gM8wcla2Y1o0bPIzwlNy1oh5o9uNjZDMeDcEXWuXbu0cRBy4pVRhh8a8zAZfssnqoXHHLyPyHWpdTmgIhr0UIGYrzHrnySAnUcDp3gJuE46UEBtrlyv94cVvZf+EZUTaZ+2KjTRLoNryCn7vKoGHQBooYg1DeHLcLSRWEADUo+bP0y64+X/XTMZOAXbf8kTXocqAgfl/usbYdfLOgwU6zWuj8vxzAKuMEXS1AJSp5aeqRKlbbw40IkTmLoQIgJdb2Zt98BH/xHDe9xxhscUCfWeS37XLp75J opentlc_admin_backdoor'})
+changed: [desktop.kpw85.internal] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCg5PJgwAB8U2NiXh4aRZAg09f3xjT3y1CP322StmT4ljiqhXoqOOZ++qDIKFmtHGmeEjvkCo11M2oVmJTeaibeS0E+Xsoi9wTcit47h2ka7WPdzhy/togFQOVAftbwi3RtHDOweIFL18FQ8inhu9W/oFibsZjQEWtHoHtLkmA5zOSQtWDmVfx3iWrKd4svkNbJ+SNZMnD0tCDoot3y0Knzyt+wpZtVd94YXpUDTCJ8Ie1nFSdm7H/QB9/bDXeOSSnHBq2xSmywodNoyA1gFZ1hhpPNEauQjzeKCMpNLPATg/jtQb1zojG6QnO/7I5euKOlDeJ1Odg35aTG31p8EbT3UL8NZssdn3YY3OEQ/2rN0PaQ+zxzmzfh1otx4Rsh1IbD5S99GuQD2ma7m0zOzrBb8Mil5TCaTaK8mIADq/lclj0sAMrH1EXyFvDiHEG+cV0iMyXOxEMTJs4YLr8DyqsTZ34TvVSJP9/0YwQuRYhg0MJmFbMvl/4yibTgyvTYLN0= instructor-key-2022'})
+changed: [desktop.kpw85.internal] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIIDDIOD4M5yYo3uCFDBDb6del+NG2fkboWh90kW/S6H elliptical_instructor_key_2024'})
+changed: [desktop.kpw85.internal] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOBfsRMLCEQt86EZnvQ/rK49wo1odLqpd1NEz3tDjUWY elliptical_admin_key_2023'})
+changed: [desktop.kpw85.internal] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC3nKRSIwWn7pjMf2i1TyXgjsauEIoDS8Xulad2ZAbsmZrWcKU5hPi23xq0g2AjRYiXml8zSX9jAQfmlKnrXGYo5WN39iXGRI3lFJmXwmEHne3Z0qtUgt9MBA4w0Tcunw7pXniKntvo2oiDYZlXHztRMHMeUkUjLgCGjn2cfi0uqd4pxLmneMziHMKDxcyy+9MaGnWr5Bs27r3b6rWNFqG2fAo1Z5ZWEA/r3MhdI9ZzMRJVTUhunpstwMX8MRxx/OGk0zynyHcSkh91sqZ3xhPpvRkmYLRa5I0aw88AMenWBfc586FyORL2e/UVoIoyMkBMnovaRIoiTj74RuPeZ6gGKbbfpt1ggDs4j9Z1Go51GlGPYcchvLQvx+Ucv5+tLZSqZBhPOXLRqFuQgRZz4R6j5O5UkfdjLJxBoHQZxT0Wdzd/XiGcAlyDOq8puNSxdF3w/8eGGSKDdUONv1tc1dcTFd6kR+jYaedjD1fldVrC+4fRUFkFqEovDPVI4159VSqJWz78WuqazNnCRMVDnS4Le+Er1pvTbk5rOdYUkF67vxVwD3cyJ3D1C49wVsIc3+kngZN2246OEMsbVugEPG4A8/UOlHIE5iBps+mM9GX6UFSj4aLFh15XeOGKs7aH2r1thfvFPSvk12t8QvNDhhhhAf5EzzypvNEbXQ6fk3YSUw== rsa_admin_key_2023'})
+
+TASK [ssh_authorized_keys : Add all authorized keys (legacy var all_ssh_authorized_keys)] ***
+Tuesday 05 August 2025  10:48:00 +0000 (0:00:01.671)       0:03:00.852 ******** 
+skipping: [desktop.kpw85.internal]
+
+PLAY [Step 001.4 Configure Windows Hosts and Wait for Connection] **************
+skipping: no hosts matched
+
+PLAY [Step 002 Post Infrastructure] ********************************************
+
+TASK [Step 002 Post Infrastructure] ********************************************
+Tuesday 05 August 2025  10:48:00 +0000 (0:00:00.015)       0:03:00.868 ******** 
+ok: [localhost] => {
+    "msg": "Step 000 Post Infrastructure"
+}
+
+PLAY [Step 002 Post Infrastructure regreSSHion Hotfix] *************************
+
+TASK [Gathering Facts] *********************************************************
+Tuesday 05 August 2025  10:48:00 +0000 (0:00:00.015)       0:03:00.884 ******** 
+ok: [desktop.kpw85.internal]
+
+TASK [Have facts been gathered?] ***********************************************
+Tuesday 05 August 2025  10:48:01 +0000 (0:00:00.921)       0:03:01.805 ******** 
+ok: [desktop.kpw85.internal]
+
+TASK [Set sshd LoginGraceTime to 0 in /etc/ssh/sshd_config] ********************
+Tuesday 05 August 2025  10:48:02 +0000 (0:00:00.389)       0:03:02.195 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [Restart SSH service for regreSSHion fix] *********************************
+Tuesday 05 August 2025  10:48:02 +0000 (0:00:00.286)       0:03:02.481 ******** 
+changed: [desktop.kpw85.internal]
+
+PLAY [localhost] ***************************************************************
+
+TASK [Export in-memory inventory to inventory file] ****************************
+Tuesday 05 August 2025  10:48:03 +0000 (0:00:00.622)       0:03:03.104 ******** 
+included: agnosticd_inventory_exporter for localhost
+
+TASK [agnosticd_inventory_exporter : Export in-memory inventory to file] *******
+Tuesday 05 August 2025  10:48:03 +0000 (0:00:00.018)       0:03:03.123 ******** 
+changed: [localhost]
+
+PLAY [Step 003 Pre Software] ***************************************************
+
+TASK [Step 003 Pre Software] ***************************************************
+Tuesday 05 August 2025  10:48:03 +0000 (0:00:00.512)       0:03:03.636 ******** 
+ok: [localhost] => {
+    "msg": "Step 000 Pre Software"
+}
+
+PLAY [Install Pre Software workloads for all nodes omit localhost] *************
+
+TASK [Deploying Pre Software workloads on all nodes omit localhost] ************
+Tuesday 05 August 2025  10:48:03 +0000 (0:00:00.019)       0:03:03.655 ******** 
+skipping: [desktop.kpw85.internal]
+
+PLAY [Install Pre Software workloads on localhost] *****************************
+
+TASK [Deploying Pre Software workloads  on localhost] **************************
+Tuesday 05 August 2025  10:48:03 +0000 (0:00:00.020)       0:03:03.676 ******** 
+skipping: [localhost]
+
+PLAY [Install Pre Software workloads on  all hosts] ****************************
+
+TASK [Deploying Pre Software workloads on all hosts] ***************************
+Tuesday 05 August 2025  10:48:03 +0000 (0:00:00.024)       0:03:03.700 ******** 
+skipping: [desktop.kpw85.internal]
+
+PLAY [Install Pre Software workloads on bastion] *******************************
+
+TASK [Deploying Pre Software workloads on bastion] *****************************
+Tuesday 05 August 2025  10:48:03 +0000 (0:00:00.027)       0:03:03.727 ******** 
+skipping: [desktop.kpw85.internal]
+
+PLAY [Install Pre Software workloads for windows] ******************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for gitlab] *******************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for nodes] ********************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for centos nodes] *************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for Satellites] ***************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for Satellite Capsules] *******************
+skipping: no hosts matched
+
+PLAY [Create local ssh keys] ***************************************************
+
+TASK [create_ssh_provision_key : include_tasks] ********************************
+Tuesday 05 August 2025  10:48:03 +0000 (0:00:00.040)       0:03:03.768 ******** 
+included: /runner/project/ansible/roles-infra/create_ssh_provision_key/tasks/checks.yaml for localhost
+
+TASK [create_ssh_provision_key : Ensure key_name is not defined] ***************
+Tuesday 05 August 2025  10:48:03 +0000 (0:00:00.023)       0:03:03.791 ******** 
+skipping: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH keys] ****************************
+Tuesday 05 August 2025  10:48:03 +0000 (0:00:00.019)       0:03:03.811 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Fix permission of ssh key] ********************
+Tuesday 05 August 2025  10:48:04 +0000 (0:00:00.152)       0:03:03.964 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH pub key content] *****************
+Tuesday 05 August 2025  10:48:04 +0000 (0:00:00.176)       0:03:04.140 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Save all facts for SSH] ***********************
+Tuesday 05 August 2025  10:48:04 +0000 (0:00:00.163)       0:03:04.304 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Write SSH pub key] ****************************
+Tuesday 05 August 2025  10:48:04 +0000 (0:00:00.017)       0:03:04.321 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Report user info for SSH provision key as user data] ***
+Tuesday 05 August 2025  10:48:04 +0000 (0:00:00.290)       0:03:04.612 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "data": {
+        "ssh_provision_key": "-----[REDACTED_Private Key_SECRET]-----\\nb3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn\\nNhAAAAAwEAAQAAAYEA3CmZtHg97IUaDPqJ+AyR1e9dFJTutGmTWs6cCNHUeefzywJyhMxE\\n2oW7y2Yo+nWy1xK/WOLCjhTT7HELszM9GuArGYWldc0XYmcYBWJxZhfy901922v9csntkM\\nRRwD2LAdc/sG53tbpjNWs/BrfTZ8+il3PwZQEgK9voXNBKCIqmwC0yONjOkwGMV3Sa4Tv0\\nfFra1E2P4h/6zba4yTiVVhUugLyV/xZuPVra99ZAzYN4FLz5HC15nCQbS6pt85Nad2as9s\\nJkDDl4KPlTzClCmyXVP1GL9OflsdTGmBgp21KczdMBiFFR6dh/G4QUXVTknlRujAAmb8Pd\\nQ341uJcjAzB9f7k1fJD5FtoSmt5uS3hge0+L5MVrEBf2rRBf9P20KI0kADe90/16qAry8E\\nNSCY5/pMKXP/8B5aIFuDpphYYIKQ9ql5dNnzg0+XSz3PMxFh3b7roNgO/82TZYJRERO3R9\\nYx8KLbzMk9sMXXW+IJJbn7Z6an/EGMv3eiq9dO1xAAAFiNGHca7Rh3GuAAAAB3NzaC1yc2\\nEAAAGBANwpmbR4PeyFGgz6ifgMkdXvXRSU7rRpk1rOnAjR1Hnn88sCcoTMRNqFu8tmKPp1\\nstcSv1jiwo4U0+xxC7MzPRrgKxmFpXXNF2JnGAVicWYX8vdNfdtr/XLJ7ZDEUcA9iwHXP7\\nBud7W6YzVrPwa302fPopdz8GUBICvb6FzQSgiKpsAtMjjYzpMBjFd0muE79Hxa2tRNj+If\\n+s22uMk4lVYVLoC8lf8Wbj1a2vfWQM2DeBS8+RwteZwkG0uqbfOTWndmrPbCZAw5eCj5U8\\nwpQpsl1T9Ri/Tn5bHUxpgYKdtSnM3TAYhRUenYfxuEFF1U5J5UbowAJm/D3UN+NbiXIwMw\\nfX+5NXyQ+RbaEprebkt4YHtPi+TFaxAX9q0QX/T9tCiNJAA3vdP9eqgK8vBDUgmOf6TClz\\n//AeWiBbg6aYWGCCkPapeXTZ84NPl0s9zzMRYd2+66DYDv/Nk2WCURETt0fWMfCi28zJPb\\nDF11viCSW5+2emp/xBjL93oqvXTtcQAAAAMBAAEAAAGAFKWKFpSYKhApa0Iroil7m7aA4i\\nc9Y4nrGb76fxE+fdg00rr+BlopstyLyf1gpmxXQzgs3acWW8C0Rx4q3LlXZ6fSIuiXpb6A\\nDOhiJk8fF1XzoSGRRfyQni01rDfc+sxKtvd6r48Mhuxd1WqjVHv0xW2Bb/adertqSvKqjd\\nmyt65ZCPi0FwSuCrdAdAspYyn+OZNDpllHvwsEuDoEhkpaJuKBo+0LnAp8eCCHHGrpVNyZ\\nbEh0jCHvn6b7MFNhUFBnJPgnEFh1ibhibW+jT88waroV2GfhFxU9CHU7QqwpL1u3HsJka0\\nkZK7/ZVhXKSSAvkTfemZUmGBTKBngPOC23DuDnkTdktPKfqjQ8AIHII/LyICOsjANrwjoO\\nOyJ99DMOa4uv7CQMXrqp6JtpjtMLitV88M9kq1NkpTSW231LlUbbkzM9Xa7A9RQerGgX6D\\nvV/eRWYWAL2Yq7avpMKVFJOA6l+h7Ct5nfPwbR+GDkq6oNGpQ/RDe+TZMIGeBsXv/hAAAA\\nwQCIGdYqI6aD/ibM/+F3ZkXFS0hFWzpUrct/OkUcIiuegxA4dF4m1mkTguZg3pmYuvTQVP\\nyTOKLk5Bx98fnMhQgWEUqIVPDbaV65PZLj/wM11jpdaCGd3qihLmuVIsoW0K0evQ9QpVbY\\noAPNV0SGeeTRL4NKypxFuBUHMLDtWe7lIrRDHQ2E6q4kljGRM8pK2d8CzYuw1LAwMez0EZ\\n22TcedvoFR5eXlHuWGNy5kHiXrzb3fmRh30HV+xrORMYGypKgAAADBAO41lcDIJ8sGcvmq\\n6zNNoTeTXr2fQludpiTog2+xfczAv7m78AJlGQc2zck4PEcQR2fUCT1+nUlEtbVv65SmWe\\nHhJ1nF4U4NAYqNjLAJyHQXMQRtmq/bvFIqTJcF7uZ8e/0lrYU2z5blJK8uhkWSefXKd5PE\\nJL3qE3XFx1Xyq62i+6dAUJ+qXBJfz4iBnHfRHPrs0+g0DExiTSYiwGXjEf8Ngk7cekoUu9\\nShKJWUjzWHivPnKkpGqxdovTNxbVIwxQAAAMEA7Jr4szTjRrNjlAVRYLBNQNAAm527WuFH\\nD4k5FO53mBIinpC60JXQjPNJm6RiFlTpy89LVoOMbm+9CYMZECh3THbOGqoFxr5sJGuWdu\\nCd8D4xlcwrs198sIYYgCSN72O0BVQobgJTVwslmgDn3eYlDqQidkfHSK5h9S6hg9imU76x\\nHiQM2djXENc9g/6oauRW2IhogYyI7aK5Crn9usmXNr4zcgg2fJUJS5gmoDCdG+m151FG8V\\nzlzO6yHbcjAfy9AAAAEXJvb3RAMWJhN2FlNzc3YzVhAQ==\\n-----END OPENSSH PRIVATE KEY-----",
+        "ssh_provision_pubkey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDcKZm0eD3shRoM+on4DJHV710UlO60aZNazpwI0dR55/PLAnKEzETahbvLZij6dbLXEr9Y4sKOFNPscQuzMz0a4CsZhaV1zRdiZxgFYnFmF/L3TX3ba/1yye2QxFHAPYsB1z+wbne1umM1az8Gt9Nnz6KXc/BlASAr2+hc0EoIiqbALTI42M6TAYxXdJrhO/R8WtrUTY/iH/rNtrjJOJVWFS6AvJX/Fm49Wtr31kDNg3gUvPkcLXmcJBtLqm3zk1p3Zqz2wmQMOXgo+VPMKUKbJdU/UYv05+Wx1MaYGCnbUpzN0wGIUVHp2H8bhBRdVOSeVG6MACZvw91DfjW4lyMDMH1/uTV8kPkW2hKa3m5LeGB7T4vkxWsQF/atEF/0/bQojSQAN73T/XqoCvLwQ1IJjn+kwpc//wHlogW4OmmFhggpD2qXl02fODT5dLPc8zEWHdvuug2A7/zZNlglERE7dH1jHwotvMyT2wxddb4gkluftnpqf8QYy/d6Kr107XE="
+    }
+}
+
+TASK [include_role : agnosticd_save_output_dir] ********************************
+Tuesday 05 August 2025  10:48:04 +0000 (0:00:00.028)       0:03:04.640 ******** 
+skipping: [localhost]
+[WARNING]: Could not match supplied host pattern, ignoring: rhelai
+[WARNING]: Could not match supplied host pattern, ignoring: isolated
+
+PLAY [Configure all hosts with Repositories, and Common Files] *****************
+
+TASK [set-repositories : Run setup if gather_facts hasn't been run] ************
+Tuesday 05 August 2025  10:48:04 +0000 (0:00:00.025)       0:03:04.665 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [set-repositories : Configure satellite repositories] *********************
+Tuesday 05 August 2025  10:48:04 +0000 (0:00:00.017)       0:03:04.683 ******** 
+included: /runner/project/ansible/roles/set-repositories/tasks/satellite-repos.yml for desktop.kpw85.internal
+
+TASK [set-repositories : sat | Check subscription-manager package existence] ***
+Tuesday 05 August 2025  10:48:04 +0000 (0:00:00.054)       0:03:04.738 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Install subscription-manager package] ***********
+Tuesday 05 August 2025  10:48:04 +0000 (0:00:00.029)       0:03:04.768 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Remove rh-amazon-rhui-client package] ***********
+Tuesday 05 August 2025  10:48:04 +0000 (0:00:00.024)       0:03:04.792 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Unregister the system just in case] *************
+Tuesday 05 August 2025  10:48:06 +0000 (0:00:01.407)       0:03:06.199 ******** 
+included: /runner/project/ansible/roles/set-repositories/tasks/unregister.yml for desktop.kpw85.internal
+
+TASK [set-repositories : unreg | Unregister From Subscription Manager] *********
+Tuesday 05 August 2025  10:48:06 +0000 (0:00:00.029)       0:03:06.229 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Install CA certificate from satellite server] ***
+Tuesday 05 August 2025  10:48:06 +0000 (0:00:00.569)       0:03:06.798 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Update CA Trust Bundle] *************************
+Tuesday 05 August 2025  10:48:07 +0000 (0:00:00.484)       0:03:07.283 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Remove satellite Cert] **************************
+Tuesday 05 August 2025  10:48:08 +0000 (0:00:01.050)       0:03:08.333 ******** 
+ok: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Find current repository files] ******************
+Tuesday 05 August 2025  10:48:09 +0000 (0:00:00.584)       0:03:08.917 ******** 
+ok: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Remove current repository files] ****************
+Tuesday 05 August 2025  10:48:09 +0000 (0:00:00.379)       0:03:09.297 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Install Satellite CA certificate package] *******
+Tuesday 05 August 2025  10:48:09 +0000 (0:00:00.011)       0:03:09.309 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Disable Reporting Of Package Profile to Satellite] ***
+Tuesday 05 August 2025  10:48:11 +0000 (0:00:02.377)       0:03:11.686 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Run setup if gather_facts hasn't been run] ******
+Tuesday 05 August 2025  10:48:12 +0000 (0:00:00.399)       0:03:12.085 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [set-repositories : Generate UUID for dmi.system.uuid if cloud provider is Equinix Metal] ***
+Tuesday 05 August 2025  10:48:12 +0000 (0:00:00.017)       0:03:12.103 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Set set_repositories_subscription_hostname with randomization] ***
+Tuesday 05 August 2025  10:48:12 +0000 (0:00:00.017)       0:03:12.121 ******** 
+ok: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Set network.fqdn in /etc/rhsm/facts/katello.facts] ***
+Tuesday 05 August 2025  10:48:12 +0000 (0:00:00.023)       0:03:12.144 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Register with activation-key] *******************
+Tuesday 05 August 2025  10:48:12 +0000 (0:00:00.549)       0:03:12.694 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Register with activation-key with HA] ***********
+Tuesday 05 August 2025  10:48:12 +0000 (0:00:00.023)       0:03:12.718 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Enable RHSM to manage repositories] *************
+Tuesday 05 August 2025  10:48:17 +0000 (0:00:04.834)       0:03:17.552 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Lock RHEL 9 release to specific version] ********
+Tuesday 05 August 2025  10:48:18 +0000 (0:00:00.549)       0:03:18.101 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Lock RHEL 8 release to specific version] ********
+Tuesday 05 August 2025  10:48:18 +0000 (0:00:00.017)       0:03:18.118 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Lock RHEL 7 release to specific version] ********
+Tuesday 05 August 2025  10:48:18 +0000 (0:00:00.016)       0:03:18.135 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Enable repos] ***********************************
+Tuesday 05 August 2025  10:48:18 +0000 (0:00:00.017)       0:03:18.152 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Purge existing repos] ***************************
+Tuesday 05 August 2025  10:48:20 +0000 (0:00:02.649)       0:03:20.801 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Enable repos for RHEL] **************************
+Tuesday 05 August 2025  10:48:20 +0000 (0:00:00.017)       0:03:20.819 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Create the certificate and key files] ***********
+Tuesday 05 August 2025  10:48:20 +0000 (0:00:00.018)       0:03:20.837 ******** 
+skipping: [desktop.kpw85.internal] => (item=/etc/pki/tls/Red_GPTE.key) 
+skipping: [desktop.kpw85.internal] => (item=/etc/pki/tls/Red_GPTE.pem) 
+skipping: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | Add certificate and key content] ****************
+Tuesday 05 August 2025  10:48:20 +0000 (0:00:00.021)       0:03:20.858 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | create open.repo template on host] **************
+Tuesday 05 August 2025  10:48:20 +0000 (0:00:00.017)       0:03:20.876 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [set-repositories : sat | clean repositories] *****************************
+Tuesday 05 August 2025  10:48:20 +0000 (0:00:00.016)       0:03:20.892 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [set-repositories : Unregister from subscription manager] *****************
+Tuesday 05 August 2025  10:48:21 +0000 (0:00:00.806)       0:03:21.699 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [common : Deactivate DNS lookup in sshd] **********************************
+Tuesday 05 August 2025  10:48:21 +0000 (0:00:00.020)       0:03:21.719 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [common : Update all packages] ********************************************
+Tuesday 05 August 2025  10:48:22 +0000 (0:00:00.300)       0:03:22.020 ******** 
+ASYNC POLL on desktop.kpw85.internal: jid=j457674689146.8296 started=1 finished=0
+ASYNC POLL on desktop.kpw85.internal: jid=j457674689146.8296 started=1 finished=0
+ASYNC POLL on desktop.kpw85.internal: jid=j457674689146.8296 started=1 finished=0
+ASYNC POLL on desktop.kpw85.internal: jid=j457674689146.8296 started=1 finished=0
+ASYNC POLL on desktop.kpw85.internal: jid=j457674689146.8296 started=1 finished=0
+ASYNC POLL on desktop.kpw85.internal: jid=j457674689146.8296 started=1 finished=0
+ASYNC OK on desktop.kpw85.internal: jid=j457674689146.8296
+changed: [desktop.kpw85.internal]
+
+TASK [common : Update all packages Legacy] *************************************
+Tuesday 05 August 2025  10:51:54 +0000 (0:03:32.525)       0:06:54.545 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [common : Determine if reboot is needed] **********************************
+Tuesday 05 August 2025  10:51:54 +0000 (0:00:00.023)       0:06:54.569 ******** 
+ok: [desktop.kpw85.internal]
+
+TASK [common : Reboot all VMs] *************************************************
+Tuesday 05 August 2025  10:51:55 +0000 (0:00:00.952)       0:06:55.522 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [common : Update network facts after reboot] ******************************
+Tuesday 05 August 2025  10:52:26 +0000 (0:00:31.099)       0:07:26.621 ******** 
+ok: [desktop.kpw85.internal]
+
+TASK [common : Run setup if gather_facts hasn't been run] **********************
+Tuesday 05 August 2025  10:52:27 +0000 (0:00:00.495)       0:07:27.117 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [common : install common packages for RHEL 7] *****************************
+Tuesday 05 August 2025  10:52:27 +0000 (0:00:00.019)       0:07:27.137 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [common : install common packages for RHEL 8] *****************************
+Tuesday 05 August 2025  10:52:27 +0000 (0:00:00.019)       0:07:27.156 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [common : Set up python alternatives for convenience] *********************
+Tuesday 05 August 2025  10:52:27 +0000 (0:00:00.019)       0:07:27.175 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [common : install common packages for RHEL 9] *****************************
+Tuesday 05 August 2025  10:52:27 +0000 (0:00:00.018)       0:07:27.194 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [common : install extra packages] *****************************************
+Tuesday 05 August 2025  10:53:20 +0000 (0:00:53.642)       0:08:20.836 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [common : Update specified packages] **************************************
+Tuesday 05 August 2025  10:53:20 +0000 (0:00:00.022)       0:08:20.859 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [common : Determine if reboot is needed] **********************************
+Tuesday 05 August 2025  10:53:20 +0000 (0:00:00.024)       0:08:20.883 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [common : Reboot VMs] *****************************************************
+Tuesday 05 August 2025  10:53:20 +0000 (0:00:00.020)       0:08:20.903 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [common : Refresh network facts post-reboot] ******************************
+Tuesday 05 August 2025  10:53:21 +0000 (0:00:00.019)       0:08:20.923 ******** 
+skipping: [desktop.kpw85.internal]
+
+RUNNING HANDLER [common : restart_sshd] ****************************************
+Tuesday 05 August 2025  10:53:21 +0000 (0:00:00.025)       0:08:20.948 ******** 
+changed: [desktop.kpw85.internal]
+
+PLAY [Configure all hosts with ssh environment key] ****************************
+
+TASK [set_env_authorized_key : create /root/.ssh] ******************************
+Tuesday 05 August 2025  10:53:21 +0000 (0:00:00.454)       0:08:21.402 ******** 
+ok: [desktop.kpw85.internal]
+
+TASK [set_env_authorized_key : copy the environment .pem key] ******************
+Tuesday 05 August 2025  10:53:21 +0000 (0:00:00.303)       0:08:21.706 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [set_env_authorized_key : copy the environment .pub key] ******************
+Tuesday 05 August 2025  10:53:22 +0000 (0:00:00.556)       0:08:22.263 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [set_env_authorized_key : Set authorized key from file] *******************
+Tuesday 05 August 2025  10:53:22 +0000 (0:00:00.557)       0:08:22.820 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [set_env_authorized_key : Generate host .ssh/config Template] *************
+Tuesday 05 August 2025  10:53:23 +0000 (0:00:00.338)       0:08:23.158 ******** 
+changed: [desktop.kpw85.internal -> localhost]
+
+TASK [set_env_authorized_key : copy over host .ssh/config Template] ************
+Tuesday 05 August 2025  10:53:23 +0000 (0:00:00.275)       0:08:23.434 ******** 
+changed: [desktop.kpw85.internal]
+
+PLAY [Configuring Bastion Hosts] ***********************************************
+
+TASK [bastion-base : Setup Red Hat packages for bastion] ***********************
+Tuesday 05 August 2025  10:53:24 +0000 (0:00:00.562)       0:08:23.997 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [bastion-base : Generate host .ssh/config Template] ***********************
+Tuesday 05 August 2025  10:53:31 +0000 (0:00:07.142)       0:08:31.139 ******** 
+changed: [desktop.kpw85.internal -> localhost]
+
+TASK [bastion-base : copy over host .ssh/config Template] **********************
+Tuesday 05 August 2025  10:53:31 +0000 (0:00:00.298)       0:08:31.438 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [bastion-base : Add GUID to ~ec2-user/.bashrc] ****************************
+Tuesday 05 August 2025  10:53:32 +0000 (0:00:00.574)       0:08:32.012 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [bastion-student-user : Generate student_password if not defined] *********
+Tuesday 05 August 2025  10:53:32 +0000 (0:00:00.305)       0:08:32.318 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [bastion-student-user : Create user] **************************************
+Tuesday 05 August 2025  10:53:32 +0000 (0:00:00.021)       0:08:32.340 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [bastion-student-user : Add student public key] ***************************
+Tuesday 05 August 2025  10:53:33 +0000 (0:00:00.835)       0:08:33.175 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [bastion-student-user : Add env authorized public key to student user] ****
+Tuesday 05 August 2025  10:53:33 +0000 (0:00:00.020)       0:08:33.196 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [bastion-student-user : Enable password authentication] *******************
+Tuesday 05 August 2025  10:53:33 +0000 (0:00:00.342)       0:08:33.539 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [bastion-student-user : Remove PasswordAuthentication line from 50-cloud-init.conf] ***
+Tuesday 05 August 2025  10:53:33 +0000 (0:00:00.306)       0:08:33.845 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [bastion-student-user : Disable root password authentication] *************
+Tuesday 05 August 2025  10:53:34 +0000 (0:00:00.307)       0:08:34.152 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [bastion-student-user : Allow passwordless sudo] **************************
+Tuesday 05 August 2025  10:53:34 +0000 (0:00:00.301)       0:08:34.454 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [bastion-student-user : Restart sshd] *************************************
+Tuesday 05 August 2025  10:53:34 +0000 (0:00:00.306)       0:08:34.760 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [bastion-student-user : Print access info (non CNV)] **********************
+Tuesday 05 August 2025  10:53:35 +0000 (0:00:00.451)       0:08:35.212 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [bastion-student-user : Print access info (CNV)] **************************
+Tuesday 05 August 2025  10:53:35 +0000 (0:00:00.015)       0:08:35.227 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [bastion-student-user : Set access data] **********************************
+Tuesday 05 August 2025  10:53:35 +0000 (0:00:00.015)       0:08:35.243 ******** 
+ok: [desktop.kpw85.internal] => {
+    "changed": false,
+    "data": {
+        "bastion_public_hostname": "ec2-3-140-150-132.us-east-2.compute.amazonaws.com",
+        "bastion_ssh_command": "ssh developer@ec2-3-140-150-132.us-east-2.compute.amazonaws.com",
+        "bastion_ssh_password": "[REDACTED_Secret Keyword_SECRET]",
+        "bastion_ssh_user_name": "developer"
+    }
+}
+
+TASK [bastion-student-user : Set bastion port for CNV] *************************
+Tuesday 05 August 2025  10:53:35 +0000 (0:00:00.039)       0:08:35.283 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [Prepare student user for using Ansible within the environment] ***********
+Tuesday 05 August 2025  10:53:35 +0000 (0:00:00.016)       0:08:35.299 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [Install control student user configuration] ******************************
+Tuesday 05 August 2025  10:53:35 +0000 (0:00:00.021)       0:08:35.321 ******** 
+included: user-create-ansible-service-account for desktop.kpw85.internal
+
+TASK [user-create-ansible-service-account : Create user skel files] ************
+Tuesday 05 August 2025  10:53:35 +0000 (0:00:00.037)       0:08:35.359 ******** 
+changed: [desktop.kpw85.internal] => (item=.vimrc)
+
+TASK [user-create-ansible-service-account : Create user developer] *************
+Tuesday 05 August 2025  10:53:36 +0000 (0:00:00.585)       0:08:35.944 ******** 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/create-user.yml for desktop.kpw85.internal
+
+TASK [user-create-ansible-service-account : Create user developer] *************
+Tuesday 05 August 2025  10:53:36 +0000 (0:00:00.018)       0:08:35.962 ******** 
+[WARNING]: 'append' is set, but no 'groups' are specified. Use 'groups' for
+appending new groups.This will change to an error in Ansible 2.14.
+ok: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : Set random ssh user developer password] ***
+Tuesday 05 August 2025  10:53:36 +0000 (0:00:00.341)       0:08:36.304 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : Setup user's resource directory] ***
+Tuesday 05 August 2025  10:53:37 +0000 (0:00:00.654)       0:08:36.959 ******** 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/create-directory.yml for desktop.kpw85.internal
+
+TASK [user-create-ansible-service-account : Create resource directory] *********
+Tuesday 05 August 2025  10:53:37 +0000 (0:00:00.026)       0:08:36.985 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : Create user's custom directory] ****
+Tuesday 05 August 2025  10:53:37 +0000 (0:00:00.024)       0:08:37.010 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : Enable sudoers] ********************
+Tuesday 05 August 2025  10:53:37 +0000 (0:00:00.019)       0:08:37.030 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : ssh setup for user] ****************
+Tuesday 05 August 2025  10:53:37 +0000 (0:00:00.564)       0:08:37.595 ******** 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/ssh-config.yml for desktop.kpw85.internal
+
+TASK [user-create-ansible-service-account : create /home/developer/.ssh] *******
+Tuesday 05 August 2025  10:53:37 +0000 (0:00:00.024)       0:08:37.619 ******** 
+ok: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : copy the environment .pem key] *****
+Tuesday 05 August 2025  10:53:38 +0000 (0:00:00.313)       0:08:37.933 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : copy the environment .pub key] *****
+Tuesday 05 August 2025  10:53:38 +0000 (0:00:00.560)       0:08:38.493 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : copy custom ssh key] ***************
+Tuesday 05 August 2025  10:53:39 +0000 (0:00:00.566)       0:08:39.060 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : Copy ssh config template] **********
+Tuesday 05 August 2025  10:53:39 +0000 (0:00:00.017)       0:08:39.077 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : Enable password ssh authentication] ***
+Tuesday 05 August 2025  10:53:39 +0000 (0:00:00.575)       0:08:39.653 ******** 
+ok: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : Disable root password ssh authentication] ***
+Tuesday 05 August 2025  10:53:40 +0000 (0:00:00.317)       0:08:39.970 ******** 
+ok: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : Restart sshd to read conf changes] ***
+Tuesday 05 August 2025  10:53:40 +0000 (0:00:00.309)       0:08:40.280 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : Copy files] ************************
+Tuesday 05 August 2025  10:53:40 +0000 (0:00:00.441)       0:08:40.721 ******** 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/copy-files.yml for desktop.kpw85.internal
+
+TASK [user-create-ansible-service-account : Copy user's file to resource dir] ***
+Tuesday 05 August 2025  10:53:40 +0000 (0:00:00.022)       0:08:40.744 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : Copy user's template to resource dir] ***
+Tuesday 05 August 2025  10:53:40 +0000 (0:00:00.016)       0:08:40.761 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : Copy user's contentto resource dir] ***
+Tuesday 05 August 2025  10:53:40 +0000 (0:00:00.016)       0:08:40.778 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : Copy templates] ********************
+Tuesday 05 August 2025  10:53:40 +0000 (0:00:00.016)       0:08:40.794 ******** 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/copy-templates.yml for desktop.kpw85.internal
+
+TASK [user-create-ansible-service-account : Copy user's template to resource dir] ***
+Tuesday 05 August 2025  10:53:40 +0000 (0:00:00.024)       0:08:40.819 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : Copy user's template to home dir] ***
+Tuesday 05 August 2025  10:53:40 +0000 (0:00:00.016)       0:08:40.835 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : Copy user's template to path] ******
+Tuesday 05 August 2025  10:53:40 +0000 (0:00:00.017)       0:08:40.853 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : Copy contents] *********************
+Tuesday 05 August 2025  10:53:40 +0000 (0:00:00.016)       0:08:40.869 ******** 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/copy-contents.yml for desktop.kpw85.internal
+
+TASK [user-create-ansible-service-account : Copy user's content to resource dir] ***
+Tuesday 05 August 2025  10:53:40 +0000 (0:00:00.028)       0:08:40.898 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : Copy user's content to home dir] ***
+Tuesday 05 August 2025  10:53:41 +0000 (0:00:00.021)       0:08:40.919 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : Copy user's content to path] *******
+Tuesday 05 August 2025  10:53:41 +0000 (0:00:00.021)       0:08:40.941 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : Install preferred python] **********
+Tuesday 05 August 2025  10:53:41 +0000 (0:00:00.026)       0:08:40.967 ******** 
+ok: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : Ensure Python 3.9 default python3] ***
+Tuesday 05 August 2025  10:53:43 +0000 (0:00:02.248)       0:08:43.215 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [user-create-ansible-service-account : Ensure Python 3.9 default python] ***
+Tuesday 05 August 2025  10:53:43 +0000 (0:00:00.412)       0:08:43.627 ******** 
+ok: [desktop.kpw85.internal]
+
+TASK [Inject assets onto host(s)] **********************************************
+Tuesday 05 August 2025  10:53:44 +0000 (0:00:00.310)       0:08:43.938 ******** 
+included: asset_injector for desktop.kpw85.internal
+
+TASK [asset_injector : Simple user management] *********************************
+Tuesday 05 August 2025  10:53:44 +0000 (0:00:00.073)       0:08:44.012 ******** 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Create files directory', 'path': '/home/developer/files owner: "developer" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/developer/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'developer', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/developer/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'developer', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [desktop.kpw85.internal]
+
+TASK [asset_injector : Clone Git repositories] *********************************
+Tuesday 05 August 2025  10:53:44 +0000 (0:00:00.053)       0:08:44.066 ******** 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Create files directory', 'path': '/home/developer/files owner: "developer" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+changed: [desktop.kpw85.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/developer/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'developer', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'})
+skipping: [desktop.kpw85.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/developer/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'developer', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+[WARNING]: Module remote_tmp /home/developer/.ansible/tmp did not exist and was
+created with a mode of 0700, this may cause issues when running as another
+user. To avoid this, create the remote_tmp dir with the correct permissions
+manually
+
+TASK [asset_injector : Fetch files via HTTP server] ****************************
+Tuesday 05 August 2025  10:53:45 +0000 (0:00:00.968)       0:08:45.034 ******** 
+skipping: [desktop.kpw85.internal] => (item=None) 
+skipping: [desktop.kpw85.internal] => (item=None) 
+changed: [desktop.kpw85.internal] => (item=None)
+skipping: [desktop.kpw85.internal] => (item=None) 
+skipping: [desktop.kpw85.internal] => (item=None) 
+skipping: [desktop.kpw85.internal] => (item=None) 
+skipping: [desktop.kpw85.internal] => (item=None) 
+changed: [desktop.kpw85.internal]
+
+TASK [asset_injector : Copy local files] ***************************************
+Tuesday 05 August 2025  10:54:02 +0000 (0:00:17.351)       0:09:02.386 ******** 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Create files directory', 'path': '/home/developer/files owner: "developer" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/developer/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'developer', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/developer/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'developer', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [desktop.kpw85.internal]
+
+TASK [asset_injector : Inject local templates] *********************************
+Tuesday 05 August 2025  10:54:02 +0000 (0:00:00.045)       0:09:02.431 ******** 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Create files directory', 'path': '/home/developer/files owner: "developer" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/developer/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'developer', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/developer/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'developer', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [desktop.kpw85.internal]
+
+TASK [asset_injector : Unarchive archive] **************************************
+Tuesday 05 August 2025  10:54:02 +0000 (0:00:00.055)       0:09:02.487 ******** 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Create files directory', 'path': '/home/developer/files owner: "developer" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/developer/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'developer', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/developer/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'developer', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [desktop.kpw85.internal]
+
+TASK [asset_injector : Remove files] *******************************************
+Tuesday 05 August 2025  10:54:02 +0000 (0:00:00.060)       0:09:02.548 ******** 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Create files directory', 'path': '/home/developer/files owner: "developer" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/developer/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'developer', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/developer/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'developer', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+changed: [desktop.kpw85.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'})
+changed: [desktop.kpw85.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'})
+skipping: [desktop.kpw85.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+
+TASK [asset_injector : Create blockinfile entries] *****************************
+Tuesday 05 August 2025  10:54:03 +0000 (0:00:00.622)       0:09:03.170 ******** 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Create files directory', 'path': '/home/developer/files owner: "developer" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/developer/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'developer', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/developer/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'developer', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+changed: [desktop.kpw85.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'})
+skipping: [desktop.kpw85.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+
+TASK [asset_injector : Manage dnf packages] ************************************
+Tuesday 05 August 2025  10:54:03 +0000 (0:00:00.360)       0:09:03.531 ******** 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Create files directory', 'path': '/home/developer/files owner: "developer" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/developer/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'developer', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/developer/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'developer', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [desktop.kpw85.internal]
+
+TASK [asset_injector : Manage services] ****************************************
+Tuesday 05 August 2025  10:54:03 +0000 (0:00:00.044)       0:09:03.576 ******** 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Create files directory', 'path': '/home/developer/files owner: "developer" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/developer/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'developer', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/developer/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'developer', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+changed: [desktop.kpw85.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'})
+
+TASK [asset_injector : Manage capabilities] ************************************
+Tuesday 05 August 2025  10:54:04 +0000 (0:00:00.483)       0:09:04.060 ******** 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Create files directory', 'path': '/home/developer/files owner: "developer" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/developer/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'developer', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/developer/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'developer', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [desktop.kpw85.internal]
+
+TASK [asset_injector : Manage files] *******************************************
+Tuesday 05 August 2025  10:54:04 +0000 (0:00:00.046)       0:09:04.107 ******** 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Create files directory', 'path': '/home/developer/files owner: "developer" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/developer/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'developer', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/developer/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'developer', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [desktop.kpw85.internal]
+
+TASK [asset_injector : Execute Commands] ***************************************
+Tuesday 05 August 2025  10:54:04 +0000 (0:00:00.044)       0:09:04.152 ******** 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Create files directory', 'path': '/home/developer/files owner: "developer" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/developer/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'developer', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/developer/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'developer', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [desktop.kpw85.internal]
+
+TASK [asset_injector : Manage groups] ******************************************
+Tuesday 05 August 2025  10:54:04 +0000 (0:00:00.047)       0:09:04.199 ******** 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Create files directory', 'path': '/home/developer/files owner: "developer" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/developer/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'developer', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/developer/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'developer', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [desktop.kpw85.internal]
+
+TASK [asset_injector : Create lineinfile entries] ******************************
+Tuesday 05 August 2025  10:54:04 +0000 (0:00:00.056)       0:09:04.256 ******** 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Create files directory', 'path': '/home/developer/files owner: "developer" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/developer/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'developer', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/developer/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'developer', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [desktop.kpw85.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [desktop.kpw85.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [desktop.kpw85.internal]
+
+PLAY [PreSoftware flight-check] ************************************************
+
+TASK [Pre-Software checks completed successfully] ******************************
+Tuesday 05 August 2025  10:54:04 +0000 (0:00:00.049)       0:09:04.306 ******** 
+ok: [localhost] => {
+    "msg": "Pre-Software checks completed successfully"
+}
+
+PLAY [Step 00xxxxx software] ***************************************************
+
+TASK [Software tasks Started] **************************************************
+Tuesday 05 August 2025  10:54:04 +0000 (0:00:00.015)       0:09:04.321 ******** 
+ok: [localhost] => {
+    "msg": "Software tasks Started"
+}
+
+PLAY [Install Software workloads for all nodes omit localhost] *****************
+
+TASK [Deploying Software workloads on all nodes omit localhost] ****************
+Tuesday 05 August 2025  10:54:04 +0000 (0:00:00.017)       0:09:04.338 ******** 
+skipping: [desktop.kpw85.internal]
+
+PLAY [Install Software workloads on localhost] *********************************
+
+TASK [Deploying Software workloads  on localhost] ******************************
+Tuesday 05 August 2025  10:54:04 +0000 (0:00:00.020)       0:09:04.359 ******** 
+skipping: [localhost]
+
+PLAY [Install Software workloads on  all hosts] ********************************
+
+TASK [Deploying Software workloads on all hosts] *******************************
+Tuesday 05 August 2025  10:54:04 +0000 (0:00:00.022)       0:09:04.381 ******** 
+skipping: [desktop.kpw85.internal]
+
+PLAY [Install Software workloads on bastion] ***********************************
+
+TASK [Deploying Software workloads on bastion] *********************************
+Tuesday 05 August 2025  10:54:04 +0000 (0:00:00.022)       0:09:04.403 ******** 
+included: novnc for desktop.kpw85.internal => (item=novnc)
+included: rhel-graphical for desktop.kpw85.internal => (item=rhel-graphical)
+included: podman_desktop for desktop.kpw85.internal => (item=podman_desktop)
+included: vscode-server for desktop.kpw85.internal => (item=vscode-server)
+included: agnosticd.ai.setup_nvidia_cuda for desktop.kpw85.internal => (item=agnosticd.ai.setup_nvidia_cuda)
+[WARNING]: While constructing a mapping from /runner/project/ansible/collection
+s/ansible_collections/agnosticd/ai/roles/setup_instructlab/defaults/main.yml,
+line 5, column 1, found a duplicate dict key
+(setup_instructlab_developer_preview). Using last defined value only.
+included: agnosticd.ai.setup_instructlab for desktop.kpw85.internal => (item=agnosticd.ai.setup_instructlab)
+included: lb1212.instruct_lab.bastion_role for desktop.kpw85.internal => (item=lb1212.instruct_lab.bastion_role)
+
+TASK [novnc : Install pip3] ****************************************************
+Tuesday 05 August 2025  10:54:04 +0000 (0:00:00.143)       0:09:04.547 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [novnc : Install certbot] *************************************************
+Tuesday 05 August 2025  10:54:08 +0000 (0:00:04.323)       0:09:08.871 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [novnc : Generate letsencrypt certificate] ********************************
+Tuesday 05 August 2025  10:54:12 +0000 (0:00:03.947)       0:09:12.819 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [novnc : Download noVNC] **************************************************
+Tuesday 05 August 2025  10:54:20 +0000 (0:00:07.581)       0:09:20.400 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [novnc : Unarchive noVNC] *************************************************
+Tuesday 05 August 2025  10:54:21 +0000 (0:00:00.617)       0:09:21.017 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [novnc : Copy novnc.service file] *****************************************
+Tuesday 05 August 2025  10:54:21 +0000 (0:00:00.839)       0:09:21.857 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [novnc : Enable and start service] ****************************************
+Tuesday 05 August 2025  10:54:22 +0000 (0:00:00.566)       0:09:22.423 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [novnc : Set a variable] **************************************************
+Tuesday 05 August 2025  10:54:23 +0000 (0:00:00.618)       0:09:23.042 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [novnc : print noVNC user.info] *******************************************
+Tuesday 05 August 2025  10:54:23 +0000 (0:00:00.016)       0:09:23.058 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [novnc : Save noVNC user data] ********************************************
+Tuesday 05 August 2025  10:54:23 +0000 (0:00:00.017)       0:09:23.075 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [novnc : Set a variable] **************************************************
+Tuesday 05 August 2025  10:54:23 +0000 (0:00:00.016)       0:09:23.092 ******** 
+ok: [desktop.kpw85.internal]
+
+TASK [novnc : print noVNC user.info] *******************************************
+Tuesday 05 August 2025  10:54:23 +0000 (0:00:00.022)       0:09:23.114 ******** 
+ok: [desktop.kpw85.internal] => {
+    "changed": false,
+    "msg": "user.info: noVNC Web URL: https://desktop.kpw85.sandbox5151.opentlc.com:6443/vnc.html?autoconnect=true&resize=remote\\nnoVNC password: REDACTED_SECRET UI URL: \\"https://desktop.kpw85.sandbox5151.opentlc.com:6443/vnc.html?autoconnect=true&resize=remote\\"\\n"
+}
+
+TASK [novnc : Save noVNC user data] ********************************************
+Tuesday 05 August 2025  10:54:23 +0000 (0:00:00.031)       0:09:23.145 ******** 
+ok: [desktop.kpw85.internal] => {
+    "changed": false,
+    "data": {
+        "lab_ui_url": "https://desktop.kpw85.sandbox5151.opentlc.com:6443/vnc.html?autoconnect=true&resize=remote",
+        "novnc_user_password": "[REDACTED_Secret Keyword_SECRET]",
+        "novnc_web_url": "https://desktop.kpw85.sandbox5151.opentlc.com:6443/vnc.html?autoconnect=true&resize=remote"
+    }
+}
+
+TASK [rhel-firewalld : include_tasks] ******************************************
+Tuesday 05 August 2025  10:54:23 +0000 (0:00:00.038)       0:09:23.183 ******** 
+included: /runner/project/ansible/roles/rhel-firewalld/tasks/firewalld.yml for desktop.kpw85.internal
+
+TASK [rhel-firewalld : install firewalld] **************************************
+Tuesday 05 August 2025  10:54:23 +0000 (0:00:00.018)       0:09:23.202 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [rhel-firewalld : start and enable firewalld] *****************************
+Tuesday 05 August 2025  10:54:26 +0000 (0:00:03.662)       0:09:26.864 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [rhel-firewalld : Enable custom ports] ************************************
+Tuesday 05 August 2025  10:54:27 +0000 (0:00:00.572)       0:09:27.437 ******** 
+changed: [desktop.kpw85.internal] => (item=6443/tcp)
+changed: [desktop.kpw85.internal] => (item=8443/tcp)
+changed: [desktop.kpw85.internal] => (item=8000/tcp)
+changed: [desktop.kpw85.internal] => (item=8001/tcp)
+changed: [desktop.kpw85.internal] => (item=8002/tcp)
+changed: [desktop.kpw85.internal] => (item=8003/tcp)
+changed: [desktop.kpw85.internal] => (item=8004/tcp)
+changed: [desktop.kpw85.internal] => (item=8005/tcp)
+changed: [desktop.kpw85.internal] => (item=8006/tcp)
+changed: [desktop.kpw85.internal] => (item=8007/tcp)
+changed: [desktop.kpw85.internal] => (item=8008/tcp)
+changed: [desktop.kpw85.internal] => (item=8009/tcp)
+changed: [desktop.kpw85.internal] => (item=8010/tcp)
+
+TASK [rhel-graphical : Gather package facts] ***********************************
+Tuesday 05 August 2025  10:54:33 +0000 (0:00:05.595)       0:09:33.032 ******** 
+ok: [desktop.kpw85.internal]
+
+TASK [rhel-graphical : Gather service facts] ***********************************
+Tuesday 05 August 2025  10:54:34 +0000 (0:00:00.917)       0:09:33.949 ******** 
+ok: [desktop.kpw85.internal]
+
+TASK [rhel-graphical : Open port 443 on firewalld] *****************************
+Tuesday 05 August 2025  10:54:35 +0000 (0:00:01.789)       0:09:35.739 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [rhel-graphical : Install GUI components (cloud access)] ******************
+Tuesday 05 August 2025  10:54:36 +0000 (0:00:00.455)       0:09:36.194 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [rhel-graphical : Install GUI components] *********************************
+Tuesday 05 August 2025  10:54:36 +0000 (0:00:00.026)       0:09:36.221 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [rhel-graphical : Install GUI components on RHEL 8] ***********************
+Tuesday 05 August 2025  10:54:36 +0000 (0:00:00.026)       0:09:36.247 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [rhel-graphical : Install Internet Browser on RHEL 8] *********************
+Tuesday 05 August 2025  10:54:36 +0000 (0:00:00.029)       0:09:36.276 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [rhel-graphical : Install GNOME on RHEL 8] ********************************
+Tuesday 05 August 2025  10:54:36 +0000 (0:00:00.039)       0:09:36.316 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [rhel-graphical : Install VNC packages on RHEL 8] *************************
+Tuesday 05 August 2025  10:54:36 +0000 (0:00:00.028)       0:09:36.345 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [rhel-graphical : Install GNOME on RHEL 9] ********************************
+Tuesday 05 August 2025  10:54:36 +0000 (0:00:00.026)       0:09:36.371 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [rhel-graphical : Install VNC packages on RHEL 9] *************************
+Tuesday 05 August 2025  10:55:43 +0000 (0:01:06.796)       0:10:43.168 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [rhel-graphical : Create the remote .config directory] ********************
+Tuesday 05 August 2025  10:55:54 +0000 (0:00:10.865)       0:10:54.033 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [rhel-graphical : Configure ~/.config/gnome-initial-setup-done] ***********
+Tuesday 05 August 2025  10:55:54 +0000 (0:00:00.395)       0:10:54.429 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [rhel-graphical : Configure ~/.config/gnome-initial-setup-done] ***********
+Tuesday 05 August 2025  10:55:55 +0000 (0:00:00.710)       0:10:55.140 ******** 
+ok: [desktop.kpw85.internal]
+
+TASK [rhel-graphical : Disable welcome window] *********************************
+Tuesday 05 August 2025  10:55:55 +0000 (0:00:00.685)       0:10:55.825 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [rhel-graphical : Copy TigerVNC service file] *****************************
+Tuesday 05 August 2025  10:55:56 +0000 (0:00:00.416)       0:10:56.242 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [rhel-graphical : Assign the student user to the first display] ***********
+Tuesday 05 August 2025  10:55:56 +0000 (0:00:00.390)       0:10:56.632 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [rhel-graphical : Create the remote .vnc directory] ***********************
+Tuesday 05 August 2025  10:55:57 +0000 (0:00:00.396)       0:10:57.029 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [rhel-graphical : Generate vnc password for root user remotely] ***********
+Tuesday 05 August 2025  10:55:57 +0000 (0:00:00.393)       0:10:57.422 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [rhel-graphical : Change the permission to 600 for ~/.vnc/passwd file] ****
+Tuesday 05 August 2025  10:55:57 +0000 (0:00:00.399)       0:10:57.821 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [rhel-graphical : Start & enable the vncserver] ***************************
+Tuesday 05 August 2025  10:55:58 +0000 (0:00:00.396)       0:10:58.218 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [podman_desktop : Install podman] *****************************************
+Tuesday 05 August 2025  10:55:59 +0000 (0:00:01.074)       0:10:59.293 ******** 
+ok: [desktop.kpw85.internal]
+
+TASK [podman_desktop : Add the flathub flatpak repository] *********************
+Tuesday 05 August 2025  10:56:02 +0000 (0:00:03.542)       0:11:02.836 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [podman_desktop : Install Podman desktop from flathub] ********************
+Tuesday 05 August 2025  10:56:04 +0000 (0:00:01.657)       0:11:04.493 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [podman_desktop : Set repository content path] ****************************
+Tuesday 05 August 2025  10:56:23 +0000 (0:00:18.591)       0:11:23.085 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [podman_desktop : Create podman directory] ********************************
+Tuesday 05 August 2025  10:56:23 +0000 (0:00:00.034)       0:11:23.120 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [podman_desktop : Clone content] ******************************************
+Tuesday 05 August 2025  10:56:23 +0000 (0:00:00.030)       0:11:23.150 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [vscode-server : Set python interpreter for vscode] ***********************
+Tuesday 05 August 2025  10:56:23 +0000 (0:00:00.044)       0:11:23.195 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [vscode-server : Include nginx server task] *******************************
+Tuesday 05 August 2025  10:56:23 +0000 (0:00:00.115)       0:11:23.311 ******** 
+included: /runner/project/ansible/roles/vscode-server/tasks/nginx-server.yml for desktop.kpw85.internal
+
+TASK [vscode-server : nginx | include correct tasks for OS] ********************
+Tuesday 05 August 2025  10:56:23 +0000 (0:00:00.065)       0:11:23.377 ******** 
+included: /runner/project/ansible/roles/vscode-server/tasks/nginx/RedHat9.yml for desktop.kpw85.internal
+
+TASK [vscode-server : nginx/RedHat9 | enable EPEL] *****************************
+Tuesday 05 August 2025  10:56:23 +0000 (0:00:00.066)       0:11:23.443 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [vscode-server : nginx/RedHat9 | install nginx and certbot packages] ******
+Tuesday 05 August 2025  10:56:27 +0000 (0:00:03.805)       0:11:27.249 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [vscode-server : nginx/RedHat9 | remove EPEL after usage] *****************
+Tuesday 05 August 2025  10:56:42 +0000 (0:00:14.913)       0:11:42.162 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [vscode-server : nginx | start nginx server] ******************************
+Tuesday 05 August 2025  10:56:45 +0000 (0:00:03.526)       0:11:45.689 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [vscode-server : nginx | generate certbot certificate (Let's Encrypt)] ****
+Tuesday 05 August 2025  10:56:46 +0000 (0:00:00.842)       0:11:46.531 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [vscode-server : nginx | generate certbot certificate (ZeroSSL)] **********
+Tuesday 05 August 2025  10:56:47 +0000 (0:00:00.920)       0:11:47.452 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [vscode-server : nginx | create nginx certificate directory] **************
+Tuesday 05 August 2025  10:56:47 +0000 (0:00:00.028)       0:11:47.480 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [vscode-server : nginx | copy letsencrypt key] ****************************
+Tuesday 05 August 2025  10:56:47 +0000 (0:00:00.404)       0:11:47.884 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [vscode-server : nginx | copy letsencrypt certificate] ********************
+Tuesday 05 August 2025  10:56:48 +0000 (0:00:00.405)       0:11:48.290 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [vscode-server : nginx | copy custom vscode nginx configuration file] *****
+Tuesday 05 August 2025  10:56:48 +0000 (0:00:00.398)       0:11:48.689 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [vscode-server : nginx | enable selinux boolean to connect with vscode-server] ***
+Tuesday 05 August 2025  10:56:49 +0000 (0:00:00.746)       0:11:49.436 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [vscode-server : nginx | restart nginx server] ****************************
+Tuesday 05 August 2025  10:56:50 +0000 (0:00:01.435)       0:11:50.871 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [vscode-server : Include vscode server task] ******************************
+Tuesday 05 August 2025  10:56:51 +0000 (0:00:00.722)       0:11:51.593 ******** 
+included: /runner/project/ansible/roles/vscode-server/tasks/vscode-server.yml for desktop.kpw85.internal
+
+TASK [vscode-server : vscode | download vscode-server package] *****************
+Tuesday 05 August 2025  10:56:51 +0000 (0:00:00.053)       0:11:51.647 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [vscode-server : vscode | install vscode-server] **************************
+Tuesday 05 August 2025  10:56:52 +0000 (0:00:01.069)       0:11:52.717 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [vscode-server : Clean up] ************************************************
+Tuesday 05 August 2025  10:57:03 +0000 (0:00:10.312)       0:12:03.029 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [vscode-server : vscode | create directory in user's home] ****************
+Tuesday 05 August 2025  10:57:03 +0000 (0:00:00.425)       0:12:03.455 ******** 
+changed: [desktop.kpw85.internal] => (item=User)
+changed: [desktop.kpw85.internal] => (item=extensions)
+
+TASK [vscode-server : vscode | copy default settings] **************************
+Tuesday 05 August 2025  10:57:04 +0000 (0:00:00.803)       0:12:04.259 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [vscode-server : vscode | create config directory in user's home] *********
+Tuesday 05 August 2025  10:57:05 +0000 (0:00:00.740)       0:12:05.000 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [vscode-server : vscode | copy configuration] *****************************
+Tuesday 05 August 2025  10:57:05 +0000 (0:00:00.427)       0:12:05.427 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [vscode-server : vscode | download necessary extensions] ******************
+Tuesday 05 August 2025  10:57:06 +0000 (0:00:00.748)       0:12:06.176 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [vscode-server : vscode | install extensions in given order] **************
+Tuesday 05 August 2025  10:57:06 +0000 (0:00:00.028)       0:12:06.204 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [vscode-server : Copy coder.json template] ********************************
+Tuesday 05 August 2025  10:57:06 +0000 (0:00:00.028)       0:12:06.233 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [vscode-server : vscode | enable and start vscode-server daemon] **********
+Tuesday 05 August 2025  10:57:07 +0000 (0:00:00.739)       0:12:06.972 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [vscode-server : vscode | make sure user lingers to avoid issues with podman] ***
+Tuesday 05 August 2025  10:57:07 +0000 (0:00:00.914)       0:12:07.887 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [vscode-server : Include clone workspace repos task] **********************
+Tuesday 05 August 2025  10:57:08 +0000 (0:00:00.512)       0:12:08.399 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [vscode-server : Include automationcontroller nginx task] *****************
+Tuesday 05 August 2025  10:57:08 +0000 (0:00:00.073)       0:12:08.472 ******** 
+skipping: [desktop.kpw85.internal]
+
+TASK [vscode-server : Restart vscode-server.service] ***************************
+Tuesday 05 August 2025  10:57:08 +0000 (0:00:00.032)       0:12:08.505 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [agnosticd.ai.setup_nvidia_cuda : Install EPEL] ***************************
+Tuesday 05 August 2025  10:57:09 +0000 (0:00:00.768)       0:12:09.273 ******** 
+changed: [desktop.kpw85.internal]
+
+TASK [agnosticd.ai.setup_nvidia_cuda : Setup repos] ****************************
+Tuesday 05 August 2025  10:57:13 +0000 (0:00:03.667)       0:12:12.941 ******** 
+changed: [desktop.kpw85.internal] => (item={'name': 'cuda-rhel-x86_64', 'description': 'NVIDIA CUDA Repository', 'baseurl': 'https://developer.download.nvidia.com/compute/cuda/repos/rhel9/x86_64', 'enabled': True, 'gpgcheck': False})
+
+TASK [agnosticd.ai.setup_nvidia_cuda : Install nvdia drivers and CUDA] *********
+Tuesday 05 August 2025  10:57:13 +0000 (0:00:00.500)       0:12:13.441 ******** 
+changed: [desktop.kpw85.internal] => (item=@nvidia-driver:latest-dkms)
+changed: [desktop.kpw85.internal] => (item=cuda-toolkit-12-4)
+failed: [desktop.kpw85.internal] (item=nvidia-gds) => {"ansible_loop_var": "package", "changed": false, "failures": [], "msg": "Depsolve Error occurred: \\n Problem: package nvidia-gds-13-0-13.0.0-1.x86_64 from cuda-rhel-x86_64 requires nvidia-fs >= 2.26.6, but none of the providers can be installed\\n  - package nvidia-fs-2.26.6-1.x86_64 from cuda-rhel-x86_64 requires nvidia-fs-dkms = 2.26.6, but none of the providers can be installed\\n  - package nvidia-gds-13.0.0-1.x86_64 from cuda-rhel-x86_64 requires nvidia-gds-13-0 >= 13.0.0, but none of the providers can be installed\\n  - package nvidia-fs-dkms-2.26.6-1.x86_64 from cuda-rhel-x86_64 requires kmod-nvidia-open-dkms >= 515.43.04, but none of the providers can be installed\\n  - cannot install the best candidate for the job\\n  - package kmod-nvidia-open-dkms-3:515.105.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:515.48.07-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:515.65.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:515.65.07-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:515.86.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:520.61.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:525.105.17-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:525.125.06-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:525.147.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:525.60.13-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:525.85.12-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:530.30.02-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.104.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.104.12-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.129.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.154.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.161.07-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.161.08-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.183.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.183.06-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.216.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.216.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.230.02-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.247.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.261.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.54.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.86.10-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:545.23.06-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:545.23.08-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.127.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.127.08-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.144.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.163.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.54.14-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.54.15-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.90.07-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.90.12-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:555.42.02-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:555.42.06-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:560.28.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:560.35.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:560.35.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:565.57.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.124.06-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.133.20-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.148.08-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.158.01-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.172.08-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.86.10-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.86.15-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:575.51.03-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:575.57.08-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:580.65.06-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering", "package": "nvidia-gds", "rc": 1, "results": []}
+changed: [desktop.kpw85.internal] => (item=libcudnn8)
+changed: [desktop.kpw85.internal] => (item=libcudnn8-devel)
+ok: [desktop.kpw85.internal] => (item=cuda-cccl-12-4)
+changed: [desktop.kpw85.internal] => (item=libnccl-2.22.3-1+cuda12.4.x86_64)
+
+PLAY RECAP *********************************************************************
+desktop.kpw85.internal     : ok=151  changed=99   unreachable=0    failed=1    skipped=81   rescued=0    ignored=0   
+localhost                  : ok=125  changed=27   unreachable=0    failed=0    skipped=73   rescued=0    ignored=0   
+
+TASKS RECAP ********************************************************************
+Tuesday 05 August 2025  11:03:48 +0000 (0:06:35.403)       0:18:48.844 ******** 
+=============================================================================== 
+agnosticd.ai.setup_nvidia_cuda : Install nvdia drivers and CUDA ------- 395.40s
+common : Update all packages ------------------------------------------ 212.53s
+infra-ec2-template-create : Launch CloudFormation template (local) ---- 157.84s
+rhel-graphical : Install GNOME on RHEL 9 ------------------------------- 66.80s
+common : install common packages for RHEL 9 ---------------------------- 53.64s
+common : Reboot all VMs ------------------------------------------------ 31.10s
+podman_desktop : Install Podman desktop from flathub ------------------- 18.59s
+asset_injector : Fetch files via HTTP server --------------------------- 17.35s
+vscode-server : nginx/RedHat9 | install nginx and certbot packages ----- 14.91s
+rhel-graphical : Install VNC packages on RHEL 9 ------------------------ 10.87s
+vscode-server : vscode | install vscode-server ------------------------- 10.31s
+novnc : Generate letsencrypt certificate -------------------------------- 7.58s
+bastion-base : Setup Red Hat packages for bastion ----------------------- 7.14s
+rhel-firewalld : Enable custom ports ------------------------------------ 5.60s
+set-repositories : sat | Register with activation-key with HA ----------- 4.83s
+novnc : Install pip3 ---------------------------------------------------- 4.32s
+novnc : Install certbot ------------------------------------------------- 3.95s
+vscode-server : nginx/RedHat9 | enable EPEL ----------------------------- 3.81s
+agnosticd.ai.setup_nvidia_cuda : Install EPEL --------------------------- 3.67s
+rhel-firewalld : install firewalld -------------------------------------- 3.66s
