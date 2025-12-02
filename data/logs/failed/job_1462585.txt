@@ -1,0 +1,2558 @@
+Vault password (gpte_vault_0): 
+
+PLAY [Step 0000 Set Action] ****************************************************
+
+TASK [Set ACTION to provision] *************************************************
+Tuesday 05 August 2025  03:09:36 +0000 (0:00:00.012)       0:00:00.012 ******** 
+skipping: [localhost]
+
+PLAY [Step 0000 Setup runtime] *************************************************
+
+TASK [debug] *******************************************************************
+Tuesday 05 August 2025  03:09:36 +0000 (0:00:00.030)       0:00:00.043 ******** 
+skipping: [localhost]
+
+TASK [Ensure cloud provider is supported] **************************************
+Tuesday 05 August 2025  03:09:36 +0000 (0:00:00.020)       0:00:00.063 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+PLAY [Step 0000 Setup Output Directory] ****************************************
+
+TASK [Set output_dir if not defined] *******************************************
+Tuesday 05 August 2025  03:09:36 +0000 (0:00:00.040)       0:00:00.103 ******** 
+skipping: [localhost]
+
+TASK [Create output_dir if it does not exists] *********************************
+Tuesday 05 August 2025  03:09:36 +0000 (0:00:00.020)       0:00:00.124 ******** 
+changed: [localhost]
+
+TASK [Attempt to restore output_dir contents] **********************************
+Tuesday 05 August 2025  03:09:37 +0000 (0:00:00.239)       0:00:00.363 ******** 
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from s3 bucket] ********
+Tuesday 05 August 2025  03:09:37 +0000 (0:00:00.031)       0:00:00.395 ******** 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/restore-from-s3.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Tuesday 05 August 2025  03:09:37 +0000 (0:00:00.040)       0:00:00.435 ******** 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/fetch-from-s3-s3_object.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Tuesday 05 August 2025  03:09:37 +0000 (0:00:00.057)       0:00:00.493 ******** 
+ok: [localhost]
+
+TASK [agnosticd_restore_output_dir : Decrypt archive] **************************
+Tuesday 05 August 2025  03:09:38 +0000 (0:00:00.828)       0:00:01.321 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from archive] **********
+Tuesday 05 August 2025  03:09:38 +0000 (0:00:00.016)       0:00:01.338 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove archive file from output_dir] ******
+Tuesday 05 August 2025  03:09:38 +0000 (0:00:00.016)       0:00:01.354 ******** 
+ok: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove encrypted archive file from output_dir] ***
+Tuesday 05 August 2025  03:09:38 +0000 (0:00:00.169)       0:00:01.524 ******** 
+ok: [localhost]
+
+TASK [Touch file provision-user-data.yaml and provision-user-info.yaml] ********
+Tuesday 05 August 2025  03:09:38 +0000 (0:00:00.169)       0:00:01.693 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create empty user-info.yaml and user-data.yaml in output dir] ************
+Tuesday 05 August 2025  03:09:38 +0000 (0:00:00.313)       0:00:02.007 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create symlink user-data.yaml -> provision-user-data.yaml] ***************
+Tuesday 05 August 2025  03:09:39 +0000 (0:00:00.744)       0:00:02.751 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Tuesday 05 August 2025  03:09:39 +0000 (0:00:00.324)       0:00:03.076 ******** 
+ok: [localhost]
+
+TASK [Include variables files] *************************************************
+Tuesday 05 August 2025  03:09:39 +0000 (0:00:00.020)       0:00:03.096 ******** 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars_ec2.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars_ec2.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_secret_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Tuesday 05 August 2025  03:09:39 +0000 (0:00:00.077)       0:00:03.174 ******** 
+skipping: [localhost]
+
+TASK [Set passthrough user data] ***********************************************
+Tuesday 05 August 2025  03:09:39 +0000 (0:00:00.019)       0:00:03.193 ******** 
+skipping: [localhost]
+
+PLAY [Step 0000 Install Galaxy roles and collections] **************************
+
+TASK [Use requirements_content] ************************************************
+Tuesday 05 August 2025  03:09:39 +0000 (0:00:00.029)       0:00:03.222 ******** 
+skipping: [localhost]
+
+TASK [Copy requirements content to output_dir] *********************************
+Tuesday 05 August 2025  03:09:39 +0000 (0:00:00.013)       0:00:03.235 ******** 
+skipping: [localhost]
+
+TASK [Use requirements_path from the config] ***********************************
+Tuesday 05 August 2025  03:09:39 +0000 (0:00:00.013)       0:00:03.249 ******** 
+ok: [localhost]
+
+TASK [Check if requirements.yml exists] ****************************************
+Tuesday 05 August 2025  03:09:39 +0000 (0:00:00.014)       0:00:03.264 ******** 
+ok: [localhost]
+
+TASK [set_fact] ****************************************************************
+Tuesday 05 August 2025  03:09:40 +0000 (0:00:00.169)       0:00:03.433 ******** 
+ok: [localhost]
+
+TASK [Install roles from requirements.yml] *************************************
+Tuesday 05 August 2025  03:09:40 +0000 (0:00:00.018)       0:00:03.452 ******** 
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (Not EE)] **********************
+Tuesday 05 August 2025  03:09:41 +0000 (0:00:00.845)       0:00:04.297 ******** 
+skipping: [localhost]
+
+TASK [Get installed collections (EE)] ******************************************
+Tuesday 05 August 2025  03:09:41 +0000 (0:00:00.023)       0:00:04.320 ******** 
+included: /runner/project/ansible/install_collections_ee.yml for localhost
+
+TASK [Get the list of installed collections (EE)] ******************************
+Tuesday 05 August 2025  03:09:41 +0000 (0:00:00.028)       0:00:04.349 ******** 
+changed: [localhost]
+
+TASK [Create temporary file for requirements.yml (EE)] *************************
+Tuesday 05 August 2025  03:09:41 +0000 (0:00:00.494)       0:00:04.843 ******** 
+changed: [localhost]
+
+TASK [Rewrite requirements, filter out installed collections (EE)] *************
+Tuesday 05 August 2025  03:09:41 +0000 (0:00:00.239)       0:00:05.083 ******** 
+[WARNING]: skipping installation of community.general==9.2.0 ;
+community.general==8.6.0 already installed in EE
+[WARNING]: skipping installation of community.crypto==2.21.1 ;
+community.crypto==2.19.1 already installed in EE
+[WARNING]: skipping installation of ansible.posix==1.5.4 ; ansible.posix==1.5.4
+already installed in EE
+[WARNING]: skipping installation of kubernetes.core==5.0.0 ;
+kubernetes.core==3.0.1 already installed in EE
+[WARNING]: skipping installation of amazon.aws==8.1.0 ; amazon.aws==7.6.0
+already installed in EE
+[WARNING]: skipping installation of community.vmware==4.5.0 ;
+community.vmware==4.3.0 already installed in EE
+[WARNING]: skipping installation of google.cloud==1.3.0 ; google.cloud==1.3.0
+already installed in EE
+[WARNING]: skipping installation of openstack.cloud==2.2.0 ;
+openstack.cloud==2.2.0 already installed in EE
+[WARNING]: skipping installation of community.okd==4.0.0 ; community.okd==3.0.1
+already installed in EE
+[WARNING]: skipping installation of kubevirt.core==2.0.0 ; kubevirt.core==1.3.2
+already installed in EE
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (EE)] **************************
+Tuesday 05 August 2025  03:09:42 +0000 (0:00:00.320)       0:00:05.403 ******** 
+changed: [localhost]
+
+TASK [Cleanup tempfile (EE)] ***************************************************
+Tuesday 05 August 2025  03:09:48 +0000 (0:00:06.036)       0:00:11.440 ******** 
+changed: [localhost]
+
+TASK [Install dynamic sources] *************************************************
+Tuesday 05 August 2025  03:09:48 +0000 (0:00:00.159)       0:00:11.600 ******** 
+
+TASK [agnosticd_dynamic : Create dynamic-cache and dynamic-roles directories] ***
+Tuesday 05 August 2025  03:09:48 +0000 (0:00:00.023)       0:00:11.623 ******** 
+changed: [localhost] => (item=/runner/project/ansible/dynamic-cache)
+changed: [localhost] => (item=/runner/project/ansible/dynamic-roles)
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to dynamic roles dir] ***
+Tuesday 05 August 2025  03:09:48 +0000 (0:00:00.339)       0:00:11.963 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to cache] *************
+Tuesday 05 August 2025  03:09:48 +0000 (0:00:00.016)       0:00:11.979 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install git sources] *********************************
+Tuesday 05 August 2025  03:09:48 +0000 (0:00:00.014)       0:00:11.993 ******** 
+skipping: [localhost]
+
+PLAY [Step 000 - Pre Infrastructure] *******************************************
+
+TASK [Print debug message] *****************************************************
+Tuesday 05 August 2025  03:09:48 +0000 (0:00:00.024)       0:00:12.018 ******** 
+ok: [localhost] => {
+    "msg": "Step 000 Pre Infrastructure"
+}
+
+TASK [Ensure variables are set] ************************************************
+Tuesday 05 August 2025  03:09:48 +0000 (0:00:00.012)       0:00:12.031 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "ocp4_pull_secret variable is defined"
+}
+
+TASK [Run add user to GCP project role] ****************************************
+Tuesday 05 August 2025  03:09:48 +0000 (0:00:00.028)       0:00:12.059 ******** 
+skipping: [localhost]
+
+TASK [Create GCP Credentials File] *********************************************
+Tuesday 05 August 2025  03:09:48 +0000 (0:00:00.011)       0:00:12.070 ******** 
+skipping: [localhost]
+
+TASK [Get Google Cloud SDK] ****************************************************
+Tuesday 05 August 2025  03:09:48 +0000 (0:00:00.011)       0:00:12.082 ******** 
+skipping: [localhost]
+
+TASK [Generate windows Administrator password if not already defined] **********
+Tuesday 05 August 2025  03:09:48 +0000 (0:00:00.011)       0:00:12.094 ******** 
+skipping: [localhost]
+
+TASK [Set fact generated_windows_password (just generated)] ********************
+Tuesday 05 August 2025  03:09:48 +0000 (0:00:00.011)       0:00:12.105 ******** 
+skipping: [localhost]
+
+TASK [Run infra-aws-capacity-reservation] **************************************
+Tuesday 05 August 2025  03:09:48 +0000 (0:00:00.011)       0:00:12.117 ******** 
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Tuesday 05 August 2025  03:09:48 +0000 (0:00:00.022)       0:00:12.139 ******** 
+included: /runner/project/ansible/roles-infra/infra-aws-capacity-reservation/tasks/pre_checks.yaml for localhost
+
+TASK [infra-aws-capacity-reservation : Ensure mandatory variables are set] *****
+Tuesday 05 August 2025  03:09:48 +0000 (0:00:00.041)       0:00:12.181 ******** 
+ok: [localhost] => (item=agnosticd_aws_capacity_reservations dictionary is empty)
+ok: [localhost] => (item=agnosticd_aws_capacity_reservation_regions list is empty)
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Tuesday 05 August 2025  03:09:48 +0000 (0:00:00.072)       0:00:12.254 ******** 
+included: /runner/project/ansible/roles-infra/infra-aws-capacity-reservation/tasks/create.yaml for localhost
+
+TASK [infra-aws-capacity-reservation : Retrieve stack_deployed from provision-user-data.yaml] ***
+Tuesday 05 August 2025  03:09:49 +0000 (0:00:00.035)       0:00:12.289 ******** 
+ok: [localhost]
+
+TASK [infra-aws-capacity-reservation : Retrieve the region from user-data.yaml] ***
+Tuesday 05 August 2025  03:09:49 +0000 (0:00:00.032)       0:00:12.322 ******** 
+skipping: [localhost]
+
+TASK [infra-aws-capacity-reservation : Create on-demand capacity reservations and save result] ***
+Tuesday 05 August 2025  03:09:49 +0000 (0:00:00.116)       0:00:12.438 ******** 
+Reservation created: cr-0028d1146d40062fc (us-east-2c)
+Reservation created: cr-00442e9c193b13982 (us-east-2c)
+Reservation created: cr-0f9e8e51ae11c076e (us-east-2c)
+Reservation created: cr-0fc204e91e4ff8acd (us-east-2c)
+ok: [localhost]
+
+TASK [infra-aws-capacity-reservation : Set AZ and region] **********************
+Tuesday 05 August 2025  03:09:50 +0000 (0:00:01.341)       0:00:13.780 ******** 
+ok: [localhost]
+
+TASK [infra-aws-capacity-reservation : Ensure aws_region is not passed as extra vars and different] ***
+Tuesday 05 August 2025  03:09:50 +0000 (0:00:00.029)       0:00:13.809 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [infra-aws-capacity-reservation : Set default aws_availability_zone (single AZ)] ***
+Tuesday 05 August 2025  03:09:50 +0000 (0:00:00.030)       0:00:13.840 ******** 
+skipping: [localhost]
+
+TASK [infra-aws-capacity-reservation : Save region in user-data] ***************
+Tuesday 05 August 2025  03:09:50 +0000 (0:00:00.028)       0:00:13.868 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "data": {
+        "aws_region": "us-east-2"
+    }
+}
+
+TASK [infra-aws-capacity-reservation : Save AZ in user-data] *******************
+Tuesday 05 August 2025  03:09:50 +0000 (0:00:00.045)       0:00:13.914 ******** 
+skipping: [localhost]
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Tuesday 05 August 2025  03:09:50 +0000 (0:00:00.034)       0:00:13.948 ******** 
+skipping: [localhost]
+
+TASK [Set availability zone for bastion, masters and workers] ******************
+Tuesday 05 August 2025  03:09:50 +0000 (0:00:00.030)       0:00:13.979 ******** 
+ok: [localhost]
+
+PLAY [Step 001.0 Infrastructure Pre-Checks] ************************************
+
+TASK [Test aws command] ********************************************************
+Tuesday 05 August 2025  03:09:50 +0000 (0:00:00.041)       0:00:14.021 ******** 
+ok: [localhost]
+
+TASK [Fail if AWS command CLI if not available] ********************************
+Tuesday 05 August 2025  03:09:50 +0000 (0:00:00.170)       0:00:14.191 ******** 
+skipping: [localhost]
+
+PLAY [Step 001.1 Deploy Infrastructure] ****************************************
+
+TASK [Run infra-images] ********************************************************
+Tuesday 05 August 2025  03:09:50 +0000 (0:00:00.029)       0:00:14.220 ******** 
+
+TASK [infra-images : include_tasks] ********************************************
+Tuesday 05 August 2025  03:09:50 +0000 (0:00:00.021)       0:00:14.242 ******** 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2.yaml for localhost
+
+TASK [infra-images : include_tasks] ********************************************
+Tuesday 05 August 2025  03:09:50 +0000 (0:00:00.028)       0:00:14.270 ******** 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_images.yaml for localhost => (item={'name': 'bastion', 'count': 1, 'unique': True, 'public_dns': True, 'alt_name': ['clientvm'], 'image': 'RHEL93GOLD-latest', 'flavor': {'ec2': 't3.medium'}, 'tags': [{'key': 'AnsibleGroup', 'value': 'bastions,clientvms'}, {'key': 'ostype', 'value': 'linux'}, {'key': 'Purpose', 'value': 'prod'}, {'key': 'project', 'value': 'ocp4-cluster-z6szt'}, {'key': 'user', 'value': 'lab-user'}], 'rootfs_size': 30, 'security_groups': ['BastionSG']})
+
+TASK [infra-images : include_tasks] ********************************************
+Tuesday 05 August 2025  03:09:51 +0000 (0:00:00.032)       0:00:14.303 ******** 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_image.yaml for localhost => (item={'owner': 309956199498, 'name': 'RHEL-9.3.*_HVM-*Access*', 'architecture': 'x86_64', 'aws_filters': {'is-public': False}})
+
+TASK [infra-images : Lookup image for bastion] *********************************
+Tuesday 05 August 2025  03:09:51 +0000 (0:00:00.052)       0:00:14.356 ******** 
+ok: [localhost]
+
+TASK [infra-images : Fail if no image found for bastion] ***********************
+Tuesday 05 August 2025  03:09:51 +0000 (0:00:00.797)       0:00:15.153 ******** 
+skipping: [localhost]
+
+TASK [infra-images : Save image in agnosticd_images, use latest if multiple found] ***
+Tuesday 05 August 2025  03:09:51 +0000 (0:00:00.021)       0:00:15.174 ******** 
+ok: [localhost]
+
+TASK [infra-images : debug agnosticd_image] ************************************
+Tuesday 05 August 2025  03:09:51 +0000 (0:00:00.026)       0:00:15.201 ******** 
+skipping: [localhost]
+
+TASK [infra-images : Print images found for each instance] *********************
+Tuesday 05 August 2025  03:09:51 +0000 (0:00:00.017)       0:00:15.219 ******** 
+ok: [localhost] => (item=bastion) => {
+    "msg": "bastion - RHEL-9.3.0_HVM-20240229-x86_64-27-Access2-GP3 - ami-03d966b7245c660ec - Red Hat BYOL Linux - us-east-2"
+}
+
+TASK [Run infra-aws-capacity-reservation] **************************************
+Tuesday 05 August 2025  03:09:51 +0000 (0:00:00.026)       0:00:15.246 ******** 
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Tuesday 05 August 2025  03:09:51 +0000 (0:00:00.017)       0:00:15.264 ******** 
+included: /runner/project/ansible/roles-infra/infra-aws-capacity-reservation/tasks/pre_checks.yaml for localhost
+
+TASK [infra-aws-capacity-reservation : Ensure mandatory variables are set] *****
+Tuesday 05 August 2025  03:09:52 +0000 (0:00:00.029)       0:00:15.293 ******** 
+ok: [localhost] => (item=agnosticd_aws_capacity_reservations dictionary is empty)
+ok: [localhost] => (item=agnosticd_aws_capacity_reservation_regions list is empty)
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Tuesday 05 August 2025  03:09:52 +0000 (0:00:00.066)       0:00:15.360 ******** 
+included: /runner/project/ansible/roles-infra/infra-aws-capacity-reservation/tasks/create.yaml for localhost
+
+TASK [infra-aws-capacity-reservation : Retrieve stack_deployed from provision-user-data.yaml] ***
+Tuesday 05 August 2025  03:09:52 +0000 (0:00:00.038)       0:00:15.398 ******** 
+skipping: [localhost]
+
+TASK [infra-aws-capacity-reservation : Retrieve the region from user-data.yaml] ***
+Tuesday 05 August 2025  03:09:52 +0000 (0:00:00.038)       0:00:15.436 ******** 
+skipping: [localhost]
+
+TASK [infra-aws-capacity-reservation : Create on-demand capacity reservations and save result] ***
+Tuesday 05 August 2025  03:09:52 +0000 (0:00:00.033)       0:00:15.470 ******** 
+Reservation canceled: cr-0028d1146d40062fc  (us-east-2)
+Reservation canceled: cr-00442e9c193b13982  (us-east-2)
+Reservation canceled: cr-0f9e8e51ae11c076e  (us-east-2)
+Reservation canceled: cr-0fc204e91e4ff8acd  (us-east-2)
+Reservation created: cr-025bfac3a780084d4 (us-east-2c)
+Reservation created: cr-0c557d1d5fa4e89c6 (us-east-2c)
+Reservation created: cr-0553a9d4d58d82fc4 (us-east-2c)
+Reservation created: cr-046cf5839ffee91a4 (us-east-2c)
+changed: [localhost]
+
+TASK [infra-aws-capacity-reservation : Set AZ and region] **********************
+Tuesday 05 August 2025  03:09:54 +0000 (0:00:02.192)       0:00:17.662 ******** 
+ok: [localhost]
+
+TASK [infra-aws-capacity-reservation : Ensure aws_region is not passed as extra vars and different] ***
+Tuesday 05 August 2025  03:09:54 +0000 (0:00:00.031)       0:00:17.694 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [infra-aws-capacity-reservation : Set default aws_availability_zone (single AZ)] ***
+Tuesday 05 August 2025  03:09:54 +0000 (0:00:00.031)       0:00:17.725 ******** 
+skipping: [localhost]
+
+TASK [infra-aws-capacity-reservation : Save region in user-data] ***************
+Tuesday 05 August 2025  03:09:54 +0000 (0:00:00.028)       0:00:17.754 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "data": {
+        "aws_region": "us-east-2"
+    }
+}
+
+TASK [infra-aws-capacity-reservation : Save AZ in user-data] *******************
+Tuesday 05 August 2025  03:09:54 +0000 (0:00:00.036)       0:00:17.790 ******** 
+skipping: [localhost]
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Tuesday 05 August 2025  03:09:54 +0000 (0:00:00.027)       0:00:17.818 ******** 
+skipping: [localhost]
+
+TASK [Empty the agnosticd_images and run the detection again] ******************
+Tuesday 05 August 2025  03:09:54 +0000 (0:00:00.028)       0:00:17.847 ******** 
+ok: [localhost]
+
+TASK [Run infra-images again to use the proper region selected by the reservations] ***
+Tuesday 05 August 2025  03:09:54 +0000 (0:00:00.018)       0:00:17.865 ******** 
+
+TASK [infra-images : include_tasks] ********************************************
+Tuesday 05 August 2025  03:09:54 +0000 (0:00:00.025)       0:00:17.891 ******** 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2.yaml for localhost
+
+TASK [infra-images : include_tasks] ********************************************
+Tuesday 05 August 2025  03:09:54 +0000 (0:00:00.036)       0:00:17.928 ******** 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_images.yaml for localhost => (item={'name': 'bastion', 'count': 1, 'unique': True, 'public_dns': True, 'alt_name': ['clientvm'], 'image': 'RHEL93GOLD-latest', 'flavor': {'ec2': 't3.medium'}, 'tags': [{'key': 'AnsibleGroup', 'value': 'bastions,clientvms'}, {'key': 'ostype', 'value': 'linux'}, {'key': 'Purpose', 'value': 'prod'}, {'key': 'project', 'value': 'ocp4-cluster-z6szt'}, {'key': 'user', 'value': 'lab-user'}], 'rootfs_size': 30, 'security_groups': ['BastionSG']})
+
+TASK [infra-images : include_tasks] ********************************************
+Tuesday 05 August 2025  03:09:54 +0000 (0:00:00.042)       0:00:17.970 ******** 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_image.yaml for localhost => (item={'owner': 309956199498, 'name': 'RHEL-9.3.*_HVM-*Access*', 'architecture': 'x86_64', 'aws_filters': {'is-public': False}})
+
+TASK [infra-images : Lookup image for bastion] *********************************
+Tuesday 05 August 2025  03:09:54 +0000 (0:00:00.050)       0:00:18.021 ******** 
+ok: [localhost]
+
+TASK [infra-images : Fail if no image found for bastion] ***********************
+Tuesday 05 August 2025  03:09:55 +0000 (0:00:00.702)       0:00:18.723 ******** 
+skipping: [localhost]
+
+TASK [infra-images : Save image in agnosticd_images, use latest if multiple found] ***
+Tuesday 05 August 2025  03:09:55 +0000 (0:00:00.023)       0:00:18.747 ******** 
+ok: [localhost]
+
+TASK [infra-images : debug agnosticd_image] ************************************
+Tuesday 05 August 2025  03:09:55 +0000 (0:00:00.028)       0:00:18.776 ******** 
+skipping: [localhost]
+
+TASK [infra-images : Print images found for each instance] *********************
+Tuesday 05 August 2025  03:09:55 +0000 (0:00:00.023)       0:00:18.799 ******** 
+ok: [localhost] => (item=bastion) => {
+    "msg": "bastion - RHEL-9.3.0_HVM-20240229-x86_64-27-Access2-GP3 - ami-03d966b7245c660ec - Red Hat BYOL Linux - us-east-2"
+}
+
+TASK [Run infra-aws-open-environment Role] *************************************
+Tuesday 05 August 2025  03:09:55 +0000 (0:00:00.032)       0:00:18.832 ******** 
+
+TASK [infra-aws-open-environment : Create Open Environment resources] **********
+Tuesday 05 August 2025  03:09:55 +0000 (0:00:00.025)       0:00:18.857 ******** 
+included: /runner/project/ansible/roles-infra/infra-aws-open-environment/tasks/create_resources.yaml for localhost
+
+TASK [include_role : infra-cloud-tags] *****************************************
+Tuesday 05 August 2025  03:09:55 +0000 (0:00:00.019)       0:00:18.876 ******** 
+
+TASK [infra-cloud-tags : Set cloud_tags_final (string)] ************************
+Tuesday 05 August 2025  03:09:55 +0000 (0:00:00.029)       0:00:18.905 ******** 
+skipping: [localhost]
+
+TASK [infra-cloud-tags : Set cloud_tags_final (dictionary)] ********************
+Tuesday 05 August 2025  03:09:55 +0000 (0:00:00.024)       0:00:18.930 ******** 
+ok: [localhost]
+
+TASK [infra-aws-open-environment : Save generated password] ********************
+Tuesday 05 August 2025  03:09:55 +0000 (0:00:00.038)       0:00:18.968 ******** 
+ok: [localhost]
+
+TASK [infra-aws-open-environment : Launch CloudFormation template to create Open Environment] ***
+Tuesday 05 August 2025  03:09:55 +0000 (0:00:00.087)       0:00:19.056 ******** 
+changed: [localhost]
+
+TASK [infra-aws-open-environment : get AWS credentials from stack outputs] *****
+Tuesday 05 August 2025  03:10:42 +0000 (0:00:46.291)       0:01:05.347 ******** 
+ok: [localhost]
+
+TASK [infra-aws-open-environment : Print information to user] ******************
+Tuesday 05 August 2025  03:10:42 +0000 (0:00:00.017)       0:01:05.364 ******** 
+included: /runner/project/ansible/roles-infra/infra-aws-open-environment/tasks/print_user_info.yaml for localhost
+
+TASK [infra-aws-open-environment : Print Open Environment information to user] ***
+Tuesday 05 August 2025  03:10:42 +0000 (0:00:00.019)       0:01:05.383 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "user.info: \\nYour AWS credentials are:\\n\\n`AWS_ACCESS_KEY_ID: [REDACTED_AWS Access Key_SECRET]`\\n\\n` DO NOT expose these AWS credentials in GIT repos or anywhere else that could be public! If detected, your environment will be deleted without warning.*\\n\\nTop level route53 domain: .sandbox1269.opentlc.com\\n\\nWeb Console Access: https://757439284131.signin.aws.amazon.com/console\\n\\nWeb Console Credentials: open-environment-z6szt-admin / 6byCq2cp8n0A\\n\\nRefer to the following pages regarding the AWS CLI and APIs:\\n\\n** AWS CLI Installation: https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html\\n\\n** AWS Config Basics: https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html\\n\\n** AWS API Getting Started: https://aws.amazon.com/developers/getting-started/\\n\\n*WARNING*\\n\\n** *We monitor usage and we will be charging back to your cost center.*\\n** *Reports from the cloud provider of misuse or account compromise will result in immediate deletion of your environment without any warning to you and referral to Red Hat INFOSEC.*\\n** *Do not post your credentials in github/email/web pages/etc.*\\n** *NOTE: Most account compromises occur when accidentally checking credentials into github.*\\n"
+}
+
+TASK [infra-aws-open-environment : Record sandbox information as user data] ****
+Tuesday 05 August 2025  03:10:42 +0000 (0:00:00.029)       0:01:05.413 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "data": {
+        "aws_access_key_id": "[REDACTED_AWS Access Key_SECRET]",
+        "aws_default_region": "us-east-2",
+        "aws_route53_domain": ".sandbox1269.opentlc.com",
+        "aws_sandbox_account_id": "757439284131",
+        "aws_secret_access_key": "[REDACTED_AWS Access Key_SECRET]"
+    }
+}
+
+TASK [infra-aws-open-environment : Record sandbox web console access as user data] ***
+Tuesday 05 August 2025  03:10:42 +0000 (0:00:00.030)       0:01:05.443 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "data": {
+        "aws_web_console_password": "[REDACTED_Secret Keyword_SECRET]",
+        "aws_web_console_url": "https://757439284131.signin.aws.amazon.com/console",
+        "aws_web_console_user_name": "open-environment-z6szt-admin"
+    }
+}
+
+TASK [infra-aws-open-environment : Destroy Open Environment resources] *********
+Tuesday 05 August 2025  03:10:42 +0000 (0:00:00.028)       0:01:05.471 ******** 
+skipping: [localhost]
+
+TASK [Create ssh provision key] ************************************************
+Tuesday 05 August 2025  03:10:42 +0000 (0:00:00.015)       0:01:05.487 ******** 
+
+TASK [create_ssh_provision_key : include_tasks] ********************************
+Tuesday 05 August 2025  03:10:42 +0000 (0:00:00.052)       0:01:05.540 ******** 
+included: /runner/project/ansible/roles-infra/create_ssh_provision_key/tasks/checks.yaml for localhost
+
+TASK [create_ssh_provision_key : Ensure key_name is not defined] ***************
+Tuesday 05 August 2025  03:10:42 +0000 (0:00:00.021)       0:01:05.562 ******** 
+fatal: [localhost]: FAILED! => {"changed": false, "msg": "WARNING: key_name is DEPRECATED and should not be defined when using new create_ssh_provision_key role."}
+...ignoring
+
+TASK [create_ssh_provision_key : Generate SSH keys] ****************************
+Tuesday 05 August 2025  03:10:42 +0000 (0:00:00.019)       0:01:05.581 ******** 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Fix permission of ssh key] ********************
+Tuesday 05 August 2025  03:10:42 +0000 (0:00:00.228)       0:01:05.810 ******** 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH pub key content] *****************
+Tuesday 05 August 2025  03:10:42 +0000 (0:00:00.159)       0:01:05.969 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Save all facts for SSH] ***********************
+Tuesday 05 August 2025  03:10:42 +0000 (0:00:00.170)       0:01:06.140 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Write SSH pub key] ****************************
+Tuesday 05 August 2025  03:10:42 +0000 (0:00:00.018)       0:01:06.158 ******** 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Report user info for SSH provision key as user data] ***
+Tuesday 05 August 2025  03:10:43 +0000 (0:00:00.300)       0:01:06.459 ******** 
+skipping: [localhost]
+
+TASK [include_role : agnosticd_save_output_dir] ********************************
+Tuesday 05 August 2025  03:10:43 +0000 (0:00:00.014)       0:01:06.474 ******** 
+
+TASK [agnosticd_save_output_dir : Save output dir if archive file is defined] ***
+Tuesday 05 August 2025  03:10:43 +0000 (0:00:00.030)       0:01:06.505 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/save-output-dir.yml for localhost
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Tuesday 05 August 2025  03:10:43 +0000 (0:00:00.030)       0:01:06.535 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/create-output-dir-archive.yml for localhost
+
+TASK [agnosticd_save_output_dir : Create tempfile for archive] *****************
+Tuesday 05 August 2025  03:10:43 +0000 (0:00:00.025)       0:01:06.561 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Set agnosticd_save_output_dir_archive_tempfile] ***
+Tuesday 05 August 2025  03:10:43 +0000 (0:00:00.158)       0:01:06.719 ******** 
+ok: [localhost]
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Tuesday 05 August 2025  03:10:43 +0000 (0:00:00.020)       0:01:06.739 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Encrypt tarball using password] **************
+Tuesday 05 August 2025  03:10:43 +0000 (0:00:00.176)       0:01:06.916 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_save_output_dir : Upload output_dir archive to S3] *************
+Tuesday 05 August 2025  03:10:43 +0000 (0:00:00.020)       0:01:06.936 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3.yml for localhost
+
+TASK [Run infra-cloud-tags role] ***********************************************
+Tuesday 05 August 2025  03:10:43 +0000 (0:00:00.028)       0:01:06.965 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Tuesday 05 August 2025  03:10:43 +0000 (0:00:00.018)       0:01:06.983 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3-s3_object.yml for localhost
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Tuesday 05 August 2025  03:10:43 +0000 (0:00:00.109)       0:01:07.092 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir archive tempfile] **********
+Tuesday 05 August 2025  03:10:44 +0000 (0:00:00.918)       0:01:08.011 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir encrypted archive tempfile] ***
+Tuesday 05 August 2025  03:10:44 +0000 (0:00:00.163)       0:01:08.175 ******** 
+skipping: [localhost]
+
+TASK [Locate environment SSH key] **********************************************
+Tuesday 05 August 2025  03:10:44 +0000 (0:00:00.024)       0:01:08.200 ******** 
+
+TASK [locate_env_authorized_key : Set env_authorized_key_path] *****************
+Tuesday 05 August 2025  03:10:44 +0000 (0:00:00.035)       0:01:08.235 ******** 
+ok: [localhost]
+
+TASK [locate_env_authorized_key : Set env_authorized_key_path_pub] *************
+Tuesday 05 August 2025  03:10:44 +0000 (0:00:00.035)       0:01:08.271 ******** 
+ok: [localhost]
+
+TASK [locate_env_authorized_key : Generate SSH pub key content if it doesn't exist] ***
+Tuesday 05 August 2025  03:10:45 +0000 (0:00:00.032)       0:01:08.304 ******** 
+ok: [localhost]
+
+TASK [locate_env_authorized_key : Save SSH pub key content as fact] ************
+Tuesday 05 August 2025  03:10:45 +0000 (0:00:00.164)       0:01:08.468 ******** 
+ok: [localhost]
+
+TASK [Create keypair in ec2] ***************************************************
+Tuesday 05 August 2025  03:10:45 +0000 (0:00:00.085)       0:01:08.553 ******** 
+
+TASK [infra-ec2-ssh-key : include_tasks] ***************************************
+Tuesday 05 August 2025  03:10:45 +0000 (0:00:00.039)       0:01:08.593 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-ssh-key : include_tasks] ***************************************
+Tuesday 05 August 2025  03:10:45 +0000 (0:00:00.015)       0:01:08.609 ******** 
+included: /runner/project/ansible/roles-infra/infra-ec2-ssh-key/tasks/create.yaml for localhost
+
+TASK [infra-ec2-ssh-key : Stat local infra key] ********************************
+Tuesday 05 August 2025  03:10:45 +0000 (0:00:00.020)       0:01:08.630 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-ssh-key : Generate SSH pub key content] ************************
+Tuesday 05 August 2025  03:10:45 +0000 (0:00:00.183)       0:01:08.813 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-ssh-key : Save all facts for SSH] ******************************
+Tuesday 05 August 2025  03:10:45 +0000 (0:00:00.019)       0:01:08.832 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-ssh-key : Create infra key] ************************************
+Tuesday 05 August 2025  03:10:45 +0000 (0:00:00.018)       0:01:08.851 ******** 
+changed: [localhost]
+
+TASK [Run infra-ec2-template-generate Role] ************************************
+Tuesday 05 August 2025  03:10:46 +0000 (0:00:00.752)       0:01:09.604 ******** 
+
+TASK [infra-ec2-template-generate : Detect all possible Availability Zones that can host all the instance types and pick one] ***
+Tuesday 05 August 2025  03:10:46 +0000 (0:00:00.053)       0:01:09.657 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Check if template exists for the environment] ***
+Tuesday 05 August 2025  03:10:46 +0000 (0:00:00.026)       0:01:09.684 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Use CloudFormation template from the environment] ***
+Tuesday 05 August 2025  03:10:46 +0000 (0:00:00.179)       0:01:09.863 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Use the default CloudFormation template] ***
+Tuesday 05 August 2025  03:10:46 +0000 (0:00:00.012)       0:01:09.876 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Print cloudformation_template_src] *********
+Tuesday 05 August 2025  03:10:46 +0000 (0:00:00.014)       0:01:09.890 ******** 
+ok: [localhost] => {
+    "cloudformation_template_src": "templates/cloud_template.j2"
+}
+
+TASK [infra-ec2-template-generate : Determine the security groups used in 'instances' dictionary] ***
+Tuesday 05 August 2025  03:10:46 +0000 (0:00:00.013)       0:01:09.904 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Tuesday 05 August 2025  03:10:46 +0000 (0:00:00.062)       0:01:09.967 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Print cloudformation_template] *************
+Tuesday 05 August 2025  03:10:46 +0000 (0:00:00.014)       0:01:09.981 ******** 
+ok: [localhost] => {
+    "cloudformation_template": "/tmp/output-ff2656e9-7dbc-515f-99ff-624bf9a815d6/ocp4-cluster.z6szt.ec2_cloud_template"
+}
+
+TASK [infra-ec2-template-generate : AWS Generate CloudFormation Template] ******
+Tuesday 05 August 2025  03:10:46 +0000 (0:00:00.014)       0:01:09.996 ******** 
+changed: [localhost]
+
+TASK [infra-ec2-template-generate : Stop if debugging template] ****************
+Tuesday 05 August 2025  03:10:47 +0000 (0:00:00.401)       0:01:10.397 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Stat CloudFormation template] **************
+Tuesday 05 August 2025  03:10:47 +0000 (0:00:00.015)       0:01:10.413 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Get user name] *****************************
+Tuesday 05 August 2025  03:10:47 +0000 (0:00:00.173)       0:01:10.587 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Tuesday 05 August 2025  03:10:47 +0000 (0:00:00.013)       0:01:10.601 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Tuesday 05 August 2025  03:10:47 +0000 (0:00:00.013)       0:01:10.614 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Create bucket] *****************************
+Tuesday 05 August 2025  03:10:47 +0000 (0:00:00.012)       0:01:10.627 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Copy Template to S3] ***********************
+Tuesday 05 August 2025  03:10:47 +0000 (0:00:00.013)       0:01:10.640 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Check for !Ref in CF template] *************
+Tuesday 05 August 2025  03:10:47 +0000 (0:00:00.012)       0:01:10.652 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : validation cloudformation template] ********
+Tuesday 05 August 2025  03:10:47 +0000 (0:00:00.277)       0:01:10.930 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "Cloudformation template is syntactically valid"
+}
+
+TASK [infra-ec2-template-generate : Copy original !Ref CF template back in place] ***
+Tuesday 05 August 2025  03:10:47 +0000 (0:00:00.027)       0:01:10.957 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : validate cloudformation template with validate-template (local)] ***
+Tuesday 05 August 2025  03:10:47 +0000 (0:00:00.013)       0:01:10.970 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : validate cloudformation template with validate-template (S3)] ***
+Tuesday 05 August 2025  03:10:48 +0000 (0:00:00.742)       0:01:11.713 ******** 
+skipping: [localhost]
+
+TASK [Run infra-ec2-template-create Role] **************************************
+Tuesday 05 August 2025  03:10:48 +0000 (0:00:00.014)       0:01:11.728 ******** 
+
+TASK [infra-ec2-template-create : Retrieve stack_deployed from provision-user-data.yaml] ***
+Tuesday 05 August 2025  03:10:48 +0000 (0:00:00.074)       0:01:11.803 ******** 
+skipping: [localhost]
+
+TASK [include_role : infra-cloud-tags] *****************************************
+Tuesday 05 August 2025  03:10:48 +0000 (0:00:00.021)       0:01:11.824 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : set_fact] ************************************
+Tuesday 05 August 2025  03:10:48 +0000 (0:00:00.018)       0:01:11.842 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Wait a bit for the previous stack and child resources to be deleted] ***
+Tuesday 05 August 2025  03:10:48 +0000 (0:00:00.020)       0:01:11.863 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : include_tasks] *******************************
+Tuesday 05 August 2025  03:10:48 +0000 (0:00:00.017)       0:01:11.881 ******** 
+skipping: [localhost]
+
+TASK [Regenerate the CloudFormation template because of custom images] *********
+Tuesday 05 August 2025  03:10:48 +0000 (0:00:00.020)       0:01:11.901 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Prepare for launch CloudFormation template from local] ***
+Tuesday 05 August 2025  03:10:48 +0000 (0:00:00.021)       0:01:11.923 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Prepare for launch CloudFormation template from S3 bucket] ***
+Tuesday 05 August 2025  03:10:48 +0000 (0:00:00.020)       0:01:11.943 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Launch CloudFormation template (local)] ******
+Tuesday 05 August 2025  03:10:48 +0000 (0:00:00.019)       0:01:11.963 ******** 
+[WARNING]: Using a variable for a task's 'args' is unsafe in some situations
+(see
+https://docs.ansible.com/ansible/devel/reference_appendices/faq.html#argsplat-
+unsafe)
+[DEPRECATION WARNING]: Param 'template' is deprecated. See the module docs for 
+more information. This feature will be removed from amazon.aws in a release 
+after 2026-05-01. Deprecation warnings can be disabled by setting 
+deprecation_warnings=False in ansible.cfg.
+changed: [localhost]
+
+TASK [infra-ec2-template-create : debug cloudformation] ************************
+Tuesday 05 August 2025  03:13:26 +0000 (0:02:37.577)       0:03:49.541 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : debug cloudformation] ************************
+Tuesday 05 August 2025  03:13:26 +0000 (0:00:00.019)       0:03:49.560 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Delete S3 bucket if it exists] ***************
+Tuesday 05 August 2025  03:13:26 +0000 (0:00:00.024)       0:03:49.584 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : report s3 error] *****************************
+Tuesday 05 August 2025  03:13:26 +0000 (0:00:00.023)       0:03:49.608 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Destroy cloudformation template] *************
+Tuesday 05 August 2025  03:13:26 +0000 (0:00:00.021)       0:03:49.630 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : report Cloudformation Destroy error] *********
+Tuesday 05 August 2025  03:13:26 +0000 (0:00:00.020)       0:03:49.651 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : report Cloudformation error] *****************
+Tuesday 05 August 2025  03:13:26 +0000 (0:00:00.019)       0:03:49.670 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Save aws_region_loop into aws_region_final] ***
+Tuesday 05 August 2025  03:13:26 +0000 (0:00:00.018)       0:03:49.688 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Output region] *******************************
+Tuesday 05 August 2025  03:13:26 +0000 (0:00:00.025)       0:03:49.714 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Output region] *******************************
+Tuesday 05 August 2025  03:13:26 +0000 (0:00:00.018)       0:03:49.732 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : set_fact] ************************************
+Tuesday 05 August 2025  03:13:26 +0000 (0:00:00.019)       0:03:49.751 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Save stack deployed for futur runs (idempotent)] ***
+Tuesday 05 August 2025  03:13:26 +0000 (0:00:00.020)       0:03:49.772 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : set_fact] ************************************
+Tuesday 05 August 2025  03:13:26 +0000 (0:00:00.017)       0:03:49.790 ******** 
+skipping: [localhost]
+
+TASK [Run infra-ec2-template-create Role into FallBack region] *****************
+Tuesday 05 August 2025  03:13:26 +0000 (0:00:00.018)       0:03:49.809 ******** 
+skipping: [localhost]
+
+TASK [report Cloudformation error] *********************************************
+Tuesday 05 August 2025  03:13:26 +0000 (0:00:00.025)       0:03:49.834 ******** 
+skipping: [localhost]
+
+PLAY [Step 001.2 Create Inventory and SSH config setup] ************************
+
+TASK [include_tasks] ***********************************************************
+Tuesday 05 August 2025  03:13:26 +0000 (0:00:00.041)       0:03:49.876 ******** 
+skipping: [localhost]
+
+TASK [Run infra-ec2-create-inventory Role] *************************************
+Tuesday 05 August 2025  03:13:26 +0000 (0:00:00.025)       0:03:49.901 ******** 
+
+TASK [infra-ec2-create-inventory : Report aws region] **************************
+Tuesday 05 August 2025  03:13:26 +0000 (0:00:00.028)       0:03:49.930 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : Gather EC2 info] ****************************
+Tuesday 05 August 2025  03:13:26 +0000 (0:00:00.017)       0:03:49.947 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : debug ec2_info] *****************************
+Tuesday 05 August 2025  03:13:27 +0000 (0:00:00.715)       0:03:50.663 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : windows ostype workaround] ******************
+Tuesday 05 August 2025  03:13:27 +0000 (0:00:00.019)       0:03:50.682 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : set_fact] ***********************************
+Tuesday 05 August 2025  03:13:27 +0000 (0:00:00.018)       0:03:50.701 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : Find the bastion in this batch of host] *****
+Tuesday 05 August 2025  03:13:27 +0000 (0:00:00.019)       0:03:50.721 ******** 
+ok: [localhost] => (item=bastion.z6szt.internal)
+
+TASK [infra-ec2-create-inventory : Add hosts to the current inventory] *********
+Tuesday 05 August 2025  03:13:27 +0000 (0:00:00.028)       0:03:50.749 ******** 
+changed: [localhost] => (item=bastion.z6szt.internal)
+
+TASK [infra-ec2-create-inventory : Add hosts to groups indicated by AnsibleGroup tag] ***
+Tuesday 05 August 2025  03:13:27 +0000 (0:00:00.046)       0:03:50.795 ******** 
+changed: [localhost] => (item=bastion.z6szt.internal)
+
+TASK [infra-ec2-create-inventory : debug hostvars] *****************************
+Tuesday 05 August 2025  03:13:27 +0000 (0:00:00.032)       0:03:50.828 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : debug groups] *******************************
+Tuesday 05 August 2025  03:13:27 +0000 (0:00:00.025)       0:03:50.854 ******** 
+skipping: [localhost]
+
+TASK [Run Common SSH Config Generator Role] ************************************
+Tuesday 05 August 2025  03:13:27 +0000 (0:00:00.023)       0:03:50.877 ******** 
+
+TASK [infra-common-ssh-config-generate : Store bastion hostname as a fact] *****
+Tuesday 05 August 2025  03:13:27 +0000 (0:00:00.039)       0:03:50.916 ******** 
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : Delete dedicated known_host if it exists (new deployment)] ***
+Tuesday 05 August 2025  03:13:27 +0000 (0:00:00.022)       0:03:50.939 ******** 
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : delete local ssh config, start fresh] ***
+Tuesday 05 August 2025  03:13:27 +0000 (0:00:00.181)       0:03:51.120 ******** 
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : Create empty local ssh config] ********
+Tuesday 05 August 2025  03:13:28 +0000 (0:00:00.168)       0:03:51.288 ******** 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : Add bastion proxy config to workdir ssh config file] ***
+Tuesday 05 August 2025  03:13:28 +0000 (0:00:00.185)       0:03:51.474 ******** 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : Add all hosts to workdir ssh config file] ***
+Tuesday 05 August 2025  03:13:28 +0000 (0:00:00.303)       0:03:51.777 ******** 
+skipping: [localhost] => (item=bastion.z6szt.internal) 
+skipping: [localhost]
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Tuesday 05 August 2025  03:13:28 +0000 (0:00:00.044)       0:03:51.822 ******** 
+ok: [localhost]
+ok: [bastion.z6szt.internal]
+
+TASK [Include variables files] *************************************************
+Tuesday 05 August 2025  03:13:28 +0000 (0:00:00.042)       0:03:51.864 ******** 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_vars.yaml) 
+skipping: [bastion.z6szt.internal] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_vars.yml) 
+skipping: [bastion.z6szt.internal] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars.yaml) 
+skipping: [bastion.z6szt.internal] => (item=/runner/project/ansible/configs/ocp4-cluster/env_vars.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars.yml)
+skipping: [bastion.z6szt.internal] => (item=/runner/project/ansible/configs/ocp4-cluster/env_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars_ec2.yaml) 
+skipping: [bastion.z6szt.internal] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars_ec2.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_secret_vars.yaml) 
+ok: [bastion.z6szt.internal] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_secret_vars.yml) 
+skipping: [bastion.z6szt.internal] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars_ec2.yaml) 
+ok: [bastion.z6szt.internal] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars_ec2.yml)
+skipping: [bastion.z6szt.internal] => (item=/runner/project/ansible/configs/ocp4-cluster/env_secret_vars.yaml) 
+skipping: [bastion.z6szt.internal] => (item=/runner/project/ansible/configs/ocp4-cluster/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Tuesday 05 August 2025  03:13:28 +0000 (0:00:00.082)       0:03:51.947 ******** 
+skipping: [localhost]
+skipping: [bastion.z6szt.internal]
+
+TASK [Set passthrough user data] ***********************************************
+Tuesday 05 August 2025  03:13:28 +0000 (0:00:00.023)       0:03:51.970 ******** 
+skipping: [localhost]
+[WARNING]: Could not match supplied host pattern, ignoring: windows
+[WARNING]: Could not match supplied host pattern, ignoring: network
+
+PLAY [Step 001.3 Configure Linux Hosts and Wait for Connection] ****************
+
+TASK [set facts for remote access] *********************************************
+Tuesday 05 August 2025  03:13:28 +0000 (0:00:00.042)       0:03:52.013 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [Run infra-ec2-wait_for_linux_hosts Role] *********************************
+Tuesday 05 August 2025  03:13:28 +0000 (0:00:00.020)       0:03:52.033 ******** 
+
+TASK [infra-ec2-wait_for_linux_hosts : wait for linux host to be available] ****
+Tuesday 05 August 2025  03:13:28 +0000 (0:00:00.018)       0:03:52.052 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [infra-ec2-wait_for_linux_hosts : restart instance if wait_for_connection failed] ***
+Tuesday 05 August 2025  03:13:29 +0000 (0:00:01.015)       0:03:53.067 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [infra-ec2-wait_for_linux_hosts : wait for linux host to be available (retry)] ***
+Tuesday 05 August 2025  03:13:29 +0000 (0:00:00.021)       0:03:53.089 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [infra-ec2-wait_for_linux_hosts : ping] ***********************************
+Tuesday 05 August 2025  03:13:29 +0000 (0:00:00.019)       0:03:53.108 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [Run infra-ec2-linux-set-hostname Role] ***********************************
+Tuesday 05 August 2025  03:13:30 +0000 (0:00:00.508)       0:03:53.617 ******** 
+
+TASK [infra-ec2-linux-set-hostname : Set hostname based on tag_internaldns] ****
+Tuesday 05 August 2025  03:13:30 +0000 (0:00:00.022)       0:03:53.639 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [infra-ec2-linux-set-hostname : stat] *************************************
+Tuesday 05 August 2025  03:13:31 +0000 (0:00:00.926)       0:03:54.565 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [infra-ec2-linux-set-hostname : disable updating hostname in /etc/cloud/cloud.cfg] ***
+Tuesday 05 August 2025  03:13:31 +0000 (0:00:00.432)       0:03:54.998 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [infra-ec2-linux-set-hostname : Add preserve_hostname to /etc/cloud/cloud.cfg] ***
+Tuesday 05 August 2025  03:13:32 +0000 (0:00:00.423)       0:03:55.421 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [Add authorized_keys] *****************************************************
+Tuesday 05 August 2025  03:13:32 +0000 (0:00:00.425)       0:03:55.847 ******** 
+
+TASK [ssh_authorized_keys : Add all authorized keys] ***************************
+Tuesday 05 August 2025  03:13:32 +0000 (0:00:00.031)       0:03:55.878 ******** 
+changed: [bastion.z6szt.internal] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvZvn+GL0wTOsAdh1ikIQoqj2Fw/RA6F14O347rgKdpkgOQpGQk1k2gM8wcla2Y1o0bPIzwlNy1oh5o9uNjZDMeDcEXWuXbu0cRBy4pVRhh8a8zAZfssnqoXHHLyPyHWpdTmgIhr0UIGYrzHrnySAnUcDp3gJuE46UEBtrlyv94cVvZf+EZUTaZ+2KjTRLoNryCn7vKoGHQBooYg1DeHLcLSRWEADUo+bP0y64+X/XTMZOAXbf8kTXocqAgfl/usbYdfLOgwU6zWuj8vxzAKuMEXS1AJSp5aeqRKlbbw40IkTmLoQIgJdb2Zt98BH/xHDe9xxhscUCfWeS37XLp75J opentlc_admin_backdoor'})
+changed: [bastion.z6szt.internal] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCg5PJgwAB8U2NiXh4aRZAg09f3xjT3y1CP322StmT4ljiqhXoqOOZ++qDIKFmtHGmeEjvkCo11M2oVmJTeaibeS0E+Xsoi9wTcit47h2ka7WPdzhy/togFQOVAftbwi3RtHDOweIFL18FQ8inhu9W/oFibsZjQEWtHoHtLkmA5zOSQtWDmVfx3iWrKd4svkNbJ+SNZMnD0tCDoot3y0Knzyt+wpZtVd94YXpUDTCJ8Ie1nFSdm7H/QB9/bDXeOSSnHBq2xSmywodNoyA1gFZ1hhpPNEauQjzeKCMpNLPATg/jtQb1zojG6QnO/7I5euKOlDeJ1Odg35aTG31p8EbT3UL8NZssdn3YY3OEQ/2rN0PaQ+zxzmzfh1otx4Rsh1IbD5S99GuQD2ma7m0zOzrBb8Mil5TCaTaK8mIADq/lclj0sAMrH1EXyFvDiHEG+cV0iMyXOxEMTJs4YLr8DyqsTZ34TvVSJP9/0YwQuRYhg0MJmFbMvl/4yibTgyvTYLN0= instructor-key-2022'})
+changed: [bastion.z6szt.internal] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIIDDIOD4M5yYo3uCFDBDb6del+NG2fkboWh90kW/S6H elliptical_instructor_key_2024'})
+changed: [bastion.z6szt.internal] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOBfsRMLCEQt86EZnvQ/rK49wo1odLqpd1NEz3tDjUWY elliptical_admin_key_2023'})
+changed: [bastion.z6szt.internal] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC3nKRSIwWn7pjMf2i1TyXgjsauEIoDS8Xulad2ZAbsmZrWcKU5hPi23xq0g2AjRYiXml8zSX9jAQfmlKnrXGYo5WN39iXGRI3lFJmXwmEHne3Z0qtUgt9MBA4w0Tcunw7pXniKntvo2oiDYZlXHztRMHMeUkUjLgCGjn2cfi0uqd4pxLmneMziHMKDxcyy+9MaGnWr5Bs27r3b6rWNFqG2fAo1Z5ZWEA/r3MhdI9ZzMRJVTUhunpstwMX8MRxx/OGk0zynyHcSkh91sqZ3xhPpvRkmYLRa5I0aw88AMenWBfc586FyORL2e/UVoIoyMkBMnovaRIoiTj74RuPeZ6gGKbbfpt1ggDs4j9Z1Go51GlGPYcchvLQvx+Ucv5+tLZSqZBhPOXLRqFuQgRZz4R6j5O5UkfdjLJxBoHQZxT0Wdzd/XiGcAlyDOq8puNSxdF3w/8eGGSKDdUONv1tc1dcTFd6kR+jYaedjD1fldVrC+4fRUFkFqEovDPVI4159VSqJWz78WuqazNnCRMVDnS4Le+Er1pvTbk5rOdYUkF67vxVwD3cyJ3D1C49wVsIc3+kngZN2246OEMsbVugEPG4A8/UOlHIE5iBps+mM9GX6UFSj4aLFh15XeOGKs7aH2r1thfvFPSvk12t8QvNDhhhhAf5EzzypvNEbXQ6fk3YSUw== rsa_admin_key_2023'})
+
+TASK [ssh_authorized_keys : Add all authorized keys (legacy var all_ssh_authorized_keys)] ***
+Tuesday 05 August 2025  03:13:35 +0000 (0:00:02.483)       0:03:58.362 ******** 
+skipping: [bastion.z6szt.internal]
+
+PLAY [Step 001.4 Configure Windows Hosts and Wait for Connection] **************
+skipping: no hosts matched
+
+PLAY [Step 002 - Post Infrastructure] ******************************************
+
+TASK [All-Cloud Post Infrastructure] *******************************************
+Tuesday 05 August 2025  03:13:35 +0000 (0:00:00.032)       0:03:58.395 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "data": {
+        "guid": "z6szt"
+    }
+}
+
+TASK [OpenShift Floating IPs on OpenStack] *************************************
+Tuesday 05 August 2025  03:13:35 +0000 (0:00:00.022)       0:03:58.418 ******** 
+skipping: [localhost]
+
+TASK [Create secret for SSH Key] ***********************************************
+Tuesday 05 August 2025  03:13:35 +0000 (0:00:00.014)       0:03:58.432 ******** 
+skipping: [localhost]
+
+TASK [Save Route53User credentials from stack outputs] *************************
+Tuesday 05 August 2025  03:13:35 +0000 (0:00:00.014)       0:03:58.447 ******** 
+ok: [localhost]
+
+TASK [Set FQDN for the bastion VM] *********************************************
+Tuesday 05 August 2025  03:13:35 +0000 (0:00:00.022)       0:03:58.470 ******** 
+skipping: [localhost]
+
+TASK [Set FQDN for each Windows VM] ********************************************
+Tuesday 05 August 2025  03:13:35 +0000 (0:00:00.015)       0:03:58.485 ******** 
+skipping: [localhost]
+
+TASK [Set FQDN for each Windows VM] ********************************************
+Tuesday 05 August 2025  03:13:35 +0000 (0:00:00.014)       0:03:58.500 ******** 
+skipping: [localhost]
+
+TASK [Print Host Information] **************************************************
+Tuesday 05 August 2025  03:13:35 +0000 (0:00:00.015)       0:03:58.516 ******** 
+skipping: [localhost]
+
+PLAY [Step 002 Post Infrastructure regreSSHion hotfix] *************************
+
+TASK [Gathering Facts] *********************************************************
+Tuesday 05 August 2025  03:13:35 +0000 (0:00:00.026)       0:03:58.542 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [Have facts been gathered?] ***********************************************
+Tuesday 05 August 2025  03:13:36 +0000 (0:00:01.184)       0:03:59.727 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [Set sshd LoginGraceTime to 0 in /etc/ssh/sshd_config] ********************
+Tuesday 05 August 2025  03:13:37 +0000 (0:00:00.563)       0:04:00.290 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [Restart SSH service for regreSSHion fix] *********************************
+Tuesday 05 August 2025  03:13:37 +0000 (0:00:00.436)       0:04:00.727 ******** 
+changed: [bastion.z6szt.internal]
+
+PLAY [localhost] ***************************************************************
+
+TASK [Export in-memory inventory to inventory file] ****************************
+Tuesday 05 August 2025  03:13:38 +0000 (0:00:00.851)       0:04:01.578 ******** 
+skipping: [localhost]
+
+PLAY [Step 003 - Pre Software] *************************************************
+
+TASK [Print debug message] *****************************************************
+Tuesday 05 August 2025  03:13:38 +0000 (0:00:00.039)       0:04:01.618 ******** 
+ok: [localhost] => {
+    "msg": "Step 003 - Pre Software"
+}
+
+PLAY [Step 003.1 Configure all hosts with repositories, common files and set environment key] ***
+
+TASK [set-repositories : Run setup if gather_facts hasn't been run] ************
+Tuesday 05 August 2025  03:13:38 +0000 (0:00:00.046)       0:04:01.664 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [set-repositories : Configure satellite repositories] *********************
+Tuesday 05 August 2025  03:13:38 +0000 (0:00:00.021)       0:04:01.685 ******** 
+included: /runner/project/ansible/roles/set-repositories/tasks/satellite-repos.yml for bastion.z6szt.internal
+
+TASK [set-repositories : sat | Check subscription-manager package existence] ***
+Tuesday 05 August 2025  03:13:38 +0000 (0:00:00.117)       0:04:01.803 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Install subscription-manager package] ***********
+Tuesday 05 August 2025  03:13:38 +0000 (0:00:00.022)       0:04:01.825 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Remove rh-amazon-rhui-client package] ***********
+Tuesday 05 August 2025  03:13:38 +0000 (0:00:00.021)       0:04:01.846 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Unregister the system just in case] *************
+Tuesday 05 August 2025  03:13:40 +0000 (0:00:02.007)       0:04:03.853 ******** 
+included: /runner/project/ansible/roles/set-repositories/tasks/unregister.yml for bastion.z6szt.internal
+
+TASK [set-repositories : unreg | Unregister From Subscription Manager] *********
+Tuesday 05 August 2025  03:13:40 +0000 (0:00:00.031)       0:04:03.884 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Install CA certificate from satellite server] ***
+Tuesday 05 August 2025  03:13:41 +0000 (0:00:00.819)       0:04:04.704 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Update CA Trust Bundle] *************************
+Tuesday 05 August 2025  03:13:42 +0000 (0:00:00.676)       0:04:05.380 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Remove satellite Cert] **************************
+Tuesday 05 August 2025  03:13:43 +0000 (0:00:01.207)       0:04:06.588 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Find current repository files] ******************
+Tuesday 05 August 2025  03:13:44 +0000 (0:00:00.945)       0:04:07.534 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Remove current repository files] ****************
+Tuesday 05 August 2025  03:13:44 +0000 (0:00:00.530)       0:04:08.064 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Install Satellite CA certificate package] *******
+Tuesday 05 August 2025  03:13:44 +0000 (0:00:00.013)       0:04:08.077 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Disable Reporting Of Package Profile to Satellite] ***
+Tuesday 05 August 2025  03:13:48 +0000 (0:00:03.443)       0:04:11.521 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Run setup if gather_facts hasn't been run] ******
+Tuesday 05 August 2025  03:13:48 +0000 (0:00:00.556)       0:04:12.077 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [set-repositories : Generate UUID for dmi.system.uuid if cloud provider is Equinix Metal] ***
+Tuesday 05 August 2025  03:13:48 +0000 (0:00:00.020)       0:04:12.097 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Set set_repositories_subscription_hostname with randomization] ***
+Tuesday 05 August 2025  03:13:48 +0000 (0:00:00.020)       0:04:12.118 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Set network.fqdn in /etc/rhsm/facts/katello.facts] ***
+Tuesday 05 August 2025  03:13:48 +0000 (0:00:00.033)       0:04:12.152 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Register with activation-key] *******************
+Tuesday 05 August 2025  03:13:49 +0000 (0:00:00.800)       0:04:12.952 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Register with activation-key with HA] ***********
+Tuesday 05 August 2025  03:13:49 +0000 (0:00:00.022)       0:04:12.974 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Enable RHSM to manage repositories] *************
+Tuesday 05 August 2025  03:13:55 +0000 (0:00:05.400)       0:04:18.375 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Lock RHEL 9 release to specific version] ********
+Tuesday 05 August 2025  03:13:56 +0000 (0:00:00.914)       0:04:19.289 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Lock RHEL 8 release to specific version] ********
+Tuesday 05 August 2025  03:13:56 +0000 (0:00:00.020)       0:04:19.310 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Lock RHEL 7 release to specific version] ********
+Tuesday 05 August 2025  03:13:56 +0000 (0:00:00.020)       0:04:19.330 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Enable repos] ***********************************
+Tuesday 05 August 2025  03:13:56 +0000 (0:00:00.019)       0:04:19.350 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Purge existing repos] ***************************
+Tuesday 05 August 2025  03:13:59 +0000 (0:00:03.205)       0:04:22.556 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Enable repos for RHEL] **************************
+Tuesday 05 August 2025  03:13:59 +0000 (0:00:00.020)       0:04:22.577 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Create the certificate and key files] ***********
+Tuesday 05 August 2025  03:13:59 +0000 (0:00:00.020)       0:04:22.598 ******** 
+skipping: [bastion.z6szt.internal] => (item=/etc/pki/tls/Red_GPTE.key) 
+skipping: [bastion.z6szt.internal] => (item=/etc/pki/tls/Red_GPTE.pem) 
+skipping: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | Add certificate and key content] ****************
+Tuesday 05 August 2025  03:13:59 +0000 (0:00:00.025)       0:04:22.623 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | create open.repo template on host] **************
+Tuesday 05 August 2025  03:13:59 +0000 (0:00:00.025)       0:04:22.648 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [set-repositories : sat | clean repositories] *****************************
+Tuesday 05 August 2025  03:13:59 +0000 (0:00:00.022)       0:04:22.670 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [set-repositories : Unregister from subscription manager] *****************
+Tuesday 05 August 2025  03:14:00 +0000 (0:00:01.115)       0:04:23.786 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [common : Deactivate DNS lookup in sshd] **********************************
+Tuesday 05 August 2025  03:14:00 +0000 (0:00:00.024)       0:04:23.810 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [common : Update all packages] ********************************************
+Tuesday 05 August 2025  03:14:00 +0000 (0:00:00.458)       0:04:24.269 ******** 
+ASYNC POLL on bastion.z6szt.internal: jid=j982571615648.7911 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j982571615648.7911 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j982571615648.7911 started=1 finished=0
+[WARNING]: sftp transfer mechanism failed on [bastion.z6szt.internal]. Use
+ANSIBLE_DEBUG=1 to see detailed information
+[WARNING]: scp transfer mechanism failed on [bastion.z6szt.internal]. Use
+ANSIBLE_DEBUG=1 to see detailed information
+ASYNC POLL on bastion.z6szt.internal: jid=j982571615648.7911 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j982571615648.7911 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j982571615648.7911 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j982571615648.7911 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j982571615648.7911 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j982571615648.7911 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j982571615648.7911 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j982571615648.7911 started=1 finished=0
+ASYNC OK on bastion.z6szt.internal: jid=j982571615648.7911
+changed: [bastion.z6szt.internal]
+
+TASK [common : Update all packages Legacy] *************************************
+Tuesday 05 August 2025  03:20:10 +0000 (0:06:09.885)       0:10:34.154 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [common : Determine if reboot is needed] **********************************
+Tuesday 05 August 2025  03:20:10 +0000 (0:00:00.028)       0:10:34.183 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [common : Reboot all VMs] *************************************************
+Tuesday 05 August 2025  03:20:12 +0000 (0:00:01.224)       0:10:35.408 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [common : Update network facts after reboot] ******************************
+Tuesday 05 August 2025  03:20:43 +0000 (0:00:31.599)       0:11:07.007 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [common : Run setup if gather_facts hasn't been run] **********************
+Tuesday 05 August 2025  03:20:44 +0000 (0:00:00.636)       0:11:07.643 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [common : install common packages for RHEL 7] *****************************
+Tuesday 05 August 2025  03:20:44 +0000 (0:00:00.022)       0:11:07.666 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [common : install common packages for RHEL 8] *****************************
+Tuesday 05 August 2025  03:20:44 +0000 (0:00:00.018)       0:11:07.684 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [common : Set up python alternatives for convenience] *********************
+Tuesday 05 August 2025  03:20:44 +0000 (0:00:00.022)       0:11:07.707 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [common : install common packages for RHEL 9] *****************************
+Tuesday 05 August 2025  03:20:44 +0000 (0:00:00.022)       0:11:07.729 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [common : install extra packages] *****************************************
+Tuesday 05 August 2025  03:21:56 +0000 (0:01:12.379)       0:12:20.109 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [common : Update specified packages] **************************************
+Tuesday 05 August 2025  03:21:56 +0000 (0:00:00.024)       0:12:20.134 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [common : Determine if reboot is needed] **********************************
+Tuesday 05 August 2025  03:21:56 +0000 (0:00:00.020)       0:12:20.154 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [common : Reboot VMs] *****************************************************
+Tuesday 05 August 2025  03:21:56 +0000 (0:00:00.020)       0:12:20.174 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [common : Refresh network facts post-reboot] ******************************
+Tuesday 05 August 2025  03:21:56 +0000 (0:00:00.020)       0:12:20.195 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [set_env_authorized_key : create /root/.ssh] ******************************
+Tuesday 05 August 2025  03:21:56 +0000 (0:00:00.025)       0:12:20.220 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [set_env_authorized_key : copy the environment .pem key] ******************
+Tuesday 05 August 2025  03:21:57 +0000 (0:00:00.444)       0:12:20.665 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [set_env_authorized_key : copy the environment .pub key] ******************
+Tuesday 05 August 2025  03:21:58 +0000 (0:00:00.740)       0:12:21.405 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [set_env_authorized_key : Set authorized key from file] *******************
+Tuesday 05 August 2025  03:21:58 +0000 (0:00:00.747)       0:12:22.152 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [set_env_authorized_key : Generate host .ssh/config Template] *************
+Tuesday 05 August 2025  03:21:59 +0000 (0:00:00.456)       0:12:22.609 ******** 
+changed: [bastion.z6szt.internal -> localhost]
+
+TASK [set_env_authorized_key : copy over host .ssh/config Template] ************
+Tuesday 05 August 2025  03:21:59 +0000 (0:00:00.294)       0:12:22.903 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [Add GUID to /etc/skel/.bashrc] *******************************************
+Tuesday 05 August 2025  03:22:00 +0000 (0:00:00.795)       0:12:23.699 ******** 
+changed: [bastion.z6szt.internal]
+
+RUNNING HANDLER [common : restart_sshd] ****************************************
+Tuesday 05 August 2025  03:22:00 +0000 (0:00:00.440)       0:12:24.139 ******** 
+changed: [bastion.z6szt.internal]
+
+PLAY [Step 003.2 - Configuring Bastion Hosts] **********************************
+
+TASK [bastion-lite : Generate an SSH key on the Bastion and configure access on all the hosts] ***
+Tuesday 05 August 2025  03:22:02 +0000 (0:00:01.230)       0:12:25.370 ******** 
+included: /runner/project/ansible/roles/bastion-lite/tasks/./create_bastion_ssh_key_and_access.yml for bastion.z6szt.internal
+
+TASK [bastion-lite : Generate SSH keys] ****************************************
+Tuesday 05 August 2025  03:22:02 +0000 (0:00:00.028)       0:12:25.398 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [bastion-lite : Fix permission of ssh key] ********************************
+Tuesday 05 August 2025  03:22:02 +0000 (0:00:00.780)       0:12:26.178 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [bastion-lite : Generate SSH pub key content] *****************************
+Tuesday 05 August 2025  03:22:03 +0000 (0:00:00.411)       0:12:26.590 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [bastion-lite : Save all facts for SSH] ***********************************
+Tuesday 05 August 2025  03:22:03 +0000 (0:00:00.417)       0:12:27.008 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [bastion-lite : Write SSH pub key] ****************************************
+Tuesday 05 August 2025  03:22:03 +0000 (0:00:00.024)       0:12:27.033 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [bastion-lite : Add bastion access to all hosts] **************************
+Tuesday 05 August 2025  03:22:04 +0000 (0:00:00.793)       0:12:27.826 ******** 
+changed: [bastion.z6szt.internal] => (item=bastion.z6szt.internal)
+
+TASK [bastion-lite : Add bastion access to all hosts] **************************
+Tuesday 05 August 2025  03:22:05 +0000 (0:00:00.472)       0:12:28.298 ******** 
+changed: [bastion.z6szt.internal] => (item=bastion.z6szt.internal)
+
+TASK [bastion-lite : Generate .ssh/config] *************************************
+Tuesday 05 August 2025  03:22:05 +0000 (0:00:00.473)       0:12:28.772 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [Install FTL] *************************************************************
+Tuesday 05 August 2025  03:22:06 +0000 (0:00:00.787)       0:12:29.560 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [bastion-lite : Ensure system Python3 has selinux library installed] ******
+Tuesday 05 August 2025  03:22:06 +0000 (0:00:00.019)       0:12:29.580 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [bastion-lite : Install OpenShift Helm 3] *********************************
+Tuesday 05 August 2025  03:22:06 +0000 (0:00:00.019)       0:12:29.599 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [bastion-lite : Add GUID to /etc/skel/.bashrc] ****************************
+Tuesday 05 August 2025  03:22:06 +0000 (0:00:00.019)       0:12:29.619 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [bastion-lite : Add GUID to ~ec2-user/.bashrc] ****************************
+Tuesday 05 August 2025  03:22:06 +0000 (0:00:00.410)       0:12:30.029 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [bastion-lite : Add CLOUDUSER to /etc/skel/.bashrc] ***********************
+Tuesday 05 August 2025  03:22:07 +0000 (0:00:00.406)       0:12:30.436 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [bastion-lite : Add CLOUDUSER to ~ec2-user/.bashrc] ***********************
+Tuesday 05 August 2025  03:22:07 +0000 (0:00:00.394)       0:12:30.830 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [bastion-student-user : Generate student_password if not defined] *********
+Tuesday 05 August 2025  03:22:07 +0000 (0:00:00.400)       0:12:31.231 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [bastion-student-user : Create user] **************************************
+Tuesday 05 August 2025  03:22:07 +0000 (0:00:00.026)       0:12:31.258 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [bastion-student-user : Add student public key] ***************************
+Tuesday 05 August 2025  03:22:08 +0000 (0:00:00.899)       0:12:32.157 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [bastion-student-user : Add env authorized public key to student user] ****
+Tuesday 05 August 2025  03:22:08 +0000 (0:00:00.021)       0:12:32.178 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [bastion-student-user : Enable password authentication] *******************
+Tuesday 05 August 2025  03:22:09 +0000 (0:00:00.463)       0:12:32.642 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [bastion-student-user : Remove PasswordAuthentication line from 50-cloud-init.conf] ***
+Tuesday 05 August 2025  03:22:09 +0000 (0:00:00.408)       0:12:33.051 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [bastion-student-user : Disable root password authentication] *************
+Tuesday 05 August 2025  03:22:10 +0000 (0:00:00.409)       0:12:33.461 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [bastion-student-user : Allow passwordless sudo] **************************
+Tuesday 05 August 2025  03:22:10 +0000 (0:00:00.392)       0:12:33.853 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [bastion-student-user : Restart sshd] *************************************
+Tuesday 05 August 2025  03:22:10 +0000 (0:00:00.406)       0:12:34.259 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [bastion-student-user : Print access info (non CNV)] **********************
+Tuesday 05 August 2025  03:22:11 +0000 (0:00:00.596)       0:12:34.855 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [bastion-student-user : Print access info (CNV)] **************************
+Tuesday 05 August 2025  03:22:11 +0000 (0:00:00.017)       0:12:34.873 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [bastion-student-user : Set access data] **********************************
+Tuesday 05 August 2025  03:22:11 +0000 (0:00:00.022)       0:12:34.896 ******** 
+ok: [bastion.z6szt.internal] => {
+    "changed": false,
+    "data": {
+        "bastion_public_hostname": "ec2-3-149-154-108.us-east-2.compute.amazonaws.com",
+        "bastion_ssh_password": "[REDACTED_Secret Keyword_SECRET]",
+        "bastion_ssh_user_name": "lab-user"
+    }
+}
+
+TASK [bastion-student-user : Set bastion port for CNV] *************************
+Tuesday 05 August 2025  03:22:11 +0000 (0:00:00.042)       0:12:34.939 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [Prepare student user for using Ansible within the environment] ***********
+Tuesday 05 August 2025  03:22:11 +0000 (0:00:00.018)       0:12:34.957 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [Copy SSH private key to student user .ssh directory] *********************
+Tuesday 05 August 2025  03:22:11 +0000 (0:00:00.025)       0:12:34.983 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [Copy SSH public key to student user .ssh directory] **********************
+Tuesday 05 August 2025  03:22:12 +0000 (0:00:00.412)       0:12:35.395 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [Copy SSH config to student user .ssh directory] **************************
+Tuesday 05 August 2025  03:22:12 +0000 (0:00:00.419)       0:12:35.815 ******** 
+changed: [bastion.z6szt.internal]
+
+PLAY [Step 003.3 Create a Python3 VirtualEnv for use in the k8s Ansible tasks] ***
+
+TASK [Setup k8s virtualenv (EL9)] **********************************************
+Tuesday 05 August 2025  03:22:12 +0000 (0:00:00.438)       0:12:36.254 ******** 
+
+TASK [host_virtualenv : Check host_virtualenv_path is defined] *****************
+Tuesday 05 August 2025  03:22:13 +0000 (0:00:00.030)       0:12:36.285 ******** 
+ok: [bastion.z6szt.internal] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [host_virtualenv : Gather basic ansible facts to determine pkg_mgr] *******
+Tuesday 05 August 2025  03:22:13 +0000 (0:00:00.025)       0:12:36.310 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host_virtualenv : Install virtualenv package prerequisites] **************
+Tuesday 05 August 2025  03:22:13 +0000 (0:00:00.021)       0:12:36.332 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host_virtualenv : Install virtualenv module system-wide for compatibility with previous behavior] ***
+Tuesday 05 August 2025  03:22:22 +0000 (0:00:09.082)       0:12:45.414 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host_virtualenv : Make virtualenv path] **********************************
+Tuesday 05 August 2025  03:22:24 +0000 (0:00:02.200)       0:12:47.614 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host_virtualenv : Write /opt/virtualenvs/k8s/host_virtualenv-requirements.txt] ***
+Tuesday 05 August 2025  03:22:24 +0000 (0:00:00.415)       0:12:48.029 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host_virtualenv : Set up virtualenv with updated pip] ********************
+Tuesday 05 August 2025  03:22:25 +0000 (0:00:00.747)       0:12:48.777 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host_virtualenv : Install requirements in virtualenv] ********************
+Tuesday 05 August 2025  03:22:30 +0000 (0:00:04.997)       0:12:53.774 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host_virtualenv : Ownership of files in virtualenv path] *****************
+Tuesday 05 August 2025  03:23:22 +0000 (0:00:52.385)       0:13:46.160 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [Setup k8s virtualenv (EL8)] **********************************************
+Tuesday 05 August 2025  03:23:22 +0000 (0:00:00.024)       0:13:46.184 ******** 
+skipping: [bastion.z6szt.internal]
+
+PLAY [PreSoftware flight-check] ************************************************
+
+TASK [Print debug message] *****************************************************
+Tuesday 05 August 2025  03:23:22 +0000 (0:00:00.034)       0:13:46.219 ******** 
+ok: [localhost] => {
+    "msg": "Pre-Software checks completed successfully"
+}
+
+PLAY [Step 004 - Software] *****************************************************
+
+TASK [Debug ocp4-cluster software playbook] ************************************
+Tuesday 05 August 2025  03:23:22 +0000 (0:00:00.032)       0:13:46.251 ******** 
+ok: [bastion.z6szt.internal] => {
+    "msg": "ocp4-cluster Software playbook"
+}
+
+PLAY [Step 004.1 - Host preparation for OpenShift 4 deployment] ****************
+
+TASK [Call Role to provision OCP4 install host] ********************************
+Tuesday 05 August 2025  03:23:23 +0000 (0:00:00.053)       0:13:46.305 ******** 
+
+TASK [host-ocp4-provisioner : Ensure directory /etc/ansible exists] ************
+Tuesday 05 August 2025  03:23:23 +0000 (0:00:00.034)       0:13:46.339 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-provisioner : Get awscli bundle] *******************************
+Tuesday 05 August 2025  03:23:23 +0000 (0:00:00.426)       0:13:46.766 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-provisioner : Unzip awscliv2.zip] ******************************
+Tuesday 05 August 2025  03:23:24 +0000 (0:00:00.898)       0:13:47.665 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-provisioner : Install awscli] **********************************
+Tuesday 05 August 2025  03:23:31 +0000 (0:00:06.712)       0:13:54.377 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-provisioner : cleanup archive and tmp files] *******************
+Tuesday 05 August 2025  03:23:40 +0000 (0:00:09.328)       0:14:03.706 ******** 
+changed: [bastion.z6szt.internal] => (item=/tmp/aws)
+changed: [bastion.z6szt.internal] => (item=/tmp/awscliv2.zip)
+
+TASK [host-ocp4-provisioner : Create .aws directory] ***************************
+Tuesday 05 August 2025  03:23:41 +0000 (0:00:01.141)       0:14:04.847 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-provisioner : Add aws credentials for sandboxes] ***************
+Tuesday 05 August 2025  03:23:41 +0000 (0:00:00.390)       0:14:05.237 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-provisioner : Add aws credentials for shared account] **********
+Tuesday 05 August 2025  03:23:41 +0000 (0:00:00.023)       0:14:05.261 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-provisioner : Install slirp4netns] *****************************
+Tuesday 05 August 2025  03:23:42 +0000 (0:00:00.404)       0:14:05.666 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [host-ocp4-provisioner : update max_user_namespaces in sysctl] ************
+Tuesday 05 August 2025  03:23:45 +0000 (0:00:03.308)       0:14:08.975 ******** 
+changed: [bastion.z6szt.internal]
+
+PLAY [Step 004.2 - Install OpenShift] ******************************************
+
+TASK [Call Role to install OpenShift] ******************************************
+Tuesday 05 August 2025  03:23:46 +0000 (0:00:00.556)       0:14:09.532 ******** 
+
+TASK [host-ocp4-installer : Gather distribution version] ***********************
+Tuesday 05 August 2025  03:23:46 +0000 (0:00:00.085)       0:14:09.617 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Set URLs for OpenShift GA releases (specific version)] ***
+Tuesday 05 August 2025  03:23:46 +0000 (0:00:00.553)       0:14:10.171 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Set URLs for OpenShift GA releases (latest stable)] ***
+Tuesday 05 August 2025  03:23:46 +0000 (0:00:00.026)       0:14:10.198 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Ensure ocp4_installer_url and ocp4_client_url are set] ***
+Tuesday 05 August 2025  03:23:46 +0000 (0:00:00.021)       0:14:10.219 ******** 
+ok: [bastion.z6szt.internal] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [host-ocp4-installer : Debug URLs] ****************************************
+Tuesday 05 August 2025  03:23:46 +0000 (0:00:00.023)       0:14:10.242 ******** 
+ok: [bastion.z6szt.internal] => (item=OpenShift Installer URL: http://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.12.12/openshift-install-linux-4.12.12.tar.gz) => {
+    "msg": "OpenShift Installer URL: http://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.12.12/openshift-install-linux-4.12.12.tar.gz"
+}
+ok: [bastion.z6szt.internal] => (item=OpenShift Client URL: http://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.12.12/openshift-client-linux-4.12.12.tar.gz) => {
+    "msg": "OpenShift Client URL: http://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.12.12/openshift-client-linux-4.12.12.tar.gz"
+}
+
+TASK [host-ocp4-installer : Get the OpenShift Installer] ***********************
+Tuesday 05 August 2025  03:23:46 +0000 (0:00:00.023)       0:14:10.266 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Check if the installer is a FIPS installer] ********
+Tuesday 05 August 2025  03:24:12 +0000 (0:00:26.009)       0:14:36.275 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Hard link the FIPS installer if it exists] *********
+Tuesday 05 August 2025  03:24:13 +0000 (0:00:00.401)       0:14:36.677 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Get the OpenShift CLI] *****************************
+Tuesday 05 August 2025  03:24:13 +0000 (0:00:00.017)       0:14:36.695 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Setup FIPS mode on the host] ***********************
+Tuesday 05 August 2025  03:24:19 +0000 (0:00:05.982)       0:14:42.678 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Reboot host] ***************************************
+Tuesday 05 August 2025  03:24:19 +0000 (0:00:00.022)       0:14:42.700 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Set internal network name] *************************
+Tuesday 05 August 2025  03:24:19 +0000 (0:00:00.021)       0:14:42.722 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Print internal network name] ***********************
+Tuesday 05 August 2025  03:24:19 +0000 (0:00:00.014)       0:14:42.737 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Set ocp machine cidr] ******************************
+Tuesday 05 August 2025  03:24:19 +0000 (0:00:00.014)       0:14:42.751 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Print ocp machine cidr] ****************************
+Tuesday 05 August 2025  03:24:19 +0000 (0:00:00.014)       0:14:42.766 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Find internal network's subnet id] *****************
+Tuesday 05 August 2025  03:24:19 +0000 (0:00:00.015)       0:14:42.782 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Set internal network subnetid] *********************
+Tuesday 05 August 2025  03:24:19 +0000 (0:00:00.014)       0:14:42.796 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Print internal network's subnet id] ****************
+Tuesday 05 August 2025  03:24:19 +0000 (0:00:00.015)       0:14:42.812 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Generate SSH keys] *********************************
+Tuesday 05 August 2025  03:24:19 +0000 (0:00:00.014)       0:14:42.827 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Generate SSH pub key] ******************************
+Tuesday 05 August 2025  03:24:20 +0000 (0:00:00.483)       0:14:43.310 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Slurp public key] **********************************
+Tuesday 05 August 2025  03:24:20 +0000 (0:00:00.380)       0:14:43.691 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Create cluster directory] **************************
+Tuesday 05 August 2025  03:24:20 +0000 (0:00:00.483)       0:14:44.174 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Check if version specific install-config.j2 exists] ***
+Tuesday 05 August 2025  03:24:21 +0000 (0:00:00.382)       0:14:44.557 ******** 
+ok: [bastion.z6szt.internal -> localhost]
+
+TASK [host-ocp4-installer : Use version-specific template for install-config-yaml] ***
+Tuesday 05 August 2025  03:24:21 +0000 (0:00:00.160)       0:14:44.717 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Use default template for install-config-yaml] ******
+Tuesday 05 August 2025  03:24:21 +0000 (0:00:00.015)       0:14:44.733 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Generate config install-config.yaml] ***************
+Tuesday 05 August 2025  03:24:21 +0000 (0:00:00.018)       0:14:44.752 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Make a copy of the cluster install config] *********
+Tuesday 05 August 2025  03:24:22 +0000 (0:00:00.823)       0:14:45.575 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Create openshift-install manifests] ****************
+Tuesday 05 August 2025  03:24:22 +0000 (0:00:00.398)       0:14:45.974 ******** 
+included: /runner/project/ansible/roles/host-ocp4-installer/tasks/create-manifests.yml for bastion.z6szt.internal
+
+TASK [host-ocp4-installer : Run openshift-install create manifests] ************
+Tuesday 05 August 2025  03:24:22 +0000 (0:00:00.027)       0:14:46.002 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Create install workaround manifests/cluster-network-03-config.yml for OVN] ***
+Tuesday 05 August 2025  03:24:24 +0000 (0:00:02.023)       0:14:48.025 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Create install workaround manifests/99-scsi-device-detection-machineconfig.yml] ***
+Tuesday 05 August 2025  03:24:24 +0000 (0:00:00.017)       0:14:48.042 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Make sure manifests dir exists] ********************
+Tuesday 05 August 2025  03:24:24 +0000 (0:00:00.016)       0:14:48.058 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Download Project Calico Manifest archive file to home dir] ***
+Tuesday 05 August 2025  03:24:24 +0000 (0:00:00.016)       0:14:48.075 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Extract Project Calico manifest files] *************
+Tuesday 05 August 2025  03:24:24 +0000 (0:00:00.019)       0:14:48.094 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Verify permissions on Calico manifest files are set to 775] ***
+Tuesday 05 August 2025  03:24:24 +0000 (0:00:00.017)       0:14:48.112 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Remove downloaded file] ****************************
+Tuesday 05 August 2025  03:24:24 +0000 (0:00:00.024)       0:14:48.136 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Run the installer] *********************************
+Tuesday 05 August 2025  03:24:24 +0000 (0:00:00.024)       0:14:48.160 ******** 
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC POLL on bastion.z6szt.internal: jid=j784123979214.16877 started=1 finished=0
+ASYNC OK on bastion.z6szt.internal: jid=j784123979214.16877
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Setup OpenStack external network during install] ***
+Tuesday 05 August 2025  03:54:48 +0000 (0:30:24.048)       0:45:12.209 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Gzip Install log] **********************************
+Tuesday 05 August 2025  03:54:48 +0000 (0:00:00.020)       0:45:12.229 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Get Install log] ***********************************
+Tuesday 05 August 2025  03:54:49 +0000 (0:00:00.535)       0:45:12.765 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [Save output_dir archive] *************************************************
+Tuesday 05 August 2025  03:54:49 +0000 (0:00:00.440)       0:45:13.206 ******** 
+
+TASK [agnosticd_save_output_dir : Save output dir if archive file is defined] ***
+Tuesday 05 August 2025  03:54:49 +0000 (0:00:00.046)       0:45:13.253 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/save-output-dir.yml for bastion.z6szt.internal
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Tuesday 05 August 2025  03:54:50 +0000 (0:00:00.034)       0:45:13.287 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/create-output-dir-archive.yml for bastion.z6szt.internal
+
+TASK [agnosticd_save_output_dir : Create tempfile for archive] *****************
+Tuesday 05 August 2025  03:54:50 +0000 (0:00:00.029)       0:45:13.317 ******** 
+changed: [bastion.z6szt.internal -> localhost]
+
+TASK [agnosticd_save_output_dir : Set agnosticd_save_output_dir_archive_tempfile] ***
+Tuesday 05 August 2025  03:54:50 +0000 (0:00:00.161)       0:45:13.479 ******** 
+ok: [bastion.z6szt.internal -> localhost]
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Tuesday 05 August 2025  03:54:50 +0000 (0:00:00.028)       0:45:13.507 ******** 
+changed: [bastion.z6szt.internal -> localhost]
+
+TASK [agnosticd_save_output_dir : Encrypt tarball using password] **************
+Tuesday 05 August 2025  03:54:50 +0000 (0:00:00.174)       0:45:13.682 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [agnosticd_save_output_dir : Upload output_dir archive to S3] *************
+Tuesday 05 August 2025  03:54:50 +0000 (0:00:00.022)       0:45:13.705 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3.yml for bastion.z6szt.internal
+
+TASK [Run infra-cloud-tags role] ***********************************************
+Tuesday 05 August 2025  03:54:50 +0000 (0:00:00.037)       0:45:13.743 ******** 
+
+TASK [infra-cloud-tags : Set cloud_tags_final (string)] ************************
+Tuesday 05 August 2025  03:54:50 +0000 (0:00:00.047)       0:45:13.790 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [infra-cloud-tags : Set cloud_tags_final (dictionary)] ********************
+Tuesday 05 August 2025  03:54:50 +0000 (0:00:00.028)       0:45:13.818 ******** 
+ok: [bastion.z6szt.internal -> localhost]
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Tuesday 05 August 2025  03:54:50 +0000 (0:00:00.037)       0:45:13.856 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3-s3_object.yml for bastion.z6szt.internal
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Tuesday 05 August 2025  03:54:50 +0000 (0:00:00.034)       0:45:13.890 ******** 
+changed: [bastion.z6szt.internal -> localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir archive tempfile] **********
+Tuesday 05 August 2025  03:54:51 +0000 (0:00:00.887)       0:45:14.778 ******** 
+changed: [bastion.z6szt.internal -> localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir encrypted archive tempfile] ***
+Tuesday 05 August 2025  03:54:51 +0000 (0:00:00.167)       0:45:14.945 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Get all instances for GUID] ************************
+Tuesday 05 August 2025  03:54:51 +0000 (0:00:00.027)       0:45:14.972 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Add GUID and env-type metadata to instances] *******
+Tuesday 05 August 2025  03:54:51 +0000 (0:00:00.021)       0:45:14.994 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Add additional metadata to instances] **************
+Tuesday 05 August 2025  03:54:51 +0000 (0:00:00.024)       0:45:15.019 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Fetch kube config] *********************************
+Tuesday 05 August 2025  03:54:51 +0000 (0:00:00.019)       0:45:15.039 ******** 
+changed: [bastion.z6szt.internal] => (item=kubeconfig)
+changed: [bastion.z6szt.internal] => (item=kubeadmin-password)
+
+TASK [host-ocp4-installer : Make sure .kube directory exists for ec2-user] *****
+Tuesday 05 August 2025  03:54:52 +0000 (0:00:00.857)       0:45:15.897 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Make sure .kube directory exists for root] *********
+Tuesday 05 August 2025  03:54:53 +0000 (0:00:00.399)       0:45:16.296 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Copy cluster kubeconfig to /home/ec2-user/.kube/config] ***
+Tuesday 05 August 2025  03:54:53 +0000 (0:00:00.425)       0:45:16.722 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Copy cluster kubeconfig to /root/.kube/config] *****
+Tuesday 05 August 2025  03:54:53 +0000 (0:00:00.401)       0:45:17.123 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Make sure .kube directory exists in /home/lab-user] ***
+Tuesday 05 August 2025  03:54:54 +0000 (0:00:00.417)       0:45:17.541 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Copy /home/ec2-user/cluster-z6szt/auth/kubeconfig to /home/lab-user/.kube] ***
+Tuesday 05 August 2025  03:54:54 +0000 (0:00:00.405)       0:45:17.946 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Create OpenShift Bash completion file] *************
+Tuesday 05 August 2025  03:54:55 +0000 (0:00:00.416)       0:45:18.362 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Get kubeadmin password] ****************************
+Tuesday 05 August 2025  03:54:55 +0000 (0:00:00.459)       0:45:18.822 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Set user data for kubeadmin password] **************
+Tuesday 05 August 2025  03:54:55 +0000 (0:00:00.366)       0:45:19.188 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Get console route] *********************************
+Tuesday 05 August 2025  03:54:55 +0000 (0:00:00.018)       0:45:19.206 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Get Webconsole URL] ********************************
+Tuesday 05 August 2025  03:54:56 +0000 (0:00:00.528)       0:45:19.735 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Get API URL] ***************************************
+Tuesday 05 August 2025  03:54:56 +0000 (0:00:00.449)       0:45:20.184 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Get OpenShift Ingress Domain] **********************
+Tuesday 05 August 2025  03:54:57 +0000 (0:00:00.438)       0:45:20.623 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Set facts for OpenShift console and API] ***********
+Tuesday 05 August 2025  03:54:57 +0000 (0:00:00.510)       0:45:21.133 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Set user data for OpenShift access] ****************
+Tuesday 05 August 2025  03:54:57 +0000 (0:00:00.023)       0:45:21.157 ******** 
+ok: [bastion.z6szt.internal] => {
+    "changed": false,
+    "data": {
+        "openshift_api_url": "https://api.cluster-z6szt.z6szt.sandbox1269.opentlc.com:6443",
+        "openshift_client_download_url": "http://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.12.12/openshift-client-linux-4.12.12.tar.gz",
+        "openshift_cluster_ingress_domain": "apps.cluster-z6szt.z6szt.sandbox1269.opentlc.com",
+        "openshift_console_url": "https://console-openshift-console.apps.cluster-z6szt.z6szt.sandbox1269.opentlc.com"
+    }
+}
+
+TASK [host-ocp4-installer : Show user messages for OpenShift access] ***********
+Tuesday 05 August 2025  03:54:57 +0000 (0:00:00.031)       0:45:21.188 ******** 
+ok: [bastion.z6szt.internal] => {
+    "changed": false,
+    "msg": "user.info: OpenShift Console: https://console-openshift-console.apps.cluster-z6szt.z6szt.sandbox1269.opentlc.com\\nOpenShift API for command line 'oc' client: https://api.cluster-z6szt.z6szt.sandbox1269.opentlc.com:6443\\nDownload oc client from http://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.12.12/openshift-client-linux-4.12.12.tar.gz"
+}
+
+TASK [host-ocp4-installer : Find ingress_port_ID] ******************************
+Tuesday 05 August 2025  03:54:57 +0000 (0:00:00.026)       0:45:21.215 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Debug ingress port ID] *****************************
+Tuesday 05 August 2025  03:54:57 +0000 (0:00:00.015)       0:45:21.230 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Debug ocp_ingress_fip] *****************************
+Tuesday 05 August 2025  03:54:57 +0000 (0:00:00.019)       0:45:21.249 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [host-ocp4-installer : Attach ocp_ingress_fip to ingress_port_ID] *********
+Tuesday 05 August 2025  03:54:57 +0000 (0:00:00.023)       0:45:21.273 ******** 
+skipping: [bastion.z6szt.internal]
+
+PLAY [Step 005 - Post software] ************************************************
+
+TASK [Print post software] *****************************************************
+Tuesday 05 August 2025  03:54:58 +0000 (0:00:00.054)       0:45:21.328 ******** 
+ok: [bastion.z6szt.internal] => {
+    "msg": "Post-Software Steps starting"
+}
+
+TASK [Set Ansible Python interpreter to k8s virtualenv] ************************
+Tuesday 05 August 2025  03:54:58 +0000 (0:00:00.019)       0:45:21.347 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [Setup cluster-admin service account] *************************************
+Tuesday 05 August 2025  03:54:58 +0000 (0:00:00.017)       0:45:21.365 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [Remove AWS Credentials from bastion] *************************************
+Tuesday 05 August 2025  03:54:58 +0000 (0:00:00.016)       0:45:21.381 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [Remove Azure Credentials directory from bastion] *************************
+Tuesday 05 August 2025  03:54:58 +0000 (0:00:00.412)       0:45:21.794 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [Remove the openshift-installer GCP Credentials directory from bastion] ***
+Tuesday 05 August 2025  03:54:58 +0000 (0:00:00.015)       0:45:21.810 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [Remove gcloud CLI Credentials directory from bastion] ********************
+Tuesday 05 August 2025  03:54:58 +0000 (0:00:00.015)       0:45:21.825 ******** 
+skipping: [bastion.z6szt.internal]
+
+PLAY [Install workloads] *******************************************************
+
+TASK [Set Ansible Python interpreter to k8s virtualenv] ************************
+Tuesday 05 August 2025  03:54:58 +0000 (0:00:00.042)       0:45:21.867 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [Install infra workloads] *************************************************
+Tuesday 05 August 2025  03:54:58 +0000 (0:00:00.017)       0:45:21.884 ******** 
+
+TASK [ocp4_workload_authentication : Running Pre Workload Tasks] ***************
+Tuesday 05 August 2025  03:54:58 +0000 (0:00:00.079)       0:45:21.964 ******** 
+included: /runner/project/ansible/roles_ocp_workloads/ocp4_workload_authentication/tasks/./pre_workload.yml for bastion.z6szt.internal
+
+TASK [ocp4_workload_authentication : pre_workload tasks complete] **************
+Tuesday 05 August 2025  03:54:58 +0000 (0:00:00.024)       0:45:21.989 ******** 
+ok: [bastion.z6szt.internal] => {
+    "msg": "Pre-Workload tasks completed successfully."
+}
+
+TASK [ocp4_workload_authentication : Running Workload Tasks] *******************
+Tuesday 05 August 2025  03:54:58 +0000 (0:00:00.030)       0:45:22.019 ******** 
+included: /runner/project/ansible/roles_ocp_workloads/ocp4_workload_authentication/tasks/./workload.yml for bastion.z6szt.internal
+
+TASK [ocp4_workload_authentication : Check that ocp4_workload_authentication_idm_type is defined and valid] ***
+Tuesday 05 August 2025  03:54:58 +0000 (0:00:00.036)       0:45:22.055 ******** 
+ok: [bastion.z6szt.internal] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [ocp4_workload_authentication : Retrieve OpenShift Ingress] ***************
+Tuesday 05 August 2025  03:54:58 +0000 (0:00:00.033)       0:45:22.088 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_authentication : Retrieve API server configuration (for API endpoint)] ***
+Tuesday 05 August 2025  03:55:00 +0000 (0:00:01.314)       0:45:23.403 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_authentication : Save OpenShift access facts] **************
+Tuesday 05 August 2025  03:55:01 +0000 (0:00:00.929)       0:45:24.332 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_authentication : Setup htpasswd authentication] ************
+Tuesday 05 August 2025  03:55:01 +0000 (0:00:00.027)       0:45:24.360 ******** 
+included: /runner/project/ansible/roles_ocp_workloads/ocp4_workload_authentication/tasks/setup_htpasswd.yml for bastion.z6szt.internal
+
+TASK [ocp4_workload_authentication : Generate cluster admin password] **********
+Tuesday 05 August 2025  03:55:01 +0000 (0:00:00.044)       0:45:24.404 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_authentication : Use provided admin password] **************
+Tuesday 05 August 2025  03:55:01 +0000 (0:00:00.023)       0:45:24.428 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_authentication : Set up randomized user password array] ****
+Tuesday 05 August 2025  03:55:01 +0000 (0:00:00.025)       0:45:24.453 ******** 
+skipping: [bastion.z6szt.internal] => (item=0) 
+skipping: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_authentication : Generate common user password] ************
+Tuesday 05 August 2025  03:55:01 +0000 (0:00:00.023)       0:45:24.477 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_authentication : Use provided user password] ***************
+Tuesday 05 August 2025  03:55:01 +0000 (0:00:00.025)       0:45:24.502 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_authentication : Generate user passwords array for common password] ***
+Tuesday 05 August 2025  03:55:01 +0000 (0:00:00.034)       0:45:24.536 ******** 
+ok: [bastion.z6szt.internal] => (item=0)
+
+TASK [ocp4_workload_authentication : Create temporary htpasswd file] ***********
+Tuesday 05 August 2025  03:55:01 +0000 (0:00:00.031)       0:45:24.568 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_authentication : Add admin user to htpasswd file] **********
+Tuesday 05 August 2025  03:55:02 +0000 (0:00:00.932)       0:45:25.500 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_authentication : Add users and passwords to htpasswd file] ***
+Tuesday 05 August 2025  03:55:02 +0000 (0:00:00.782)       0:45:26.282 ******** 
+changed: [bastion.z6szt.internal] => (item=0)
+
+TASK [ocp4_workload_authentication : Read contents of htpasswd file] ***********
+Tuesday 05 August 2025  03:55:03 +0000 (0:00:00.476)       0:45:26.759 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_authentication : Remove generated htpasswd file] ***********
+Tuesday 05 August 2025  03:55:03 +0000 (0:00:00.390)       0:45:27.149 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_authentication : Ensure htpasswd Secret is absent] *********
+Tuesday 05 August 2025  03:55:04 +0000 (0:00:00.416)       0:45:27.566 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_authentication : Create htpasswd Secret] *******************
+Tuesday 05 August 2025  03:55:05 +0000 (0:00:01.123)       0:45:28.690 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_authentication : Update OAuth configuration] ***************
+Tuesday 05 August 2025  03:55:06 +0000 (0:00:00.924)       0:45:29.614 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_authentication : Print common user information messages] ***
+Tuesday 05 August 2025  03:55:07 +0000 (0:00:00.933)       0:45:30.547 ******** 
+ok: [bastion.z6szt.internal] => {
+    "changed": false,
+    "msg": "user.info: Authentication via htpasswd is enabled on this cluster.\\n\\nUser `opentlc-mgr` with password `r3dh4t1!` is cluster admin."
+}
+
+TASK [ocp4_workload_authentication : Print user information for common password] ***
+Tuesday 05 August 2025  03:55:07 +0000 (0:00:00.031)       0:45:30.578 ******** 
+ok: [bastion.z6szt.internal] => {
+    "changed": false,
+    "msg": "user.info: Normal user `user1` created with password `openshift`"
+}
+
+TASK [ocp4_workload_authentication : Print user information for randomized password] ***
+Tuesday 05 August 2025  03:55:07 +0000 (0:00:00.034)       0:45:30.613 ******** 
+skipping: [bastion.z6szt.internal] => (item=0) 
+skipping: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_authentication : Save common user and cluster admin information] ***
+Tuesday 05 August 2025  03:55:07 +0000 (0:00:00.030)       0:45:30.644 ******** 
+ok: [bastion.z6szt.internal] => {
+    "changed": false,
+    "data": {
+        "openshift_api_server_url": "https://api.cluster-z6szt.z6szt.sandbox1269.opentlc.com:6443",
+        "openshift_cluster_admin_password": "[REDACTED_Secret Keyword_SECRET]",
+        "openshift_cluster_admin_username": "opentlc-mgr",
+        "openshift_cluster_console_url": "https://console-openshift-console.apps.cluster-z6szt.z6szt.sandbox1269.opentlc.com",
+        "openshift_cluster_num_users": 1,
+        "openshift_cluster_user_base": "user",
+        "openshift_cluster_user_count": 1
+    }
+}
+
+TASK [ocp4_workload_authentication : Save user name for single user configuration] ***
+Tuesday 05 August 2025  03:55:07 +0000 (0:00:00.037)       0:45:30.681 ******** 
+ok: [bastion.z6szt.internal] => {
+    "changed": false,
+    "data": {
+        "openshift_cluster_user_name": "user1"
+    }
+}
+
+TASK [ocp4_workload_authentication : Save common user password if not randomized] ***
+Tuesday 05 August 2025  03:55:07 +0000 (0:00:00.037)       0:45:30.718 ******** 
+ok: [bastion.z6szt.internal] => {
+    "changed": false,
+    "data": {
+        "[REDACTED_Secret Keyword_SECRET]_cluster_user_password": "[REDACTED_Secret Keyword_SECRET]"
+    }
+}
+
+TASK [ocp4_workload_authentication : Save user information for user access] ****
+Tuesday 05 August 2025  03:55:07 +0000 (0:00:00.034)       0:45:30.752 ******** 
+skipping: [bastion.z6szt.internal] => (item=0) 
+skipping: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_authentication : Setup LDAP authentication] ****************
+Tuesday 05 August 2025  03:55:07 +0000 (0:00:00.032)       0:45:30.784 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_authentication : Set up cluster admin users] ***************
+Tuesday 05 August 2025  03:55:07 +0000 (0:00:00.024)       0:45:30.809 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_authentication : Remove kubeadmin user] ********************
+Tuesday 05 August 2025  03:55:08 +0000 (0:00:00.941)       0:45:31.751 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_authentication : workload tasks complete] ******************
+Tuesday 05 August 2025  03:55:09 +0000 (0:00:00.925)       0:45:32.676 ******** 
+ok: [bastion.z6szt.internal] => {
+    "msg": "Workload Tasks completed successfully."
+}
+
+TASK [ocp4_workload_authentication : Running Post Workload Tasks] **************
+Tuesday 05 August 2025  03:55:09 +0000 (0:00:00.023)       0:45:32.700 ******** 
+included: /runner/project/ansible/roles_ocp_workloads/ocp4_workload_authentication/tasks/./post_workload.yml for bastion.z6szt.internal
+
+TASK [ocp4_workload_authentication : post_workload tasks complete] *************
+Tuesday 05 August 2025  03:55:09 +0000 (0:00:00.027)       0:45:32.727 ******** 
+ok: [bastion.z6szt.internal] => {
+    "msg": "Post-Workload Tasks completed successfully."
+}
+
+TASK [ocp4_workload_authentication : Running Workload removal Tasks] ***********
+Tuesday 05 August 2025  03:55:09 +0000 (0:00:00.022)       0:45:32.750 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_project_request_template : Running Pre Workload Tasks] *****
+Tuesday 05 August 2025  03:55:09 +0000 (0:00:00.024)       0:45:32.775 ******** 
+included: /runner/project/ansible/roles_ocp_workloads/ocp4_workload_project_request_template/tasks/./pre_workload.yml for bastion.z6szt.internal
+
+TASK [ocp4_workload_project_request_template : pre_workload tasks complete] ****
+Tuesday 05 August 2025  03:55:09 +0000 (0:00:00.031)       0:45:32.806 ******** 
+ok: [bastion.z6szt.internal] => {
+    "msg": "Pre-Workload tasks completed successfully."
+}
+
+TASK [ocp4_workload_project_request_template : Running Workload Tasks] *********
+Tuesday 05 August 2025  03:55:09 +0000 (0:00:00.025)       0:45:32.831 ******** 
+included: /runner/project/ansible/roles_ocp_workloads/ocp4_workload_project_request_template/tasks/./workload.yml for bastion.z6szt.internal
+
+TASK [ocp4_workload_project_request_template : Setting up workload for user] ***
+Tuesday 05 August 2025  03:55:09 +0000 (0:00:00.028)       0:45:32.860 ******** 
+ok: [bastion.z6szt.internal] => {
+    "msg": "Setting up workload for user ocp_username = system:admin"
+}
+
+TASK [ocp4_workload_project_request_template : Create and enable Project Request Template] ***
+Tuesday 05 August 2025  03:55:09 +0000 (0:00:00.022)       0:45:32.882 ******** 
+changed: [bastion.z6szt.internal] => (item=./templates/project_request_template.j2)
+changed: [bastion.z6szt.internal] => (item=./templates/project_request_config.j2)
+
+TASK [ocp4_workload_project_request_template : Add label to openshift-ingress project] ***
+Tuesday 05 August 2025  03:55:11 +0000 (0:00:01.864)       0:45:34.747 ******** 
+changed: [bastion.z6szt.internal] => (item=./files/openshift-ingress-namespace.yaml)
+
+TASK [ocp4_workload_project_request_template : workload tasks complete] ********
+Tuesday 05 August 2025  03:55:12 +0000 (0:00:00.917)       0:45:35.664 ******** 
+ok: [bastion.z6szt.internal] => {
+    "msg": "Workload Tasks completed successfully."
+}
+
+TASK [ocp4_workload_project_request_template : Running Post Workload Tasks] ****
+Tuesday 05 August 2025  03:55:12 +0000 (0:00:00.021)       0:45:35.685 ******** 
+included: /runner/project/ansible/roles_ocp_workloads/ocp4_workload_project_request_template/tasks/./post_workload.yml for bastion.z6szt.internal
+
+TASK [ocp4_workload_project_request_template : post_workload tasks complete] ***
+Tuesday 05 August 2025  03:55:12 +0000 (0:00:00.024)       0:45:35.710 ******** 
+ok: [bastion.z6szt.internal] => {
+    "msg": "Post-Workload Tasks completed successfully."
+}
+
+TASK [ocp4_workload_project_request_template : Running Workload removal Tasks] ***
+Tuesday 05 August 2025  03:55:12 +0000 (0:00:00.023)       0:45:35.734 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_opentlc_production : Running Pre Workload Tasks] ***********
+Tuesday 05 August 2025  03:55:12 +0000 (0:00:00.020)       0:45:35.754 ******** 
+included: /runner/project/ansible/roles_ocp_workloads/ocp4_workload_opentlc_production/tasks/./pre_workload.yml for bastion.z6szt.internal
+
+TASK [ocp4_workload_opentlc_production : pre_workload tasks complete] **********
+Tuesday 05 August 2025  03:55:12 +0000 (0:00:00.028)       0:45:35.783 ******** 
+ok: [bastion.z6szt.internal] => {
+    "msg": "Pre-Workload tasks completed successfully."
+}
+
+TASK [ocp4_workload_opentlc_production : Running Workload Tasks] ***************
+Tuesday 05 August 2025  03:55:12 +0000 (0:00:00.039)       0:45:35.822 ******** 
+included: /runner/project/ansible/roles_ocp_workloads/ocp4_workload_opentlc_production/tasks/./workload.yml for bastion.z6szt.internal
+
+TASK [ocp4_workload_opentlc_production : Setting up workload for user] *********
+Tuesday 05 August 2025  03:55:12 +0000 (0:00:00.034)       0:45:35.856 ******** 
+ok: [bastion.z6szt.internal] => {
+    "msg": "Setting up workload for user ocp_username = system:admin"
+}
+
+TASK [ocp4_workload_opentlc_production : Expose Image Registry Route] **********
+Tuesday 05 August 2025  03:55:12 +0000 (0:00:00.025)       0:45:35.881 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_opentlc_production : Set up Build Defaults] ****************
+Tuesday 05 August 2025  03:55:13 +0000 (0:00:00.955)       0:45:36.837 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_opentlc_production : Set up Image Pruning] *****************
+Tuesday 05 August 2025  03:55:14 +0000 (0:00:00.919)       0:45:37.756 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_opentlc_production : Set clusterRoleBinding auto-update to false] ***
+Tuesday 05 August 2025  03:55:14 +0000 (0:00:00.022)       0:45:37.779 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_opentlc_production : Remove system:authenticated from self-provisioner role] ***
+Tuesday 05 August 2025  03:55:14 +0000 (0:00:00.024)       0:45:37.803 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_opentlc_production : create our own OPENTLC-PROJECT-PROVISIONERS group] ***
+Tuesday 05 August 2025  03:55:14 +0000 (0:00:00.027)       0:45:37.831 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_opentlc_production : allow OPENTLC-PROJECT-PROVISIONERS group members to provision their own projects] ***
+Tuesday 05 August 2025  03:55:14 +0000 (0:00:00.022)       0:45:37.854 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_opentlc_production : workload tasks complete] **************
+Tuesday 05 August 2025  03:55:14 +0000 (0:00:00.019)       0:45:37.873 ******** 
+ok: [bastion.z6szt.internal] => {
+    "msg": "Workload Tasks completed successfully."
+}
+
+TASK [ocp4_workload_opentlc_production : Running Post Workload Tasks] **********
+Tuesday 05 August 2025  03:55:14 +0000 (0:00:00.021)       0:45:37.894 ******** 
+included: /runner/project/ansible/roles_ocp_workloads/ocp4_workload_opentlc_production/tasks/./post_workload.yml for bastion.z6szt.internal
+
+TASK [ocp4_workload_opentlc_production : post_workload tasks complete] *********
+Tuesday 05 August 2025  03:55:14 +0000 (0:00:00.026)       0:45:37.921 ******** 
+ok: [bastion.z6szt.internal] => {
+    "msg": "Post-Workload Tasks completed successfully."
+}
+
+TASK [ocp4_workload_opentlc_production : Running Workload removal Tasks] *******
+Tuesday 05 August 2025  03:55:14 +0000 (0:00:00.020)       0:45:37.942 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_cert_manager : Running Pre Workload Tasks] *****************
+Tuesday 05 August 2025  03:55:14 +0000 (0:00:00.020)       0:45:37.962 ******** 
+included: /runner/project/ansible/roles_ocp_workloads/ocp4_workload_cert_manager/tasks/./pre_workload.yml for bastion.z6szt.internal
+
+TASK [ocp4_workload_cert_manager : Pre_workload tasks complete] ****************
+Tuesday 05 August 2025  03:55:14 +0000 (0:00:00.023)       0:45:37.985 ******** 
+ok: [bastion.z6szt.internal] => {
+    "msg": "Pre-Workload tasks completed successfully."
+}
+
+TASK [ocp4_workload_cert_manager : Running Workload Tasks] *********************
+Tuesday 05 August 2025  03:55:14 +0000 (0:00:00.022)       0:45:38.008 ******** 
+included: /runner/project/ansible/roles_ocp_workloads/ocp4_workload_cert_manager/tasks/./workload.yml for bastion.z6szt.internal
+
+TASK [ocp4_workload_cert_manager : Setting up workload for user] ***************
+Tuesday 05 August 2025  03:55:14 +0000 (0:00:00.049)       0:45:38.058 ******** 
+ok: [bastion.z6szt.internal] => {
+    "msg": "Setting up workload for user ocp_username = system:admin"
+}
+
+TASK [Install Red Hat Cert Manager operator] ***********************************
+Tuesday 05 August 2025  03:55:14 +0000 (0:00:00.027)       0:45:38.085 ******** 
+
+TASK [install_operator : openshift-cert-manager-operator - Install the operator] ***
+Tuesday 05 August 2025  03:55:14 +0000 (0:00:00.042)       0:45:38.127 ******** 
+included: /runner/project/ansible/roles/install_operator/tasks/install.yml for bastion.z6szt.internal
+
+TASK [install_operator : Check that operator name has been provided] ***********
+Tuesday 05 August 2025  03:55:14 +0000 (0:00:00.041)       0:45:38.169 ******** 
+ok: [bastion.z6szt.internal] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [install_operator : Ensure Namespace exists (openshift-cert-manager-operator)] ***
+Tuesday 05 August 2025  03:55:14 +0000 (0:00:00.025)       0:45:38.194 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [install_operator : Ensure OperatorGroup exists (openshift-cert-manager-operator)] ***
+Tuesday 05 August 2025  03:55:15 +0000 (0:00:00.931)       0:45:39.126 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [install_operator : Create CatalogSource for use with catalog snapshot (openshift-cert-manager-operator)] ***
+Tuesday 05 August 2025  03:55:16 +0000 (0:00:00.963)       0:45:40.089 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [install_operator : Set subscription channel to provided channel (openshift-cert-manager-operator)] ***
+Tuesday 05 August 2025  03:55:16 +0000 (0:00:00.022)       0:45:40.112 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [install_operator : Get cluster version] **********************************
+Tuesday 05 August 2025  03:55:16 +0000 (0:00:00.028)       0:45:40.141 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [install_operator : Get PackageManifest for the operator (openshift-cert-manager-operator)] ***
+Tuesday 05 August 2025  03:55:16 +0000 (0:00:00.023)       0:45:40.164 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [install_operator : Set operator channel (openshift-cert-manager-operator)] ***
+Tuesday 05 August 2025  03:55:16 +0000 (0:00:00.022)       0:45:40.186 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [install_operator : Print operator channel to be installed (openshift-cert-manager-operator)] ***
+Tuesday 05 August 2025  03:55:16 +0000 (0:00:00.021)       0:45:40.208 ******** 
+ok: [bastion.z6szt.internal] => {
+    "msg": "Operator channel to be installed: stable-v1"
+}
+
+TASK [install_operator : Create operator subscription (openshift-cert-manager-operator)] ***
+Tuesday 05 August 2025  03:55:16 +0000 (0:00:00.022)       0:45:40.230 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [install_operator : Wait until InstallPlan is created (openshift-cert-manager-operator)] ***
+Tuesday 05 August 2025  03:55:17 +0000 (0:00:00.990)       0:45:41.220 ******** 
+FAILED - RETRYING: [bastion.z6szt.internal]: Wait until InstallPlan is created (openshift-cert-manager-operator) (100 retries left).
+FAILED - RETRYING: [bastion.z6szt.internal]: Wait until InstallPlan is created (openshift-cert-manager-operator) (99 retries left).
+ok: [bastion.z6szt.internal]
+
+TASK [install_operator : Set InstallPlan name (openshift-cert-manager-operator)] ***
+Tuesday 05 August 2025  03:55:40 +0000 (0:00:22.691)       0:46:03.911 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [install_operator : Print InstallPlan (openshift-cert-manager-operator)] ***
+Tuesday 05 August 2025  03:55:40 +0000 (0:00:00.033)       0:46:03.944 ******** 
+ok: [bastion.z6szt.internal] => {
+    "msg": "InstallPlan: install-xqnkr"
+}
+
+TASK [install_operator : Get InstallPlan (openshift-cert-manager-operator)] ****
+Tuesday 05 August 2025  03:55:40 +0000 (0:00:00.023)       0:46:03.968 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [install_operator : Approve InstallPlan if necessary (openshift-cert-manager-operator)] ***
+Tuesday 05 August 2025  03:55:41 +0000 (0:00:00.907)       0:46:04.875 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [install_operator : Get Installed CSV (openshift-cert-manager-operator)] ***
+Tuesday 05 August 2025  03:55:41 +0000 (0:00:00.024)       0:46:04.900 ******** 
+ok: [bastion.z6szt.internal]
+
+TASK [install_operator : Print CSV version to be installed (openshift-cert-manager-operator)] ***
+Tuesday 05 August 2025  03:55:42 +0000 (0:00:00.909)       0:46:05.810 ******** 
+ok: [bastion.z6szt.internal] => {
+    "msg": "Starting CSV: "
+}
+
+TASK [install_operator : Wait until CSV is installed (openshift-cert-manager-operator)] ***
+Tuesday 05 August 2025  03:55:42 +0000 (0:00:00.034)       0:46:05.844 ******** 
+FAILED - RETRYING: [bastion.z6szt.internal]: Wait until CSV is installed (openshift-cert-manager-operator) (10 retries left).
+ok: [bastion.z6szt.internal]
+
+TASK [install_operator : openshift-cert-manager-operator - Remove the operator] ***
+Tuesday 05 August 2025  03:56:14 +0000 (0:00:31.879)       0:46:37.724 ******** 
+skipping: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_cert_manager : Update CertManager for EC2/GCP/Azure to use external DNS] ***
+Tuesday 05 August 2025  03:56:14 +0000 (0:00:00.025)       0:46:37.749 ******** 
+changed: [bastion.z6szt.internal]
+
+TASK [ocp4_workload_cert_manager : Determine API server URL] *******************
+Tuesday 05 August 2025  03:56:15 +0000 (0:00:00.965)       0:46:38.714 ******** 
+An exception occurred during task execution. To see the full traceback, use -vvv. The error was: ansible_collections.kubernetes.core.plugins.module_utils.k8s.exceptions.CoreException: Exception 'HTTPSConnectionPool(host='api.cluster-z6szt.z6szt.sandbox1269.opentlc.com', port=6443): Max retries exceeded with url: /apis/config.openshift.io/v1/infrastructures/cluster (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7f10c6ab55b0>: Failed to establish a new connection: [Errno 111] Connection refused'))' raised while trying to get resource using {'name': 'cluster'}
+fatal: [bastion.z6szt.internal]: FAILED! => {"changed": false, "msg": "Exception 'HTTPSConnectionPool(host='api.cluster-z6szt.z6szt.sandbox1269.opentlc.com', port=6443): Max retries exceeded with url: /apis/config.openshift.io/v1/infrastructures/cluster (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7f10c6ab55b0>: Failed to establish a new connection: [Errno 111] Connection refused'))' raised while trying to get resource using {'name': 'cluster'}"}
+
+NO MORE HOSTS LEFT *************************************************************
+
+PLAY RECAP *********************************************************************
+bastion.z6szt.internal     : ok=202  changed=104  unreachable=0    failed=1    skipped=97   rescued=0    ignored=0   
+localhost                  : ok=120  changed=27   unreachable=0    failed=0    skipped=85   rescued=0    ignored=1   
+Tuesday 05 August 2025  03:56:16 +0000 (0:00:00.881)       0:46:39.596 ******** 
+=============================================================================== 
+host-ocp4-installer : Run the installer ------------------------------ 1824.05s
+common : Update all packages ------------------------------------------ 369.89s
+infra-ec2-template-create : Launch CloudFormation template (local) ---- 157.58s
+common : install common packages for RHEL 9 ---------------------------- 72.38s
+host_virtualenv : Install requirements in virtualenv ------------------- 52.39s
+infra-aws-open-environment : Launch CloudFormation template to create Open Environment -- 46.29s
+install_operator : Wait until CSV is installed (openshift-cert-manager-operator) -- 31.88s
+common : Reboot all VMs ------------------------------------------------ 31.60s
+host-ocp4-installer : Get the OpenShift Installer ---------------------- 26.01s
+install_operator : Wait until InstallPlan is created (openshift-cert-manager-operator) -- 22.69s
+host-ocp4-provisioner : Install awscli ---------------------------------- 9.33s
+host_virtualenv : Install virtualenv package prerequisites -------------- 9.08s
+host-ocp4-provisioner : Unzip awscliv2.zip ------------------------------ 6.71s
+Install collections from requirements.yml (EE) -------------------------- 6.04s
+host-ocp4-installer : Get the OpenShift CLI ----------------------------- 5.98s
+set-repositories : sat | Register with activation-key with HA ----------- 5.40s
+host_virtualenv : Set up virtualenv with updated pip -------------------- 5.00s
+set-repositories : sat | Install Satellite CA certificate package ------- 3.44s
+host-ocp4-provisioner : Install slirp4netns ----------------------------- 3.31s
+set-repositories : sat | Enable repos ----------------------------------- 3.21s

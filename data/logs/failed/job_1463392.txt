@@ -1,0 +1,1726 @@
+Vault password (gpte_vault_0): 
+
+PLAY [Step 0000 Set Action] ****************************************************
+
+TASK [Set ACTION to provision] *************************************************
+Tuesday 05 August 2025  11:12:30 +0000 (0:00:00.015)       0:00:00.015 ******** 
+skipping: [localhost]
+
+PLAY [Step 0000 Setup runtime] *************************************************
+
+TASK [debug] *******************************************************************
+Tuesday 05 August 2025  11:12:30 +0000 (0:00:00.042)       0:00:00.058 ******** 
+skipping: [localhost]
+
+TASK [Ensure cloud provider is supported] **************************************
+Tuesday 05 August 2025  11:12:30 +0000 (0:00:00.024)       0:00:00.083 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+PLAY [Step 0000 Setup Output Directory] ****************************************
+
+TASK [Set output_dir if not defined] *******************************************
+Tuesday 05 August 2025  11:12:30 +0000 (0:00:00.031)       0:00:00.115 ******** 
+skipping: [localhost]
+
+TASK [Create output_dir if it does not exists] *********************************
+Tuesday 05 August 2025  11:12:30 +0000 (0:00:00.024)       0:00:00.139 ******** 
+changed: [localhost]
+
+TASK [Attempt to restore output_dir contents] **********************************
+Tuesday 05 August 2025  11:12:31 +0000 (0:00:00.243)       0:00:00.382 ******** 
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from s3 bucket] ********
+Tuesday 05 August 2025  11:12:31 +0000 (0:00:00.033)       0:00:00.416 ******** 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/restore-from-s3.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Tuesday 05 August 2025  11:12:31 +0000 (0:00:00.052)       0:00:00.468 ******** 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/fetch-from-s3-s3_object.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Tuesday 05 August 2025  11:12:31 +0000 (0:00:00.056)       0:00:00.524 ******** 
+ok: [localhost]
+
+TASK [agnosticd_restore_output_dir : Decrypt archive] **************************
+Tuesday 05 August 2025  11:12:32 +0000 (0:00:00.863)       0:00:01.388 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from archive] **********
+Tuesday 05 August 2025  11:12:32 +0000 (0:00:00.021)       0:00:01.410 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove archive file from output_dir] ******
+Tuesday 05 August 2025  11:12:32 +0000 (0:00:00.015)       0:00:01.425 ******** 
+ok: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove encrypted archive file from output_dir] ***
+Tuesday 05 August 2025  11:12:32 +0000 (0:00:00.178)       0:00:01.604 ******** 
+ok: [localhost]
+
+TASK [Touch file provision-user-data.yaml and provision-user-info.yaml] ********
+Tuesday 05 August 2025  11:12:32 +0000 (0:00:00.185)       0:00:01.789 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create empty user-info.yaml and user-data.yaml in output dir] ************
+Tuesday 05 August 2025  11:12:32 +0000 (0:00:00.318)       0:00:02.108 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create symlink user-data.yaml -> provision-user-data.yaml] ***************
+Tuesday 05 August 2025  11:12:33 +0000 (0:00:00.815)       0:00:02.924 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Tuesday 05 August 2025  11:12:33 +0000 (0:00:00.346)       0:00:03.271 ******** 
+ok: [localhost]
+
+TASK [Include variables files] *************************************************
+Tuesday 05 August 2025  11:12:33 +0000 (0:00:00.023)       0:00:03.294 ******** 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Tuesday 05 August 2025  11:12:34 +0000 (0:00:00.074)       0:00:03.368 ******** 
+skipping: [localhost]
+
+TASK [Set passthrough user data] ***********************************************
+Tuesday 05 August 2025  11:12:34 +0000 (0:00:00.022)       0:00:03.391 ******** 
+skipping: [localhost]
+
+PLAY [Step 0000 Install Galaxy roles and collections] **************************
+
+TASK [Use requirements_content] ************************************************
+Tuesday 05 August 2025  11:12:34 +0000 (0:00:00.039)       0:00:03.431 ******** 
+skipping: [localhost]
+
+TASK [Copy requirements content to output_dir] *********************************
+Tuesday 05 August 2025  11:12:34 +0000 (0:00:00.029)       0:00:03.461 ******** 
+skipping: [localhost]
+
+TASK [Use requirements_path from the config] ***********************************
+Tuesday 05 August 2025  11:12:34 +0000 (0:00:00.026)       0:00:03.487 ******** 
+ok: [localhost]
+
+TASK [Check if requirements.yml exists] ****************************************
+Tuesday 05 August 2025  11:12:34 +0000 (0:00:00.022)       0:00:03.510 ******** 
+ok: [localhost]
+
+TASK [set_fact] ****************************************************************
+Tuesday 05 August 2025  11:12:34 +0000 (0:00:00.172)       0:00:03.683 ******** 
+ok: [localhost]
+
+TASK [Install roles from requirements.yml] *************************************
+Tuesday 05 August 2025  11:12:34 +0000 (0:00:00.026)       0:00:03.710 ******** 
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (Not EE)] **********************
+Tuesday 05 August 2025  11:12:35 +0000 (0:00:00.677)       0:00:04.387 ******** 
+skipping: [localhost]
+
+TASK [Get installed collections (EE)] ******************************************
+Tuesday 05 August 2025  11:12:35 +0000 (0:00:00.064)       0:00:04.452 ******** 
+included: /runner/project/ansible/install_collections_ee.yml for localhost
+
+TASK [Get the list of installed collections (EE)] ******************************
+Tuesday 05 August 2025  11:12:35 +0000 (0:00:00.061)       0:00:04.514 ******** 
+changed: [localhost]
+
+TASK [Create temporary file for requirements.yml (EE)] *************************
+Tuesday 05 August 2025  11:12:35 +0000 (0:00:00.536)       0:00:05.050 ******** 
+changed: [localhost]
+
+TASK [Rewrite requirements, filter out installed collections (EE)] *************
+Tuesday 05 August 2025  11:12:36 +0000 (0:00:00.258)       0:00:05.309 ******** 
+[WARNING]: skipping installation of amazon.aws==4.0.0 ; amazon.aws==6.2.0
+already installed in EE
+[WARNING]: skipping installation of community.general==8.1.0 ;
+community.general==7.2.1 already installed in EE
+[WARNING]: skipping installation of containers.podman==1.10.1 ;
+containers.podman==1.10.2 already installed in EE
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (EE)] **************************
+Tuesday 05 August 2025  11:12:36 +0000 (0:00:00.312)       0:00:05.622 ******** 
+changed: [localhost]
+
+TASK [Cleanup tempfile (EE)] ***************************************************
+Tuesday 05 August 2025  11:12:36 +0000 (0:00:00.506)       0:00:06.128 ******** 
+changed: [localhost]
+
+TASK [Install dynamic sources] *************************************************
+Tuesday 05 August 2025  11:12:36 +0000 (0:00:00.172)       0:00:06.300 ******** 
+
+TASK [agnosticd_dynamic : Create dynamic-cache and dynamic-roles directories] ***
+Tuesday 05 August 2025  11:12:37 +0000 (0:00:00.024)       0:00:06.324 ******** 
+changed: [localhost] => (item=/runner/project/ansible/dynamic-cache)
+changed: [localhost] => (item=/runner/project/ansible/dynamic-roles)
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to dynamic roles dir] ***
+Tuesday 05 August 2025  11:12:37 +0000 (0:00:00.354)       0:00:06.679 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to cache] *************
+Tuesday 05 August 2025  11:12:37 +0000 (0:00:00.027)       0:00:06.706 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install git sources] *********************************
+Tuesday 05 August 2025  11:12:37 +0000 (0:00:00.023)       0:00:06.730 ******** 
+skipping: [localhost]
+
+PLAY [Step 000 Pre Infrastructure] *********************************************
+
+TASK [Generate Petname Hostnames for Systems] **********************************
+Tuesday 05 August 2025  11:12:37 +0000 (0:00:00.025)       0:00:06.755 ******** 
+skipping: [localhost]
+
+TASK [Pull Latest Windows Image] ***********************************************
+Tuesday 05 August 2025  11:12:37 +0000 (0:00:00.020)       0:00:06.775 ******** 
+skipping: [localhost]
+
+TASK [Step 000 Pre Infrastructure] *********************************************
+Tuesday 05 August 2025  11:12:37 +0000 (0:00:00.020)       0:00:06.796 ******** 
+ok: [localhost] => {
+    "msg": "Step 000 Pre Infrastructure"
+}
+
+PLAY [Install Pre Infra workloads for all nodes omit localhost] ****************
+skipping: no hosts matched
+
+PLAY [Install Pre Infra workloads on localhost] ********************************
+
+TASK [Deploying Pre Infra workloads  on localhost] *****************************
+Tuesday 05 August 2025  11:12:37 +0000 (0:00:00.031)       0:00:06.827 ******** 
+skipping: [localhost]
+[WARNING]: Could not match supplied host pattern, ignoring: windows
+
+PLAY [Install Pre Infra workloads on  all hosts] *******************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: bastions
+
+PLAY [Install Pre Infra workloads on bastion] **********************************
+skipping: no hosts matched
+
+PLAY [Install Pre Infra workloads for windows] *********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: gitlab
+
+PLAY [Install Pre Infra workloads for gitlab] **********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: nodes
+
+PLAY [Install Pre Infra workloads for nodes] ***********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: centos_nodes
+
+PLAY [Install Pre Infra workloads for centos nodes] ****************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: satellites
+
+PLAY [Install Pre Infra workloads for Satellites] ******************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: capsules
+
+PLAY [Install Pre Infra workloads for Satellite Capsules] **********************
+skipping: no hosts matched
+
+PLAY [Step 001.0 Infrastructure Pre-Checks] ************************************
+
+TASK [Test aws command] ********************************************************
+Tuesday 05 August 2025  11:12:37 +0000 (0:00:00.073)       0:00:06.901 ******** 
+ok: [localhost]
+
+TASK [Fail if AWS command CLI if not available] ********************************
+Tuesday 05 August 2025  11:12:37 +0000 (0:00:00.187)       0:00:07.088 ******** 
+skipping: [localhost]
+
+PLAY [Step 001.1 Deploy Infrastructure] ****************************************
+
+TASK [Run infra-images] ********************************************************
+Tuesday 05 August 2025  11:12:37 +0000 (0:00:00.028)       0:00:07.116 ******** 
+
+TASK [infra-images : include_tasks] ********************************************
+Tuesday 05 August 2025  11:12:37 +0000 (0:00:00.022)       0:00:07.139 ******** 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2.yaml for localhost
+
+TASK [infra-images : include_tasks] ********************************************
+Tuesday 05 August 2025  11:12:37 +0000 (0:00:00.056)       0:00:07.195 ******** 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_images.yaml for localhost => (item={'count': 1, 'dns_loadbalancer': True, 'flavor': {'ec2': 'g6.xlarge'}, 'floating_ip': True, 'image': 'RHEL95GOLD-latest', 'name': 'bastion', 'public_dns': True, 'rootfs_size': '1024', 'security_groups': ['BastionSG', 'ParasolSG', 'ShowroomSG', 'InstructLabSG'], 'tags': [{'key': 'AnsibleGroup', 'value': 'bastions,showroom'}, {'key': 'ostype', 'value': 'linux'}, {'key': 'instance_filter', 'value': 'base-infra-base-infra@opentlc.com'}], 'unique': True})
+
+TASK [infra-images : include_tasks] ********************************************
+Tuesday 05 August 2025  11:12:37 +0000 (0:00:00.067)       0:00:07.262 ******** 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_image.yaml for localhost => (item={'owner': 309956199498, 'name': 'RHEL-9.5.*_HVM_*Access*', 'architecture': 'x86_64', 'aws_filters': {'is-public': False}})
+
+TASK [infra-images : Lookup image for bastion] *********************************
+Tuesday 05 August 2025  11:12:38 +0000 (0:00:00.300)       0:00:07.562 ******** 
+ok: [localhost]
+
+TASK [infra-images : Fail if no image found for bastion] ***********************
+Tuesday 05 August 2025  11:12:39 +0000 (0:00:01.249)       0:00:08.811 ******** 
+skipping: [localhost]
+
+TASK [infra-images : Save image in agnosticd_images, use latest if multiple found] ***
+Tuesday 05 August 2025  11:12:39 +0000 (0:00:00.033)       0:00:08.845 ******** 
+ok: [localhost]
+
+TASK [infra-images : debug agnosticd_image] ************************************
+Tuesday 05 August 2025  11:12:39 +0000 (0:00:00.057)       0:00:08.903 ******** 
+skipping: [localhost]
+
+TASK [infra-images : Print images found for each instance] *********************
+Tuesday 05 August 2025  11:12:39 +0000 (0:00:00.028)       0:00:08.932 ******** 
+ok: [localhost] => (item=bastion) => {
+    "msg": "bastion - RHEL-9.5.0_HVM_GA-20241029-x86_64-0-Access2-GP3 - ami-08ed1ebd4647dc725 - Red Hat BYOL Linux - eu-central-1"
+}
+
+TASK [Run infra-aws-capacity-reservation] **************************************
+Tuesday 05 August 2025  11:12:39 +0000 (0:00:00.046)       0:00:08.978 ******** 
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Tuesday 05 August 2025  11:12:39 +0000 (0:00:00.021)       0:00:08.999 ******** 
+skipping: [localhost]
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Tuesday 05 August 2025  11:12:39 +0000 (0:00:00.019)       0:00:09.019 ******** 
+skipping: [localhost]
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Tuesday 05 August 2025  11:12:39 +0000 (0:00:00.019)       0:00:09.038 ******** 
+skipping: [localhost]
+
+TASK [Empty the agnosticd_images and run the detection again] ******************
+Tuesday 05 August 2025  11:12:39 +0000 (0:00:00.020)       0:00:09.059 ******** 
+skipping: [localhost]
+
+TASK [Run infra-images again to use the proper region selected by the reservations] ***
+Tuesday 05 August 2025  11:12:39 +0000 (0:00:00.030)       0:00:09.090 ******** 
+skipping: [localhost]
+
+TASK [Run infra-aws-open-environment Role] *************************************
+Tuesday 05 August 2025  11:12:39 +0000 (0:00:00.029)       0:00:09.119 ******** 
+skipping: [localhost]
+
+TASK [Create ssh provision key] ************************************************
+Tuesday 05 August 2025  11:12:39 +0000 (0:00:00.022)       0:00:09.141 ******** 
+
+TASK [create_ssh_provision_key : include_tasks] ********************************
+Tuesday 05 August 2025  11:12:39 +0000 (0:00:00.060)       0:00:09.201 ******** 
+included: /runner/project/ansible/roles-infra/create_ssh_provision_key/tasks/checks.yaml for localhost
+
+TASK [create_ssh_provision_key : Ensure key_name is not defined] ***************
+Tuesday 05 August 2025  11:12:39 +0000 (0:00:00.028)       0:00:09.230 ******** 
+skipping: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH keys] ****************************
+Tuesday 05 August 2025  11:12:39 +0000 (0:00:00.022)       0:00:09.253 ******** 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Fix permission of ssh key] ********************
+Tuesday 05 August 2025  11:12:40 +0000 (0:00:00.217)       0:00:09.470 ******** 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH pub key content] *****************
+Tuesday 05 August 2025  11:12:40 +0000 (0:00:00.169)       0:00:09.640 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Save all facts for SSH] ***********************
+Tuesday 05 August 2025  11:12:40 +0000 (0:00:00.179)       0:00:09.819 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Write SSH pub key] ****************************
+Tuesday 05 August 2025  11:12:40 +0000 (0:00:00.020)       0:00:09.839 ******** 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Report user info for SSH provision key as user data] ***
+Tuesday 05 August 2025  11:12:40 +0000 (0:00:00.331)       0:00:10.171 ******** 
+skipping: [localhost]
+
+TASK [include_role : agnosticd_save_output_dir] ********************************
+Tuesday 05 August 2025  11:12:40 +0000 (0:00:00.015)       0:00:10.186 ******** 
+
+TASK [agnosticd_save_output_dir : Save output dir if archive file is defined] ***
+Tuesday 05 August 2025  11:12:40 +0000 (0:00:00.027)       0:00:10.213 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/save-output-dir.yml for localhost
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Tuesday 05 August 2025  11:12:40 +0000 (0:00:00.027)       0:00:10.241 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/create-output-dir-archive.yml for localhost
+
+TASK [agnosticd_save_output_dir : Create tempfile for archive] *****************
+Tuesday 05 August 2025  11:12:40 +0000 (0:00:00.023)       0:00:10.264 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Set agnosticd_save_output_dir_archive_tempfile] ***
+Tuesday 05 August 2025  11:12:41 +0000 (0:00:00.169)       0:00:10.434 ******** 
+ok: [localhost]
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Tuesday 05 August 2025  11:12:41 +0000 (0:00:00.027)       0:00:10.461 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Encrypt tarball using password] **************
+Tuesday 05 August 2025  11:12:41 +0000 (0:00:00.194)       0:00:10.656 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_save_output_dir : Upload output_dir archive to S3] *************
+Tuesday 05 August 2025  11:12:41 +0000 (0:00:00.025)       0:00:10.681 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3.yml for localhost
+
+TASK [Run infra-cloud-tags role] ***********************************************
+Tuesday 05 August 2025  11:12:41 +0000 (0:00:00.037)       0:00:10.719 ******** 
+
+TASK [infra-cloud-tags : Set cloud_tags_final (string)] ************************
+Tuesday 05 August 2025  11:12:41 +0000 (0:00:00.035)       0:00:10.755 ******** 
+skipping: [localhost]
+
+TASK [infra-cloud-tags : Set cloud_tags_final (dictionary)] ********************
+Tuesday 05 August 2025  11:12:41 +0000 (0:00:00.028)       0:00:10.783 ******** 
+ok: [localhost]
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Tuesday 05 August 2025  11:12:41 +0000 (0:00:00.071)       0:00:10.855 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3-s3_object.yml for localhost
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Tuesday 05 August 2025  11:12:41 +0000 (0:00:00.068)       0:00:10.924 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir archive tempfile] **********
+Tuesday 05 August 2025  11:12:42 +0000 (0:00:00.863)       0:00:11.787 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir encrypted archive tempfile] ***
+Tuesday 05 August 2025  11:12:42 +0000 (0:00:00.178)       0:00:11.966 ******** 
+skipping: [localhost]
+
+TASK [Locate environment SSH key] **********************************************
+Tuesday 05 August 2025  11:12:42 +0000 (0:00:00.027)       0:00:11.993 ******** 
+
+TASK [locate_env_authorized_key : Set env_authorized_key_path] *****************
+Tuesday 05 August 2025  11:12:42 +0000 (0:00:00.050)       0:00:12.043 ******** 
+ok: [localhost]
+
+TASK [locate_env_authorized_key : Set env_authorized_key_path_pub] *************
+Tuesday 05 August 2025  11:12:42 +0000 (0:00:00.036)       0:00:12.079 ******** 
+ok: [localhost]
+
+TASK [locate_env_authorized_key : Generate SSH pub key content if it doesn't exist] ***
+Tuesday 05 August 2025  11:12:42 +0000 (0:00:00.034)       0:00:12.114 ******** 
+ok: [localhost]
+
+TASK [locate_env_authorized_key : Save SSH pub key content as fact] ************
+Tuesday 05 August 2025  11:12:43 +0000 (0:00:00.186)       0:00:12.301 ******** 
+ok: [localhost]
+
+TASK [Create keypair in ec2] ***************************************************
+Tuesday 05 August 2025  11:12:43 +0000 (0:00:00.029)       0:00:12.330 ******** 
+
+TASK [infra-ec2-ssh-key : include_tasks] ***************************************
+Tuesday 05 August 2025  11:12:43 +0000 (0:00:00.051)       0:00:12.381 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-ssh-key : include_tasks] ***************************************
+Tuesday 05 August 2025  11:12:43 +0000 (0:00:00.014)       0:00:12.396 ******** 
+included: /runner/project/ansible/roles-infra/infra-ec2-ssh-key/tasks/create.yaml for localhost
+
+TASK [infra-ec2-ssh-key : Stat local infra key] ********************************
+Tuesday 05 August 2025  11:12:43 +0000 (0:00:00.024)       0:00:12.420 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-ssh-key : Generate SSH pub key content] ************************
+Tuesday 05 August 2025  11:12:43 +0000 (0:00:00.180)       0:00:12.601 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-ssh-key : Save all facts for SSH] ******************************
+Tuesday 05 August 2025  11:12:43 +0000 (0:00:00.022)       0:00:12.624 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-ssh-key : Create infra key] ************************************
+Tuesday 05 August 2025  11:12:43 +0000 (0:00:00.030)       0:00:12.655 ******** 
+changed: [localhost]
+
+TASK [Run infra-ec2-template-generate Role] ************************************
+Tuesday 05 August 2025  11:12:44 +0000 (0:00:01.573)       0:00:14.228 ******** 
+
+TASK [infra-ec2-template-generate : Detect all possible Availability Zones that can host all the instance types and pick one] ***
+Tuesday 05 August 2025  11:12:44 +0000 (0:00:00.051)       0:00:14.280 ******** 
+included: /runner/project/ansible/roles-infra/infra-ec2-template-generate/tasks/locate_availability_zones.yml for localhost
+
+TASK [infra-ec2-template-generate : Get all the instance types] ****************
+Tuesday 05 August 2025  11:12:45 +0000 (0:00:00.045)       0:00:14.326 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Tuesday 05 August 2025  11:12:45 +0000 (0:00:00.150)       0:00:14.476 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Check if the AWS CLI has the 'describe-instance-type-offerings' feature] ***
+Tuesday 05 August 2025  11:12:45 +0000 (0:00:00.111)       0:00:14.588 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Get all subnets or networks in 'instances'] ***
+Tuesday 05 August 2025  11:12:46 +0000 (0:00:00.845)       0:00:15.434 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : include_tasks] *****************************
+Tuesday 05 August 2025  11:12:46 +0000 (0:00:00.153)       0:00:15.587 ******** 
+included: /runner/project/ansible/roles-infra/infra-ec2-template-generate/tasks/locate_availability_zones_tasks.yml for localhost
+
+TASK [infra-ec2-template-generate : Get the possible AZs] **********************
+Tuesday 05 August 2025  11:12:46 +0000 (0:00:00.040)       0:00:15.628 ******** 
+ok: [localhost] => (item=g6.xlarge)
+
+TASK [infra-ec2-template-generate : debug] *************************************
+Tuesday 05 August 2025  11:12:47 +0000 (0:00:01.259)       0:00:16.887 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Fail if return code is not 0] **************
+Tuesday 05 August 2025  11:12:47 +0000 (0:00:00.014)       0:00:16.902 ******** 
+skipping: [localhost] => (item=['aws', 'ec2', 'describe-instance-type-offerings', '--location-type', 'availability-zone', '--filters', 'Name=instance-type,Values=g6.xlarge', '--query', 'InstanceTypeOfferings[].Location', '--output', 'json']) 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Set fact of the possible Availability Zones] ***
+Tuesday 05 August 2025  11:12:47 +0000 (0:00:00.027)       0:00:16.929 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Calculate intersection of all AZs and set_fact] ***
+Tuesday 05 August 2025  11:12:47 +0000 (0:00:00.110)       0:00:17.040 ******** 
+ok: [localhost] => (item=['eu-central-1a', 'eu-central-1b'])
+
+TASK [infra-ec2-template-generate : Abort if no AZ is found] *******************
+Tuesday 05 August 2025  11:12:47 +0000 (0:00:00.034)       0:00:17.074 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [infra-ec2-template-generate : Print possible availability zones] *********
+Tuesday 05 August 2025  11:12:47 +0000 (0:00:00.030)       0:00:17.105 ******** 
+ok: [localhost] => {
+    "infra_ec2_template_generate_possible_azs": [
+        "eu-central-1a",
+        "eu-central-1b"
+    ]
+}
+
+TASK [infra-ec2-template-generate : Select the first AZ in the possible AZs and set fact aws_availability_zone] ***
+Tuesday 05 August 2025  11:12:47 +0000 (0:00:00.015)       0:00:17.121 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Debug] *************************************
+Tuesday 05 August 2025  11:12:47 +0000 (0:00:00.020)       0:00:17.141 ******** 
+ok: [localhost] => {
+    "aws_availability_zone": "eu-central-1a"
+}
+
+TASK [infra-ec2-template-generate : Check if template exists for the environment] ***
+Tuesday 05 August 2025  11:12:47 +0000 (0:00:00.016)       0:00:17.158 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Use CloudFormation template from the environment] ***
+Tuesday 05 August 2025  11:12:48 +0000 (0:00:00.191)       0:00:17.349 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Use the default CloudFormation template] ***
+Tuesday 05 August 2025  11:12:48 +0000 (0:00:00.013)       0:00:17.363 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Print cloudformation_template_src] *********
+Tuesday 05 August 2025  11:12:48 +0000 (0:00:00.015)       0:00:17.379 ******** 
+ok: [localhost] => {
+    "cloudformation_template_src": "templates/cloud_template.j2"
+}
+
+TASK [infra-ec2-template-generate : Determine the security groups used in 'instances' dictionary] ***
+Tuesday 05 August 2025  11:12:48 +0000 (0:00:00.014)       0:00:17.394 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Tuesday 05 August 2025  11:12:48 +0000 (0:00:00.159)       0:00:17.553 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Print cloudformation_template] *************
+Tuesday 05 August 2025  11:12:48 +0000 (0:00:00.015)       0:00:17.569 ******** 
+ok: [localhost] => {
+    "cloudformation_template": "/tmp/output-6c45fd19-be40-5c07-a8aa-d88d0a7e3c50/base-infra.7f44q.ec2_cloud_template"
+}
+
+TASK [infra-ec2-template-generate : AWS Generate CloudFormation Template] ******
+Tuesday 05 August 2025  11:12:48 +0000 (0:00:00.015)       0:00:17.584 ******** 
+changed: [localhost]
+
+TASK [infra-ec2-template-generate : Stop if debugging template] ****************
+Tuesday 05 August 2025  11:12:49 +0000 (0:00:00.775)       0:00:18.360 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Stat CloudFormation template] **************
+Tuesday 05 August 2025  11:12:49 +0000 (0:00:00.022)       0:00:18.383 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Get user name] *****************************
+Tuesday 05 August 2025  11:12:49 +0000 (0:00:00.202)       0:00:18.585 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Tuesday 05 August 2025  11:12:49 +0000 (0:00:00.014)       0:00:18.599 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Tuesday 05 August 2025  11:12:49 +0000 (0:00:00.013)       0:00:18.612 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Create bucket] *****************************
+Tuesday 05 August 2025  11:12:49 +0000 (0:00:00.013)       0:00:18.626 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Copy Template to S3] ***********************
+Tuesday 05 August 2025  11:12:49 +0000 (0:00:00.013)       0:00:18.640 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Check for !Ref in CF template] *************
+Tuesday 05 August 2025  11:12:49 +0000 (0:00:00.014)       0:00:18.654 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : validation cloudformation template] ********
+Tuesday 05 August 2025  11:12:49 +0000 (0:00:00.307)       0:00:18.961 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "Cloudformation template is syntactically valid"
+}
+
+TASK [infra-ec2-template-generate : Copy original !Ref CF template back in place] ***
+Tuesday 05 August 2025  11:12:49 +0000 (0:00:00.027)       0:00:18.989 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : validate cloudformation template with validate-template (local)] ***
+Tuesday 05 August 2025  11:12:49 +0000 (0:00:00.014)       0:00:19.004 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : validate cloudformation template with validate-template (S3)] ***
+Tuesday 05 August 2025  11:12:51 +0000 (0:00:01.335)       0:00:20.339 ******** 
+skipping: [localhost]
+
+TASK [Run infra-ec2-template-create Role] **************************************
+Tuesday 05 August 2025  11:12:51 +0000 (0:00:00.015)       0:00:20.355 ******** 
+
+TASK [infra-ec2-template-create : Retrieve stack_deployed from provision-user-data.yaml] ***
+Tuesday 05 August 2025  11:12:51 +0000 (0:00:00.064)       0:00:20.420 ******** 
+ok: [localhost]
+
+TASK [include_role : infra-cloud-tags] *****************************************
+Tuesday 05 August 2025  11:12:51 +0000 (0:00:00.055)       0:00:20.475 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : set_fact] ************************************
+Tuesday 05 August 2025  11:12:51 +0000 (0:00:00.043)       0:00:20.519 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Wait a bit for the previous stack and child resources to be deleted] ***
+Tuesday 05 August 2025  11:12:51 +0000 (0:00:00.031)       0:00:20.551 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : include_tasks] *******************************
+Tuesday 05 August 2025  11:12:51 +0000 (0:00:00.031)       0:00:20.582 ******** 
+skipping: [localhost]
+
+TASK [Regenerate the CloudFormation template because of custom images] *********
+Tuesday 05 August 2025  11:12:51 +0000 (0:00:00.042)       0:00:20.624 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Prepare for launch CloudFormation template from local] ***
+Tuesday 05 August 2025  11:12:51 +0000 (0:00:00.044)       0:00:20.668 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Prepare for launch CloudFormation template from S3 bucket] ***
+Tuesday 05 August 2025  11:12:51 +0000 (0:00:00.032)       0:00:20.701 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Launch CloudFormation template (local)] ******
+Tuesday 05 August 2025  11:12:51 +0000 (0:00:00.033)       0:00:20.734 ******** 
+[WARNING]: Using a variable for a task's 'args' is unsafe in some situations
+(see
+https://docs.ansible.com/ansible/devel/reference_appendices/faq.html#argsplat-
+unsafe)
+changed: [localhost]
+
+TASK [infra-ec2-template-create : debug cloudformation] ************************
+Tuesday 05 August 2025  11:15:53 +0000 (0:03:02.046)       0:03:22.781 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : debug cloudformation] ************************
+Tuesday 05 August 2025  11:15:53 +0000 (0:00:00.026)       0:03:22.807 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Delete S3 bucket if it exists] ***************
+Tuesday 05 August 2025  11:15:53 +0000 (0:00:00.025)       0:03:22.833 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : report s3 error] *****************************
+Tuesday 05 August 2025  11:15:53 +0000 (0:00:00.024)       0:03:22.858 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Destroy cloudformation template] *************
+Tuesday 05 August 2025  11:15:53 +0000 (0:00:00.025)       0:03:22.884 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : report Cloudformation Destroy error] *********
+Tuesday 05 August 2025  11:15:53 +0000 (0:00:00.026)       0:03:22.911 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : report Cloudformation error] *****************
+Tuesday 05 August 2025  11:15:53 +0000 (0:00:00.035)       0:03:22.946 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Save aws_region_loop into aws_region_final] ***
+Tuesday 05 August 2025  11:15:53 +0000 (0:00:00.025)       0:03:22.972 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Output region] *******************************
+Tuesday 05 August 2025  11:15:53 +0000 (0:00:00.032)       0:03:23.004 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Output region] *******************************
+Tuesday 05 August 2025  11:15:53 +0000 (0:00:00.032)       0:03:23.036 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : set_fact] ************************************
+Tuesday 05 August 2025  11:15:53 +0000 (0:00:00.034)       0:03:23.071 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Save stack deployed for futur runs (idempotent)] ***
+Tuesday 05 August 2025  11:15:53 +0000 (0:00:00.030)       0:03:23.101 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : set_fact] ************************************
+Tuesday 05 August 2025  11:15:53 +0000 (0:00:00.024)       0:03:23.126 ******** 
+skipping: [localhost]
+
+TASK [Run infra-ec2-template-create Role into FallBack region] *****************
+Tuesday 05 August 2025  11:15:53 +0000 (0:00:00.025)       0:03:23.151 ******** 
+skipping: [localhost]
+
+TASK [report Cloudformation error] *********************************************
+Tuesday 05 August 2025  11:15:53 +0000 (0:00:00.028)       0:03:23.179 ******** 
+skipping: [localhost]
+
+PLAY [Step 001.2 Create Inventory and SSH config setup] ************************
+
+TASK [include_tasks] ***********************************************************
+Tuesday 05 August 2025  11:15:53 +0000 (0:00:00.039)       0:03:23.219 ******** 
+skipping: [localhost]
+
+TASK [Run infra-ec2-create-inventory Role] *************************************
+Tuesday 05 August 2025  11:15:53 +0000 (0:00:00.030)       0:03:23.249 ******** 
+
+TASK [infra-ec2-create-inventory : Report aws region] **************************
+Tuesday 05 August 2025  11:15:53 +0000 (0:00:00.046)       0:03:23.295 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : Gather EC2 info] ****************************
+Tuesday 05 August 2025  11:15:54 +0000 (0:00:00.036)       0:03:23.331 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : debug ec2_info] *****************************
+Tuesday 05 August 2025  11:15:55 +0000 (0:00:01.222)       0:03:24.554 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : windows ostype workaround] ******************
+Tuesday 05 August 2025  11:15:55 +0000 (0:00:00.024)       0:03:24.579 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : set_fact] ***********************************
+Tuesday 05 August 2025  11:15:55 +0000 (0:00:00.023)       0:03:24.603 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : Find the bastion in this batch of host] *****
+Tuesday 05 August 2025  11:15:55 +0000 (0:00:00.032)       0:03:24.635 ******** 
+ok: [localhost] => (item=bastion.7f44q.internal)
+
+TASK [infra-ec2-create-inventory : Add hosts to the current inventory] *********
+Tuesday 05 August 2025  11:15:55 +0000 (0:00:00.039)       0:03:24.675 ******** 
+changed: [localhost] => (item=bastion.7f44q.internal)
+
+TASK [infra-ec2-create-inventory : Add hosts to groups indicated by AnsibleGroup tag] ***
+Tuesday 05 August 2025  11:15:55 +0000 (0:00:00.168)       0:03:24.844 ******** 
+changed: [localhost] => (item=bastion.7f44q.internal)
+
+TASK [infra-ec2-create-inventory : debug hostvars] *****************************
+Tuesday 05 August 2025  11:15:55 +0000 (0:00:00.047)       0:03:24.891 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : debug groups] *******************************
+Tuesday 05 August 2025  11:15:55 +0000 (0:00:00.023)       0:03:24.914 ******** 
+skipping: [localhost]
+
+TASK [Run Common SSH Config Generator Role] ************************************
+Tuesday 05 August 2025  11:15:55 +0000 (0:00:00.025)       0:03:24.940 ******** 
+
+TASK [infra-common-ssh-config-generate : Store bastion hostname as a fact] *****
+Tuesday 05 August 2025  11:15:55 +0000 (0:00:00.048)       0:03:24.989 ******** 
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : Delete dedicated known_host if it exists (new deployment)] ***
+Tuesday 05 August 2025  11:15:55 +0000 (0:00:00.031)       0:03:25.021 ******** 
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : delete local ssh config, start fresh] ***
+Tuesday 05 August 2025  11:15:55 +0000 (0:00:00.226)       0:03:25.247 ******** 
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : Create empty local ssh config] ********
+Tuesday 05 August 2025  11:15:56 +0000 (0:00:00.201)       0:03:25.449 ******** 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : Add bastion proxy config to workdir ssh config file] ***
+Tuesday 05 August 2025  11:15:56 +0000 (0:00:00.187)       0:03:25.637 ******** 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : Add all hosts to workdir ssh config file] ***
+Tuesday 05 August 2025  11:15:56 +0000 (0:00:00.305)       0:03:25.943 ******** 
+skipping: [localhost] => (item=bastion.7f44q.internal) 
+skipping: [localhost]
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Tuesday 05 August 2025  11:15:56 +0000 (0:00:00.046)       0:03:25.990 ******** 
+ok: [localhost]
+ok: [bastion.7f44q.internal]
+
+TASK [Include variables files] *************************************************
+Tuesday 05 August 2025  11:15:56 +0000 (0:00:00.029)       0:03:26.019 ******** 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [bastion.7f44q.internal] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [bastion.7f44q.internal] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [bastion.7f44q.internal] => (item=/runner/project/ansible/configs/base-infra/env_vars.yaml) 
+skipping: [bastion.7f44q.internal] => (item=/runner/project/ansible/configs/base-infra/env_vars.yml) 
+skipping: [bastion.7f44q.internal] => (item=/runner/project/ansible/configs/base-infra/default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yaml) 
+ok: [bastion.7f44q.internal] => (item=/runner/project/ansible/configs/base-infra/default_vars.yml)
+skipping: [bastion.7f44q.internal] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yml) 
+ok: [bastion.7f44q.internal] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yml)
+skipping: [bastion.7f44q.internal] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yaml) 
+skipping: [bastion.7f44q.internal] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Tuesday 05 August 2025  11:15:56 +0000 (0:00:00.109)       0:03:26.129 ******** 
+skipping: [localhost]
+skipping: [bastion.7f44q.internal]
+
+TASK [Set passthrough user data] ***********************************************
+Tuesday 05 August 2025  11:15:56 +0000 (0:00:00.027)       0:03:26.157 ******** 
+skipping: [localhost]
+[WARNING]: Could not match supplied host pattern, ignoring: network
+
+PLAY [Step 001.3 Configure Linux Hosts and Wait for Connection] ****************
+
+TASK [set facts for remote access] *********************************************
+Tuesday 05 August 2025  11:15:56 +0000 (0:00:00.052)       0:03:26.210 ******** 
+ok: [bastion.7f44q.internal]
+
+TASK [Run infra-ec2-wait_for_linux_hosts Role] *********************************
+Tuesday 05 August 2025  11:15:56 +0000 (0:00:00.032)       0:03:26.243 ******** 
+
+TASK [infra-ec2-wait_for_linux_hosts : wait for linux host to be available] ****
+Tuesday 05 August 2025  11:15:56 +0000 (0:00:00.021)       0:03:26.264 ******** 
+ok: [bastion.7f44q.internal]
+
+TASK [infra-ec2-wait_for_linux_hosts : restart instance if wait_for_connection failed] ***
+Tuesday 05 August 2025  11:16:01 +0000 (0:00:04.310)       0:03:30.575 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [infra-ec2-wait_for_linux_hosts : wait for linux host to be available (retry)] ***
+Tuesday 05 August 2025  11:16:01 +0000 (0:00:00.020)       0:03:30.595 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [infra-ec2-wait_for_linux_hosts : ping] ***********************************
+Tuesday 05 August 2025  11:16:01 +0000 (0:00:00.017)       0:03:30.613 ******** 
+ok: [bastion.7f44q.internal]
+
+TASK [Run infra-ec2-linux-set-hostname Role] ***********************************
+Tuesday 05 August 2025  11:16:04 +0000 (0:00:02.918)       0:03:33.531 ******** 
+
+TASK [infra-ec2-linux-set-hostname : Set hostname based on tag_internaldns] ****
+Tuesday 05 August 2025  11:16:04 +0000 (0:00:00.033)       0:03:33.565 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [infra-ec2-linux-set-hostname : stat] *************************************
+Tuesday 05 August 2025  11:16:07 +0000 (0:00:03.045)       0:03:36.610 ******** 
+ok: [bastion.7f44q.internal]
+
+TASK [infra-ec2-linux-set-hostname : disable updating hostname in /etc/cloud/cloud.cfg] ***
+Tuesday 05 August 2025  11:16:09 +0000 (0:00:02.358)       0:03:38.969 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [infra-ec2-linux-set-hostname : Add preserve_hostname to /etc/cloud/cloud.cfg] ***
+Tuesday 05 August 2025  11:16:12 +0000 (0:00:02.347)       0:03:41.317 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [Add authorized_keys] *****************************************************
+Tuesday 05 August 2025  11:16:14 +0000 (0:00:02.354)       0:03:43.671 ******** 
+
+TASK [ssh_authorized_keys : Add all authorized keys] ***************************
+Tuesday 05 August 2025  11:16:14 +0000 (0:00:00.076)       0:03:43.747 ******** 
+changed: [bastion.7f44q.internal] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvZvn+GL0wTOsAdh1ikIQoqj2Fw/RA6F14O347rgKdpkgOQpGQk1k2gM8wcla2Y1o0bPIzwlNy1oh5o9uNjZDMeDcEXWuXbu0cRBy4pVRhh8a8zAZfssnqoXHHLyPyHWpdTmgIhr0UIGYrzHrnySAnUcDp3gJuE46UEBtrlyv94cVvZf+EZUTaZ+2KjTRLoNryCn7vKoGHQBooYg1DeHLcLSRWEADUo+bP0y64+X/XTMZOAXbf8kTXocqAgfl/usbYdfLOgwU6zWuj8vxzAKuMEXS1AJSp5aeqRKlbbw40IkTmLoQIgJdb2Zt98BH/xHDe9xxhscUCfWeS37XLp75J opentlc_admin_backdoor'})
+changed: [bastion.7f44q.internal] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCg5PJgwAB8U2NiXh4aRZAg09f3xjT3y1CP322StmT4ljiqhXoqOOZ++qDIKFmtHGmeEjvkCo11M2oVmJTeaibeS0E+Xsoi9wTcit47h2ka7WPdzhy/togFQOVAftbwi3RtHDOweIFL18FQ8inhu9W/oFibsZjQEWtHoHtLkmA5zOSQtWDmVfx3iWrKd4svkNbJ+SNZMnD0tCDoot3y0Knzyt+wpZtVd94YXpUDTCJ8Ie1nFSdm7H/QB9/bDXeOSSnHBq2xSmywodNoyA1gFZ1hhpPNEauQjzeKCMpNLPATg/jtQb1zojG6QnO/7I5euKOlDeJ1Odg35aTG31p8EbT3UL8NZssdn3YY3OEQ/2rN0PaQ+zxzmzfh1otx4Rsh1IbD5S99GuQD2ma7m0zOzrBb8Mil5TCaTaK8mIADq/lclj0sAMrH1EXyFvDiHEG+cV0iMyXOxEMTJs4YLr8DyqsTZ34TvVSJP9/0YwQuRYhg0MJmFbMvl/4yibTgyvTYLN0= instructor-key-2022'})
+changed: [bastion.7f44q.internal] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIIDDIOD4M5yYo3uCFDBDb6del+NG2fkboWh90kW/S6H elliptical_instructor_key_2024'})
+changed: [bastion.7f44q.internal] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOBfsRMLCEQt86EZnvQ/rK49wo1odLqpd1NEz3tDjUWY elliptical_admin_key_2023'})
+changed: [bastion.7f44q.internal] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC3nKRSIwWn7pjMf2i1TyXgjsauEIoDS8Xulad2ZAbsmZrWcKU5hPi23xq0g2AjRYiXml8zSX9jAQfmlKnrXGYo5WN39iXGRI3lFJmXwmEHne3Z0qtUgt9MBA4w0Tcunw7pXniKntvo2oiDYZlXHztRMHMeUkUjLgCGjn2cfi0uqd4pxLmneMziHMKDxcyy+9MaGnWr5Bs27r3b6rWNFqG2fAo1Z5ZWEA/r3MhdI9ZzMRJVTUhunpstwMX8MRxx/OGk0zynyHcSkh91sqZ3xhPpvRkmYLRa5I0aw88AMenWBfc586FyORL2e/UVoIoyMkBMnovaRIoiTj74RuPeZ6gGKbbfpt1ggDs4j9Z1Go51GlGPYcchvLQvx+Ucv5+tLZSqZBhPOXLRqFuQgRZz4R6j5O5UkfdjLJxBoHQZxT0Wdzd/XiGcAlyDOq8puNSxdF3w/8eGGSKDdUONv1tc1dcTFd6kR+jYaedjD1fldVrC+4fRUFkFqEovDPVI4159VSqJWz78WuqazNnCRMVDnS4Le+Er1pvTbk5rOdYUkF67vxVwD3cyJ3D1C49wVsIc3+kngZN2246OEMsbVugEPG4A8/UOlHIE5iBps+mM9GX6UFSj4aLFh15XeOGKs7aH2r1thfvFPSvk12t8QvNDhhhhAf5EzzypvNEbXQ6fk3YSUw== rsa_admin_key_2023'})
+
+TASK [ssh_authorized_keys : Add all authorized keys (legacy var all_ssh_authorized_keys)] ***
+Tuesday 05 August 2025  11:16:26 +0000 (0:00:12.047)       0:03:55.795 ******** 
+skipping: [bastion.7f44q.internal]
+
+PLAY [Step 001.4 Configure Windows Hosts and Wait for Connection] **************
+skipping: no hosts matched
+
+PLAY [Step 002 Post Infrastructure] ********************************************
+
+TASK [Step 002 Post Infrastructure] ********************************************
+Tuesday 05 August 2025  11:16:26 +0000 (0:00:00.038)       0:03:55.833 ******** 
+ok: [localhost] => {
+    "msg": "Step 000 Post Infrastructure"
+}
+
+PLAY [Step 002 Post Infrastructure regreSSHion Hotfix] *************************
+
+TASK [Gathering Facts] *********************************************************
+Tuesday 05 August 2025  11:16:26 +0000 (0:00:00.030)       0:03:55.864 ******** 
+ok: [bastion.7f44q.internal]
+
+TASK [Have facts been gathered?] ***********************************************
+Tuesday 05 August 2025  11:16:29 +0000 (0:00:03.011)       0:03:58.875 ******** 
+ok: [bastion.7f44q.internal]
+
+TASK [Set sshd LoginGraceTime to 0 in /etc/ssh/sshd_config] ********************
+Tuesday 05 August 2025  11:16:32 +0000 (0:00:02.544)       0:04:01.419 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [Restart SSH service for regreSSHion fix] *********************************
+Tuesday 05 August 2025  11:16:34 +0000 (0:00:02.347)       0:04:03.767 ******** 
+changed: [bastion.7f44q.internal]
+
+PLAY [localhost] ***************************************************************
+
+TASK [Export in-memory inventory to inventory file] ****************************
+Tuesday 05 August 2025  11:16:37 +0000 (0:00:02.886)       0:04:06.654 ******** 
+
+TASK [agnosticd_inventory_exporter : Export in-memory inventory to file] *******
+Tuesday 05 August 2025  11:16:37 +0000 (0:00:00.026)       0:04:06.681 ******** 
+changed: [localhost]
+
+PLAY [Step 003 Pre Software] ***************************************************
+
+TASK [Step 003 Pre Software] ***************************************************
+Tuesday 05 August 2025  11:16:37 +0000 (0:00:00.530)       0:04:07.212 ******** 
+ok: [localhost] => {
+    "msg": "Step 000 Pre Software"
+}
+
+PLAY [Install Pre Software workloads for all nodes omit localhost] *************
+
+TASK [Deploying Pre Software workloads on all nodes omit localhost] ************
+Tuesday 05 August 2025  11:16:37 +0000 (0:00:00.036)       0:04:07.248 ******** 
+skipping: [bastion.7f44q.internal]
+
+PLAY [Install Pre Software workloads on localhost] *****************************
+
+TASK [Deploying Pre Software workloads  on localhost] **************************
+Tuesday 05 August 2025  11:16:38 +0000 (0:00:00.065)       0:04:07.314 ******** 
+skipping: [localhost]
+
+PLAY [Install Pre Software workloads on  all hosts] ****************************
+
+TASK [Deploying Pre Software workloads on all hosts] ***************************
+Tuesday 05 August 2025  11:16:38 +0000 (0:00:00.070)       0:04:07.384 ******** 
+skipping: [bastion.7f44q.internal]
+
+PLAY [Install Pre Software workloads on bastion] *******************************
+
+TASK [Deploying Pre Software workloads on bastion] *****************************
+Tuesday 05 August 2025  11:16:38 +0000 (0:00:00.093)       0:04:07.478 ******** 
+skipping: [bastion.7f44q.internal]
+
+PLAY [Install Pre Software workloads for windows] ******************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for gitlab] *******************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for nodes] ********************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for centos nodes] *************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for Satellites] ***************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for Satellite Capsules] *******************
+skipping: no hosts matched
+
+PLAY [Create local ssh keys] ***************************************************
+
+TASK [create_ssh_provision_key : include_tasks] ********************************
+Tuesday 05 August 2025  11:16:38 +0000 (0:00:00.077)       0:04:07.556 ******** 
+included: /runner/project/ansible/roles-infra/create_ssh_provision_key/tasks/checks.yaml for localhost
+
+TASK [create_ssh_provision_key : Ensure key_name is not defined] ***************
+Tuesday 05 August 2025  11:16:38 +0000 (0:00:00.027)       0:04:07.584 ******** 
+skipping: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH keys] ****************************
+Tuesday 05 August 2025  11:16:38 +0000 (0:00:00.032)       0:04:07.617 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Fix permission of ssh key] ********************
+Tuesday 05 August 2025  11:16:38 +0000 (0:00:00.199)       0:04:07.816 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH pub key content] *****************
+Tuesday 05 August 2025  11:16:38 +0000 (0:00:00.195)       0:04:08.011 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Save all facts for SSH] ***********************
+Tuesday 05 August 2025  11:16:38 +0000 (0:00:00.183)       0:04:08.195 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Write SSH pub key] ****************************
+Tuesday 05 August 2025  11:16:38 +0000 (0:00:00.027)       0:04:08.223 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Report user info for SSH provision key as user data] ***
+Tuesday 05 August 2025  11:16:39 +0000 (0:00:00.325)       0:04:08.549 ******** 
+skipping: [localhost]
+
+TASK [include_role : agnosticd_save_output_dir] ********************************
+Tuesday 05 August 2025  11:16:39 +0000 (0:00:00.023)       0:04:08.572 ******** 
+skipping: [localhost]
+[WARNING]: Could not match supplied host pattern, ignoring: rhelai
+
+PLAY [Configure all hosts with Repositories, and Common Files] *****************
+
+TASK [set-repositories : Run setup if gather_facts hasn't been run] ************
+Tuesday 05 August 2025  11:16:39 +0000 (0:00:00.058)       0:04:08.630 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [set-repositories : Configure satellite repositories] *********************
+Tuesday 05 August 2025  11:16:39 +0000 (0:00:00.034)       0:04:08.665 ******** 
+included: /runner/project/ansible/roles/set-repositories/tasks/satellite-repos.yml for bastion.7f44q.internal
+
+TASK [set-repositories : sat | Check subscription-manager package existence] ***
+Tuesday 05 August 2025  11:16:39 +0000 (0:00:00.127)       0:04:08.792 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Install subscription-manager package] ***********
+Tuesday 05 August 2025  11:16:39 +0000 (0:00:00.025)       0:04:08.818 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Remove rh-amazon-rhui-client package] ***********
+Tuesday 05 August 2025  11:16:39 +0000 (0:00:00.025)       0:04:08.843 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Unregister the system just in case] *************
+Tuesday 05 August 2025  11:16:43 +0000 (0:00:03.780)       0:04:12.624 ******** 
+included: /runner/project/ansible/roles/set-repositories/tasks/unregister.yml for bastion.7f44q.internal
+
+TASK [set-repositories : unreg | Unregister From Subscription Manager] *********
+Tuesday 05 August 2025  11:16:43 +0000 (0:00:00.037)       0:04:12.661 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Install CA certificate from satellite server] ***
+Tuesday 05 August 2025  11:16:46 +0000 (0:00:02.840)       0:04:15.502 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Update CA Trust Bundle] *************************
+Tuesday 05 August 2025  11:16:49 +0000 (0:00:03.006)       0:04:18.508 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Remove satellite Cert] **************************
+Tuesday 05 August 2025  11:16:52 +0000 (0:00:03.215)       0:04:21.724 ******** 
+ok: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Find current repository files] ******************
+Tuesday 05 August 2025  11:16:55 +0000 (0:00:02.849)       0:04:24.573 ******** 
+ok: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Remove current repository files] ****************
+Tuesday 05 August 2025  11:16:57 +0000 (0:00:02.457)       0:04:27.031 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Install Satellite CA certificate package] *******
+Tuesday 05 August 2025  11:16:57 +0000 (0:00:00.013)       0:04:27.045 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Disable Reporting Of Package Profile to Satellite] ***
+Tuesday 05 August 2025  11:17:02 +0000 (0:00:04.666)       0:04:31.711 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Run setup if gather_facts hasn't been run] ******
+Tuesday 05 August 2025  11:17:05 +0000 (0:00:02.668)       0:04:34.379 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [set-repositories : Generate UUID for dmi.system.uuid if cloud provider is Equinix Metal] ***
+Tuesday 05 August 2025  11:17:05 +0000 (0:00:00.030)       0:04:34.410 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Set set_repositories_subscription_hostname with randomization] ***
+Tuesday 05 August 2025  11:17:05 +0000 (0:00:00.028)       0:04:34.439 ******** 
+ok: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Set network.fqdn in /etc/rhsm/facts/katello.facts] ***
+Tuesday 05 August 2025  11:17:05 +0000 (0:00:00.045)       0:04:34.484 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Register with activation-key] *******************
+Tuesday 05 August 2025  11:17:10 +0000 (0:00:05.152)       0:04:39.637 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Register with activation-key with HA] ***********
+Tuesday 05 August 2025  11:17:10 +0000 (0:00:00.032)       0:04:39.670 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Enable RHSM to manage repositories] *************
+Tuesday 05 August 2025  11:17:21 +0000 (0:00:10.778)       0:04:50.449 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Lock RHEL 9 release to specific version] ********
+Tuesday 05 August 2025  11:17:23 +0000 (0:00:02.792)       0:04:53.241 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Lock RHEL 8 release to specific version] ********
+Tuesday 05 August 2025  11:17:23 +0000 (0:00:00.032)       0:04:53.273 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Lock RHEL 7 release to specific version] ********
+Tuesday 05 August 2025  11:17:24 +0000 (0:00:00.030)       0:04:53.304 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Enable repos] ***********************************
+Tuesday 05 August 2025  11:17:24 +0000 (0:00:00.030)       0:04:53.334 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Purge existing repos] ***************************
+Tuesday 05 August 2025  11:17:33 +0000 (0:00:09.268)       0:05:02.603 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Enable repos for RHEL] **************************
+Tuesday 05 August 2025  11:17:33 +0000 (0:00:00.028)       0:05:02.631 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Create the certificate and key files] ***********
+Tuesday 05 August 2025  11:17:33 +0000 (0:00:00.033)       0:05:02.664 ******** 
+skipping: [bastion.7f44q.internal] => (item=/etc/pki/tls/Red_GPTE.key) 
+skipping: [bastion.7f44q.internal] => (item=/etc/pki/tls/Red_GPTE.pem) 
+skipping: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | Add certificate and key content] ****************
+Tuesday 05 August 2025  11:17:33 +0000 (0:00:00.051)       0:05:02.716 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | create open.repo template on host] **************
+Tuesday 05 August 2025  11:17:33 +0000 (0:00:00.032)       0:05:02.749 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [set-repositories : sat | clean repositories] *****************************
+Tuesday 05 August 2025  11:17:33 +0000 (0:00:00.030)       0:05:02.779 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [set-repositories : Unregister from subscription manager] *****************
+Tuesday 05 August 2025  11:17:37 +0000 (0:00:03.628)       0:05:06.407 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [common : Deactivate DNS lookup in sshd] **********************************
+Tuesday 05 August 2025  11:17:37 +0000 (0:00:00.032)       0:05:06.440 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [common : Update all packages] ********************************************
+Tuesday 05 August 2025  11:17:39 +0000 (0:00:02.578)       0:05:09.019 ******** 
+ASYNC POLL on bastion.7f44q.internal: jid=j107435610314.8810 started=1 finished=0
+ASYNC POLL on bastion.7f44q.internal: jid=j107435610314.8810 started=1 finished=0
+ASYNC POLL on bastion.7f44q.internal: jid=j107435610314.8810 started=1 finished=0
+ASYNC POLL on bastion.7f44q.internal: jid=j107435610314.8810 started=1 finished=0
+ASYNC POLL on bastion.7f44q.internal: jid=j107435610314.8810 started=1 finished=0
+ASYNC POLL on bastion.7f44q.internal: jid=j107435610314.8810 started=1 finished=0
+ASYNC POLL on bastion.7f44q.internal: jid=j107435610314.8810 started=1 finished=0
+ASYNC OK on bastion.7f44q.internal: jid=j107435610314.8810
+changed: [bastion.7f44q.internal]
+
+TASK [common : Update all packages Legacy] *************************************
+Tuesday 05 August 2025  11:22:03 +0000 (0:04:23.541)       0:09:32.560 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [common : Determine if reboot is needed] **********************************
+Tuesday 05 August 2025  11:22:03 +0000 (0:00:00.046)       0:09:32.606 ******** 
+ok: [bastion.7f44q.internal]
+
+TASK [common : Reboot all VMs] *************************************************
+Tuesday 05 August 2025  11:22:06 +0000 (0:00:03.540)       0:09:36.146 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [common : Update network facts after reboot] ******************************
+Tuesday 05 August 2025  11:22:44 +0000 (0:00:37.505)       0:10:13.652 ******** 
+ok: [bastion.7f44q.internal]
+
+TASK [common : Run setup if gather_facts hasn't been run] **********************
+Tuesday 05 August 2025  11:22:47 +0000 (0:00:02.813)       0:10:16.465 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [common : install common packages for RHEL 7] *****************************
+Tuesday 05 August 2025  11:22:47 +0000 (0:00:00.035)       0:10:16.501 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [common : install common packages for RHEL 8] *****************************
+Tuesday 05 August 2025  11:22:47 +0000 (0:00:00.041)       0:10:16.543 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [common : Set up python alternatives for convenience] *********************
+Tuesday 05 August 2025  11:22:47 +0000 (0:00:00.050)       0:10:16.593 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [common : install common packages for RHEL 9] *****************************
+Tuesday 05 August 2025  11:22:47 +0000 (0:00:00.058)       0:10:16.652 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [common : install extra packages] *****************************************
+Tuesday 05 August 2025  11:23:47 +0000 (0:00:59.955)       0:11:16.608 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [common : Update specified packages] **************************************
+Tuesday 05 August 2025  11:23:47 +0000 (0:00:00.057)       0:11:16.666 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [common : Determine if reboot is needed] **********************************
+Tuesday 05 August 2025  11:23:47 +0000 (0:00:00.035)       0:11:16.702 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [common : Reboot VMs] *****************************************************
+Tuesday 05 August 2025  11:23:47 +0000 (0:00:00.040)       0:11:16.742 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [common : Refresh network facts post-reboot] ******************************
+Tuesday 05 August 2025  11:23:47 +0000 (0:00:00.036)       0:11:16.778 ******** 
+skipping: [bastion.7f44q.internal]
+
+RUNNING HANDLER [common : restart_sshd] ****************************************
+Tuesday 05 August 2025  11:23:47 +0000 (0:00:00.043)       0:11:16.822 ******** 
+changed: [bastion.7f44q.internal]
+
+PLAY [Configure all hosts with ssh environment key] ****************************
+
+TASK [set_env_authorized_key : create /root/.ssh] ******************************
+Tuesday 05 August 2025  11:23:50 +0000 (0:00:02.766)       0:11:19.588 ******** 
+ok: [bastion.7f44q.internal]
+
+TASK [set_env_authorized_key : copy the environment .pem key] ******************
+Tuesday 05 August 2025  11:23:52 +0000 (0:00:02.311)       0:11:21.900 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [set_env_authorized_key : copy the environment .pub key] ******************
+Tuesday 05 August 2025  11:23:57 +0000 (0:00:05.061)       0:11:26.961 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [set_env_authorized_key : Set authorized key from file] *******************
+Tuesday 05 August 2025  11:24:02 +0000 (0:00:05.070)       0:11:32.031 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [set_env_authorized_key : Generate host .ssh/config Template] *************
+Tuesday 05 August 2025  11:24:05 +0000 (0:00:02.359)       0:11:34.391 ******** 
+changed: [bastion.7f44q.internal -> localhost]
+
+TASK [set_env_authorized_key : copy over host .ssh/config Template] ************
+Tuesday 05 August 2025  11:24:05 +0000 (0:00:00.351)       0:11:34.743 ******** 
+changed: [bastion.7f44q.internal]
+
+PLAY [Configuring Bastion Hosts] ***********************************************
+
+TASK [bastion-base : Setup Red Hat packages for bastion] ***********************
+Tuesday 05 August 2025  11:24:10 +0000 (0:00:05.081)       0:11:39.824 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [bastion-base : Generate host .ssh/config Template] ***********************
+Tuesday 05 August 2025  11:24:24 +0000 (0:00:14.060)       0:11:53.885 ******** 
+changed: [bastion.7f44q.internal -> localhost]
+
+TASK [bastion-base : copy over host .ssh/config Template] **********************
+Tuesday 05 August 2025  11:24:24 +0000 (0:00:00.342)       0:11:54.227 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [bastion-base : Add GUID to ~ec2-user/.bashrc] ****************************
+Tuesday 05 August 2025  11:24:30 +0000 (0:00:05.259)       0:11:59.487 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [bastion-student-user : Generate student_password if not defined] *********
+Tuesday 05 August 2025  11:24:32 +0000 (0:00:02.317)       0:12:01.805 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [bastion-student-user : Create user] **************************************
+Tuesday 05 August 2025  11:24:32 +0000 (0:00:00.049)       0:12:01.854 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [bastion-student-user : Add student public key] ***************************
+Tuesday 05 August 2025  11:24:35 +0000 (0:00:02.920)       0:12:04.775 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [bastion-student-user : Add env authorized public key to student user] ****
+Tuesday 05 August 2025  11:24:35 +0000 (0:00:00.036)       0:12:04.812 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [bastion-student-user : Enable password authentication] *******************
+Tuesday 05 August 2025  11:24:37 +0000 (0:00:02.474)       0:12:07.286 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [bastion-student-user : Remove PasswordAuthentication line from 50-cloud-init.conf] ***
+Tuesday 05 August 2025  11:24:40 +0000 (0:00:02.309)       0:12:09.596 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [bastion-student-user : Disable root password authentication] *************
+Tuesday 05 August 2025  11:24:42 +0000 (0:00:02.311)       0:12:11.907 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [bastion-student-user : Allow passwordless sudo] **************************
+Tuesday 05 August 2025  11:24:44 +0000 (0:00:02.306)       0:12:14.213 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [bastion-student-user : Restart sshd] *************************************
+Tuesday 05 August 2025  11:24:47 +0000 (0:00:02.318)       0:12:16.532 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [bastion-student-user : Print access info (non CNV)] **********************
+Tuesday 05 August 2025  11:24:49 +0000 (0:00:02.545)       0:12:19.078 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [bastion-student-user : Print access info (CNV)] **************************
+Tuesday 05 August 2025  11:24:49 +0000 (0:00:00.024)       0:12:19.102 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [bastion-student-user : Set access data] **********************************
+Tuesday 05 August 2025  11:24:49 +0000 (0:00:00.026)       0:12:19.129 ******** 
+ok: [bastion.7f44q.internal] => {
+    "changed": false,
+    "data": {
+        "bastion_public_hostname": "ec2-3-127-13-22.eu-central-1.compute.amazonaws.com",
+        "bastion_ssh_password": "[REDACTED_Secret Keyword_SECRET]",
+        "bastion_ssh_user_name": "instruct"
+    }
+}
+
+TASK [bastion-student-user : Set bastion port for CNV] *************************
+Tuesday 05 August 2025  11:24:49 +0000 (0:00:00.088)       0:12:19.217 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [Prepare student user for using Ansible within the environment] ***********
+Tuesday 05 August 2025  11:24:49 +0000 (0:00:00.027)       0:12:19.245 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [Install control student user configuration] ******************************
+Tuesday 05 August 2025  11:24:49 +0000 (0:00:00.038)       0:12:19.283 ******** 
+
+TASK [user-create-ansible-service-account : Create user skel files] ************
+Tuesday 05 August 2025  11:24:50 +0000 (0:00:00.059)       0:12:19.343 ******** 
+changed: [bastion.7f44q.internal] => (item=.vimrc)
+
+TASK [user-create-ansible-service-account : Create user instruct] **************
+Tuesday 05 August 2025  11:24:55 +0000 (0:00:05.065)       0:12:24.409 ******** 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/create-user.yml for bastion.7f44q.internal
+
+TASK [user-create-ansible-service-account : Create user instruct] **************
+Tuesday 05 August 2025  11:24:55 +0000 (0:00:00.027)       0:12:24.436 ******** 
+[WARNING]: 'append' is set, but no 'groups' are specified. Use 'groups' for
+appending new groups.This will change to an error in Ansible 2.14.
+ok: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : Set random ssh user instruct password] ***
+Tuesday 05 August 2025  11:24:57 +0000 (0:00:02.353)       0:12:26.790 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : Setup user's resource directory] ***
+Tuesday 05 August 2025  11:25:00 +0000 (0:00:02.684)       0:12:29.474 ******** 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/create-directory.yml for bastion.7f44q.internal
+
+TASK [user-create-ansible-service-account : Create resource directory] *********
+Tuesday 05 August 2025  11:25:00 +0000 (0:00:00.025)       0:12:29.499 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : Create user's custom directory] ****
+Tuesday 05 August 2025  11:25:00 +0000 (0:00:00.022)       0:12:29.522 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : Enable sudoers] ********************
+Tuesday 05 August 2025  11:25:00 +0000 (0:00:00.022)       0:12:29.544 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : ssh setup for user] ****************
+Tuesday 05 August 2025  11:25:05 +0000 (0:00:05.054)       0:12:34.599 ******** 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/ssh-config.yml for bastion.7f44q.internal
+
+TASK [user-create-ansible-service-account : create /home/instruct/.ssh] ********
+Tuesday 05 August 2025  11:25:05 +0000 (0:00:00.030)       0:12:34.629 ******** 
+ok: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : copy the environment .pem key] *****
+Tuesday 05 August 2025  11:25:07 +0000 (0:00:02.307)       0:12:36.937 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : copy the environment .pub key] *****
+Tuesday 05 August 2025  11:25:12 +0000 (0:00:05.065)       0:12:42.002 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : copy custom ssh key] ***************
+Tuesday 05 August 2025  11:25:17 +0000 (0:00:05.054)       0:12:47.057 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : Copy ssh config template] **********
+Tuesday 05 August 2025  11:25:17 +0000 (0:00:00.027)       0:12:47.085 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : Enable password ssh authentication] ***
+Tuesday 05 August 2025  11:25:22 +0000 (0:00:05.077)       0:12:52.162 ******** 
+ok: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : Disable root password ssh authentication] ***
+Tuesday 05 August 2025  11:25:25 +0000 (0:00:02.325)       0:12:54.488 ******** 
+ok: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : Restart sshd to read conf changes] ***
+Tuesday 05 August 2025  11:25:27 +0000 (0:00:02.325)       0:12:56.813 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : Copy files] ************************
+Tuesday 05 August 2025  11:25:30 +0000 (0:00:02.556)       0:12:59.370 ******** 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/copy-files.yml for bastion.7f44q.internal
+
+TASK [user-create-ansible-service-account : Copy user's file to resource dir] ***
+Tuesday 05 August 2025  11:25:30 +0000 (0:00:00.031)       0:12:59.402 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : Copy user's template to resource dir] ***
+Tuesday 05 August 2025  11:25:30 +0000 (0:00:00.028)       0:12:59.430 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : Copy user's contentto resource dir] ***
+Tuesday 05 August 2025  11:25:30 +0000 (0:00:00.025)       0:12:59.455 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : Copy templates] ********************
+Tuesday 05 August 2025  11:25:30 +0000 (0:00:00.024)       0:12:59.479 ******** 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/copy-templates.yml for bastion.7f44q.internal
+
+TASK [user-create-ansible-service-account : Copy user's template to resource dir] ***
+Tuesday 05 August 2025  11:25:30 +0000 (0:00:00.062)       0:12:59.542 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : Copy user's template to home dir] ***
+Tuesday 05 August 2025  11:25:30 +0000 (0:00:00.024)       0:12:59.566 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : Copy user's template to path] ******
+Tuesday 05 August 2025  11:25:30 +0000 (0:00:00.025)       0:12:59.591 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : Copy contents] *********************
+Tuesday 05 August 2025  11:25:30 +0000 (0:00:00.023)       0:12:59.614 ******** 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/copy-contents.yml for bastion.7f44q.internal
+
+TASK [user-create-ansible-service-account : Copy user's content to resource dir] ***
+Tuesday 05 August 2025  11:25:30 +0000 (0:00:00.035)       0:12:59.650 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : Copy user's content to home dir] ***
+Tuesday 05 August 2025  11:25:30 +0000 (0:00:00.026)       0:12:59.677 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : Copy user's content to path] *******
+Tuesday 05 August 2025  11:25:30 +0000 (0:00:00.033)       0:12:59.710 ******** 
+skipping: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : Install preferred python] **********
+Tuesday 05 August 2025  11:25:30 +0000 (0:00:00.032)       0:12:59.743 ******** 
+ok: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : Ensure Python 3.9 default python3] ***
+Tuesday 05 August 2025  11:25:38 +0000 (0:00:07.618)       0:13:07.362 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [user-create-ansible-service-account : Ensure Python 3.9 default python] ***
+Tuesday 05 August 2025  11:25:40 +0000 (0:00:02.649)       0:13:10.011 ******** 
+ok: [bastion.7f44q.internal]
+
+TASK [Inject assets onto host(s)] **********************************************
+Tuesday 05 August 2025  11:25:43 +0000 (0:00:02.319)       0:13:12.331 ******** 
+
+TASK [asset_injector : Simple user management] *********************************
+Tuesday 05 August 2025  11:25:43 +0000 (0:00:00.092)       0:13:12.424 ******** 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Create files directory', 'path': '/home/instruct/files owner: "instruct" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/instruct/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'instruct', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/instruct/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'instruct', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [bastion.7f44q.internal]
+
+TASK [asset_injector : Clone Git repositories] *********************************
+Tuesday 05 August 2025  11:25:43 +0000 (0:00:00.101)       0:13:12.525 ******** 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Create files directory', 'path': '/home/instruct/files owner: "instruct" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+changed: [bastion.7f44q.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/instruct/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'instruct', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'})
+skipping: [bastion.7f44q.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/instruct/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'instruct', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+[WARNING]: Module remote_tmp /home/instruct/.ansible/tmp did not exist and was
+created with a mode of 0700, this may cause issues when running as another
+user. To avoid this, create the remote_tmp dir with the correct permissions
+manually
+
+TASK [asset_injector : Fetch files via HTTP server] ****************************
+Tuesday 05 August 2025  11:25:46 +0000 (0:00:03.475)       0:13:16.001 ******** 
+skipping: [bastion.7f44q.internal] => (item=None) 
+skipping: [bastion.7f44q.internal] => (item=None) 
+changed: [bastion.7f44q.internal] => (item=None)
+skipping: [bastion.7f44q.internal] => (item=None) 
+skipping: [bastion.7f44q.internal] => (item=None) 
+skipping: [bastion.7f44q.internal] => (item=None) 
+skipping: [bastion.7f44q.internal] => (item=None) 
+changed: [bastion.7f44q.internal]
+
+TASK [asset_injector : Copy local files] ***************************************
+Tuesday 05 August 2025  11:26:06 +0000 (0:00:19.343)       0:13:35.344 ******** 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Create files directory', 'path': '/home/instruct/files owner: "instruct" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/instruct/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'instruct', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/instruct/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'instruct', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [bastion.7f44q.internal]
+
+TASK [asset_injector : Inject local templates] *********************************
+Tuesday 05 August 2025  11:26:06 +0000 (0:00:00.050)       0:13:35.395 ******** 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Create files directory', 'path': '/home/instruct/files owner: "instruct" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/instruct/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'instruct', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/instruct/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'instruct', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [bastion.7f44q.internal]
+
+TASK [asset_injector : Unarchive archive] **************************************
+Tuesday 05 August 2025  11:26:06 +0000 (0:00:00.051)       0:13:35.447 ******** 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Create files directory', 'path': '/home/instruct/files owner: "instruct" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/instruct/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'instruct', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/instruct/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'instruct', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [bastion.7f44q.internal]
+
+TASK [asset_injector : Remove files] *******************************************
+Tuesday 05 August 2025  11:26:06 +0000 (0:00:00.070)       0:13:35.517 ******** 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Create files directory', 'path': '/home/instruct/files owner: "instruct" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/instruct/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'instruct', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/instruct/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'instruct', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+changed: [bastion.7f44q.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'})
+changed: [bastion.7f44q.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'})
+skipping: [bastion.7f44q.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+
+TASK [asset_injector : Create blockinfile entries] *****************************
+Tuesday 05 August 2025  11:26:11 +0000 (0:00:04.849)       0:13:40.367 ******** 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Create files directory', 'path': '/home/instruct/files owner: "instruct" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/instruct/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'instruct', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/instruct/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'instruct', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+changed: [bastion.7f44q.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'})
+skipping: [bastion.7f44q.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+
+TASK [asset_injector : Manage dnf packages] ************************************
+Tuesday 05 August 2025  11:26:13 +0000 (0:00:02.465)       0:13:42.833 ******** 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Create files directory', 'path': '/home/instruct/files owner: "instruct" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/instruct/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'instruct', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/instruct/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'instruct', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [bastion.7f44q.internal]
+
+TASK [asset_injector : Manage services] ****************************************
+Tuesday 05 August 2025  11:26:13 +0000 (0:00:00.050)       0:13:42.883 ******** 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Create files directory', 'path': '/home/instruct/files owner: "instruct" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/instruct/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'instruct', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/instruct/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'instruct', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+changed: [bastion.7f44q.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'})
+
+TASK [asset_injector : Manage capabilities] ************************************
+Tuesday 05 August 2025  11:26:16 +0000 (0:00:02.568)       0:13:45.452 ******** 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Create files directory', 'path': '/home/instruct/files owner: "instruct" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/instruct/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'instruct', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/instruct/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'instruct', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [bastion.7f44q.internal]
+
+TASK [asset_injector : Manage files] *******************************************
+Tuesday 05 August 2025  11:26:16 +0000 (0:00:00.056)       0:13:45.509 ******** 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Create files directory', 'path': '/home/instruct/files owner: "instruct" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/instruct/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'instruct', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/instruct/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'instruct', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [bastion.7f44q.internal]
+
+TASK [asset_injector : Execute Commands] ***************************************
+Tuesday 05 August 2025  11:26:16 +0000 (0:00:00.056)       0:13:45.565 ******** 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Create files directory', 'path': '/home/instruct/files owner: "instruct" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/instruct/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'instruct', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/instruct/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'instruct', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [bastion.7f44q.internal]
+
+TASK [asset_injector : Manage groups] ******************************************
+Tuesday 05 August 2025  11:26:16 +0000 (0:00:00.052)       0:13:45.618 ******** 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Create files directory', 'path': '/home/instruct/files owner: "instruct" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/instruct/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'instruct', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/instruct/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'instruct', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [bastion.7f44q.internal]
+
+TASK [asset_injector : Create lineinfile entries] ******************************
+Tuesday 05 August 2025  11:26:16 +0000 (0:00:00.050)       0:13:45.669 ******** 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Create files directory', 'path': '/home/instruct/files owner: "instruct" group: users mode: \\'0755\\'', 'type': 'directory'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Clone repo with qna.yaml file', 'dest': '/home/instruct/files/backToTheFuture', 'group': 'users', 'mode': '0755', 'owner': 'instruct', 'src': 'https://github.com/rhai-code/backToTheFuture.git', 'type': 'git', 'version': 'main'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'LLM fetch summit-connect-merlinite-lab-Q4', 'dest': '/home/instruct/files/summit-connect-merlinite-lab-Q4.gguf', 'group': 'users', 'mode': 'u=rw,g=r,o=r', 'owner': 'instruct', 'src': 'https://d18h2xbjo1t4w8.cloudfront.net/ai-assets/summit-connect-merlinite-lab-Q4.gguf', 'type': 'http',  'url_username': 'rhpds-private'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [bastion.7f44q.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [bastion.7f44q.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [bastion.7f44q.internal]
+
+PLAY [PreSoftware flight-check] ************************************************
+
+TASK [Pre-Software checks completed successfully] ******************************
+Tuesday 05 August 2025  11:26:16 +0000 (0:00:00.077)       0:13:45.747 ******** 
+ok: [localhost] => {
+    "msg": "Pre-Software checks completed successfully"
+}
+
+PLAY [Step 00xxxxx software] ***************************************************
+
+TASK [Software tasks Started] **************************************************
+Tuesday 05 August 2025  11:26:16 +0000 (0:00:00.034)       0:13:45.781 ******** 
+ok: [localhost] => {
+    "msg": "Software tasks Started"
+}
+
+PLAY [Install Software workloads for all nodes omit localhost] *****************
+
+TASK [Deploying Software workloads on all nodes omit localhost] ****************
+Tuesday 05 August 2025  11:26:16 +0000 (0:00:00.052)       0:13:45.834 ******** 
+skipping: [bastion.7f44q.internal]
+
+PLAY [Install Software workloads on localhost] *********************************
+
+TASK [Deploying Software workloads  on localhost] ******************************
+Tuesday 05 August 2025  11:26:16 +0000 (0:00:00.071)       0:13:45.906 ******** 
+skipping: [localhost]
+
+PLAY [Install Software workloads on  all hosts] ********************************
+
+TASK [Deploying Software workloads on all hosts] *******************************
+Tuesday 05 August 2025  11:26:16 +0000 (0:00:00.066)       0:13:45.972 ******** 
+skipping: [bastion.7f44q.internal]
+
+PLAY [Install Software workloads on bastion] ***********************************
+
+TASK [Deploying Software workloads on bastion] *********************************
+Tuesday 05 August 2025  11:26:16 +0000 (0:00:00.093)       0:13:46.065 ******** 
+[WARNING]: While constructing a mapping from /runner/project/ansible/collection
+s/ansible_collections/agnosticd/ai/roles/setup_instructlab/defaults/main.yml,
+line 5, column 1, found a duplicate dict key
+(setup_instructlab_developer_preview). Using last defined value only.
+
+TASK [agnosticd.ai.setup_nvidia_cuda : Install EPEL] ***************************
+Tuesday 05 August 2025  11:26:16 +0000 (0:00:00.103)       0:13:46.169 ******** 
+changed: [bastion.7f44q.internal]
+
+TASK [agnosticd.ai.setup_nvidia_cuda : Setup repos] ****************************
+Tuesday 05 August 2025  11:26:25 +0000 (0:00:08.909)       0:13:55.078 ******** 
+changed: [bastion.7f44q.internal] => (item={'name': 'cuda-rhel-x86_64', 'description': 'NVIDIA CUDA Repository', 'baseurl': 'https://developer.download.nvidia.com/compute/cuda/repos/rhel9/x86_64', 'enabled': True, 'gpgcheck': False})
+
+TASK [agnosticd.ai.setup_nvidia_cuda : Install nvdia drivers and CUDA] *********
+Tuesday 05 August 2025  11:26:28 +0000 (0:00:02.631)       0:13:57.710 ******** 
+changed: [bastion.7f44q.internal] => (item=@nvidia-driver:latest-dkms)
+changed: [bastion.7f44q.internal] => (item=cuda-toolkit-12-4)
+failed: [bastion.7f44q.internal] (item=nvidia-gds) => {"ansible_loop_var": "package", "changed": false, "failures": [], "msg": "Depsolve Error occurred: \\n Problem: package nvidia-gds-13-0-13.0.0-1.x86_64 from cuda-rhel-x86_64 requires nvidia-fs >= 2.26.6, but none of the providers can be installed\\n  - package nvidia-fs-2.26.6-1.x86_64 from cuda-rhel-x86_64 requires nvidia-fs-dkms = 2.26.6, but none of the providers can be installed\\n  - package nvidia-gds-13.0.0-1.x86_64 from cuda-rhel-x86_64 requires nvidia-gds-13-0 >= 13.0.0, but none of the providers can be installed\\n  - package nvidia-fs-dkms-2.26.6-1.x86_64 from cuda-rhel-x86_64 requires kmod-nvidia-open-dkms >= 515.43.04, but none of the providers can be installed\\n  - cannot install the best candidate for the job\\n  - package kmod-nvidia-open-dkms-3:515.105.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:515.48.07-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:515.65.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:515.65.07-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:515.86.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:520.61.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:525.105.17-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:525.125.06-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:525.147.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:525.60.13-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:525.85.12-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:530.30.02-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.104.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.104.12-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.129.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.154.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.161.07-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.161.08-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.183.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.183.06-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.216.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.216.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.230.02-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.247.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.261.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.54.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.86.10-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:545.23.06-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:545.23.08-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.127.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.127.08-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.144.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.163.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.54.14-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.54.15-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.90.07-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.90.12-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:555.42.02-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:555.42.06-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:560.28.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:560.35.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:560.35.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:565.57.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.124.06-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.133.20-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.148.08-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.158.01-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.172.08-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.86.10-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.86.15-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:575.51.03-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:575.57.08-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:580.65.06-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering", "package": "nvidia-gds", "rc": 1, "results": []}
+changed: [bastion.7f44q.internal] => (item=libcudnn8)
+changed: [bastion.7f44q.internal] => (item=libcudnn8-devel)
+ok: [bastion.7f44q.internal] => (item=cuda-cccl-12-4)
+changed: [bastion.7f44q.internal] => (item=libnccl-2.22.3-1+cuda12.4.x86_64)
+
+NO MORE HOSTS LEFT *************************************************************
+
+PLAY RECAP *********************************************************************
+bastion.7f44q.internal     : ok=82   changed=53   unreachable=0    failed=1    skipped=63   rescued=0    ignored=0   
+localhost                  : ok=108  changed=26   unreachable=0    failed=0    skipped=75   rescued=0    ignored=0   
+Tuesday 05 August 2025  11:40:08 +0000 (0:13:40.588)       0:27:38.299 ******** 
+=============================================================================== 
+agnosticd.ai.setup_nvidia_cuda : Install nvdia drivers and CUDA ------- 820.59s
+common : Update all packages ------------------------------------------ 263.54s
+infra-ec2-template-create : Launch CloudFormation template (local) ---- 182.05s
+common : install common packages for RHEL 9 ---------------------------- 59.96s
+common : Reboot all VMs ------------------------------------------------ 37.51s
+asset_injector : Fetch files via HTTP server --------------------------- 19.34s
+bastion-base : Setup Red Hat packages for bastion ---------------------- 14.06s
+ssh_authorized_keys : Add all authorized keys -------------------------- 12.05s
+set-repositories : sat | Register with activation-key with HA ---------- 10.78s
+set-repositories : sat | Enable repos ----------------------------------- 9.27s
+agnosticd.ai.setup_nvidia_cuda : Install EPEL --------------------------- 8.91s
+user-create-ansible-service-account : Install preferred python ---------- 7.62s
+bastion-base : copy over host .ssh/config Template ---------------------- 5.26s
+set-repositories : sat | Set network.fqdn in /etc/rhsm/facts/katello.facts --- 5.15s
+set_env_authorized_key : copy over host .ssh/config Template ------------ 5.08s
+user-create-ansible-service-account : Copy ssh config template ---------- 5.08s
+set_env_authorized_key : copy the environment .pub key ------------------ 5.07s
+user-create-ansible-service-account : Create user skel files ------------ 5.07s
+user-create-ansible-service-account : copy the environment .pem key ----- 5.07s
+set_env_authorized_key : copy the environment .pem key ------------------ 5.06s

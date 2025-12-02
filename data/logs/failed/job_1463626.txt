@@ -1,0 +1,997 @@
+Vault password (gpte_vault_0): 
+
+PLAY [Step 0000 Set Action] ****************************************************
+
+TASK [Set ACTION to provision] *************************************************
+Tuesday 05 August 2025  12:23:30 +0000 (0:00:00.012)       0:00:00.012 ******** 
+skipping: [localhost]
+
+PLAY [Step 0000 Setup runtime] *************************************************
+
+TASK [debug] *******************************************************************
+Tuesday 05 August 2025  12:23:30 +0000 (0:00:00.032)       0:00:00.044 ******** 
+skipping: [localhost]
+
+TASK [Ensure cloud provider is supported] **************************************
+Tuesday 05 August 2025  12:23:30 +0000 (0:00:00.017)       0:00:00.062 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+PLAY [Step 0000 Setup Output Directory] ****************************************
+
+TASK [Set output_dir if not defined] *******************************************
+Tuesday 05 August 2025  12:23:30 +0000 (0:00:00.028)       0:00:00.090 ******** 
+skipping: [localhost]
+
+TASK [Create output_dir if it does not exists] *********************************
+Tuesday 05 August 2025  12:23:30 +0000 (0:00:00.021)       0:00:00.111 ******** 
+changed: [localhost]
+
+TASK [Attempt to restore output_dir contents] **********************************
+Tuesday 05 August 2025  12:23:30 +0000 (0:00:00.260)       0:00:00.372 ******** 
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from s3 bucket] ********
+Tuesday 05 August 2025  12:23:30 +0000 (0:00:00.029)       0:00:00.401 ******** 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/restore-from-s3.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Tuesday 05 August 2025  12:23:30 +0000 (0:00:00.054)       0:00:00.455 ******** 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/fetch-from-s3-s3_object.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Tuesday 05 August 2025  12:23:31 +0000 (0:00:00.056)       0:00:00.512 ******** 
+ok: [localhost]
+
+TASK [agnosticd_restore_output_dir : Decrypt archive] **************************
+Tuesday 05 August 2025  12:23:31 +0000 (0:00:00.953)       0:00:01.466 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from archive] **********
+Tuesday 05 August 2025  12:23:32 +0000 (0:00:00.020)       0:00:01.486 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove archive file from output_dir] ******
+Tuesday 05 August 2025  12:23:32 +0000 (0:00:00.014)       0:00:01.501 ******** 
+ok: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove encrypted archive file from output_dir] ***
+Tuesday 05 August 2025  12:23:32 +0000 (0:00:00.166)       0:00:01.667 ******** 
+ok: [localhost]
+
+TASK [Touch file provision-user-data.yaml and provision-user-info.yaml] ********
+Tuesday 05 August 2025  12:23:32 +0000 (0:00:00.173)       0:00:01.841 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create empty user-info.yaml and user-data.yaml in output dir] ************
+Tuesday 05 August 2025  12:23:32 +0000 (0:00:00.330)       0:00:02.171 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create symlink user-data.yaml -> provision-user-data.yaml] ***************
+Tuesday 05 August 2025  12:23:33 +0000 (0:00:00.834)       0:00:03.005 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Tuesday 05 August 2025  12:23:33 +0000 (0:00:00.346)       0:00:03.352 ******** 
+ok: [localhost]
+
+TASK [Include variables files] *************************************************
+Tuesday 05 August 2025  12:23:33 +0000 (0:00:00.027)       0:00:03.379 ******** 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Tuesday 05 August 2025  12:23:33 +0000 (0:00:00.085)       0:00:03.464 ******** 
+skipping: [localhost]
+
+TASK [Set passthrough user data] ***********************************************
+Tuesday 05 August 2025  12:23:34 +0000 (0:00:00.019)       0:00:03.483 ******** 
+skipping: [localhost]
+
+PLAY [Step 0000 Install Galaxy roles and collections] **************************
+
+TASK [Use requirements_content] ************************************************
+Tuesday 05 August 2025  12:23:34 +0000 (0:00:00.032)       0:00:03.516 ******** 
+skipping: [localhost]
+
+TASK [Copy requirements content to output_dir] *********************************
+Tuesday 05 August 2025  12:23:34 +0000 (0:00:00.019)       0:00:03.535 ******** 
+skipping: [localhost]
+
+TASK [Use requirements_path from the config] ***********************************
+Tuesday 05 August 2025  12:23:34 +0000 (0:00:00.018)       0:00:03.554 ******** 
+ok: [localhost]
+
+TASK [Check if requirements.yml exists] ****************************************
+Tuesday 05 August 2025  12:23:34 +0000 (0:00:00.021)       0:00:03.576 ******** 
+ok: [localhost]
+
+TASK [set_fact] ****************************************************************
+Tuesday 05 August 2025  12:23:34 +0000 (0:00:00.176)       0:00:03.753 ******** 
+ok: [localhost]
+
+TASK [Install roles from requirements.yml] *************************************
+Tuesday 05 August 2025  12:23:34 +0000 (0:00:00.018)       0:00:03.771 ******** 
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (Not EE)] **********************
+Tuesday 05 August 2025  12:23:34 +0000 (0:00:00.672)       0:00:04.444 ******** 
+skipping: [localhost]
+
+TASK [Get installed collections (EE)] ******************************************
+Tuesday 05 August 2025  12:23:35 +0000 (0:00:00.069)       0:00:04.513 ******** 
+included: /runner/project/ansible/install_collections_ee.yml for localhost
+
+TASK [Get the list of installed collections (EE)] ******************************
+Tuesday 05 August 2025  12:23:35 +0000 (0:00:00.064)       0:00:04.578 ******** 
+changed: [localhost]
+
+TASK [Create temporary file for requirements.yml (EE)] *************************
+Tuesday 05 August 2025  12:23:35 +0000 (0:00:00.539)       0:00:05.118 ******** 
+changed: [localhost]
+
+TASK [Rewrite requirements, filter out installed collections (EE)] *************
+Tuesday 05 August 2025  12:23:35 +0000 (0:00:00.267)       0:00:05.385 ******** 
+[WARNING]: skipping installation of amazon.aws==4.0.0 ; amazon.aws==6.2.0
+already installed in EE
+[WARNING]: skipping installation of community.general==8.1.0 ;
+community.general==7.2.1 already installed in EE
+[WARNING]: skipping installation of containers.podman==1.10.1 ;
+containers.podman==1.10.2 already installed in EE
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (EE)] **************************
+Tuesday 05 August 2025  12:23:36 +0000 (0:00:00.331)       0:00:05.717 ******** 
+changed: [localhost]
+
+TASK [Cleanup tempfile (EE)] ***************************************************
+Tuesday 05 August 2025  12:23:36 +0000 (0:00:00.524)       0:00:06.241 ******** 
+changed: [localhost]
+
+TASK [Install dynamic sources] *************************************************
+Tuesday 05 August 2025  12:23:36 +0000 (0:00:00.168)       0:00:06.410 ******** 
+
+TASK [agnosticd_dynamic : Create dynamic-cache and dynamic-roles directories] ***
+Tuesday 05 August 2025  12:23:36 +0000 (0:00:00.024)       0:00:06.435 ******** 
+changed: [localhost] => (item=/runner/project/ansible/dynamic-cache)
+changed: [localhost] => (item=/runner/project/ansible/dynamic-roles)
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to dynamic roles dir] ***
+Tuesday 05 August 2025  12:23:37 +0000 (0:00:00.336)       0:00:06.771 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to cache] *************
+Tuesday 05 August 2025  12:23:37 +0000 (0:00:00.028)       0:00:06.800 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install git sources] *********************************
+Tuesday 05 August 2025  12:23:37 +0000 (0:00:00.025)       0:00:06.825 ******** 
+skipping: [localhost]
+
+PLAY [Step 000 Pre Infrastructure] *********************************************
+
+TASK [Generate Petname Hostnames for Systems] **********************************
+Tuesday 05 August 2025  12:23:37 +0000 (0:00:00.027)       0:00:06.853 ******** 
+skipping: [localhost]
+
+TASK [Pull Latest Windows Image] ***********************************************
+Tuesday 05 August 2025  12:23:37 +0000 (0:00:00.024)       0:00:06.877 ******** 
+skipping: [localhost]
+
+TASK [Step 000 Pre Infrastructure] *********************************************
+Tuesday 05 August 2025  12:23:37 +0000 (0:00:00.030)       0:00:06.908 ******** 
+ok: [localhost] => {
+    "msg": "Step 000 Pre Infrastructure"
+}
+
+PLAY [Install Pre Infra workloads for all nodes omit localhost] ****************
+skipping: no hosts matched
+
+PLAY [Install Pre Infra workloads on localhost] ********************************
+
+TASK [Deploying Pre Infra workloads  on localhost] *****************************
+Tuesday 05 August 2025  12:23:37 +0000 (0:00:00.036)       0:00:06.944 ******** 
+skipping: [localhost]
+[WARNING]: Could not match supplied host pattern, ignoring: windows
+
+PLAY [Install Pre Infra workloads on  all hosts] *******************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: bastions
+
+PLAY [Install Pre Infra workloads on bastion] **********************************
+skipping: no hosts matched
+
+PLAY [Install Pre Infra workloads for windows] *********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: gitlab
+
+PLAY [Install Pre Infra workloads for gitlab] **********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: nodes
+
+PLAY [Install Pre Infra workloads for nodes] ***********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: centos_nodes
+
+PLAY [Install Pre Infra workloads for centos nodes] ****************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: satellites
+
+PLAY [Install Pre Infra workloads for Satellites] ******************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: capsules
+
+PLAY [Install Pre Infra workloads for Satellite Capsules] **********************
+skipping: no hosts matched
+
+PLAY [Step 001.0 Infrastructure Pre-Checks] ************************************
+
+TASK [Test aws command] ********************************************************
+Tuesday 05 August 2025  12:23:37 +0000 (0:00:00.076)       0:00:07.020 ******** 
+ok: [localhost]
+
+TASK [Fail if AWS command CLI if not available] ********************************
+Tuesday 05 August 2025  12:23:37 +0000 (0:00:00.172)       0:00:07.193 ******** 
+skipping: [localhost]
+
+PLAY [Step 001.1 Deploy Infrastructure] ****************************************
+
+TASK [Run infra-images] ********************************************************
+Tuesday 05 August 2025  12:23:37 +0000 (0:00:00.029)       0:00:07.222 ******** 
+
+TASK [infra-images : include_tasks] ********************************************
+Tuesday 05 August 2025  12:23:37 +0000 (0:00:00.020)       0:00:07.243 ******** 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2.yaml for localhost
+
+TASK [infra-images : include_tasks] ********************************************
+Tuesday 05 August 2025  12:23:37 +0000 (0:00:00.049)       0:00:07.293 ******** 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_images.yaml for localhost => (item={'count': 1, 'dns_loadbalancer': True, 'flavor': {'ec2': 'g6.4xlarge'}, 'floating_ip': True, 'image': 'RHEL95GOLD-latest', 'name': 'bastion', 'public_dns': True, 'rootfs_size': '1024', 'security_groups': ['BastionSG', 'ParasolSG', 'ShowroomSG', 'InstructLabSG'], 'tags': [{'key': 'AnsibleGroup', 'value': 'bastions,showroom'}, {'key': 'ostype', 'value': 'linux'}, {'key': 'instance_filter', 'value': 'base-infra-base-infra@opentlc.com'}], 'unique': True})
+
+TASK [infra-images : include_tasks] ********************************************
+Tuesday 05 August 2025  12:23:37 +0000 (0:00:00.050)       0:00:07.343 ******** 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_image.yaml for localhost => (item={'owner': 309956199498, 'name': 'RHEL-9.5.*_HVM_*Access*', 'architecture': 'x86_64', 'aws_filters': {'is-public': False}})
+
+TASK [infra-images : Lookup image for bastion] *********************************
+Tuesday 05 August 2025  12:23:38 +0000 (0:00:00.286)       0:00:07.630 ******** 
+ok: [localhost]
+
+TASK [infra-images : Fail if no image found for bastion] ***********************
+Tuesday 05 August 2025  12:23:39 +0000 (0:00:00.902)       0:00:08.532 ******** 
+skipping: [localhost]
+
+TASK [infra-images : Save image in agnosticd_images, use latest if multiple found] ***
+Tuesday 05 August 2025  12:23:39 +0000 (0:00:00.033)       0:00:08.566 ******** 
+ok: [localhost]
+
+TASK [infra-images : debug agnosticd_image] ************************************
+Tuesday 05 August 2025  12:23:39 +0000 (0:00:00.051)       0:00:08.617 ******** 
+skipping: [localhost]
+
+TASK [infra-images : Print images found for each instance] *********************
+Tuesday 05 August 2025  12:23:39 +0000 (0:00:00.026)       0:00:08.644 ******** 
+ok: [localhost] => (item=bastion) => {
+    "msg": "bastion - RHEL-9.5.0_HVM_GA-20241029-x86_64-0-Access2-GP3 - ami-02d42d2642a94f658 - Red Hat BYOL Linux - us-east-1"
+}
+
+TASK [Run infra-aws-capacity-reservation] **************************************
+Tuesday 05 August 2025  12:23:39 +0000 (0:00:00.047)       0:00:08.692 ******** 
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Tuesday 05 August 2025  12:23:39 +0000 (0:00:00.021)       0:00:08.713 ******** 
+skipping: [localhost]
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Tuesday 05 August 2025  12:23:39 +0000 (0:00:00.019)       0:00:08.733 ******** 
+skipping: [localhost]
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Tuesday 05 August 2025  12:23:39 +0000 (0:00:00.018)       0:00:08.752 ******** 
+skipping: [localhost]
+
+TASK [Empty the agnosticd_images and run the detection again] ******************
+Tuesday 05 August 2025  12:23:39 +0000 (0:00:00.020)       0:00:08.773 ******** 
+skipping: [localhost]
+
+TASK [Run infra-images again to use the proper region selected by the reservations] ***
+Tuesday 05 August 2025  12:23:39 +0000 (0:00:00.030)       0:00:08.803 ******** 
+skipping: [localhost]
+
+TASK [Run infra-aws-open-environment Role] *************************************
+Tuesday 05 August 2025  12:23:39 +0000 (0:00:00.029)       0:00:08.833 ******** 
+skipping: [localhost]
+
+TASK [Create ssh provision key] ************************************************
+Tuesday 05 August 2025  12:23:39 +0000 (0:00:00.021)       0:00:08.854 ******** 
+
+TASK [create_ssh_provision_key : include_tasks] ********************************
+Tuesday 05 August 2025  12:23:39 +0000 (0:00:00.058)       0:00:08.912 ******** 
+included: /runner/project/ansible/roles-infra/create_ssh_provision_key/tasks/checks.yaml for localhost
+
+TASK [create_ssh_provision_key : Ensure key_name is not defined] ***************
+Tuesday 05 August 2025  12:23:39 +0000 (0:00:00.021)       0:00:08.933 ******** 
+skipping: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH keys] ****************************
+Tuesday 05 August 2025  12:23:39 +0000 (0:00:00.022)       0:00:08.955 ******** 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Fix permission of ssh key] ********************
+Tuesday 05 August 2025  12:23:39 +0000 (0:00:00.288)       0:00:09.243 ******** 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH pub key content] *****************
+Tuesday 05 August 2025  12:23:39 +0000 (0:00:00.174)       0:00:09.418 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Save all facts for SSH] ***********************
+Tuesday 05 August 2025  12:23:40 +0000 (0:00:00.174)       0:00:09.593 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Write SSH pub key] ****************************
+Tuesday 05 August 2025  12:23:40 +0000 (0:00:00.019)       0:00:09.613 ******** 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Report user info for SSH provision key as user data] ***
+Tuesday 05 August 2025  12:23:40 +0000 (0:00:00.305)       0:00:09.919 ******** 
+skipping: [localhost]
+
+TASK [include_role : agnosticd_save_output_dir] ********************************
+Tuesday 05 August 2025  12:23:40 +0000 (0:00:00.015)       0:00:09.934 ******** 
+
+TASK [agnosticd_save_output_dir : Save output dir if archive file is defined] ***
+Tuesday 05 August 2025  12:23:40 +0000 (0:00:00.031)       0:00:09.966 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/save-output-dir.yml for localhost
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Tuesday 05 August 2025  12:23:40 +0000 (0:00:00.029)       0:00:09.995 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/create-output-dir-archive.yml for localhost
+
+TASK [agnosticd_save_output_dir : Create tempfile for archive] *****************
+Tuesday 05 August 2025  12:23:40 +0000 (0:00:00.025)       0:00:10.021 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Set agnosticd_save_output_dir_archive_tempfile] ***
+Tuesday 05 August 2025  12:23:40 +0000 (0:00:00.178)       0:00:10.200 ******** 
+ok: [localhost]
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Tuesday 05 August 2025  12:23:40 +0000 (0:00:00.018)       0:00:10.218 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Encrypt tarball using password] **************
+Tuesday 05 August 2025  12:23:40 +0000 (0:00:00.171)       0:00:10.390 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_save_output_dir : Upload output_dir archive to S3] *************
+Tuesday 05 August 2025  12:23:40 +0000 (0:00:00.030)       0:00:10.420 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3.yml for localhost
+
+TASK [Run infra-cloud-tags role] ***********************************************
+Tuesday 05 August 2025  12:23:40 +0000 (0:00:00.037)       0:00:10.457 ******** 
+
+TASK [infra-cloud-tags : Set cloud_tags_final (string)] ************************
+Tuesday 05 August 2025  12:23:41 +0000 (0:00:00.037)       0:00:10.495 ******** 
+skipping: [localhost]
+
+TASK [infra-cloud-tags : Set cloud_tags_final (dictionary)] ********************
+Tuesday 05 August 2025  12:23:41 +0000 (0:00:00.029)       0:00:10.524 ******** 
+ok: [localhost]
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Tuesday 05 August 2025  12:23:41 +0000 (0:00:00.073)       0:00:10.598 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3-s3_object.yml for localhost
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Tuesday 05 August 2025  12:23:41 +0000 (0:00:00.074)       0:00:10.673 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir archive tempfile] **********
+Tuesday 05 August 2025  12:23:42 +0000 (0:00:00.889)       0:00:11.562 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir encrypted archive tempfile] ***
+Tuesday 05 August 2025  12:23:42 +0000 (0:00:00.189)       0:00:11.752 ******** 
+skipping: [localhost]
+
+TASK [Locate environment SSH key] **********************************************
+Tuesday 05 August 2025  12:23:42 +0000 (0:00:00.026)       0:00:11.779 ******** 
+
+TASK [locate_env_authorized_key : Set env_authorized_key_path] *****************
+Tuesday 05 August 2025  12:23:42 +0000 (0:00:00.050)       0:00:11.829 ******** 
+ok: [localhost]
+
+TASK [locate_env_authorized_key : Set env_authorized_key_path_pub] *************
+Tuesday 05 August 2025  12:23:42 +0000 (0:00:00.036)       0:00:11.866 ******** 
+ok: [localhost]
+
+TASK [locate_env_authorized_key : Generate SSH pub key content if it doesn't exist] ***
+Tuesday 05 August 2025  12:23:42 +0000 (0:00:00.041)       0:00:11.907 ******** 
+ok: [localhost]
+
+TASK [locate_env_authorized_key : Save SSH pub key content as fact] ************
+Tuesday 05 August 2025  12:23:42 +0000 (0:00:00.175)       0:00:12.083 ******** 
+ok: [localhost]
+
+TASK [Create keypair in ec2] ***************************************************
+Tuesday 05 August 2025  12:23:42 +0000 (0:00:00.029)       0:00:12.113 ******** 
+
+TASK [infra-ec2-ssh-key : include_tasks] ***************************************
+Tuesday 05 August 2025  12:23:42 +0000 (0:00:00.059)       0:00:12.173 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-ssh-key : include_tasks] ***************************************
+Tuesday 05 August 2025  12:23:42 +0000 (0:00:00.015)       0:00:12.188 ******** 
+included: /runner/project/ansible/roles-infra/infra-ec2-ssh-key/tasks/create.yaml for localhost
+
+TASK [infra-ec2-ssh-key : Stat local infra key] ********************************
+Tuesday 05 August 2025  12:23:42 +0000 (0:00:00.022)       0:00:12.210 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-ssh-key : Generate SSH pub key content] ************************
+Tuesday 05 August 2025  12:23:42 +0000 (0:00:00.165)       0:00:12.376 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-ssh-key : Save all facts for SSH] ******************************
+Tuesday 05 August 2025  12:23:42 +0000 (0:00:00.029)       0:00:12.406 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-ssh-key : Create infra key] ************************************
+Tuesday 05 August 2025  12:23:42 +0000 (0:00:00.030)       0:00:12.437 ******** 
+changed: [localhost]
+
+TASK [Run infra-ec2-template-generate Role] ************************************
+Tuesday 05 August 2025  12:23:43 +0000 (0:00:00.859)       0:00:13.296 ******** 
+
+TASK [infra-ec2-template-generate : Detect all possible Availability Zones that can host all the instance types and pick one] ***
+Tuesday 05 August 2025  12:23:43 +0000 (0:00:00.051)       0:00:13.347 ******** 
+included: /runner/project/ansible/roles-infra/infra-ec2-template-generate/tasks/locate_availability_zones.yml for localhost
+
+TASK [infra-ec2-template-generate : Get all the instance types] ****************
+Tuesday 05 August 2025  12:23:43 +0000 (0:00:00.050)       0:00:13.398 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Tuesday 05 August 2025  12:23:44 +0000 (0:00:00.144)       0:00:13.543 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Check if the AWS CLI has the 'describe-instance-type-offerings' feature] ***
+Tuesday 05 August 2025  12:23:44 +0000 (0:00:00.120)       0:00:13.663 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Get all subnets or networks in 'instances'] ***
+Tuesday 05 August 2025  12:23:45 +0000 (0:00:00.857)       0:00:14.520 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : include_tasks] *****************************
+Tuesday 05 August 2025  12:23:45 +0000 (0:00:00.169)       0:00:14.690 ******** 
+included: /runner/project/ansible/roles-infra/infra-ec2-template-generate/tasks/locate_availability_zones_tasks.yml for localhost
+
+TASK [infra-ec2-template-generate : Get the possible AZs] **********************
+Tuesday 05 August 2025  12:23:45 +0000 (0:00:00.051)       0:00:14.742 ******** 
+ok: [localhost] => (item=g6.4xlarge)
+
+TASK [infra-ec2-template-generate : debug] *************************************
+Tuesday 05 August 2025  12:23:46 +0000 (0:00:00.852)       0:00:15.594 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Fail if return code is not 0] **************
+Tuesday 05 August 2025  12:23:46 +0000 (0:00:00.018)       0:00:15.613 ******** 
+skipping: [localhost] => (item=['aws', 'ec2', 'describe-instance-type-offerings', '--location-type', 'availability-zone', '--filters', 'Name=instance-type,Values=g6.4xlarge', '--query', 'InstanceTypeOfferings[].Location', '--output', 'json']) 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Set fact of the possible Availability Zones] ***
+Tuesday 05 August 2025  12:23:46 +0000 (0:00:00.030)       0:00:15.643 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Calculate intersection of all AZs and set_fact] ***
+Tuesday 05 August 2025  12:23:46 +0000 (0:00:00.128)       0:00:15.771 ******** 
+ok: [localhost] => (item=['us-east-1b', 'us-east-1a', 'us-east-1c', 'us-east-1d'])
+
+TASK [infra-ec2-template-generate : Abort if no AZ is found] *******************
+Tuesday 05 August 2025  12:23:46 +0000 (0:00:00.033)       0:00:15.804 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [infra-ec2-template-generate : Print possible availability zones] *********
+Tuesday 05 August 2025  12:23:46 +0000 (0:00:00.028)       0:00:15.832 ******** 
+ok: [localhost] => {
+    "infra_ec2_template_generate_possible_azs": [
+        "us-east-1b",
+        "us-east-1a",
+        "us-east-1c",
+        "us-east-1d"
+    ]
+}
+
+TASK [infra-ec2-template-generate : Select the first AZ in the possible AZs and set fact aws_availability_zone] ***
+Tuesday 05 August 2025  12:23:46 +0000 (0:00:00.014)       0:00:15.847 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Debug] *************************************
+Tuesday 05 August 2025  12:23:46 +0000 (0:00:00.020)       0:00:15.868 ******** 
+ok: [localhost] => {
+    "aws_availability_zone": "us-east-1b"
+}
+
+TASK [infra-ec2-template-generate : Check if template exists for the environment] ***
+Tuesday 05 August 2025  12:23:46 +0000 (0:00:00.014)       0:00:15.882 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Use CloudFormation template from the environment] ***
+Tuesday 05 August 2025  12:23:46 +0000 (0:00:00.177)       0:00:16.060 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Use the default CloudFormation template] ***
+Tuesday 05 August 2025  12:23:46 +0000 (0:00:00.013)       0:00:16.073 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Print cloudformation_template_src] *********
+Tuesday 05 August 2025  12:23:46 +0000 (0:00:00.015)       0:00:16.089 ******** 
+ok: [localhost] => {
+    "cloudformation_template_src": "templates/cloud_template.j2"
+}
+
+TASK [infra-ec2-template-generate : Determine the security groups used in 'instances' dictionary] ***
+Tuesday 05 August 2025  12:23:46 +0000 (0:00:00.014)       0:00:16.103 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Tuesday 05 August 2025  12:23:46 +0000 (0:00:00.138)       0:00:16.241 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Print cloudformation_template] *************
+Tuesday 05 August 2025  12:23:46 +0000 (0:00:00.014)       0:00:16.256 ******** 
+ok: [localhost] => {
+    "cloudformation_template": "/tmp/output-4787aa0c-9b0a-5956-a881-366a9402f510/base-infra.np8fz.ec2_cloud_template"
+}
+
+TASK [infra-ec2-template-generate : AWS Generate CloudFormation Template] ******
+Tuesday 05 August 2025  12:23:46 +0000 (0:00:00.015)       0:00:16.272 ******** 
+changed: [localhost]
+
+TASK [infra-ec2-template-generate : Stop if debugging template] ****************
+Tuesday 05 August 2025  12:23:47 +0000 (0:00:00.755)       0:00:17.028 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Stat CloudFormation template] **************
+Tuesday 05 August 2025  12:23:47 +0000 (0:00:00.022)       0:00:17.050 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Get user name] *****************************
+Tuesday 05 August 2025  12:23:47 +0000 (0:00:00.176)       0:00:17.226 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Tuesday 05 August 2025  12:23:47 +0000 (0:00:00.013)       0:00:17.240 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Tuesday 05 August 2025  12:23:47 +0000 (0:00:00.013)       0:00:17.254 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Create bucket] *****************************
+Tuesday 05 August 2025  12:23:47 +0000 (0:00:00.013)       0:00:17.267 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Copy Template to S3] ***********************
+Tuesday 05 August 2025  12:23:47 +0000 (0:00:00.013)       0:00:17.280 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Check for !Ref in CF template] *************
+Tuesday 05 August 2025  12:23:47 +0000 (0:00:00.013)       0:00:17.293 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : validation cloudformation template] ********
+Tuesday 05 August 2025  12:23:48 +0000 (0:00:00.279)       0:00:17.573 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "Cloudformation template is syntactically valid"
+}
+
+TASK [infra-ec2-template-generate : Copy original !Ref CF template back in place] ***
+Tuesday 05 August 2025  12:23:48 +0000 (0:00:00.027)       0:00:17.601 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : validate cloudformation template with validate-template (local)] ***
+Tuesday 05 August 2025  12:23:48 +0000 (0:00:00.013)       0:00:17.614 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : validate cloudformation template with validate-template (S3)] ***
+Tuesday 05 August 2025  12:23:49 +0000 (0:00:00.897)       0:00:18.512 ******** 
+skipping: [localhost]
+
+TASK [Run infra-ec2-template-create Role] **************************************
+Tuesday 05 August 2025  12:23:49 +0000 (0:00:00.019)       0:00:18.532 ******** 
+
+TASK [infra-ec2-template-create : Retrieve stack_deployed from provision-user-data.yaml] ***
+Tuesday 05 August 2025  12:23:49 +0000 (0:00:00.064)       0:00:18.596 ******** 
+ok: [localhost]
+
+TASK [include_role : infra-cloud-tags] *****************************************
+Tuesday 05 August 2025  12:23:49 +0000 (0:00:00.044)       0:00:18.641 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : set_fact] ************************************
+Tuesday 05 August 2025  12:23:49 +0000 (0:00:00.038)       0:00:18.679 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Wait a bit for the previous stack and child resources to be deleted] ***
+Tuesday 05 August 2025  12:23:49 +0000 (0:00:00.031)       0:00:18.711 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : include_tasks] *******************************
+Tuesday 05 August 2025  12:23:49 +0000 (0:00:00.030)       0:00:18.741 ******** 
+skipping: [localhost]
+
+TASK [Regenerate the CloudFormation template because of custom images] *********
+Tuesday 05 August 2025  12:23:49 +0000 (0:00:00.041)       0:00:18.782 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Prepare for launch CloudFormation template from local] ***
+Tuesday 05 August 2025  12:23:49 +0000 (0:00:00.041)       0:00:18.824 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Prepare for launch CloudFormation template from S3 bucket] ***
+Tuesday 05 August 2025  12:23:49 +0000 (0:00:00.027)       0:00:18.852 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Launch CloudFormation template (local)] ******
+Tuesday 05 August 2025  12:23:49 +0000 (0:00:00.026)       0:00:18.878 ******** 
+[WARNING]: Using a variable for a task's 'args' is unsafe in some situations
+(see
+https://docs.ansible.com/ansible/devel/reference_appendices/faq.html#argsplat-
+unsafe)
+fatal: [localhost]: FAILED! => {"attempts": 1, "changed": true, "events": ["StackEvent AWS::CloudFormation::Stack base-infra-np8fz CREATE_FAILED", "StackEvent AWS::Route53::HostedZone DnsZonePrivate CREATE_COMPLETE", "StackEvent AWS::IAM::AccessKey Route53UserAccessKey CREATE_COMPLETE", "StackEvent AWS::IAM::AccessKey Route53UserAccessKey CREATE_IN_PROGRESS", "StackEvent AWS::IAM::AccessKey Route53UserAccessKey CREATE_IN_PROGRESS", "StackEvent AWS::IAM::User Route53User CREATE_COMPLETE", "StackEvent AWS::Route53::RecordSetGroup DnsPublicDelegation CREATE_COMPLETE", "StackEvent AWS::IAM::User Route53User CREATE_IN_PROGRESS", "StackEvent AWS::Route53::RecordSetGroup DnsPublicDelegation CREATE_IN_PROGRESS", "StackEvent AWS::Route53::RecordSetGroup DnsPublicDelegation CREATE_IN_PROGRESS", "StackEvent AWS::IAM::User Route53User CREATE_IN_PROGRESS", "StackEvent AWS::Route53::HostedZone DnsZonePublic CREATE_COMPLETE", "StackEvent AWS::EC2::SubnetRouteTableAssociation PublicSubnetRTA CREATE_COMPLETE", "StackEvent AWS::EC2::Route VPCRouteInternetGateway CREATE_COMPLETE", "StackEvent AWS::EC2::SubnetRouteTableAssociation PublicSubnetRTA CREATE_IN_PROGRESS", "StackEvent AWS::EC2::Route VPCRouteInternetGateway CREATE_IN_PROGRESS", "StackEvent AWS::EC2::SubnetRouteTableAssociation PublicSubnetRTA CREATE_IN_PROGRESS", "StackEvent AWS::EC2::Route VPCRouteInternetGateway CREATE_IN_PROGRESS", "StackEvent AWS::EC2::RouteTable VpcRouteTable CREATE_COMPLETE", "StackEvent AWS::EC2::SecurityGroupIngress ShowroomSGShowroomHTTPS CREATE_COMPLETE", "StackEvent AWS::EC2::Instance bastion1 CREATE_FAILED", "StackEvent AWS::EC2::SecurityGroupIngress ParasolSGParasolHTTP CREATE_COMPLETE", "StackEvent AWS::EC2::SecurityGroupIngress InstructLabSGInstructLabAPI CREATE_COMPLETE", "StackEvent AWS::EC2::SecurityGroupIngress BastionSGSSHPublic CREATE_COMPLETE", "StackEvent AWS::EC2::SecurityGroupIngress BastionSGMoshPublic CREATE_COMPLETE", "StackEvent AWS::EC2::SecurityGroupIngress ShowroomSGShowroomHTTPS CREATE_IN_PROGRESS", "StackEvent AWS::EC2::SecurityGroupIngress InstructLabSGInstructLabAPI CREATE_IN_PROGRESS", "StackEvent AWS::EC2::SecurityGroupIngress ParasolSGParasolHTTP CREATE_IN_PROGRESS", "StackEvent AWS::EC2::SecurityGroupIngress BastionSGSSHPublic CREATE_IN_PROGRESS", "StackEvent AWS::EC2::SecurityGroupIngress BastionSGMoshPublic CREATE_IN_PROGRESS", "StackEvent AWS::EC2::SecurityGroupIngress ShowroomSGShowroomHTTPS CREATE_IN_PROGRESS", "StackEvent AWS::EC2::Instance bastion1 CREATE_IN_PROGRESS", "StackEvent AWS::EC2::SecurityGroupIngress InstructLabSGInstructLabAPI CREATE_IN_PROGRESS", "StackEvent AWS::EC2::SecurityGroupIngress ParasolSGParasolHTTP CREATE_IN_PROGRESS", "StackEvent AWS::EC2::SecurityGroupIngress BastionSGSSHPublic CREATE_IN_PROGRESS", "StackEvent AWS::EC2::SecurityGroupIngress BastionSGMoshPublic CREATE_IN_PROGRESS", "StackEvent AWS::EC2::SecurityGroup ShowroomSG CREATE_COMPLETE", "StackEvent AWS::EC2::SecurityGroup BastionSG CREATE_COMPLETE", "StackEvent AWS::EC2::SecurityGroup InstructLabSG CREATE_COMPLETE", "StackEvent AWS::EC2::SecurityGroup DefaultSG CREATE_COMPLETE", "StackEvent AWS::EC2::SecurityGroup HostSG CREATE_COMPLETE", "StackEvent AWS::EC2::SecurityGroup ParasolSG CREATE_COMPLETE", "StackEvent AWS::EC2::VPCGatewayAttachment VpcGA CREATE_COMPLETE", "StackEvent AWS::EC2::VPCGatewayAttachment VpcGA CREATE_IN_PROGRESS", "StackEvent AWS::EC2::Subnet PublicSubnet CREATE_COMPLETE", "StackEvent AWS::EC2::VPCGatewayAttachment VpcGA CREATE_IN_PROGRESS", "StackEvent AWS::EC2::InternetGateway VpcInternetGateway CREATE_COMPLETE", "StackEvent AWS::EC2::SecurityGroup ShowroomSG CREATE_IN_PROGRESS", "StackEvent AWS::EC2::SecurityGroup BastionSG CREATE_IN_PROGRESS", "StackEvent AWS::EC2::SecurityGroup ParasolSG CREATE_IN_PROGRESS", "StackEvent AWS::EC2::SecurityGroup HostSG CREATE_IN_PROGRESS", "StackEvent AWS::EC2::SecurityGroup DefaultSG CREATE_IN_PROGRESS", "StackEvent AWS::EC2::SecurityGroup InstructLabSG CREATE_IN_PROGRESS", "StackEvent AWS::EC2::Subnet PublicSubnet CREATE_IN_PROGRESS", "StackEvent AWS::EC2::RouteTable VpcRouteTable CREATE_IN_PROGRESS", "StackEvent AWS::Route53::HostedZone DnsZonePrivate CREATE_IN_PROGRESS", "StackEvent AWS::EC2::SecurityGroup ShowroomSG CREATE_IN_PROGRESS", "StackEvent AWS::EC2::SecurityGroup ParasolSG CREATE_IN_PROGRESS", "StackEvent AWS::EC2::RouteTable VpcRouteTable CREATE_IN_PROGRESS", "StackEvent AWS::EC2::Subnet PublicSubnet CREATE_IN_PROGRESS", "StackEvent AWS::EC2::SecurityGroup DefaultSG CREATE_IN_PROGRESS", "StackEvent AWS::EC2::SecurityGroup InstructLabSG CREATE_IN_PROGRESS", "StackEvent AWS::Route53::HostedZone DnsZonePrivate CREATE_IN_PROGRESS", "StackEvent AWS::EC2::SecurityGroup BastionSG CREATE_IN_PROGRESS", "StackEvent AWS::EC2::SecurityGroup HostSG CREATE_IN_PROGRESS", "StackEvent AWS::EC2::VPC Vpc CREATE_COMPLETE", "StackEvent AWS::EC2::VPC Vpc CREATE_IN_PROGRESS", "StackEvent AWS::EC2::InternetGateway VpcInternetGateway CREATE_IN_PROGRESS", "StackEvent AWS::Route53::HostedZone DnsZonePublic CREATE_IN_PROGRESS", "StackEvent AWS::EC2::InternetGateway VpcInternetGateway CREATE_IN_PROGRESS", "StackEvent AWS::Route53::HostedZone DnsZonePublic CREATE_IN_PROGRESS", "StackEvent AWS::EC2::VPC Vpc CREATE_IN_PROGRESS", "StackEvent AWS::CloudFormation::Stack base-infra-np8fz CREATE_IN_PROGRESS"], "log": ["AWS::CloudFormation::Stack base-infra-np8fz CREATE_FAILED: The following resource(s) failed to create: [bastion1]. ", "AWS::EC2::Instance bastion1 CREATE_FAILED: Resource handler returned message: \\"You have requested more vCPU capacity than your current vCPU limit of 4 allows for the instance bucket that the specified instance type belongs to. Please visit http://aws.amazon.com/contact-us/ec2-request to request an adjustment to this limit. (Service: Ec2, Status Code: 400, Request ID: 7b847143-aef0-4099-911a-dbfb1dc1bc63) (SDK Attempt Count: 1)\\" (RequestToken: 9d5e0849-d0b6-9b9e-f0b1-bc07d3bd594a, HandlerErrorCode: InvalidRequest)"], "output": "Stack CREATE failed", "stack_outputs": {}, "stack_resources": [{"last_updated_time": "2025-08-05T12:24:14.230000+00:00", "logical_resource_id": "BastionSG", "physical_resource_id": "sg-0b91878ed170b3239", "resource_type": "AWS::EC2::SecurityGroup", "status": "CREATE_COMPLETE", "status_reason": null}, {"last_updated_time": "2025-08-05T12:24:16.319000+00:00", "logical_resource_id": "BastionSGMoshPublic", "physical_resource_id": "sgr-01d3d9f1170c3940c", "resource_type": "AWS::EC2::SecurityGroupIngress", "status": "CREATE_COMPLETE", "status_reason": null}, {"last_updated_time": "2025-08-05T12:24:16.430000+00:00", "logical_resource_id": "BastionSGSSHPublic", "physical_resource_id": "sgr-0a84a13be75a97b0b", "resource_type": "AWS::EC2::SecurityGroupIngress", "status": "CREATE_COMPLETE", "status_reason": null}, {"last_updated_time": "2025-08-05T12:24:14.176000+00:00", "logical_resource_id": "DefaultSG", "physical_resource_id": "sg-08478d37b46536d01", "resource_type": "AWS::EC2::SecurityGroup", "status": "CREATE_COMPLETE", "status_reason": null}, {"last_updated_time": "2025-08-05T12:25:07.867000+00:00", "logical_resource_id": "DnsPublicDelegation", "physical_resource_id": "base-infra-np8fz-DnsPublicDelegation-1IJC299OBRQQD", "resource_type": "AWS::Route53::RecordSetGroup", "status": "CREATE_COMPLETE", "status_reason": null}, {"last_updated_time": "2025-08-05T12:26:52.702000+00:00", "logical_resource_id": "DnsZonePrivate", "physical_resource_id": "Z0667809O88LSZGP28FC", "resource_type": "AWS::Route53::HostedZone", "status": "CREATE_COMPLETE", "status_reason": null}, {"last_updated_time": "2025-08-05T12:24:35.650000+00:00", "logical_resource_id": "DnsZonePublic", "physical_resource_id": "Z01611884ODNA7NOP07O", "resource_type": "AWS::Route53::HostedZone", "status": "CREATE_COMPLETE", "status_reason": null}, {"last_updated_time": "2025-08-05T12:24:14.156000+00:00", "logical_resource_id": "HostSG", "physical_resource_id": "sg-0af69987aceab3a43", "resource_type": "AWS::EC2::SecurityGroup", "status": "CREATE_COMPLETE", "status_reason": null}, {"last_updated_time": "2025-08-05T12:24:14.193000+00:00", "logical_resource_id": "InstructLabSG", "physical_resource_id": "sg-043e743ffef347be1", "resource_type": "AWS::EC2::SecurityGroup", "status": "CREATE_COMPLETE", "status_reason": null}, {"last_updated_time": "2025-08-05T12:24:16.445000+00:00", "logical_resource_id": "InstructLabSGInstructLabAPI", "physical_resource_id": "sgr-019e455aa72761cbb", "resource_type": "AWS::EC2::SecurityGroupIngress", "status": "CREATE_COMPLETE", "status_reason": null}, {"last_updated_time": "2025-08-05T12:24:14.141000+00:00", "logical_resource_id": "ParasolSG", "physical_resource_id": "sg-04ef4e49c2e28691f", "resource_type": "AWS::EC2::SecurityGroup", "status": "CREATE_COMPLETE", "status_reason": null}, {"last_updated_time": "2025-08-05T12:24:16.462000+00:00", "logical_resource_id": "ParasolSGParasolHTTP", "physical_resource_id": "sgr-05a3608983659ded1", "resource_type": "AWS::EC2::SecurityGroupIngress", "status": "CREATE_COMPLETE", "status_reason": null}, {"last_updated_time": "2025-08-05T12:24:10.632000+00:00", "logical_resource_id": "PublicSubnet", "physical_resource_id": "subnet-0bf5b034bb0625e15", "resource_type": "AWS::EC2::Subnet", "status": "CREATE_COMPLETE", "status_reason": null}, {"last_updated_time": "2025-08-05T12:24:20.231000+00:00", "logical_resource_id": "PublicSubnetRTA", "physical_resource_id": "rtbassoc-076cdd208453efcf2", "resource_type": "AWS::EC2::SubnetRouteTableAssociation", "status": "CREATE_COMPLETE", "status_reason": null}, {"last_updated_time": "2025-08-05T12:25:14.110000+00:00", "logical_resource_id": "Route53User", "physical_resource_id": "base-infra-np8fz-Route53User-XdWnd2pTBnWo", "resource_type": "AWS::IAM::User", "status": "CREATE_COMPLETE", "status_reason": null}, {"last_updated_time": "2025-08-05T12:25:15.219000+00:00", "logical_resource_id": "Route53UserAccessKey", "physical_resource_id": "[REDACTED_AWS Access Key_SECRET]", "resource_type": "AWS::IAM::AccessKey", "status": "CREATE_COMPLETE", "status_reason": null}, {"last_updated_time": "2025-08-05T12:24:14.598000+00:00", "logical_resource_id": "ShowroomSG", "physical_resource_id": "sg-0f6239b40204bba03", "resource_type": "AWS::EC2::SecurityGroup", "status": "CREATE_COMPLETE", "status_reason": null}, {"last_updated_time": "2025-08-05T12:24:16.852000+00:00", "logical_resource_id": "ShowroomSGShowroomHTTPS", "physical_resource_id": "sgr-0fe7955ca5e15c915", "resource_type": "AWS::EC2::SecurityGroupIngress", "status": "CREATE_COMPLETE", "status_reason": null}, {"last_updated_time": "2025-08-05T12:24:20.156000+00:00", "logical_resource_id": "VPCRouteInternetGateway", "physical_resource_id": "rtb-0ede4455a553c019a|0.0.0.0/0", "resource_type": "AWS::EC2::Route", "status": "CREATE_COMPLETE", "status_reason": null}, {"last_updated_time": "2025-08-05T12:24:05.529000+00:00", "logical_resource_id": "Vpc", "physical_resource_id": "vpc-06d68eb1fd3ec1c38", "resource_type": "AWS::EC2::VPC", "status": "CREATE_COMPLETE", "status_reason": null}, {"last_updated_time": "2025-08-05T12:24:12.869000+00:00", "logical_resource_id": "VpcGA", "physical_resource_id": "IGW|vpc-06d68eb1fd3ec1c38", "resource_type": "AWS::EC2::VPCGatewayAttachment", "status": "CREATE_COMPLETE", "status_reason": null}, {"last_updated_time": "2025-08-05T12:24:09.507000+00:00", "logical_resource_id": "VpcInternetGateway", "physical_resource_id": "igw-079c5b76d61f95b14", "resource_type": "AWS::EC2::InternetGateway", "status": "CREATE_COMPLETE", "status_reason": null}, {"last_updated_time": "2025-08-05T12:24:17.781000+00:00", "logical_resource_id": "VpcRouteTable", "physical_resource_id": "rtb-0ede4455a553c019a", "resource_type": "AWS::EC2::RouteTable", "status": "CREATE_COMPLETE", "status_reason": null}, {"last_updated_time": "2025-08-05T12:24:16.644000+00:00", "logical_resource_id": "bastion1", "physical_resource_id": "", "resource_type": "AWS::EC2::Instance", "status": "CREATE_FAILED", "status_reason": "Resource handler returned message: \\"You have requested more vCPU capacity than your current vCPU limit of 4 allows for the instance bucket that the specified instance type belongs to. Please visit http://aws.amazon.com/contact-us/ec2-request to request an adjustment to this limit. (Service: Ec2, Status Code: 400, Request ID: 7b847143-aef0-4099-911a-dbfb1dc1bc63) (SDK Attempt Count: 1)\\" (RequestToken: 9d5e0849-d0b6-9b9e-f0b1-bc07d3bd594a, HandlerErrorCode: InvalidRequest)"}]}
+...ignoring
+
+TASK [infra-ec2-template-create : debug cloudformation] ************************
+Tuesday 05 August 2025  12:26:54 +0000 (0:03:05.084)       0:03:23.963 ******** 
+ok: [localhost] => {
+    "cloudformation_out": {
+        "attempts": 1,
+        "changed": true,
+        "events": [
+            "StackEvent AWS::CloudFormation::Stack base-infra-np8fz CREATE_FAILED",
+            "StackEvent AWS::Route53::HostedZone DnsZonePrivate CREATE_COMPLETE",
+            "StackEvent AWS::IAM::AccessKey Route53UserAccessKey CREATE_COMPLETE",
+            "StackEvent AWS::IAM::AccessKey Route53UserAccessKey CREATE_IN_PROGRESS",
+            "StackEvent AWS::IAM::AccessKey Route53UserAccessKey CREATE_IN_PROGRESS",
+            "StackEvent AWS::IAM::User Route53User CREATE_COMPLETE",
+            "StackEvent AWS::Route53::RecordSetGroup DnsPublicDelegation CREATE_COMPLETE",
+            "StackEvent AWS::IAM::User Route53User CREATE_IN_PROGRESS",
+            "StackEvent AWS::Route53::RecordSetGroup DnsPublicDelegation CREATE_IN_PROGRESS",
+            "StackEvent AWS::Route53::RecordSetGroup DnsPublicDelegation CREATE_IN_PROGRESS",
+            "StackEvent AWS::IAM::User Route53User CREATE_IN_PROGRESS",
+            "StackEvent AWS::Route53::HostedZone DnsZonePublic CREATE_COMPLETE",
+            "StackEvent AWS::EC2::SubnetRouteTableAssociation PublicSubnetRTA CREATE_COMPLETE",
+            "StackEvent AWS::EC2::Route VPCRouteInternetGateway CREATE_COMPLETE",
+            "StackEvent AWS::EC2::SubnetRouteTableAssociation PublicSubnetRTA CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::Route VPCRouteInternetGateway CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::SubnetRouteTableAssociation PublicSubnetRTA CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::Route VPCRouteInternetGateway CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::RouteTable VpcRouteTable CREATE_COMPLETE",
+            "StackEvent AWS::EC2::SecurityGroupIngress ShowroomSGShowroomHTTPS CREATE_COMPLETE",
+            "StackEvent AWS::EC2::Instance bastion1 CREATE_FAILED",
+            "StackEvent AWS::EC2::SecurityGroupIngress ParasolSGParasolHTTP CREATE_COMPLETE",
+            "StackEvent AWS::EC2::SecurityGroupIngress InstructLabSGInstructLabAPI CREATE_COMPLETE",
+            "StackEvent AWS::EC2::SecurityGroupIngress BastionSGSSHPublic CREATE_COMPLETE",
+            "StackEvent AWS::EC2::SecurityGroupIngress BastionSGMoshPublic CREATE_COMPLETE",
+            "StackEvent AWS::EC2::SecurityGroupIngress ShowroomSGShowroomHTTPS CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::SecurityGroupIngress InstructLabSGInstructLabAPI CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::SecurityGroupIngress ParasolSGParasolHTTP CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::SecurityGroupIngress BastionSGSSHPublic CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::SecurityGroupIngress BastionSGMoshPublic CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::SecurityGroupIngress ShowroomSGShowroomHTTPS CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::Instance bastion1 CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::SecurityGroupIngress InstructLabSGInstructLabAPI CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::SecurityGroupIngress ParasolSGParasolHTTP CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::SecurityGroupIngress BastionSGSSHPublic CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::SecurityGroupIngress BastionSGMoshPublic CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::SecurityGroup ShowroomSG CREATE_COMPLETE",
+            "StackEvent AWS::EC2::SecurityGroup BastionSG CREATE_COMPLETE",
+            "StackEvent AWS::EC2::SecurityGroup InstructLabSG CREATE_COMPLETE",
+            "StackEvent AWS::EC2::SecurityGroup DefaultSG CREATE_COMPLETE",
+            "StackEvent AWS::EC2::SecurityGroup HostSG CREATE_COMPLETE",
+            "StackEvent AWS::EC2::SecurityGroup ParasolSG CREATE_COMPLETE",
+            "StackEvent AWS::EC2::VPCGatewayAttachment VpcGA CREATE_COMPLETE",
+            "StackEvent AWS::EC2::VPCGatewayAttachment VpcGA CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::Subnet PublicSubnet CREATE_COMPLETE",
+            "StackEvent AWS::EC2::VPCGatewayAttachment VpcGA CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::InternetGateway VpcInternetGateway CREATE_COMPLETE",
+            "StackEvent AWS::EC2::SecurityGroup ShowroomSG CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::SecurityGroup BastionSG CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::SecurityGroup ParasolSG CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::SecurityGroup HostSG CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::SecurityGroup DefaultSG CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::SecurityGroup InstructLabSG CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::Subnet PublicSubnet CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::RouteTable VpcRouteTable CREATE_IN_PROGRESS",
+            "StackEvent AWS::Route53::HostedZone DnsZonePrivate CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::SecurityGroup ShowroomSG CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::SecurityGroup ParasolSG CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::RouteTable VpcRouteTable CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::Subnet PublicSubnet CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::SecurityGroup DefaultSG CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::SecurityGroup InstructLabSG CREATE_IN_PROGRESS",
+            "StackEvent AWS::Route53::HostedZone DnsZonePrivate CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::SecurityGroup BastionSG CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::SecurityGroup HostSG CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::VPC Vpc CREATE_COMPLETE",
+            "StackEvent AWS::EC2::VPC Vpc CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::InternetGateway VpcInternetGateway CREATE_IN_PROGRESS",
+            "StackEvent AWS::Route53::HostedZone DnsZonePublic CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::InternetGateway VpcInternetGateway CREATE_IN_PROGRESS",
+            "StackEvent AWS::Route53::HostedZone DnsZonePublic CREATE_IN_PROGRESS",
+            "StackEvent AWS::EC2::VPC Vpc CREATE_IN_PROGRESS",
+            "StackEvent AWS::CloudFormation::Stack base-infra-np8fz CREATE_IN_PROGRESS"
+        ],
+        "failed": true,
+        "log": [
+            "AWS::CloudFormation::Stack base-infra-np8fz CREATE_FAILED: The following resource(s) failed to create: [bastion1]. ",
+            "AWS::EC2::Instance bastion1 CREATE_FAILED: Resource handler returned message: \\"You have requested more vCPU capacity than your current vCPU limit of 4 allows for the instance bucket that the specified instance type belongs to. Please visit http://aws.amazon.com/contact-us/ec2-request to request an adjustment to this limit. (Service: Ec2, Status Code: 400, Request ID: 7b847143-aef0-4099-911a-dbfb1dc1bc63) (SDK Attempt Count: 1)\\" (RequestToken: 9d5e0849-d0b6-9b9e-f0b1-bc07d3bd594a, HandlerErrorCode: InvalidRequest)"
+        ],
+        "output": "Stack CREATE failed",
+        "stack_outputs": {},
+        "stack_resources": [
+            {
+                "last_updated_time": "2025-08-05T12:24:14.230000+00:00",
+                "logical_resource_id": "BastionSG",
+                "physical_resource_id": "sg-0b91878ed170b3239",
+                "resource_type": "AWS::EC2::SecurityGroup",
+                "status": "CREATE_COMPLETE",
+                "status_reason": null
+            },
+            {
+                "last_updated_time": "2025-08-05T12:24:16.319000+00:00",
+                "logical_resource_id": "BastionSGMoshPublic",
+                "physical_resource_id": "sgr-01d3d9f1170c3940c",
+                "resource_type": "AWS::EC2::SecurityGroupIngress",
+                "status": "CREATE_COMPLETE",
+                "status_reason": null
+            },
+            {
+                "last_updated_time": "2025-08-05T12:24:16.430000+00:00",
+                "logical_resource_id": "BastionSGSSHPublic",
+                "physical_resource_id": "sgr-0a84a13be75a97b0b",
+                "resource_type": "AWS::EC2::SecurityGroupIngress",
+                "status": "CREATE_COMPLETE",
+                "status_reason": null
+            },
+            {
+                "last_updated_time": "2025-08-05T12:24:14.176000+00:00",
+                "logical_resource_id": "DefaultSG",
+                "physical_resource_id": "sg-08478d37b46536d01",
+                "resource_type": "AWS::EC2::SecurityGroup",
+                "status": "CREATE_COMPLETE",
+                "status_reason": null
+            },
+            {
+                "last_updated_time": "2025-08-05T12:25:07.867000+00:00",
+                "logical_resource_id": "DnsPublicDelegation",
+                "physical_resource_id": "base-infra-np8fz-DnsPublicDelegation-1IJC299OBRQQD",
+                "resource_type": "AWS::Route53::RecordSetGroup",
+                "status": "CREATE_COMPLETE",
+                "status_reason": null
+            },
+            {
+                "last_updated_time": "2025-08-05T12:26:52.702000+00:00",
+                "logical_resource_id": "DnsZonePrivate",
+                "physical_resource_id": "Z0667809O88LSZGP28FC",
+                "resource_type": "AWS::Route53::HostedZone",
+                "status": "CREATE_COMPLETE",
+                "status_reason": null
+            },
+            {
+                "last_updated_time": "2025-08-05T12:24:35.650000+00:00",
+                "logical_resource_id": "DnsZonePublic",
+                "physical_resource_id": "Z01611884ODNA7NOP07O",
+                "resource_type": "AWS::Route53::HostedZone",
+                "status": "CREATE_COMPLETE",
+                "status_reason": null
+            },
+            {
+                "last_updated_time": "2025-08-05T12:24:14.156000+00:00",
+                "logical_resource_id": "HostSG",
+                "physical_resource_id": "sg-0af69987aceab3a43",
+                "resource_type": "AWS::EC2::SecurityGroup",
+                "status": "CREATE_COMPLETE",
+                "status_reason": null
+            },
+            {
+                "last_updated_time": "2025-08-05T12:24:14.193000+00:00",
+                "logical_resource_id": "InstructLabSG",
+                "physical_resource_id": "sg-043e743ffef347be1",
+                "resource_type": "AWS::EC2::SecurityGroup",
+                "status": "CREATE_COMPLETE",
+                "status_reason": null
+            },
+            {
+                "last_updated_time": "2025-08-05T12:24:16.445000+00:00",
+                "logical_resource_id": "InstructLabSGInstructLabAPI",
+                "physical_resource_id": "sgr-019e455aa72761cbb",
+                "resource_type": "AWS::EC2::SecurityGroupIngress",
+                "status": "CREATE_COMPLETE",
+                "status_reason": null
+            },
+            {
+                "last_updated_time": "2025-08-05T12:24:14.141000+00:00",
+                "logical_resource_id": "ParasolSG",
+                "physical_resource_id": "sg-04ef4e49c2e28691f",
+                "resource_type": "AWS::EC2::SecurityGroup",
+                "status": "CREATE_COMPLETE",
+                "status_reason": null
+            },
+            {
+                "last_updated_time": "2025-08-05T12:24:16.462000+00:00",
+                "logical_resource_id": "ParasolSGParasolHTTP",
+                "physical_resource_id": "sgr-05a3608983659ded1",
+                "resource_type": "AWS::EC2::SecurityGroupIngress",
+                "status": "CREATE_COMPLETE",
+                "status_reason": null
+            },
+            {
+                "last_updated_time": "2025-08-05T12:24:10.632000+00:00",
+                "logical_resource_id": "PublicSubnet",
+                "physical_resource_id": "subnet-0bf5b034bb0625e15",
+                "resource_type": "AWS::EC2::Subnet",
+                "status": "CREATE_COMPLETE",
+                "status_reason": null
+            },
+            {
+                "last_updated_time": "2025-08-05T12:24:20.231000+00:00",
+                "logical_resource_id": "PublicSubnetRTA",
+                "physical_resource_id": "rtbassoc-076cdd208453efcf2",
+                "resource_type": "AWS::EC2::SubnetRouteTableAssociation",
+                "status": "CREATE_COMPLETE",
+                "status_reason": null
+            },
+            {
+                "last_updated_time": "2025-08-05T12:25:14.110000+00:00",
+                "logical_resource_id": "Route53User",
+                "physical_resource_id": "base-infra-np8fz-Route53User-XdWnd2pTBnWo",
+                "resource_type": "AWS::IAM::User",
+                "status": "CREATE_COMPLETE",
+                "status_reason": null
+            },
+            {
+                "last_updated_time": "2025-08-05T12:25:15.219000+00:00",
+                "logical_resource_id": "Route53UserAccessKey",
+                "physical_resource_id": "[REDACTED_AWS Access Key_SECRET]",
+                "resource_type": "AWS::IAM::AccessKey",
+                "status": "CREATE_COMPLETE",
+                "status_reason": null
+            },
+            {
+                "last_updated_time": "2025-08-05T12:24:14.598000+00:00",
+                "logical_resource_id": "ShowroomSG",
+                "physical_resource_id": "sg-0f6239b40204bba03",
+                "resource_type": "AWS::EC2::SecurityGroup",
+                "status": "CREATE_COMPLETE",
+                "status_reason": null
+            },
+            {
+                "last_updated_time": "2025-08-05T12:24:16.852000+00:00",
+                "logical_resource_id": "ShowroomSGShowroomHTTPS",
+                "physical_resource_id": "sgr-0fe7955ca5e15c915",
+                "resource_type": "AWS::EC2::SecurityGroupIngress",
+                "status": "CREATE_COMPLETE",
+                "status_reason": null
+            },
+            {
+                "last_updated_time": "2025-08-05T12:24:20.156000+00:00",
+                "logical_resource_id": "VPCRouteInternetGateway",
+                "physical_resource_id": "rtb-0ede4455a553c019a|0.0.0.0/0",
+                "resource_type": "AWS::EC2::Route",
+                "status": "CREATE_COMPLETE",
+                "status_reason": null
+            },
+            {
+                "last_updated_time": "2025-08-05T12:24:05.529000+00:00",
+                "logical_resource_id": "Vpc",
+                "physical_resource_id": "vpc-06d68eb1fd3ec1c38",
+                "resource_type": "AWS::EC2::VPC",
+                "status": "CREATE_COMPLETE",
+                "status_reason": null
+            },
+            {
+                "last_updated_time": "2025-08-05T12:24:12.869000+00:00",
+                "logical_resource_id": "VpcGA",
+                "physical_resource_id": "IGW|vpc-06d68eb1fd3ec1c38",
+                "resource_type": "AWS::EC2::VPCGatewayAttachment",
+                "status": "CREATE_COMPLETE",
+                "status_reason": null
+            },
+            {
+                "last_updated_time": "2025-08-05T12:24:09.507000+00:00",
+                "logical_resource_id": "VpcInternetGateway",
+                "physical_resource_id": "igw-079c5b76d61f95b14",
+                "resource_type": "AWS::EC2::InternetGateway",
+                "status": "CREATE_COMPLETE",
+                "status_reason": null
+            },
+            {
+                "last_updated_time": "2025-08-05T12:24:17.781000+00:00",
+                "logical_resource_id": "VpcRouteTable",
+                "physical_resource_id": "rtb-0ede4455a553c019a",
+                "resource_type": "AWS::EC2::RouteTable",
+                "status": "CREATE_COMPLETE",
+                "status_reason": null
+            },
+            {
+                "last_updated_time": "2025-08-05T12:24:16.644000+00:00",
+                "logical_resource_id": "bastion1",
+                "physical_resource_id": "",
+                "resource_type": "AWS::EC2::Instance",
+                "status": "CREATE_FAILED",
+                "status_reason": "Resource handler returned message: \\"You have requested more vCPU capacity than your current vCPU limit of 4 allows for the instance bucket that the specified instance type belongs to. Please visit http://aws.amazon.com/contact-us/ec2-request to request an adjustment to this limit. (Service: Ec2, Status Code: 400, Request ID: 7b847143-aef0-4099-911a-dbfb1dc1bc63) (SDK Attempt Count: 1)\\" (RequestToken: 9d5e0849-d0b6-9b9e-f0b1-bc07d3bd594a, HandlerErrorCode: InvalidRequest)"
+            }
+        ]
+    }
+}
+
+TASK [infra-ec2-template-create : debug cloudformation] ************************
+Tuesday 05 August 2025  12:26:54 +0000 (0:00:00.035)       0:03:23.999 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Delete S3 bucket if it exists] ***************
+Tuesday 05 August 2025  12:26:54 +0000 (0:00:00.036)       0:03:24.035 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : report s3 error] *****************************
+Tuesday 05 August 2025  12:26:54 +0000 (0:00:00.036)       0:03:24.072 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Destroy cloudformation template] *************
+Tuesday 05 August 2025  12:26:54 +0000 (0:00:00.033)       0:03:24.105 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : report Cloudformation Destroy error] *********
+Tuesday 05 August 2025  12:26:54 +0000 (0:00:00.030)       0:03:24.135 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : report Cloudformation error] *****************
+Tuesday 05 August 2025  12:26:54 +0000 (0:00:00.031)       0:03:24.167 ******** 
+fatal: [localhost]: FAILED! => {"changed": false, "msg": "FAIL base-infra-np8fz Create Cloudformation"}
+
+NO MORE HOSTS LEFT *************************************************************
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=83   changed=21   unreachable=0    failed=1    skipped=54   rescued=0    ignored=1   
+Tuesday 05 August 2025  12:26:54 +0000 (0:00:00.033)       0:03:24.201 ******** 
+=============================================================================== 
+infra-ec2-template-create : Launch CloudFormation template (local) ---- 185.08s
+agnosticd_restore_output_dir : Get output_dir archive from s3 ----------- 0.95s
+infra-images : Lookup image for bastion --------------------------------- 0.90s
+infra-ec2-template-generate : validate cloudformation template with validate-template (local) --- 0.90s
+agnosticd_save_output_dir : Save output_dir archive to AWS S3 ----------- 0.89s
+infra-ec2-ssh-key : Create infra key ------------------------------------ 0.86s
+infra-ec2-template-generate : Check if the AWS CLI has the 'describe-instance-type-offerings' feature --- 0.86s
+infra-ec2-template-generate : Get the possible AZs ---------------------- 0.85s
+Create empty user-info.yaml and user-data.yaml in output dir ------------ 0.83s
+infra-ec2-template-generate : AWS Generate CloudFormation Template ------ 0.76s
+Install roles from requirements.yml ------------------------------------- 0.67s
+Get the list of installed collections (EE) ------------------------------ 0.54s
+Install collections from requirements.yml (EE) -------------------------- 0.52s
+Create symlink user-data.yaml -> provision-user-data.yaml --------------- 0.35s
+agnosticd_dynamic : Create dynamic-cache and dynamic-roles directories --- 0.34s
+Rewrite requirements, filter out installed collections (EE) ------------- 0.33s
+Touch file provision-user-data.yaml and provision-user-info.yaml -------- 0.33s
+create_ssh_provision_key : Write SSH pub key ---------------------------- 0.31s
+create_ssh_provision_key : Generate SSH keys ---------------------------- 0.29s
+infra-images : include_tasks -------------------------------------------- 0.29s

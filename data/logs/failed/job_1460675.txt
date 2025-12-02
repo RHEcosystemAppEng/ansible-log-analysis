@@ -1,0 +1,2199 @@
+Vault password (gpte_vault_0): 
+
+PLAY [Step 0000 Set Action] ****************************************************
+
+TASK [Set ACTION to provision] *************************************************
+Monday 04 August 2025  07:25:34 +0000 (0:00:00.012)       0:00:00.012 ********* 
+skipping: [localhost]
+
+PLAY [Step 0000 Setup runtime] *************************************************
+
+TASK [debug] *******************************************************************
+Monday 04 August 2025  07:25:34 +0000 (0:00:00.030)       0:00:00.042 ********* 
+skipping: [localhost]
+
+TASK [Ensure cloud provider is supported] **************************************
+Monday 04 August 2025  07:25:35 +0000 (0:00:00.015)       0:00:00.057 ********* 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+PLAY [Step 0000 Setup Output Directory] ****************************************
+
+TASK [Set output_dir if not defined] *******************************************
+Monday 04 August 2025  07:25:35 +0000 (0:00:00.026)       0:00:00.084 ********* 
+skipping: [localhost]
+
+TASK [Create output_dir if it does not exists] *********************************
+Monday 04 August 2025  07:25:35 +0000 (0:00:00.014)       0:00:00.098 ********* 
+changed: [localhost]
+
+TASK [Attempt to restore output_dir contents] **********************************
+Monday 04 August 2025  07:25:35 +0000 (0:00:00.247)       0:00:00.345 ********* 
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from s3 bucket] ********
+Monday 04 August 2025  07:25:35 +0000 (0:00:00.022)       0:00:00.367 ********* 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/restore-from-s3.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Monday 04 August 2025  07:25:35 +0000 (0:00:00.037)       0:00:00.405 ********* 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/fetch-from-s3-s3_object.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Monday 04 August 2025  07:25:35 +0000 (0:00:00.032)       0:00:00.437 ********* 
+ok: [localhost]
+
+TASK [agnosticd_restore_output_dir : Decrypt archive] **************************
+Monday 04 August 2025  07:25:36 +0000 (0:00:00.843)       0:00:01.280 ********* 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from archive] **********
+Monday 04 August 2025  07:25:36 +0000 (0:00:00.016)       0:00:01.297 ********* 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove archive file from output_dir] ******
+Monday 04 August 2025  07:25:36 +0000 (0:00:00.014)       0:00:01.311 ********* 
+ok: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove encrypted archive file from output_dir] ***
+Monday 04 August 2025  07:25:36 +0000 (0:00:00.148)       0:00:01.460 ********* 
+ok: [localhost]
+
+TASK [Touch file provision-user-data.yaml and provision-user-info.yaml] ********
+Monday 04 August 2025  07:25:36 +0000 (0:00:00.165)       0:00:01.626 ********* 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create empty user-info.yaml and user-data.yaml in output dir] ************
+Monday 04 August 2025  07:25:36 +0000 (0:00:00.302)       0:00:01.928 ********* 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create symlink user-data.yaml -> provision-user-data.yaml] ***************
+Monday 04 August 2025  07:25:37 +0000 (0:00:00.712)       0:00:02.641 ********* 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Monday 04 August 2025  07:25:37 +0000 (0:00:00.310)       0:00:02.952 ********* 
+ok: [localhost]
+
+TASK [Include variables files] *************************************************
+Monday 04 August 2025  07:25:37 +0000 (0:00:00.020)       0:00:02.972 ********* 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars_ec2.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars_ec2.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_secret_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Monday 04 August 2025  07:25:37 +0000 (0:00:00.069)       0:00:03.041 ********* 
+skipping: [localhost]
+
+TASK [Set passthrough user data] ***********************************************
+Monday 04 August 2025  07:25:38 +0000 (0:00:00.018)       0:00:03.059 ********* 
+skipping: [localhost]
+
+PLAY [Step 0000 Install Galaxy roles and collections] **************************
+
+TASK [Use requirements_content] ************************************************
+Monday 04 August 2025  07:25:38 +0000 (0:00:00.030)       0:00:03.090 ********* 
+ok: [localhost]
+
+TASK [Copy requirements content to output_dir] *********************************
+Monday 04 August 2025  07:25:38 +0000 (0:00:00.014)       0:00:03.105 ********* 
+changed: [localhost]
+
+TASK [Use requirements_path from the config] ***********************************
+Monday 04 August 2025  07:25:38 +0000 (0:00:00.281)       0:00:03.386 ********* 
+skipping: [localhost]
+
+TASK [Check if requirements.yml exists] ****************************************
+Monday 04 August 2025  07:25:38 +0000 (0:00:00.013)       0:00:03.399 ********* 
+ok: [localhost]
+
+TASK [set_fact] ****************************************************************
+Monday 04 August 2025  07:25:38 +0000 (0:00:00.162)       0:00:03.562 ********* 
+ok: [localhost]
+
+TASK [Install roles from requirements.yml] *************************************
+Monday 04 August 2025  07:25:38 +0000 (0:00:00.017)       0:00:03.579 ********* 
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (Not EE)] **********************
+Monday 04 August 2025  07:25:39 +0000 (0:00:01.010)       0:00:04.590 ********* 
+skipping: [localhost]
+
+TASK [Get installed collections (EE)] ******************************************
+Monday 04 August 2025  07:25:39 +0000 (0:00:00.023)       0:00:04.613 ********* 
+skipping: [localhost]
+
+TASK [Install dynamic sources] *************************************************
+Monday 04 August 2025  07:25:39 +0000 (0:00:00.021)       0:00:04.634 ********* 
+
+TASK [agnosticd_dynamic : Create dynamic-cache and dynamic-roles directories] ***
+Monday 04 August 2025  07:25:39 +0000 (0:00:00.018)       0:00:04.653 ********* 
+changed: [localhost] => (item=/runner/project/ansible/dynamic-cache)
+ok: [localhost] => (item=/runner/project/ansible/dynamic-roles)
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to dynamic roles dir] ***
+Monday 04 August 2025  07:25:39 +0000 (0:00:00.342)       0:00:04.996 ********* 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to cache] *************
+Monday 04 August 2025  07:25:39 +0000 (0:00:00.017)       0:00:05.013 ********* 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install git sources] *********************************
+Monday 04 August 2025  07:25:39 +0000 (0:00:00.014)       0:00:05.027 ********* 
+skipping: [localhost]
+
+PLAY [Step 000 Pre Infrastructure] *********************************************
+
+TASK [debug] *******************************************************************
+Monday 04 August 2025  07:25:40 +0000 (0:00:00.026)       0:00:05.053 ********* 
+ok: [localhost] => {
+    "msg": "Step 000 Pre Infrastructure"
+}
+
+PLAY [Install Pre Infra  workloads on localhost] *******************************
+
+TASK [Deploying Pre Infra workloads  on localhost] *****************************
+Monday 04 August 2025  07:25:40 +0000 (0:00:00.025)       0:00:05.079 ********* 
+skipping: [localhost]
+[WARNING]: Could not match supplied host pattern, ignoring: windows
+[WARNING]: Could not match supplied host pattern, ignoring: network
+
+PLAY [Install Pre Infra workloads on  all hosts] *******************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: bastions
+
+PLAY [Install Pre Infra workloads on bastion] **********************************
+skipping: no hosts matched
+
+PLAY [Install Pre Infra workloads for windows] *********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: gitlab
+
+PLAY [Install Pre Infra workloads for gitlab] **********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: controllers
+
+PLAY [Install Pre Infra workloads for Automation Controller] *******************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: satellites
+
+PLAY [Install Pre Infra workloads for Satelliltes] *****************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: capsules
+
+PLAY [Install Pre Infra workloads for Satelllite Capsules] *********************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: servers
+
+PLAY [Install Pre Infra workloads for Automation Server] ***********************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: nodes
+
+PLAY [Install Pre Infra workloads for nodes] ***********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: rhel7_nodes
+
+PLAY [Install Pre Infra workloads for rhel7 nodes] *****************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: rhel8_nodes
+
+PLAY [Install Pre Infra workloads for rhel8 nodes] *****************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: rhel9_nodes
+
+PLAY [Install Pre Infra workloads for rhel9 nodes] *****************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: rhel10_nodes
+
+PLAY [Install Pre Infra workloads for rhel10 nodes] ****************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: centos_nodes
+
+PLAY [Install Pre Infra workloads for centos nodes] ****************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: rhelai_nodes
+
+PLAY [Install Pre Infra workloads for rhelai nodes] ****************************
+skipping: no hosts matched
+
+PLAY [Install Pre Infra workloads for network] *********************************
+skipping: no hosts matched
+
+PLAY [Step 001.0 Infrastructure Pre-Checks] ************************************
+
+TASK [Test aws command] ********************************************************
+Monday 04 August 2025  07:25:40 +0000 (0:00:00.057)       0:00:05.136 ********* 
+ok: [localhost]
+
+TASK [Fail if AWS command CLI if not available] ********************************
+Monday 04 August 2025  07:25:40 +0000 (0:00:00.156)       0:00:05.293 ********* 
+skipping: [localhost]
+
+PLAY [Step 001.1 Deploy Infrastructure] ****************************************
+
+TASK [Run infra-images] ********************************************************
+Monday 04 August 2025  07:25:40 +0000 (0:00:00.029)       0:00:05.322 ********* 
+
+TASK [infra-images : include_tasks] ********************************************
+Monday 04 August 2025  07:25:40 +0000 (0:00:00.020)       0:00:05.342 ********* 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2.yaml for localhost
+
+TASK [infra-images : include_tasks] ********************************************
+Monday 04 August 2025  07:25:40 +0000 (0:00:00.032)       0:00:05.375 ********* 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_images.yaml for localhost => (item={'count': 1, 'dns_loadbalancer': True, 'flavor': {'ec2': 't3a.large'}, 'floating_ip': True, 'image': 'RHEL95GOLD-latest', 'name': 'bastion', 'public_dns': True, 'rootfs_size': 50, 'security_groups': ['BastionSG', 'NodeSG', 'WebSG'], 'tags': [{'key': 'AnsibleGroup', 'value': 'bastions,automationcontroller'}, {'key': 'ostype', 'value': 'linux'}, {'key': 'instance_filter', 'value': 'ansible-bu-workshop-ansible-bu-workshop@opentlc.com'}], 'unique': True})
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_images.yaml for localhost => (item={'count': 1, 'flavor': {'ec2': 't3a.large'}, 'floating_ip': True, 'image': {'name': 'aap2.5-2024-11-06'}, 'name': 'controller', 'public_dns': True, 'rootfs_size': 200, 'security_groups': ['NodeSG', 'WebSG'], 'tags': [{'key': 'AnsibleGroup', 'value': 'controllers'}, {'key': 'ostype', 'value': 'rhel'}, {'key': 'instance_filter', 'value': 'ansible-bu-workshop-ansible-bu-workshop@opentlc.com'}], 'unique': True})
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_images.yaml for localhost => (item={'count': 1, 'flavor': {'ec2': 't3a.large'}, 'image': 'RHEL95GOLD-latest', 'name': 'node', 'public_dns': False, 'rootfs_size': '50', 'security_groups': ['DefaultSG', 'ServerSG', 'NodeSG'], 'tags': [{'key': 'AnsibleGroup', 'value': 'nodes'}, {'key': 'ostype', 'value': 'linux'}]})
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_images.yaml for localhost => (item={'count': 1, 'flavor': {'ec2': 't3a.large'}, 'floating_ip': True, 'image': 'RHEL95GOLD-latest', 'name': 'server', 'public_dns': True, 'rootfs_size': '50', 'security_groups': ['DefaultSG', 'NodeSG', 'ServerSG', 'WebSG'], 'tags': [{'key': 'AnsibleGroup', 'value': 'centos_nodes'}, {'key': 'ostype', 'value': 'linux'}], 'unique': True})
+
+TASK [infra-images : include_tasks] ********************************************
+Monday 04 August 2025  07:25:40 +0000 (0:00:00.057)       0:00:05.432 ********* 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_image.yaml for localhost => (item={'owner': 309956199498, 'name': 'RHEL-9.5.*_HVM_*Access*', 'architecture': 'x86_64', 'aws_filters': {'is-public': False}})
+
+TASK [infra-images : Lookup image for bastion] *********************************
+Monday 04 August 2025  07:25:40 +0000 (0:00:00.052)       0:00:05.484 ********* 
+ok: [localhost]
+
+TASK [infra-images : Fail if no image found for bastion] ***********************
+Monday 04 August 2025  07:25:41 +0000 (0:00:00.881)       0:00:06.366 ********* 
+skipping: [localhost]
+
+TASK [infra-images : Save image in agnosticd_images, use latest if multiple found] ***
+Monday 04 August 2025  07:25:41 +0000 (0:00:00.020)       0:00:06.387 ********* 
+ok: [localhost]
+
+TASK [infra-images : include_tasks] ********************************************
+Monday 04 August 2025  07:25:41 +0000 (0:00:00.027)       0:00:06.414 ********* 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_image.yaml for localhost => (item={'name': 'aap2.5-2024-11-06'})
+
+TASK [infra-images : Lookup image for controller] ******************************
+Monday 04 August 2025  07:25:41 +0000 (0:00:00.048)       0:00:06.463 ********* 
+ok: [localhost]
+
+TASK [infra-images : Fail if no image found for controller] ********************
+Monday 04 August 2025  07:25:42 +0000 (0:00:01.085)       0:00:07.549 ********* 
+skipping: [localhost]
+
+TASK [infra-images : Save image in agnosticd_images, use latest if multiple found] ***
+Monday 04 August 2025  07:25:42 +0000 (0:00:00.020)       0:00:07.569 ********* 
+ok: [localhost]
+
+TASK [infra-images : include_tasks] ********************************************
+Monday 04 August 2025  07:25:42 +0000 (0:00:00.026)       0:00:07.596 ********* 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_image.yaml for localhost => (item={'owner': 309956199498, 'name': 'RHEL-9.5.*_HVM_*Access*', 'architecture': 'x86_64', 'aws_filters': {'is-public': False}})
+
+TASK [infra-images : Lookup image for node] ************************************
+Monday 04 August 2025  07:25:42 +0000 (0:00:00.051)       0:00:07.647 ********* 
+ok: [localhost]
+
+TASK [infra-images : Fail if no image found for node] **************************
+Monday 04 August 2025  07:25:43 +0000 (0:00:00.710)       0:00:08.358 ********* 
+skipping: [localhost]
+
+TASK [infra-images : Save image in agnosticd_images, use latest if multiple found] ***
+Monday 04 August 2025  07:25:43 +0000 (0:00:00.020)       0:00:08.378 ********* 
+ok: [localhost]
+
+TASK [infra-images : include_tasks] ********************************************
+Monday 04 August 2025  07:25:43 +0000 (0:00:00.028)       0:00:08.407 ********* 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_image.yaml for localhost => (item={'owner': 309956199498, 'name': 'RHEL-9.5.*_HVM_*Access*', 'architecture': 'x86_64', 'aws_filters': {'is-public': False}})
+
+TASK [infra-images : Lookup image for server] **********************************
+Monday 04 August 2025  07:25:43 +0000 (0:00:00.049)       0:00:08.457 ********* 
+ok: [localhost]
+
+TASK [infra-images : Fail if no image found for server] ************************
+Monday 04 August 2025  07:25:44 +0000 (0:00:00.691)       0:00:09.148 ********* 
+skipping: [localhost]
+
+TASK [infra-images : Save image in agnosticd_images, use latest if multiple found] ***
+Monday 04 August 2025  07:25:44 +0000 (0:00:00.020)       0:00:09.168 ********* 
+ok: [localhost]
+
+TASK [infra-images : debug agnosticd_image] ************************************
+Monday 04 August 2025  07:25:44 +0000 (0:00:00.028)       0:00:09.196 ********* 
+skipping: [localhost]
+
+TASK [infra-images : Print images found for each instance] *********************
+Monday 04 August 2025  07:25:44 +0000 (0:00:00.017)       0:00:09.214 ********* 
+ok: [localhost] => (item=bastion) => {
+    "msg": "bastion - RHEL-9.5.0_HVM_GA-20241029-x86_64-0-Access2-GP3 - ami-0e1686a22fb17852d - Red Hat BYOL Linux - us-east-2"
+}
+ok: [localhost] => (item=controller) => {
+    "msg": "controller - aap2.5-2024-11-06 - ami-073ab2ff383abe44b - Red Hat BYOL Linux - us-east-2"
+}
+ok: [localhost] => (item=node) => {
+    "msg": "node - RHEL-9.5.0_HVM_GA-20241029-x86_64-0-Access2-GP3 - ami-0e1686a22fb17852d - Red Hat BYOL Linux - us-east-2"
+}
+ok: [localhost] => (item=server) => {
+    "msg": "server - RHEL-9.5.0_HVM_GA-20241029-x86_64-0-Access2-GP3 - ami-0e1686a22fb17852d - Red Hat BYOL Linux - us-east-2"
+}
+
+TASK [Run infra-aws-capacity-reservation] **************************************
+Monday 04 August 2025  07:25:44 +0000 (0:00:00.049)       0:00:09.264 ********* 
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Monday 04 August 2025  07:25:44 +0000 (0:00:00.022)       0:00:09.286 ********* 
+included: /runner/project/ansible/roles-infra/infra-aws-capacity-reservation/tasks/pre_checks.yaml for localhost
+
+TASK [infra-aws-capacity-reservation : Ensure mandatory variables are set] *****
+Monday 04 August 2025  07:25:44 +0000 (0:00:00.036)       0:00:09.323 ********* 
+ok: [localhost] => (item=agnosticd_aws_capacity_reservations dictionary is empty)
+ok: [localhost] => (item=agnosticd_aws_capacity_reservation_regions list is empty)
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Monday 04 August 2025  07:25:44 +0000 (0:00:00.079)       0:00:09.403 ********* 
+included: /runner/project/ansible/roles-infra/infra-aws-capacity-reservation/tasks/create.yaml for localhost
+
+TASK [infra-aws-capacity-reservation : Retrieve stack_deployed from provision-user-data.yaml] ***
+Monday 04 August 2025  07:25:44 +0000 (0:00:00.035)       0:00:09.438 ********* 
+ok: [localhost]
+
+TASK [infra-aws-capacity-reservation : Retrieve the region from user-data.yaml] ***
+Monday 04 August 2025  07:25:44 +0000 (0:00:00.033)       0:00:09.472 ********* 
+skipping: [localhost]
+
+TASK [infra-aws-capacity-reservation : Create on-demand capacity reservations and save result] ***
+Monday 04 August 2025  07:25:44 +0000 (0:00:00.133)       0:00:09.605 ********* 
+Reservation created: cr-0c7827fc6c632ebcf (us-east-2c)
+Reservation created: cr-001a1e81245b7b150 (us-east-2c)
+Reservation created: cr-0e2603246b1945eb4 (us-east-2c)
+Reservation created: cr-0b115492a22fb73e8 (us-east-2c)
+ok: [localhost]
+
+TASK [infra-aws-capacity-reservation : Set AZ and region] **********************
+Monday 04 August 2025  07:25:45 +0000 (0:00:01.261)       0:00:10.867 ********* 
+ok: [localhost]
+
+TASK [infra-aws-capacity-reservation : Ensure aws_region is not passed as extra vars and different] ***
+Monday 04 August 2025  07:25:45 +0000 (0:00:00.032)       0:00:10.900 ********* 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [infra-aws-capacity-reservation : Set default aws_availability_zone (single AZ)] ***
+Monday 04 August 2025  07:25:45 +0000 (0:00:00.038)       0:00:10.939 ********* 
+ok: [localhost]
+
+TASK [infra-aws-capacity-reservation : Save region in user-data] ***************
+Monday 04 August 2025  07:25:45 +0000 (0:00:00.034)       0:00:10.973 ********* 
+ok: [localhost] => {
+    "changed": false,
+    "data": {
+        "aws_region": "us-east-2"
+    }
+}
+
+TASK [infra-aws-capacity-reservation : Save AZ in user-data] *******************
+Monday 04 August 2025  07:25:45 +0000 (0:00:00.042)       0:00:11.015 ********* 
+ok: [localhost] => {
+    "changed": false,
+    "data": {
+        "aws_availability_zone": "us-east-2c"
+    }
+}
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Monday 04 August 2025  07:25:46 +0000 (0:00:00.047)       0:00:11.063 ********* 
+skipping: [localhost]
+
+TASK [Empty the agnosticd_images and run the detection again] ******************
+Monday 04 August 2025  07:25:46 +0000 (0:00:00.032)       0:00:11.095 ********* 
+ok: [localhost]
+
+TASK [Run infra-images again to use the proper region selected by the reservations] ***
+Monday 04 August 2025  07:25:46 +0000 (0:00:00.017)       0:00:11.113 ********* 
+
+TASK [infra-images : include_tasks] ********************************************
+Monday 04 August 2025  07:25:46 +0000 (0:00:00.023)       0:00:11.137 ********* 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2.yaml for localhost
+
+TASK [infra-images : include_tasks] ********************************************
+Monday 04 August 2025  07:25:46 +0000 (0:00:00.033)       0:00:11.170 ********* 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_images.yaml for localhost => (item={'count': 1, 'dns_loadbalancer': True, 'flavor': {'ec2': 't3a.large'}, 'floating_ip': True, 'image': 'RHEL95GOLD-latest', 'name': 'bastion', 'public_dns': True, 'rootfs_size': 50, 'security_groups': ['BastionSG', 'NodeSG', 'WebSG'], 'tags': [{'key': 'AnsibleGroup', 'value': 'bastions,automationcontroller'}, {'key': 'ostype', 'value': 'linux'}, {'key': 'instance_filter', 'value': 'ansible-bu-workshop-ansible-bu-workshop@opentlc.com'}], 'unique': True})
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_images.yaml for localhost => (item={'count': 1, 'flavor': {'ec2': 't3a.large'}, 'floating_ip': True, 'image': {'name': 'aap2.5-2024-11-06'}, 'name': 'controller', 'public_dns': True, 'rootfs_size': 200, 'security_groups': ['NodeSG', 'WebSG'], 'tags': [{'key': 'AnsibleGroup', 'value': 'controllers'}, {'key': 'ostype', 'value': 'rhel'}, {'key': 'instance_filter', 'value': 'ansible-bu-workshop-ansible-bu-workshop@opentlc.com'}], 'unique': True})
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_images.yaml for localhost => (item={'count': 1, 'flavor': {'ec2': 't3a.large'}, 'image': 'RHEL95GOLD-latest', 'name': 'node', 'public_dns': False, 'rootfs_size': '50', 'security_groups': ['DefaultSG', 'ServerSG', 'NodeSG'], 'tags': [{'key': 'AnsibleGroup', 'value': 'nodes'}, {'key': 'ostype', 'value': 'linux'}]})
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_images.yaml for localhost => (item={'count': 1, 'flavor': {'ec2': 't3a.large'}, 'floating_ip': True, 'image': 'RHEL95GOLD-latest', 'name': 'server', 'public_dns': True, 'rootfs_size': '50', 'security_groups': ['DefaultSG', 'NodeSG', 'ServerSG', 'WebSG'], 'tags': [{'key': 'AnsibleGroup', 'value': 'centos_nodes'}, {'key': 'ostype', 'value': 'linux'}], 'unique': True})
+
+TASK [infra-images : include_tasks] ********************************************
+Monday 04 August 2025  07:25:46 +0000 (0:00:00.067)       0:00:11.237 ********* 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_image.yaml for localhost => (item={'owner': 309956199498, 'name': 'RHEL-9.5.*_HVM_*Access*', 'architecture': 'x86_64', 'aws_filters': {'is-public': False}})
+
+TASK [infra-images : Lookup image for bastion] *********************************
+Monday 04 August 2025  07:25:46 +0000 (0:00:00.058)       0:00:11.295 ********* 
+ok: [localhost]
+
+TASK [infra-images : Fail if no image found for bastion] ***********************
+Monday 04 August 2025  07:25:47 +0000 (0:00:00.750)       0:00:12.046 ********* 
+skipping: [localhost]
+
+TASK [infra-images : Save image in agnosticd_images, use latest if multiple found] ***
+Monday 04 August 2025  07:25:47 +0000 (0:00:00.023)       0:00:12.070 ********* 
+ok: [localhost]
+
+TASK [infra-images : include_tasks] ********************************************
+Monday 04 August 2025  07:25:47 +0000 (0:00:00.028)       0:00:12.099 ********* 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_image.yaml for localhost => (item={'name': 'aap2.5-2024-11-06'})
+
+TASK [infra-images : Lookup image for controller] ******************************
+Monday 04 August 2025  07:25:47 +0000 (0:00:00.052)       0:00:12.151 ********* 
+ok: [localhost]
+
+TASK [infra-images : Fail if no image found for controller] ********************
+Monday 04 August 2025  07:25:48 +0000 (0:00:01.270)       0:00:13.421 ********* 
+skipping: [localhost]
+
+TASK [infra-images : Save image in agnosticd_images, use latest if multiple found] ***
+Monday 04 August 2025  07:25:48 +0000 (0:00:00.023)       0:00:13.445 ********* 
+ok: [localhost]
+
+TASK [infra-images : include_tasks] ********************************************
+Monday 04 August 2025  07:25:48 +0000 (0:00:00.028)       0:00:13.473 ********* 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_image.yaml for localhost => (item={'owner': 309956199498, 'name': 'RHEL-9.5.*_HVM_*Access*', 'architecture': 'x86_64', 'aws_filters': {'is-public': False}})
+
+TASK [infra-images : Lookup image for node] ************************************
+Monday 04 August 2025  07:25:48 +0000 (0:00:00.055)       0:00:13.529 ********* 
+ok: [localhost]
+
+TASK [infra-images : Fail if no image found for node] **************************
+Monday 04 August 2025  07:25:49 +0000 (0:00:00.734)       0:00:14.263 ********* 
+skipping: [localhost]
+
+TASK [infra-images : Save image in agnosticd_images, use latest if multiple found] ***
+Monday 04 August 2025  07:25:49 +0000 (0:00:00.023)       0:00:14.286 ********* 
+ok: [localhost]
+
+TASK [infra-images : include_tasks] ********************************************
+Monday 04 August 2025  07:25:49 +0000 (0:00:00.029)       0:00:14.316 ********* 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_image.yaml for localhost => (item={'owner': 309956199498, 'name': 'RHEL-9.5.*_HVM_*Access*', 'architecture': 'x86_64', 'aws_filters': {'is-public': False}})
+
+TASK [infra-images : Lookup image for server] **********************************
+Monday 04 August 2025  07:25:49 +0000 (0:00:00.051)       0:00:14.368 ********* 
+ok: [localhost]
+
+TASK [infra-images : Fail if no image found for server] ************************
+Monday 04 August 2025  07:25:50 +0000 (0:00:00.738)       0:00:15.106 ********* 
+skipping: [localhost]
+
+TASK [infra-images : Save image in agnosticd_images, use latest if multiple found] ***
+Monday 04 August 2025  07:25:50 +0000 (0:00:00.023)       0:00:15.130 ********* 
+ok: [localhost]
+
+TASK [infra-images : debug agnosticd_image] ************************************
+Monday 04 August 2025  07:25:50 +0000 (0:00:00.030)       0:00:15.160 ********* 
+skipping: [localhost]
+
+TASK [infra-images : Print images found for each instance] *********************
+Monday 04 August 2025  07:25:50 +0000 (0:00:00.022)       0:00:15.183 ********* 
+ok: [localhost] => (item=bastion) => {
+    "msg": "bastion - RHEL-9.5.0_HVM_GA-20241029-x86_64-0-Access2-GP3 - ami-0e1686a22fb17852d - Red Hat BYOL Linux - us-east-2"
+}
+ok: [localhost] => (item=controller) => {
+    "msg": "controller - aap2.5-2024-11-06 - ami-073ab2ff383abe44b - Red Hat BYOL Linux - us-east-2"
+}
+ok: [localhost] => (item=node) => {
+    "msg": "node - RHEL-9.5.0_HVM_GA-20241029-x86_64-0-Access2-GP3 - ami-0e1686a22fb17852d - Red Hat BYOL Linux - us-east-2"
+}
+ok: [localhost] => (item=server) => {
+    "msg": "server - RHEL-9.5.0_HVM_GA-20241029-x86_64-0-Access2-GP3 - ami-0e1686a22fb17852d - Red Hat BYOL Linux - us-east-2"
+}
+
+TASK [Run infra-aws-open-environment Role] *************************************
+Monday 04 August 2025  07:25:50 +0000 (0:00:00.065)       0:00:15.249 ********* 
+skipping: [localhost]
+
+TASK [Create ssh provision key] ************************************************
+Monday 04 August 2025  07:25:50 +0000 (0:00:00.017)       0:00:15.266 ********* 
+
+TASK [create_ssh_provision_key : include_tasks] ********************************
+Monday 04 August 2025  07:25:50 +0000 (0:00:00.044)       0:00:15.310 ********* 
+included: /runner/project/ansible/roles-infra/create_ssh_provision_key/tasks/checks.yaml for localhost
+
+TASK [create_ssh_provision_key : Ensure key_name is not defined] ***************
+Monday 04 August 2025  07:25:50 +0000 (0:00:00.018)       0:00:15.328 ********* 
+skipping: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH keys] ****************************
+Monday 04 August 2025  07:25:50 +0000 (0:00:00.018)       0:00:15.347 ********* 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Fix permission of ssh key] ********************
+Monday 04 August 2025  07:25:50 +0000 (0:00:00.271)       0:00:15.619 ********* 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH pub key content] *****************
+Monday 04 August 2025  07:25:50 +0000 (0:00:00.157)       0:00:15.776 ********* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Save all facts for SSH] ***********************
+Monday 04 August 2025  07:25:50 +0000 (0:00:00.159)       0:00:15.936 ********* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Write SSH pub key] ****************************
+Monday 04 August 2025  07:25:50 +0000 (0:00:00.018)       0:00:15.954 ********* 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Report user info for SSH provision key as user data] ***
+Monday 04 August 2025  07:25:51 +0000 (0:00:00.293)       0:00:16.248 ********* 
+skipping: [localhost]
+
+TASK [include_role : agnosticd_save_output_dir] ********************************
+Monday 04 August 2025  07:25:51 +0000 (0:00:00.014)       0:00:16.263 ********* 
+
+TASK [agnosticd_save_output_dir : Save output dir if archive file is defined] ***
+Monday 04 August 2025  07:25:51 +0000 (0:00:00.032)       0:00:16.295 ********* 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/save-output-dir.yml for localhost
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Monday 04 August 2025  07:25:51 +0000 (0:00:00.025)       0:00:16.321 ********* 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/create-output-dir-archive.yml for localhost
+
+TASK [agnosticd_save_output_dir : Create tempfile for archive] *****************
+Monday 04 August 2025  07:25:51 +0000 (0:00:00.021)       0:00:16.342 ********* 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Set agnosticd_save_output_dir_archive_tempfile] ***
+Monday 04 August 2025  07:25:51 +0000 (0:00:00.264)       0:00:16.607 ********* 
+ok: [localhost]
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Monday 04 August 2025  07:25:51 +0000 (0:00:00.017)       0:00:16.625 ********* 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Encrypt tarball using password] **************
+Monday 04 August 2025  07:25:51 +0000 (0:00:00.169)       0:00:16.794 ********* 
+skipping: [localhost]
+
+TASK [agnosticd_save_output_dir : Upload output_dir archive to S3] *************
+Monday 04 August 2025  07:25:51 +0000 (0:00:00.021)       0:00:16.815 ********* 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3.yml for localhost
+
+TASK [Run infra-cloud-tags role] ***********************************************
+Monday 04 August 2025  07:25:51 +0000 (0:00:00.030)       0:00:16.846 ********* 
+
+TASK [infra-cloud-tags : Set cloud_tags_final (string)] ************************
+Monday 04 August 2025  07:25:51 +0000 (0:00:00.030)       0:00:16.877 ********* 
+skipping: [localhost]
+
+TASK [infra-cloud-tags : Set cloud_tags_final (dictionary)] ********************
+Monday 04 August 2025  07:25:51 +0000 (0:00:00.024)       0:00:16.902 ********* 
+ok: [localhost]
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Monday 04 August 2025  07:25:51 +0000 (0:00:00.034)       0:00:16.936 ********* 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3-s3_object.yml for localhost
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Monday 04 August 2025  07:25:51 +0000 (0:00:00.069)       0:00:17.006 ********* 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir archive tempfile] **********
+Monday 04 August 2025  07:25:52 +0000 (0:00:00.894)       0:00:17.901 ********* 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir encrypted archive tempfile] ***
+Monday 04 August 2025  07:25:53 +0000 (0:00:00.174)       0:00:18.075 ********* 
+skipping: [localhost]
+
+TASK [agnosticd_save_output_dir : Save output dir if archive file is defined] ***
+Monday 04 August 2025  07:25:53 +0000 (0:00:00.019)       0:00:18.095 ********* 
+skipping: [localhost]
+
+TASK [Locate environment SSH key] **********************************************
+Monday 04 August 2025  07:25:53 +0000 (0:00:00.019)       0:00:18.115 ********* 
+
+TASK [locate_env_authorized_key : Set env_authorized_key_path] *****************
+Monday 04 August 2025  07:25:53 +0000 (0:00:00.035)       0:00:18.150 ********* 
+ok: [localhost]
+
+TASK [locate_env_authorized_key : Set env_authorized_key_path_pub] *************
+Monday 04 August 2025  07:25:53 +0000 (0:00:00.027)       0:00:18.178 ********* 
+ok: [localhost]
+
+TASK [locate_env_authorized_key : Generate SSH pub key content if it doesn't exist] ***
+Monday 04 August 2025  07:25:53 +0000 (0:00:00.027)       0:00:18.206 ********* 
+ok: [localhost]
+
+TASK [locate_env_authorized_key : Save SSH pub key content as fact] ************
+Monday 04 August 2025  07:25:53 +0000 (0:00:00.172)       0:00:18.378 ********* 
+ok: [localhost]
+
+TASK [Create keypair in ec2] ***************************************************
+Monday 04 August 2025  07:25:53 +0000 (0:00:00.026)       0:00:18.404 ********* 
+
+TASK [infra-ec2-ssh-key : include_tasks] ***************************************
+Monday 04 August 2025  07:25:53 +0000 (0:00:00.037)       0:00:18.441 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-ssh-key : include_tasks] ***************************************
+Monday 04 August 2025  07:25:53 +0000 (0:00:00.011)       0:00:18.453 ********* 
+included: /runner/project/ansible/roles-infra/infra-ec2-ssh-key/tasks/create.yaml for localhost
+
+TASK [infra-ec2-ssh-key : Stat local infra key] ********************************
+Monday 04 August 2025  07:25:53 +0000 (0:00:00.018)       0:00:18.472 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-ssh-key : Generate SSH pub key content] ************************
+Monday 04 August 2025  07:25:53 +0000 (0:00:00.169)       0:00:18.641 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-ssh-key : Save all facts for SSH] ******************************
+Monday 04 August 2025  07:25:53 +0000 (0:00:00.018)       0:00:18.659 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-ssh-key : Create infra key] ************************************
+Monday 04 August 2025  07:25:53 +0000 (0:00:00.017)       0:00:18.677 ********* 
+changed: [localhost]
+
+TASK [Run infra-ec2-template-generate Role] ************************************
+Monday 04 August 2025  07:25:54 +0000 (0:00:00.781)       0:00:19.458 ********* 
+
+TASK [infra-ec2-template-generate : Detect all possible Availability Zones that can host all the instance types and pick one] ***
+Monday 04 August 2025  07:25:54 +0000 (0:00:00.046)       0:00:19.504 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Check if template exists for the environment] ***
+Monday 04 August 2025  07:25:54 +0000 (0:00:00.034)       0:00:19.539 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Use CloudFormation template from the environment] ***
+Monday 04 August 2025  07:25:54 +0000 (0:00:00.161)       0:00:19.701 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Use the default CloudFormation template] ***
+Monday 04 August 2025  07:25:54 +0000 (0:00:00.015)       0:00:19.716 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Print cloudformation_template_src] *********
+Monday 04 August 2025  07:25:54 +0000 (0:00:00.013)       0:00:19.730 ********* 
+ok: [localhost] => {
+    "cloudformation_template_src": "../configs/ansible-bu-workshop/files/cloud_providers/ec2_cloud_template.j2"
+}
+
+TASK [infra-ec2-template-generate : Determine the security groups used in 'instances' dictionary] ***
+Monday 04 August 2025  07:25:54 +0000 (0:00:00.013)       0:00:19.743 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Monday 04 August 2025  07:25:54 +0000 (0:00:00.067)       0:00:19.811 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Print cloudformation_template] *************
+Monday 04 August 2025  07:25:54 +0000 (0:00:00.015)       0:00:19.826 ********* 
+ok: [localhost] => {
+    "cloudformation_template": "/tmp/output-dadfa9af-a33f-5aad-9ffc-891eeb640851/ansible-bu-workshop.85tcb.ec2_cloud_template"
+}
+
+TASK [infra-ec2-template-generate : AWS Generate CloudFormation Template] ******
+Monday 04 August 2025  07:25:54 +0000 (0:00:00.015)       0:00:19.842 ********* 
+changed: [localhost]
+
+TASK [infra-ec2-template-generate : Stop if debugging template] ****************
+Monday 04 August 2025  07:25:55 +0000 (0:00:00.382)       0:00:20.225 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Stat CloudFormation template] **************
+Monday 04 August 2025  07:25:55 +0000 (0:00:00.015)       0:00:20.240 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Get user name] *****************************
+Monday 04 August 2025  07:25:55 +0000 (0:00:00.167)       0:00:20.408 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Monday 04 August 2025  07:25:55 +0000 (0:00:00.013)       0:00:20.421 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Monday 04 August 2025  07:25:55 +0000 (0:00:00.012)       0:00:20.434 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Create bucket] *****************************
+Monday 04 August 2025  07:25:55 +0000 (0:00:00.012)       0:00:20.447 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Copy Template to S3] ***********************
+Monday 04 August 2025  07:25:55 +0000 (0:00:00.012)       0:00:20.459 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Check for !Ref in CF template] *************
+Monday 04 August 2025  07:25:55 +0000 (0:00:00.011)       0:00:20.471 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : validation cloudformation template] ********
+Monday 04 August 2025  07:25:55 +0000 (0:00:00.280)       0:00:20.751 ********* 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "Cloudformation template is syntactically valid"
+}
+
+TASK [infra-ec2-template-generate : Copy original !Ref CF template back in place] ***
+Monday 04 August 2025  07:25:55 +0000 (0:00:00.030)       0:00:20.781 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : validate cloudformation template with validate-template (local)] ***
+Monday 04 August 2025  07:25:55 +0000 (0:00:00.014)       0:00:20.796 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : validate cloudformation template with validate-template (S3)] ***
+Monday 04 August 2025  07:25:56 +0000 (0:00:00.766)       0:00:21.563 ********* 
+skipping: [localhost]
+
+TASK [Run infra-ec2-template-create Role] **************************************
+Monday 04 August 2025  07:25:56 +0000 (0:00:00.014)       0:00:21.578 ********* 
+
+TASK [infra-ec2-template-create : Retrieve stack_deployed from provision-user-data.yaml] ***
+Monday 04 August 2025  07:25:56 +0000 (0:00:00.055)       0:00:21.633 ********* 
+skipping: [localhost]
+
+TASK [include_role : infra-cloud-tags] *****************************************
+Monday 04 August 2025  07:25:56 +0000 (0:00:00.016)       0:00:21.650 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : set_fact] ************************************
+Monday 04 August 2025  07:25:56 +0000 (0:00:00.017)       0:00:21.667 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Wait a bit for the previous stack and child resources to be deleted] ***
+Monday 04 August 2025  07:25:56 +0000 (0:00:00.018)       0:00:21.686 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : include_tasks] *******************************
+Monday 04 August 2025  07:25:56 +0000 (0:00:00.017)       0:00:21.703 ********* 
+skipping: [localhost]
+
+TASK [Regenerate the CloudFormation template because of custom images] *********
+Monday 04 August 2025  07:25:56 +0000 (0:00:00.020)       0:00:21.724 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Prepare for launch CloudFormation template from local] ***
+Monday 04 August 2025  07:25:56 +0000 (0:00:00.020)       0:00:21.744 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Prepare for launch CloudFormation template from S3 bucket] ***
+Monday 04 August 2025  07:25:56 +0000 (0:00:00.019)       0:00:21.763 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Launch CloudFormation template (local)] ******
+Monday 04 August 2025  07:25:56 +0000 (0:00:00.021)       0:00:21.785 ********* 
+[WARNING]: Using a variable for a task's 'args' is unsafe in some situations
+(see
+https://docs.ansible.com/ansible/devel/reference_appendices/faq.html#argsplat-
+unsafe)
+[DEPRECATION WARNING]: Param 'template' is deprecated. See the module docs for 
+more information. This feature will be removed from amazon.aws in a release 
+after 2026-05-01. Deprecation warnings can be disabled by setting 
+deprecation_warnings=False in ansible.cfg.
+changed: [localhost]
+
+TASK [infra-ec2-template-create : debug cloudformation] ************************
+Monday 04 August 2025  07:28:35 +0000 (0:02:38.441)       0:03:00.227 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : debug cloudformation] ************************
+Monday 04 August 2025  07:28:35 +0000 (0:00:00.019)       0:03:00.246 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Delete S3 bucket if it exists] ***************
+Monday 04 August 2025  07:28:35 +0000 (0:00:00.018)       0:03:00.265 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : report s3 error] *****************************
+Monday 04 August 2025  07:28:35 +0000 (0:00:00.017)       0:03:00.282 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Destroy cloudformation template] *************
+Monday 04 August 2025  07:28:35 +0000 (0:00:00.017)       0:03:00.300 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : report Cloudformation Destroy error] *********
+Monday 04 August 2025  07:28:35 +0000 (0:00:00.017)       0:03:00.317 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : report Cloudformation error] *****************
+Monday 04 August 2025  07:28:35 +0000 (0:00:00.017)       0:03:00.334 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Save aws_region_loop into aws_region_final] ***
+Monday 04 August 2025  07:28:35 +0000 (0:00:00.021)       0:03:00.356 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Output region] *******************************
+Monday 04 August 2025  07:28:35 +0000 (0:00:00.038)       0:03:00.394 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Output region] *******************************
+Monday 04 August 2025  07:28:35 +0000 (0:00:00.021)       0:03:00.416 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : set_fact] ************************************
+Monday 04 August 2025  07:28:35 +0000 (0:00:00.020)       0:03:00.437 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Save stack deployed for futur runs (idempotent)] ***
+Monday 04 August 2025  07:28:35 +0000 (0:00:00.020)       0:03:00.458 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : set_fact] ************************************
+Monday 04 August 2025  07:28:35 +0000 (0:00:00.016)       0:03:00.474 ********* 
+skipping: [localhost]
+
+TASK [Run infra-ec2-template-create Role into FallBack region] *****************
+Monday 04 August 2025  07:28:35 +0000 (0:00:00.018)       0:03:00.493 ********* 
+skipping: [localhost]
+
+TASK [report Cloudformation error] *********************************************
+Monday 04 August 2025  07:28:35 +0000 (0:00:00.019)       0:03:00.512 ********* 
+skipping: [localhost]
+
+PLAY [Step 001.2 Create Inventory and SSH config setup] ************************
+
+TASK [include_tasks] ***********************************************************
+Monday 04 August 2025  07:28:35 +0000 (0:00:00.031)       0:03:00.544 ********* 
+skipping: [localhost]
+
+TASK [Run infra-ec2-create-inventory Role] *************************************
+Monday 04 August 2025  07:28:35 +0000 (0:00:00.019)       0:03:00.564 ********* 
+
+TASK [infra-ec2-create-inventory : Report aws region] **************************
+Monday 04 August 2025  07:28:35 +0000 (0:00:00.025)       0:03:00.589 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : Gather EC2 info] ****************************
+Monday 04 August 2025  07:28:35 +0000 (0:00:00.020)       0:03:00.610 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : debug ec2_info] *****************************
+Monday 04 August 2025  07:28:36 +0000 (0:00:00.808)       0:03:01.418 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : windows ostype workaround] ******************
+Monday 04 August 2025  07:28:36 +0000 (0:00:00.018)       0:03:01.437 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : set_fact] ***********************************
+Monday 04 August 2025  07:28:36 +0000 (0:00:00.018)       0:03:01.455 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : Find the bastion in this batch of hosts] ****
+Monday 04 August 2025  07:28:36 +0000 (0:00:00.018)       0:03:01.474 ********* 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : Add hosts to the current inventory] *********
+Monday 04 August 2025  07:28:36 +0000 (0:00:00.028)       0:03:01.502 ********* 
+changed: [localhost] => (item=node1.example.com)
+changed: [localhost] => (item=server.example.com)
+changed: [localhost] => (item=bastion.example.com)
+changed: [localhost] => (item=controller.example.com)
+
+TASK [infra-ec2-create-inventory : Add hosts to groups indicated by AnsibleGroup tag] ***
+Monday 04 August 2025  07:28:36 +0000 (0:00:00.133)       0:03:01.636 ********* 
+changed: [localhost] => (item=node1.example.com)
+changed: [localhost] => (item=server.example.com)
+changed: [localhost] => (item=bastion.example.com)
+changed: [localhost] => (item=controller.example.com)
+
+TASK [infra-ec2-create-inventory : debug hostvars] *****************************
+Monday 04 August 2025  07:28:36 +0000 (0:00:00.066)       0:03:01.702 ********* 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : debug groups] *******************************
+Monday 04 August 2025  07:28:36 +0000 (0:00:00.018)       0:03:01.721 ********* 
+skipping: [localhost]
+
+TASK [Run Common SSH Config Generator Role] ************************************
+Monday 04 August 2025  07:28:36 +0000 (0:00:00.020)       0:03:01.741 ********* 
+
+TASK [infra-common-ssh-config-generate : Store bastion hostname as a fact] *****
+Monday 04 August 2025  07:28:36 +0000 (0:00:00.037)       0:03:01.778 ********* 
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : Delete dedicated known_host if it exists (new deployment)] ***
+Monday 04 August 2025  07:28:36 +0000 (0:00:00.021)       0:03:01.800 ********* 
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : delete local ssh config, start fresh] ***
+Monday 04 August 2025  07:28:36 +0000 (0:00:00.178)       0:03:01.979 ********* 
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : Create empty local ssh config] ********
+Monday 04 August 2025  07:28:37 +0000 (0:00:00.183)       0:03:02.162 ********* 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : Add bastion proxy config to workdir ssh config file] ***
+Monday 04 August 2025  07:28:37 +0000 (0:00:00.170)       0:03:02.333 ********* 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : Add all hosts to workdir ssh config file] ***
+Monday 04 August 2025  07:28:37 +0000 (0:00:00.289)       0:03:02.622 ********* 
+changed: [localhost] => (item=node1.example.com)
+changed: [localhost] => (item=server.example.com)
+skipping: [localhost] => (item=bastion.example.com) 
+changed: [localhost] => (item=controller.example.com)
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Monday 04 August 2025  07:28:38 +0000 (0:00:00.578)       0:03:03.201 ********* 
+ok: [localhost]
+ok: [node1.example.com]
+ok: [server.example.com]
+ok: [bastion.example.com]
+ok: [controller.example.com]
+
+TASK [Include variables files] *************************************************
+Monday 04 August 2025  07:28:38 +0000 (0:00:00.049)       0:03:03.251 ********* 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [node1.example.com] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [server.example.com] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_vars.yaml) 
+skipping: [bastion.example.com] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [node1.example.com] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [controller.example.com] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [server.example.com] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_vars.yml) 
+skipping: [bastion.example.com] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [node1.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_vars.yaml) 
+skipping: [controller.example.com] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [server.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars.yaml) 
+skipping: [bastion.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_vars.yaml) 
+skipping: [node1.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_vars.yml) 
+skipping: [controller.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_vars.yaml) 
+skipping: [server.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_vars.yml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars.yml)
+skipping: [bastion.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_vars.yml) 
+skipping: [controller.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_vars.yml) 
+skipping: [node1.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars.yaml) 
+skipping: [server.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars_ec2.yaml) 
+skipping: [bastion.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars.yaml) 
+skipping: [controller.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars.yaml) 
+ok: [bastion.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars.yml)
+ok: [localhost] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars_ec2.yml)
+skipping: [bastion.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars_ec2.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_secret_vars.yaml) 
+ok: [controller.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars.yml)
+ok: [server.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars.yml)
+ok: [node1.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars.yml)
+ok: [bastion.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars_ec2.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_secret_vars.yml) 
+skipping: [controller.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars_ec2.yaml) 
+skipping: [server.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars_ec2.yaml) 
+skipping: [node1.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars_ec2.yaml) 
+skipping: [bastion.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_secret_vars.yaml) 
+ok: [controller.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars_ec2.yml)
+ok: [server.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars_ec2.yml)
+ok: [node1.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/default_vars_ec2.yml)
+skipping: [bastion.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_secret_vars.yml) 
+skipping: [controller.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_secret_vars.yaml) 
+skipping: [server.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_secret_vars.yaml) 
+skipping: [node1.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_secret_vars.yaml) 
+skipping: [server.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_secret_vars.yml) 
+skipping: [controller.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_secret_vars.yml) 
+skipping: [node1.example.com] => (item=/runner/project/ansible/configs/ansible-bu-workshop/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Monday 04 August 2025  07:28:38 +0000 (0:00:00.126)       0:03:03.378 ********* 
+skipping: [localhost]
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [Set passthrough user data] ***********************************************
+Monday 04 August 2025  07:28:38 +0000 (0:00:00.053)       0:03:03.431 ********* 
+skipping: [localhost]
+
+PLAY [Step 001.3 Configure Linux Hosts and Wait for Connection] ****************
+
+TASK [set facts for remote access] *********************************************
+Monday 04 August 2025  07:28:38 +0000 (0:00:00.074)       0:03:03.506 ********* 
+ok: [node1.example.com]
+ok: [server.example.com]
+ok: [bastion.example.com]
+ok: [controller.example.com]
+
+TASK [Run infra-ec2-wait_for_linux_hosts Role] *********************************
+Monday 04 August 2025  07:28:38 +0000 (0:00:00.036)       0:03:03.542 ********* 
+
+TASK [infra-ec2-wait_for_linux_hosts : wait for linux host to be available] ****
+Monday 04 August 2025  07:28:38 +0000 (0:00:00.046)       0:03:03.589 ********* 
+ok: [bastion.example.com]
+ok: [node1.example.com]
+ok: [server.example.com]
+ok: [controller.example.com]
+
+TASK [infra-ec2-wait_for_linux_hosts : restart instance if wait_for_connection failed] ***
+Monday 04 August 2025  07:28:47 +0000 (0:00:09.143)       0:03:12.732 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [infra-ec2-wait_for_linux_hosts : wait for linux host to be available (retry)] ***
+Monday 04 August 2025  07:28:47 +0000 (0:00:00.036)       0:03:12.768 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [infra-ec2-wait_for_linux_hosts : ping] ***********************************
+Monday 04 August 2025  07:28:47 +0000 (0:00:00.033)       0:03:12.802 ********* 
+ok: [bastion.example.com]
+ok: [node1.example.com]
+ok: [server.example.com]
+ok: [controller.example.com]
+
+TASK [Run infra-ec2-linux-set-hostname Role] ***********************************
+Monday 04 August 2025  07:28:49 +0000 (0:00:01.944)       0:03:14.746 ********* 
+
+TASK [infra-ec2-linux-set-hostname : Set hostname based on tag_internaldns] ****
+Monday 04 August 2025  07:28:49 +0000 (0:00:00.055)       0:03:14.802 ********* 
+changed: [bastion.example.com]
+changed: [node1.example.com]
+changed: [server.example.com]
+ok: [controller.example.com]
+
+TASK [infra-ec2-linux-set-hostname : stat] *************************************
+Monday 04 August 2025  07:28:53 +0000 (0:00:03.924)       0:03:18.727 ********* 
+ok: [bastion.example.com]
+ok: [node1.example.com]
+ok: [server.example.com]
+ok: [controller.example.com]
+
+TASK [infra-ec2-linux-set-hostname : disable updating hostname in /etc/cloud/cloud.cfg] ***
+Monday 04 August 2025  07:28:58 +0000 (0:00:04.413)       0:03:23.140 ********* 
+changed: [bastion.example.com]
+changed: [node1.example.com]
+changed: [server.example.com]
+ok: [controller.example.com]
+
+TASK [infra-ec2-linux-set-hostname : Add preserve_hostname to /etc/cloud/cloud.cfg] ***
+Monday 04 August 2025  07:29:01 +0000 (0:00:03.320)       0:03:26.460 ********* 
+changed: [node1.example.com]
+changed: [server.example.com]
+changed: [bastion.example.com]
+ok: [controller.example.com]
+
+TASK [Add authorized_keys] *****************************************************
+Monday 04 August 2025  07:29:02 +0000 (0:00:01.263)       0:03:27.724 ********* 
+
+TASK [ssh_authorized_keys : Add all authorized keys] ***************************
+Monday 04 August 2025  07:29:02 +0000 (0:00:00.073)       0:03:27.797 ********* 
+changed: [bastion.example.com] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvZvn+GL0wTOsAdh1ikIQoqj2Fw/RA6F14O347rgKdpkgOQpGQk1k2gM8wcla2Y1o0bPIzwlNy1oh5o9uNjZDMeDcEXWuXbu0cRBy4pVRhh8a8zAZfssnqoXHHLyPyHWpdTmgIhr0UIGYrzHrnySAnUcDp3gJuE46UEBtrlyv94cVvZf+EZUTaZ+2KjTRLoNryCn7vKoGHQBooYg1DeHLcLSRWEADUo+bP0y64+X/XTMZOAXbf8kTXocqAgfl/usbYdfLOgwU6zWuj8vxzAKuMEXS1AJSp5aeqRKlbbw40IkTmLoQIgJdb2Zt98BH/xHDe9xxhscUCfWeS37XLp75J opentlc_admin_backdoor'})
+changed: [node1.example.com] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvZvn+GL0wTOsAdh1ikIQoqj2Fw/RA6F14O347rgKdpkgOQpGQk1k2gM8wcla2Y1o0bPIzwlNy1oh5o9uNjZDMeDcEXWuXbu0cRBy4pVRhh8a8zAZfssnqoXHHLyPyHWpdTmgIhr0UIGYrzHrnySAnUcDp3gJuE46UEBtrlyv94cVvZf+EZUTaZ+2KjTRLoNryCn7vKoGHQBooYg1DeHLcLSRWEADUo+bP0y64+X/XTMZOAXbf8kTXocqAgfl/usbYdfLOgwU6zWuj8vxzAKuMEXS1AJSp5aeqRKlbbw40IkTmLoQIgJdb2Zt98BH/xHDe9xxhscUCfWeS37XLp75J opentlc_admin_backdoor'})
+changed: [server.example.com] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvZvn+GL0wTOsAdh1ikIQoqj2Fw/RA6F14O347rgKdpkgOQpGQk1k2gM8wcla2Y1o0bPIzwlNy1oh5o9uNjZDMeDcEXWuXbu0cRBy4pVRhh8a8zAZfssnqoXHHLyPyHWpdTmgIhr0UIGYrzHrnySAnUcDp3gJuE46UEBtrlyv94cVvZf+EZUTaZ+2KjTRLoNryCn7vKoGHQBooYg1DeHLcLSRWEADUo+bP0y64+X/XTMZOAXbf8kTXocqAgfl/usbYdfLOgwU6zWuj8vxzAKuMEXS1AJSp5aeqRKlbbw40IkTmLoQIgJdb2Zt98BH/xHDe9xxhscUCfWeS37XLp75J opentlc_admin_backdoor'})
+changed: [bastion.example.com] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCg5PJgwAB8U2NiXh4aRZAg09f3xjT3y1CP322StmT4ljiqhXoqOOZ++qDIKFmtHGmeEjvkCo11M2oVmJTeaibeS0E+Xsoi9wTcit47h2ka7WPdzhy/togFQOVAftbwi3RtHDOweIFL18FQ8inhu9W/oFibsZjQEWtHoHtLkmA5zOSQtWDmVfx3iWrKd4svkNbJ+SNZMnD0tCDoot3y0Knzyt+wpZtVd94YXpUDTCJ8Ie1nFSdm7H/QB9/bDXeOSSnHBq2xSmywodNoyA1gFZ1hhpPNEauQjzeKCMpNLPATg/jtQb1zojG6QnO/7I5euKOlDeJ1Odg35aTG31p8EbT3UL8NZssdn3YY3OEQ/2rN0PaQ+zxzmzfh1otx4Rsh1IbD5S99GuQD2ma7m0zOzrBb8Mil5TCaTaK8mIADq/lclj0sAMrH1EXyFvDiHEG+cV0iMyXOxEMTJs4YLr8DyqsTZ34TvVSJP9/0YwQuRYhg0MJmFbMvl/4yibTgyvTYLN0= instructor-key-2022'})
+changed: [node1.example.com] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCg5PJgwAB8U2NiXh4aRZAg09f3xjT3y1CP322StmT4ljiqhXoqOOZ++qDIKFmtHGmeEjvkCo11M2oVmJTeaibeS0E+Xsoi9wTcit47h2ka7WPdzhy/togFQOVAftbwi3RtHDOweIFL18FQ8inhu9W/oFibsZjQEWtHoHtLkmA5zOSQtWDmVfx3iWrKd4svkNbJ+SNZMnD0tCDoot3y0Knzyt+wpZtVd94YXpUDTCJ8Ie1nFSdm7H/QB9/bDXeOSSnHBq2xSmywodNoyA1gFZ1hhpPNEauQjzeKCMpNLPATg/jtQb1zojG6QnO/7I5euKOlDeJ1Odg35aTG31p8EbT3UL8NZssdn3YY3OEQ/2rN0PaQ+zxzmzfh1otx4Rsh1IbD5S99GuQD2ma7m0zOzrBb8Mil5TCaTaK8mIADq/lclj0sAMrH1EXyFvDiHEG+cV0iMyXOxEMTJs4YLr8DyqsTZ34TvVSJP9/0YwQuRYhg0MJmFbMvl/4yibTgyvTYLN0= instructor-key-2022'})
+changed: [server.example.com] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCg5PJgwAB8U2NiXh4aRZAg09f3xjT3y1CP322StmT4ljiqhXoqOOZ++qDIKFmtHGmeEjvkCo11M2oVmJTeaibeS0E+Xsoi9wTcit47h2ka7WPdzhy/togFQOVAftbwi3RtHDOweIFL18FQ8inhu9W/oFibsZjQEWtHoHtLkmA5zOSQtWDmVfx3iWrKd4svkNbJ+SNZMnD0tCDoot3y0Knzyt+wpZtVd94YXpUDTCJ8Ie1nFSdm7H/QB9/bDXeOSSnHBq2xSmywodNoyA1gFZ1hhpPNEauQjzeKCMpNLPATg/jtQb1zojG6QnO/7I5euKOlDeJ1Odg35aTG31p8EbT3UL8NZssdn3YY3OEQ/2rN0PaQ+zxzmzfh1otx4Rsh1IbD5S99GuQD2ma7m0zOzrBb8Mil5TCaTaK8mIADq/lclj0sAMrH1EXyFvDiHEG+cV0iMyXOxEMTJs4YLr8DyqsTZ34TvVSJP9/0YwQuRYhg0MJmFbMvl/4yibTgyvTYLN0= instructor-key-2022'})
+changed: [bastion.example.com] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIIDDIOD4M5yYo3uCFDBDb6del+NG2fkboWh90kW/S6H elliptical_instructor_key_2024'})
+changed: [node1.example.com] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIIDDIOD4M5yYo3uCFDBDb6del+NG2fkboWh90kW/S6H elliptical_instructor_key_2024'})
+changed: [server.example.com] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIIDDIOD4M5yYo3uCFDBDb6del+NG2fkboWh90kW/S6H elliptical_instructor_key_2024'})
+changed: [bastion.example.com] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOBfsRMLCEQt86EZnvQ/rK49wo1odLqpd1NEz3tDjUWY elliptical_admin_key_2023'})
+changed: [node1.example.com] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOBfsRMLCEQt86EZnvQ/rK49wo1odLqpd1NEz3tDjUWY elliptical_admin_key_2023'})
+changed: [server.example.com] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOBfsRMLCEQt86EZnvQ/rK49wo1odLqpd1NEz3tDjUWY elliptical_admin_key_2023'})
+changed: [bastion.example.com] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC3nKRSIwWn7pjMf2i1TyXgjsauEIoDS8Xulad2ZAbsmZrWcKU5hPi23xq0g2AjRYiXml8zSX9jAQfmlKnrXGYo5WN39iXGRI3lFJmXwmEHne3Z0qtUgt9MBA4w0Tcunw7pXniKntvo2oiDYZlXHztRMHMeUkUjLgCGjn2cfi0uqd4pxLmneMziHMKDxcyy+9MaGnWr5Bs27r3b6rWNFqG2fAo1Z5ZWEA/r3MhdI9ZzMRJVTUhunpstwMX8MRxx/OGk0zynyHcSkh91sqZ3xhPpvRkmYLRa5I0aw88AMenWBfc586FyORL2e/UVoIoyMkBMnovaRIoiTj74RuPeZ6gGKbbfpt1ggDs4j9Z1Go51GlGPYcchvLQvx+Ucv5+tLZSqZBhPOXLRqFuQgRZz4R6j5O5UkfdjLJxBoHQZxT0Wdzd/XiGcAlyDOq8puNSxdF3w/8eGGSKDdUONv1tc1dcTFd6kR+jYaedjD1fldVrC+4fRUFkFqEovDPVI4159VSqJWz78WuqazNnCRMVDnS4Le+Er1pvTbk5rOdYUkF67vxVwD3cyJ3D1C49wVsIc3+kngZN2246OEMsbVugEPG4A8/UOlHIE5iBps+mM9GX6UFSj4aLFh15XeOGKs7aH2r1thfvFPSvk12t8QvNDhhhhAf5EzzypvNEbXQ6fk3YSUw== rsa_admin_key_2023'})
+changed: [node1.example.com] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC3nKRSIwWn7pjMf2i1TyXgjsauEIoDS8Xulad2ZAbsmZrWcKU5hPi23xq0g2AjRYiXml8zSX9jAQfmlKnrXGYo5WN39iXGRI3lFJmXwmEHne3Z0qtUgt9MBA4w0Tcunw7pXniKntvo2oiDYZlXHztRMHMeUkUjLgCGjn2cfi0uqd4pxLmneMziHMKDxcyy+9MaGnWr5Bs27r3b6rWNFqG2fAo1Z5ZWEA/r3MhdI9ZzMRJVTUhunpstwMX8MRxx/OGk0zynyHcSkh91sqZ3xhPpvRkmYLRa5I0aw88AMenWBfc586FyORL2e/UVoIoyMkBMnovaRIoiTj74RuPeZ6gGKbbfpt1ggDs4j9Z1Go51GlGPYcchvLQvx+Ucv5+tLZSqZBhPOXLRqFuQgRZz4R6j5O5UkfdjLJxBoHQZxT0Wdzd/XiGcAlyDOq8puNSxdF3w/8eGGSKDdUONv1tc1dcTFd6kR+jYaedjD1fldVrC+4fRUFkFqEovDPVI4159VSqJWz78WuqazNnCRMVDnS4Le+Er1pvTbk5rOdYUkF67vxVwD3cyJ3D1C49wVsIc3+kngZN2246OEMsbVugEPG4A8/UOlHIE5iBps+mM9GX6UFSj4aLFh15XeOGKs7aH2r1thfvFPSvk12t8QvNDhhhhAf5EzzypvNEbXQ6fk3YSUw== rsa_admin_key_2023'})
+changed: [server.example.com] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC3nKRSIwWn7pjMf2i1TyXgjsauEIoDS8Xulad2ZAbsmZrWcKU5hPi23xq0g2AjRYiXml8zSX9jAQfmlKnrXGYo5WN39iXGRI3lFJmXwmEHne3Z0qtUgt9MBA4w0Tcunw7pXniKntvo2oiDYZlXHztRMHMeUkUjLgCGjn2cfi0uqd4pxLmneMziHMKDxcyy+9MaGnWr5Bs27r3b6rWNFqG2fAo1Z5ZWEA/r3MhdI9ZzMRJVTUhunpstwMX8MRxx/OGk0zynyHcSkh91sqZ3xhPpvRkmYLRa5I0aw88AMenWBfc586FyORL2e/UVoIoyMkBMnovaRIoiTj74RuPeZ6gGKbbfpt1ggDs4j9Z1Go51GlGPYcchvLQvx+Ucv5+tLZSqZBhPOXLRqFuQgRZz4R6j5O5UkfdjLJxBoHQZxT0Wdzd/XiGcAlyDOq8puNSxdF3w/8eGGSKDdUONv1tc1dcTFd6kR+jYaedjD1fldVrC+4fRUFkFqEovDPVI4159VSqJWz78WuqazNnCRMVDnS4Le+Er1pvTbk5rOdYUkF67vxVwD3cyJ3D1C49wVsIc3+kngZN2246OEMsbVugEPG4A8/UOlHIE5iBps+mM9GX6UFSj4aLFh15XeOGKs7aH2r1thfvFPSvk12t8QvNDhhhhAf5EzzypvNEbXQ6fk3YSUw== rsa_admin_key_2023'})
+ok: [controller.example.com] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvZvn+GL0wTOsAdh1ikIQoqj2Fw/RA6F14O347rgKdpkgOQpGQk1k2gM8wcla2Y1o0bPIzwlNy1oh5o9uNjZDMeDcEXWuXbu0cRBy4pVRhh8a8zAZfssnqoXHHLyPyHWpdTmgIhr0UIGYrzHrnySAnUcDp3gJuE46UEBtrlyv94cVvZf+EZUTaZ+2KjTRLoNryCn7vKoGHQBooYg1DeHLcLSRWEADUo+bP0y64+X/XTMZOAXbf8kTXocqAgfl/usbYdfLOgwU6zWuj8vxzAKuMEXS1AJSp5aeqRKlbbw40IkTmLoQIgJdb2Zt98BH/xHDe9xxhscUCfWeS37XLp75J opentlc_admin_backdoor'})
+ok: [controller.example.com] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCg5PJgwAB8U2NiXh4aRZAg09f3xjT3y1CP322StmT4ljiqhXoqOOZ++qDIKFmtHGmeEjvkCo11M2oVmJTeaibeS0E+Xsoi9wTcit47h2ka7WPdzhy/togFQOVAftbwi3RtHDOweIFL18FQ8inhu9W/oFibsZjQEWtHoHtLkmA5zOSQtWDmVfx3iWrKd4svkNbJ+SNZMnD0tCDoot3y0Knzyt+wpZtVd94YXpUDTCJ8Ie1nFSdm7H/QB9/bDXeOSSnHBq2xSmywodNoyA1gFZ1hhpPNEauQjzeKCMpNLPATg/jtQb1zojG6QnO/7I5euKOlDeJ1Odg35aTG31p8EbT3UL8NZssdn3YY3OEQ/2rN0PaQ+zxzmzfh1otx4Rsh1IbD5S99GuQD2ma7m0zOzrBb8Mil5TCaTaK8mIADq/lclj0sAMrH1EXyFvDiHEG+cV0iMyXOxEMTJs4YLr8DyqsTZ34TvVSJP9/0YwQuRYhg0MJmFbMvl/4yibTgyvTYLN0= instructor-key-2022'})
+ok: [controller.example.com] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIIDDIOD4M5yYo3uCFDBDb6del+NG2fkboWh90kW/S6H elliptical_instructor_key_2024'})
+ok: [controller.example.com] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOBfsRMLCEQt86EZnvQ/rK49wo1odLqpd1NEz3tDjUWY elliptical_admin_key_2023'})
+ok: [controller.example.com] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC3nKRSIwWn7pjMf2i1TyXgjsauEIoDS8Xulad2ZAbsmZrWcKU5hPi23xq0g2AjRYiXml8zSX9jAQfmlKnrXGYo5WN39iXGRI3lFJmXwmEHne3Z0qtUgt9MBA4w0Tcunw7pXniKntvo2oiDYZlXHztRMHMeUkUjLgCGjn2cfi0uqd4pxLmneMziHMKDxcyy+9MaGnWr5Bs27r3b6rWNFqG2fAo1Z5ZWEA/r3MhdI9ZzMRJVTUhunpstwMX8MRxx/OGk0zynyHcSkh91sqZ3xhPpvRkmYLRa5I0aw88AMenWBfc586FyORL2e/UVoIoyMkBMnovaRIoiTj74RuPeZ6gGKbbfpt1ggDs4j9Z1Go51GlGPYcchvLQvx+Ucv5+tLZSqZBhPOXLRqFuQgRZz4R6j5O5UkfdjLJxBoHQZxT0Wdzd/XiGcAlyDOq8puNSxdF3w/8eGGSKDdUONv1tc1dcTFd6kR+jYaedjD1fldVrC+4fRUFkFqEovDPVI4159VSqJWz78WuqazNnCRMVDnS4Le+Er1pvTbk5rOdYUkF67vxVwD3cyJ3D1C49wVsIc3+kngZN2246OEMsbVugEPG4A8/UOlHIE5iBps+mM9GX6UFSj4aLFh15XeOGKs7aH2r1thfvFPSvk12t8QvNDhhhhAf5EzzypvNEbXQ6fk3YSUw== rsa_admin_key_2023'})
+
+TASK [ssh_authorized_keys : Add all authorized keys (legacy var all_ssh_authorized_keys)] ***
+Monday 04 August 2025  07:29:15 +0000 (0:00:13.173)       0:03:40.971 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+PLAY [Step 001.4 Configure Windows Hosts and Wait for Connection] **************
+skipping: no hosts matched
+
+PLAY [Step 002 Post Infrastructure] ********************************************
+
+TASK [ansible.builtin.debug] ***************************************************
+Monday 04 August 2025  07:29:16 +0000 (0:00:00.081)       0:03:41.052 ********* 
+ok: [localhost] => {
+    "msg": "Step 002 Post Infrastructure"
+}
+
+PLAY [Step 002 Post Infrastructure regreSSHion Hotfix] *************************
+
+TASK [Gathering Facts] *********************************************************
+Monday 04 August 2025  07:29:16 +0000 (0:00:00.024)       0:03:41.077 ********* 
+ok: [node1.example.com]
+ok: [server.example.com]
+ok: [bastion.example.com]
+ok: [controller.example.com]
+
+TASK [Have facts been gathered?] ***********************************************
+Monday 04 August 2025  07:29:21 +0000 (0:00:05.780)       0:03:46.858 ********* 
+ok: [bastion.example.com]
+ok: [node1.example.com]
+ok: [server.example.com]
+ok: [controller.example.com]
+
+TASK [Set sshd LoginGraceTime to 0 in /etc/ssh/sshd_config] ********************
+Monday 04 August 2025  07:29:24 +0000 (0:00:02.357)       0:03:49.216 ********* 
+changed: [bastion.example.com]
+changed: [node1.example.com]
+changed: [server.example.com]
+ok: [controller.example.com]
+
+TASK [Restart SSH service for regreSSHion fix] *********************************
+Monday 04 August 2025  07:29:27 +0000 (0:00:03.085)       0:03:52.302 ********* 
+changed: [bastion.example.com]
+changed: [node1.example.com]
+changed: [server.example.com]
+changed: [controller.example.com]
+
+PLAY [Install Post Infra  workloads on localhost] ******************************
+
+TASK [Deploying Post Infra workloads  on localhost] ****************************
+Monday 04 August 2025  07:29:31 +0000 (0:00:04.126)       0:03:56.428 ********* 
+skipping: [localhost]
+
+PLAY [Install Post Infra workloads on  all hosts] ******************************
+
+TASK [Deploying Post Infra workloads on all hosts] *****************************
+Monday 04 August 2025  07:29:31 +0000 (0:00:00.071)       0:03:56.499 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+PLAY [Install Post Infra workloads on bastion] *********************************
+
+TASK [Deploying Post Infra workloads on bastion] *******************************
+Monday 04 August 2025  07:29:31 +0000 (0:00:00.126)       0:03:56.626 ********* 
+skipping: [bastion.example.com]
+
+PLAY [Install Post Infra workloads for windows] ********************************
+skipping: no hosts matched
+
+PLAY [Install Post Infra workloads for gitlab] *********************************
+skipping: no hosts matched
+
+PLAY [Install Post Infra workloads for Automation Controller] ******************
+
+TASK [Deploying Post Infra workloads on Automation Controller] *****************
+Monday 04 August 2025  07:29:31 +0000 (0:00:00.052)       0:03:56.678 ********* 
+skipping: [controller.example.com]
+
+PLAY [Install Post Infra workloads for Satelliltes] ****************************
+skipping: no hosts matched
+
+PLAY [Install Post Infra workloads for Satelllite Capsules] ********************
+skipping: no hosts matched
+
+PLAY [Install Post Infra workloads for Automation Server] **********************
+skipping: no hosts matched
+
+PLAY [Install Post Infra workloads for nodes] **********************************
+
+TASK [Deploying Post Infra workloads on nodes] *********************************
+Monday 04 August 2025  07:29:31 +0000 (0:00:00.057)       0:03:56.736 ********* 
+skipping: [node1.example.com]
+
+PLAY [Install Post Infra workloads for rhel7 nodes] ****************************
+skipping: no hosts matched
+
+PLAY [Install Post Infra workloads for rhel8 nodes] ****************************
+skipping: no hosts matched
+
+PLAY [Install Post Infra workloads for rhel9 nodes] ****************************
+skipping: no hosts matched
+
+PLAY [Install Post Infra workloads for rhel10 nodes] ***************************
+skipping: no hosts matched
+
+PLAY [Install Post Infra workloads for centos nodes] ***************************
+
+TASK [Deploying Post Infra workloads on centos nodes] **************************
+Monday 04 August 2025  07:29:31 +0000 (0:00:00.068)       0:03:56.805 ********* 
+skipping: [server.example.com]
+
+PLAY [Install Post Infra workloads for rhelai nodes] ***************************
+skipping: no hosts matched
+
+PLAY [Install Post Infra workloads for network] ********************************
+skipping: no hosts matched
+
+PLAY [localhost] ***************************************************************
+
+TASK [Export in-memory inventory to inventory file] ****************************
+Monday 04 August 2025  07:29:31 +0000 (0:00:00.046)       0:03:56.851 ********* 
+skipping: [localhost]
+
+PLAY [Step 003 Pre Software] ***************************************************
+
+TASK [debug] *******************************************************************
+Monday 04 August 2025  07:29:31 +0000 (0:00:00.030)       0:03:56.882 ********* 
+ok: [localhost] => {
+    "msg": "Step 003 Pre Software"
+}
+
+TASK [Save user data] **********************************************************
+Monday 04 August 2025  07:29:31 +0000 (0:00:00.012)       0:03:56.895 ********* 
+ok: [localhost] => {
+    "changed": false,
+    "data": {
+        "targethost": "bastion.85tcb.sandbox2588.opentlc.com"
+    }
+}
+
+PLAY [Install Pre Software  workloads on localhost] ****************************
+
+TASK [Deploying Pre Software workloads  on localhost] **************************
+Monday 04 August 2025  07:29:31 +0000 (0:00:00.040)       0:03:56.936 ********* 
+skipping: [localhost]
+
+PLAY [Install Pre Software workloads on  all hosts] ****************************
+
+TASK [Deploying Pre Software workloads on all hosts] ***************************
+Monday 04 August 2025  07:29:31 +0000 (0:00:00.086)       0:03:57.022 ********* 
+
+TASK [set-repositories : Run setup if gather_facts hasn't been run] ************
+Monday 04 August 2025  07:29:32 +0000 (0:00:00.145)       0:03:57.168 ********* 
+skipping: [server.example.com]
+skipping: [node1.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [set-repositories : Configure satellite repositories] *********************
+Monday 04 August 2025  07:29:32 +0000 (0:00:00.138)       0:03:57.306 ********* 
+included: /runner/project/ansible/roles/set-repositories/tasks/satellite-repos.yml for node1.example.com, server.example.com, bastion.example.com, controller.example.com
+
+TASK [set-repositories : sat | Check subscription-manager package existence] ***
+Monday 04 August 2025  07:29:32 +0000 (0:00:00.101)       0:03:57.408 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [set-repositories : sat | Install subscription-manager package] ***********
+Monday 04 August 2025  07:29:32 +0000 (0:00:00.043)       0:03:57.451 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [set-repositories : sat | Remove rh-amazon-rhui-client package] ***********
+Monday 04 August 2025  07:29:32 +0000 (0:00:00.051)       0:03:57.503 ********* 
+changed: [bastion.example.com]
+changed: [server.example.com]
+changed: [node1.example.com]
+ok: [controller.example.com]
+
+TASK [set-repositories : sat | Unregister the system just in case] *************
+Monday 04 August 2025  07:29:43 +0000 (0:00:11.467)       0:04:08.970 ********* 
+included: /runner/project/ansible/roles/set-repositories/tasks/unregister.yml for node1.example.com, server.example.com, bastion.example.com, controller.example.com
+
+TASK [set-repositories : unreg | Unregister From Subscription Manager] *********
+Monday 04 August 2025  07:29:44 +0000 (0:00:00.104)       0:04:09.074 ********* 
+changed: [node1.example.com]
+changed: [bastion.example.com]
+changed: [server.example.com]
+changed: [controller.example.com]
+
+TASK [set-repositories : sat | Install CA certificate from satellite server] ***
+Monday 04 August 2025  07:29:47 +0000 (0:00:03.652)       0:04:12.727 ********* 
+changed: [bastion.example.com]
+changed: [node1.example.com]
+changed: [server.example.com]
+ok: [controller.example.com]
+
+TASK [set-repositories : sat | Update CA Trust Bundle] *************************
+Monday 04 August 2025  07:29:50 +0000 (0:00:03.187)       0:04:15.914 ********* 
+changed: [node1.example.com]
+changed: [bastion.example.com]
+changed: [server.example.com]
+changed: [controller.example.com]
+
+TASK [set-repositories : sat | Remove satellite Cert] **************************
+Monday 04 August 2025  07:29:55 +0000 (0:00:04.215)       0:04:20.130 ********* 
+ok: [bastion.example.com]
+ok: [node1.example.com]
+ok: [server.example.com]
+changed: [controller.example.com]
+
+TASK [set-repositories : sat | Find current repository files] ******************
+Monday 04 August 2025  07:29:59 +0000 (0:00:04.376)       0:04:24.507 ********* 
+ok: [bastion.example.com]
+ok: [node1.example.com]
+ok: [server.example.com]
+ok: [controller.example.com]
+
+TASK [set-repositories : sat | Remove current repository files] ****************
+Monday 04 August 2025  07:30:00 +0000 (0:00:01.328)       0:04:25.835 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+changed: [controller.example.com] => (item=/etc/yum.repos.d/redhat.repo)
+
+TASK [set-repositories : sat | Install Satellite CA certificate package] *******
+Monday 04 August 2025  07:30:02 +0000 (0:00:01.693)       0:04:27.529 ********* 
+changed: [node1.example.com]
+changed: [bastion.example.com]
+changed: [server.example.com]
+changed: [controller.example.com]
+
+TASK [set-repositories : sat | Disable Reporting Of Package Profile to Satellite] ***
+Monday 04 August 2025  07:30:13 +0000 (0:00:11.384)       0:04:38.913 ********* 
+changed: [bastion.example.com]
+changed: [node1.example.com]
+changed: [server.example.com]
+changed: [controller.example.com]
+
+TASK [set-repositories : sat | Run setup if gather_facts hasn't been run] ******
+Monday 04 August 2025  07:30:15 +0000 (0:00:01.792)       0:04:40.706 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [set-repositories : Generate UUID for dmi.system.uuid if cloud provider is Equinix Metal] ***
+Monday 04 August 2025  07:30:15 +0000 (0:00:00.046)       0:04:40.753 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [set-repositories : sat | Set set_repositories_subscription_hostname with randomization] ***
+Monday 04 August 2025  07:30:15 +0000 (0:00:00.042)       0:04:40.796 ********* 
+ok: [node1.example.com]
+ok: [server.example.com]
+ok: [bastion.example.com]
+ok: [controller.example.com]
+
+TASK [set-repositories : sat | Set network.fqdn in /etc/rhsm/facts/katello.facts] ***
+Monday 04 August 2025  07:30:15 +0000 (0:00:00.065)       0:04:40.862 ********* 
+changed: [bastion.example.com]
+changed: [node1.example.com]
+changed: [server.example.com]
+changed: [controller.example.com]
+
+TASK [set-repositories : sat | Register with activation-key] *******************
+Monday 04 August 2025  07:30:19 +0000 (0:00:03.331)       0:04:44.193 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [set-repositories : sat | Register with activation-key with HA] ***********
+Monday 04 August 2025  07:30:19 +0000 (0:00:00.060)       0:04:44.254 ********* 
+changed: [node1.example.com]
+changed: [server.example.com]
+changed: [bastion.example.com]
+changed: [controller.example.com]
+
+TASK [set-repositories : sat | Enable RHSM to manage repositories] *************
+Monday 04 August 2025  07:30:29 +0000 (0:00:10.059)       0:04:54.313 ********* 
+changed: [bastion.example.com]
+changed: [node1.example.com]
+changed: [server.example.com]
+changed: [controller.example.com]
+
+TASK [set-repositories : sat | Lock RHEL 9 release to specific version] ********
+Monday 04 August 2025  07:30:31 +0000 (0:00:02.003)       0:04:56.316 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [set-repositories : sat | Lock RHEL 8 release to specific version] ********
+Monday 04 August 2025  07:30:31 +0000 (0:00:00.052)       0:04:56.369 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [set-repositories : sat | Lock RHEL 7 release to specific version] ********
+Monday 04 August 2025  07:30:31 +0000 (0:00:00.050)       0:04:56.419 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [set-repositories : sat | Enable repos] ***********************************
+Monday 04 August 2025  07:30:31 +0000 (0:00:00.045)       0:04:56.465 ********* 
+changed: [bastion.example.com]
+changed: [node1.example.com]
+changed: [server.example.com]
+changed: [controller.example.com]
+
+TASK [set-repositories : sat | Purge existing repos] ***************************
+Monday 04 August 2025  07:30:39 +0000 (0:00:08.249)       0:05:04.714 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [set-repositories : sat | Enable repos for RHEL] **************************
+Monday 04 August 2025  07:30:39 +0000 (0:00:00.043)       0:05:04.758 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [set-repositories : sat | Create the certificate and key files] ***********
+Monday 04 August 2025  07:30:39 +0000 (0:00:00.041)       0:05:04.799 ********* 
+skipping: [node1.example.com] => (item=/etc/pki/tls/Red_GPTE.key) 
+skipping: [node1.example.com] => (item=/etc/pki/tls/Red_GPTE.pem) 
+skipping: [node1.example.com]
+skipping: [server.example.com] => (item=/etc/pki/tls/Red_GPTE.key) 
+skipping: [server.example.com] => (item=/etc/pki/tls/Red_GPTE.pem) 
+skipping: [server.example.com]
+skipping: [bastion.example.com] => (item=/etc/pki/tls/Red_GPTE.key) 
+skipping: [bastion.example.com] => (item=/etc/pki/tls/Red_GPTE.pem) 
+skipping: [bastion.example.com]
+skipping: [controller.example.com] => (item=/etc/pki/tls/Red_GPTE.key) 
+skipping: [controller.example.com] => (item=/etc/pki/tls/Red_GPTE.pem) 
+skipping: [controller.example.com]
+
+TASK [set-repositories : sat | Add certificate and key content] ****************
+Monday 04 August 2025  07:30:39 +0000 (0:00:00.054)       0:05:04.853 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [set-repositories : sat | create open.repo template on host] **************
+Monday 04 August 2025  07:30:39 +0000 (0:00:00.065)       0:05:04.918 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [set-repositories : sat | clean repositories] *****************************
+Monday 04 August 2025  07:30:39 +0000 (0:00:00.062)       0:05:04.981 ********* 
+changed: [node1.example.com]
+changed: [bastion.example.com]
+changed: [server.example.com]
+changed: [controller.example.com]
+
+TASK [set-repositories : Unregister from subscription manager] *****************
+Monday 04 August 2025  07:30:42 +0000 (0:00:02.798)       0:05:07.780 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [common : Deactivate DNS lookup in sshd] **********************************
+Monday 04 August 2025  07:30:42 +0000 (0:00:00.060)       0:05:07.840 ********* 
+changed: [bastion.example.com]
+changed: [node1.example.com]
+changed: [server.example.com]
+ok: [controller.example.com]
+
+TASK [common : Update all packages] ********************************************
+Monday 04 August 2025  07:30:44 +0000 (0:00:01.394)       0:05:09.235 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [common : Update all packages Legacy] *************************************
+Monday 04 August 2025  07:30:44 +0000 (0:00:00.042)       0:05:09.277 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [common : Determine if reboot is needed] **********************************
+Monday 04 August 2025  07:30:44 +0000 (0:00:00.042)       0:05:09.320 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [common : Reboot all VMs] *************************************************
+Monday 04 August 2025  07:30:44 +0000 (0:00:00.044)       0:05:09.365 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [common : Update network facts after reboot] ******************************
+Monday 04 August 2025  07:30:44 +0000 (0:00:00.055)       0:05:09.421 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [common : Run setup if gather_facts hasn't been run] **********************
+Monday 04 August 2025  07:30:44 +0000 (0:00:00.047)       0:05:09.468 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [common : install common packages for RHEL 7] *****************************
+Monday 04 August 2025  07:30:44 +0000 (0:00:00.044)       0:05:09.512 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [common : install common packages for RHEL 8] *****************************
+Monday 04 August 2025  07:30:44 +0000 (0:00:00.047)       0:05:09.560 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [common : Set up python alternatives for convenience] *********************
+Monday 04 August 2025  07:30:44 +0000 (0:00:00.050)       0:05:09.610 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [common : install common packages for RHEL 9] *****************************
+Monday 04 August 2025  07:30:44 +0000 (0:00:00.068)       0:05:09.679 ********* 
+changed: [controller.example.com]
+changed: [node1.example.com]
+changed: [bastion.example.com]
+changed: [server.example.com]
+
+TASK [common : install extra packages] *****************************************
+Monday 04 August 2025  07:33:51 +0000 (0:03:07.051)       0:08:16.731 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [common : Update specified packages] **************************************
+Monday 04 August 2025  07:33:51 +0000 (0:00:00.059)       0:08:16.790 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [common : Determine if reboot is needed] **********************************
+Monday 04 August 2025  07:33:51 +0000 (0:00:00.058)       0:08:16.848 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [common : Reboot VMs] *****************************************************
+Monday 04 August 2025  07:33:51 +0000 (0:00:00.047)       0:08:16.896 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+TASK [common : Refresh network facts post-reboot] ******************************
+Monday 04 August 2025  07:33:51 +0000 (0:00:00.047)       0:08:16.943 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+RUNNING HANDLER [common : restart_sshd] ****************************************
+Monday 04 August 2025  07:33:51 +0000 (0:00:00.095)       0:08:17.038 ********* 
+changed: [node1.example.com]
+changed: [bastion.example.com]
+changed: [server.example.com]
+
+PLAY [Install Pre Software workloads on bastion] *******************************
+
+TASK [Deploying Pre Software workloads on bastion] *****************************
+Monday 04 August 2025  07:33:53 +0000 (0:00:01.169)       0:08:18.208 ********* 
+
+TASK [bastion-lite : Generate an SSH key on the Bastion and configure access on all the hosts] ***
+Monday 04 August 2025  07:33:53 +0000 (0:00:00.112)       0:08:18.321 ********* 
+included: /runner/project/ansible/roles/bastion-lite/tasks/./create_bastion_ssh_key_and_access.yml for bastion.example.com
+
+TASK [bastion-lite : Generate SSH keys] ****************************************
+Monday 04 August 2025  07:33:53 +0000 (0:00:00.026)       0:08:18.347 ********* 
+changed: [bastion.example.com]
+
+TASK [bastion-lite : Fix permission of ssh key] ********************************
+Monday 04 August 2025  07:33:54 +0000 (0:00:00.892)       0:08:19.239 ********* 
+changed: [bastion.example.com]
+
+TASK [bastion-lite : Generate SSH pub key content] *****************************
+Monday 04 August 2025  07:33:54 +0000 (0:00:00.645)       0:08:19.885 ********* 
+ok: [bastion.example.com]
+
+TASK [bastion-lite : Save all facts for SSH] ***********************************
+Monday 04 August 2025  07:33:56 +0000 (0:00:01.359)       0:08:21.244 ********* 
+ok: [bastion.example.com]
+
+TASK [bastion-lite : Write SSH pub key] ****************************************
+Monday 04 August 2025  07:33:56 +0000 (0:00:00.023)       0:08:21.267 ********* 
+changed: [bastion.example.com]
+
+TASK [bastion-lite : Add bastion access to all hosts] **************************
+Monday 04 August 2025  07:33:57 +0000 (0:00:01.162)       0:08:22.430 ********* 
+changed: [bastion.example.com -> node1.example.com] => (item=node1.example.com)
+changed: [bastion.example.com -> server.example.com] => (item=server.example.com)
+changed: [bastion.example.com] => (item=bastion.example.com)
+changed: [bastion.example.com -> controller.example.com] => (item=controller.example.com)
+
+TASK [bastion-lite : Add bastion access to all hosts] **************************
+Monday 04 August 2025  07:34:00 +0000 (0:00:03.147)       0:08:25.577 ********* 
+changed: [bastion.example.com -> node1.example.com] => (item=node1.example.com)
+changed: [bastion.example.com -> server.example.com] => (item=server.example.com)
+changed: [bastion.example.com] => (item=bastion.example.com)
+changed: [bastion.example.com -> controller.example.com] => (item=controller.example.com)
+
+TASK [bastion-lite : Generate .ssh/config] *************************************
+Monday 04 August 2025  07:34:03 +0000 (0:00:03.115)       0:08:28.693 ********* 
+changed: [bastion.example.com]
+
+TASK [Install FTL] *************************************************************
+Monday 04 August 2025  07:34:04 +0000 (0:00:01.236)       0:08:29.929 ********* 
+skipping: [bastion.example.com]
+
+TASK [bastion-lite : Ensure system Python3 has selinux library installed] ******
+Monday 04 August 2025  07:34:04 +0000 (0:00:00.019)       0:08:29.948 ********* 
+skipping: [bastion.example.com]
+
+TASK [bastion-lite : Install OpenShift Helm 3] *********************************
+Monday 04 August 2025  07:34:04 +0000 (0:00:00.018)       0:08:29.966 ********* 
+skipping: [bastion.example.com]
+
+TASK [bastion-lite : Add GUID to /etc/skel/.bashrc] ****************************
+Monday 04 August 2025  07:34:04 +0000 (0:00:00.018)       0:08:29.985 ********* 
+changed: [bastion.example.com]
+
+TASK [bastion-lite : Add GUID to ~ec2-user/.bashrc] ****************************
+Monday 04 August 2025  07:34:05 +0000 (0:00:00.619)       0:08:30.604 ********* 
+changed: [bastion.example.com]
+
+TASK [bastion-lite : Add CLOUDUSER to /etc/skel/.bashrc] ***********************
+Monday 04 August 2025  07:34:06 +0000 (0:00:00.619)       0:08:31.223 ********* 
+changed: [bastion.example.com]
+
+TASK [bastion-lite : Add CLOUDUSER to ~ec2-user/.bashrc] ***********************
+Monday 04 August 2025  07:34:06 +0000 (0:00:00.627)       0:08:31.850 ********* 
+changed: [bastion.example.com]
+
+TASK [control-user : Create user skel files] ***********************************
+Monday 04 August 2025  07:34:07 +0000 (0:00:00.586)       0:08:32.437 ********* 
+changed: [bastion.example.com] => (item=.vimrc)
+
+TASK [control-user : Create user lab-user] *************************************
+Monday 04 August 2025  07:34:08 +0000 (0:00:01.160)       0:08:33.597 ********* 
+included: /runner/project/ansible/roles/control-user/tasks/create-user.yml for bastion.example.com
+
+TASK [control-user : Create user lab-user] *************************************
+Monday 04 August 2025  07:34:08 +0000 (0:00:00.023)       0:08:33.621 ********* 
+[WARNING]: 'append' is set, but no 'groups' are specified. Use 'groups' for
+appending new groups.This will change to an error in Ansible 2.14.
+changed: [bastion.example.com]
+
+TASK [control-user : Set ssh user lab-user password] ***************************
+Monday 04 August 2025  07:34:09 +0000 (0:00:00.947)       0:08:34.569 ********* 
+changed: [bastion.example.com]
+
+TASK [control-user : Setup user's resource directory] **************************
+Monday 04 August 2025  07:34:10 +0000 (0:00:01.004)       0:08:35.573 ********* 
+included: /runner/project/ansible/roles/control-user/tasks/create-directory.yml for bastion.example.com
+
+TASK [control-user : Create resource directory] ********************************
+Monday 04 August 2025  07:34:10 +0000 (0:00:00.023)       0:08:35.597 ********* 
+skipping: [bastion.example.com]
+
+TASK [control-user : Create user's custom directory] ***************************
+Monday 04 August 2025  07:34:10 +0000 (0:00:00.018)       0:08:35.615 ********* 
+skipping: [bastion.example.com]
+
+TASK [control-user : Enable sudoers] *******************************************
+Monday 04 August 2025  07:34:10 +0000 (0:00:00.019)       0:08:35.635 ********* 
+changed: [bastion.example.com]
+
+TASK [control-user : SSH setup for user] ***************************************
+Monday 04 August 2025  07:34:11 +0000 (0:00:01.134)       0:08:36.770 ********* 
+included: /runner/project/ansible/roles/control-user/tasks/ssh-config.yml for bastion.example.com
+
+TASK [control-user : create /home/lab-user/.ssh] *******************************
+Monday 04 August 2025  07:34:11 +0000 (0:00:00.030)       0:08:36.800 ********* 
+changed: [bastion.example.com]
+
+TASK [control-user : copy the environment .pem key] ****************************
+Monday 04 August 2025  07:34:12 +0000 (0:00:00.615)       0:08:37.416 ********* 
+changed: [bastion.example.com]
+
+TASK [control-user : copy the environment .pub key] ****************************
+Monday 04 August 2025  07:34:13 +0000 (0:00:01.140)       0:08:38.556 ********* 
+changed: [bastion.example.com]
+
+TASK [control-user : Create authorized keys] ***********************************
+Monday 04 August 2025  07:34:14 +0000 (0:00:01.207)       0:08:39.763 ********* 
+changed: [bastion.example.com]
+
+TASK [control-user : copy custom ssh key] **************************************
+Monday 04 August 2025  07:34:15 +0000 (0:00:00.707)       0:08:40.470 ********* 
+skipping: [bastion.example.com]
+
+TASK [control-user : Copy ssh config template] *********************************
+Monday 04 August 2025  07:34:15 +0000 (0:00:00.019)       0:08:40.490 ********* 
+changed: [bastion.example.com]
+
+TASK [control-user : Remove PasswordAuthentication line from 50-cloud-init.conf] ***
+Monday 04 August 2025  07:34:16 +0000 (0:00:01.317)       0:08:41.808 ********* 
+changed: [bastion.example.com]
+
+TASK [control-user : Enable password ssh authentication] ***********************
+Monday 04 August 2025  07:34:17 +0000 (0:00:00.649)       0:08:42.457 ********* 
+changed: [bastion.example.com]
+
+TASK [control-user : Disable root password ssh authentication] *****************
+Monday 04 August 2025  07:34:18 +0000 (0:00:00.629)       0:08:43.087 ********* 
+changed: [bastion.example.com]
+
+TASK [control-user : Restart sshd to read conf changes] ************************
+Monday 04 August 2025  07:34:18 +0000 (0:00:00.619)       0:08:43.706 ********* 
+changed: [bastion.example.com]
+
+TASK [control-user : Copy files] ***********************************************
+Monday 04 August 2025  07:34:19 +0000 (0:00:00.914)       0:08:44.620 ********* 
+included: /runner/project/ansible/roles/control-user/tasks/copy-files.yml for bastion.example.com
+
+TASK [control-user : Copy user's file to resource dir] *************************
+Monday 04 August 2025  07:34:19 +0000 (0:00:00.028)       0:08:44.649 ********* 
+skipping: [bastion.example.com]
+
+TASK [control-user : Copy user's template to resource dir] *********************
+Monday 04 August 2025  07:34:19 +0000 (0:00:00.020)       0:08:44.669 ********* 
+skipping: [bastion.example.com]
+
+TASK [control-user : Copy user's contentto resource dir] ***********************
+Monday 04 August 2025  07:34:19 +0000 (0:00:00.019)       0:08:44.689 ********* 
+skipping: [bastion.example.com]
+
+TASK [control-user : Copy templates] *******************************************
+Monday 04 August 2025  07:34:19 +0000 (0:00:00.018)       0:08:44.708 ********* 
+included: /runner/project/ansible/roles/control-user/tasks/copy-templates.yml for bastion.example.com
+
+TASK [control-user : Copy user's template to resource dir] *********************
+Monday 04 August 2025  07:34:19 +0000 (0:00:00.027)       0:08:44.736 ********* 
+skipping: [bastion.example.com]
+
+TASK [control-user : Copy user's template to home dir] *************************
+Monday 04 August 2025  07:34:19 +0000 (0:00:00.018)       0:08:44.754 ********* 
+skipping: [bastion.example.com]
+
+TASK [control-user : Copy user's template to path] *****************************
+Monday 04 August 2025  07:34:19 +0000 (0:00:00.021)       0:08:44.776 ********* 
+skipping: [bastion.example.com]
+
+TASK [control-user : Copy contents] ********************************************
+Monday 04 August 2025  07:34:19 +0000 (0:00:00.018)       0:08:44.795 ********* 
+included: /runner/project/ansible/roles/control-user/tasks/copy-contents.yml for bastion.example.com
+
+TASK [control-user : Copy user's content to resource dir] **********************
+Monday 04 August 2025  07:34:19 +0000 (0:00:00.032)       0:08:44.827 ********* 
+skipping: [bastion.example.com]
+
+TASK [control-user : Copy user's content to home dir] **************************
+Monday 04 August 2025  07:34:19 +0000 (0:00:00.025)       0:08:44.853 ********* 
+skipping: [bastion.example.com]
+
+TASK [control-user : Copy user's content to path] ******************************
+Monday 04 August 2025  07:34:19 +0000 (0:00:00.024)       0:08:44.877 ********* 
+skipping: [bastion.example.com]
+
+TASK [control-user : Report user data] *****************************************
+Monday 04 August 2025  07:34:19 +0000 (0:00:00.023)       0:08:44.901 ********* 
+included: /runner/project/ansible/roles/control-user/tasks/report-user-data.yml for bastion.example.com
+
+TASK [control-user : Report user data] *****************************************
+Monday 04 August 2025  07:34:19 +0000 (0:00:00.033)       0:08:44.935 ********* 
+ok: [bastion.example.com] => {
+    "changed": false,
+    "data": {
+        "password": "[REDACTED_Secret Keyword_SECRET]",
+        "ssh_host": "ec2-52-14-74-200.us-east-2.compute.amazonaws.com",
+        "user": "lab-user"
+    }
+}
+
+TASK [control-user : Report user data ssh key] *********************************
+Monday 04 August 2025  07:34:19 +0000 (0:00:00.031)       0:08:44.966 ********* 
+skipping: [bastion.example.com]
+
+PLAY [Install Pre Software workloads for windows] ******************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for gitlab] *******************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for Automation Controller] ****************
+
+TASK [Deploying Pre Software workloads on Automation Controller] ***************
+Monday 04 August 2025  07:34:19 +0000 (0:00:00.049)       0:08:45.016 ********* 
+skipping: [controller.example.com]
+
+PLAY [Install Pre Software workloads for Satelliltes] **************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for Satelllite Capsules] ******************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for Automation Server] ********************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for nodes] ********************************
+
+TASK [Deploying Pre Software workloads on nodes] *******************************
+Monday 04 August 2025  07:34:20 +0000 (0:00:00.049)       0:08:45.066 ********* 
+skipping: [node1.example.com]
+
+PLAY [Install Pre Software workloads for rhel7 nodes] **************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for rhel8 nodes] **************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for rhel9 nodes] **************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for rhel10 nodes] *************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for centos nodes] *************************
+
+TASK [Deploying Pre Software workloads on centos nodes] ************************
+Monday 04 August 2025  07:34:20 +0000 (0:00:00.073)       0:08:45.139 ********* 
+skipping: [server.example.com]
+
+PLAY [Install Pre Software workloads for rhelai nodes] *************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for network] ******************************
+skipping: no hosts matched
+
+PLAY [PreSoftware flight-check] ************************************************
+
+TASK [debug] *******************************************************************
+Monday 04 August 2025  07:34:20 +0000 (0:00:00.048)       0:08:45.188 ********* 
+ok: [localhost] => {
+    "msg": "Pre-Software checks completed successfully"
+}
+
+PLAY [Step 004 software] *******************************************************
+
+TASK [debug] *******************************************************************
+Monday 04 August 2025  07:34:20 +0000 (0:00:00.025)       0:08:45.213 ********* 
+ok: [localhost] => {
+    "msg": "Software tasks Started"
+}
+
+PLAY [Install Software  workloads on localhost] ********************************
+
+TASK [Deploying Software workloads  on localhost] ******************************
+Monday 04 August 2025  07:34:20 +0000 (0:00:00.026)       0:08:45.239 ********* 
+skipping: [localhost]
+
+PLAY [Install Software workloads on  all hosts] ********************************
+
+TASK [Deploying Software workloads on all hosts] *******************************
+Monday 04 August 2025  07:34:20 +0000 (0:00:00.062)       0:08:45.302 ********* 
+skipping: [node1.example.com]
+skipping: [server.example.com]
+skipping: [bastion.example.com]
+skipping: [controller.example.com]
+
+PLAY [Install Software workloads on bastion] ***********************************
+
+TASK [Deploying Software workloads on bastion] *********************************
+Monday 04 August 2025  07:34:20 +0000 (0:00:00.168)       0:08:45.470 ********* 
+skipping: [bastion.example.com]
+
+PLAY [Install Software workloads for windows] **********************************
+skipping: no hosts matched
+
+PLAY [Install Software workloads for gitlab] ***********************************
+skipping: no hosts matched
+
+PLAY [Install Software workloads for Automation Controller] ********************
+
+TASK [Deploying Software workloads on Automation Controller] *******************
+Monday 04 August 2025  07:34:20 +0000 (0:00:00.049)       0:08:45.519 ********* 
+
+TASK [nginx_with_cert : Set python interpreter for nginx_with_cert] ************
+Monday 04 August 2025  07:34:20 +0000 (0:00:00.053)       0:08:45.573 ********* 
+skipping: [controller.example.com]
+
+TASK [nginx_with_cert : Nginx | include correct tasks for OS] ******************
+Monday 04 August 2025  07:34:20 +0000 (0:00:00.030)       0:08:45.603 ********* 
+included: /runner/project/ansible/roles/nginx_with_cert/tasks/nginx/RedHat9.yml for controller.example.com
+
+TASK [nginx_with_cert : nginx/RedHat9 | enable EPEL] ***************************
+Monday 04 August 2025  07:34:20 +0000 (0:00:00.033)       0:08:45.637 ********* 
+changed: [controller.example.com]
+
+TASK [nginx_with_cert : nginx/RedHat9 | install nginx and certbot packages] ****
+Monday 04 August 2025  07:34:26 +0000 (0:00:06.061)       0:08:51.698 ********* 
+changed: [controller.example.com]
+
+TASK [nginx_with_cert : nginx/RedHat9 | remove EPEL after usage] ***************
+Monday 04 August 2025  07:35:11 +0000 (0:00:44.688)       0:09:36.387 ********* 
+changed: [controller.example.com]
+
+TASK [nginx_with_cert : Nginx | start nginx server] ****************************
+Monday 04 August 2025  07:35:17 +0000 (0:00:05.681)       0:09:42.068 ********* 
+changed: [controller.example.com]
+
+TASK [nginx_with_cert : Nginx | generate certbot certificate] ******************
+Monday 04 August 2025  07:35:18 +0000 (0:00:01.298)       0:09:43.366 ********* 
+changed: [controller.example.com]
+
+TASK [nginx_with_cert : Nginx | create nginx certificate directory] ************
+Monday 04 August 2025  07:35:32 +0000 (0:00:14.031)       0:09:57.398 ********* 
+changed: [controller.example.com]
+
+TASK [nginx_with_cert : Nginx | copy letsencrypt key] **************************
+Monday 04 August 2025  07:35:33 +0000 (0:00:00.646)       0:09:58.044 ********* 
+changed: [controller.example.com]
+
+TASK [nginx_with_cert : Nginx | copy letsencrypt certificate] ******************
+Monday 04 August 2025  07:35:33 +0000 (0:00:00.644)       0:09:58.689 ********* 
+changed: [controller.example.com]
+
+TASK [nginx_with_cert : Nginx | copy custom nginx_with_cert nginx configuration file] ***
+Monday 04 August 2025  07:35:34 +0000 (0:00:00.674)       0:09:59.364 ********* 
+changed: [controller.example.com]
+
+TASK [nginx_with_cert : Nginx | enable selinux boolean to connect with nginx_with_cert] ***
+Monday 04 August 2025  07:35:35 +0000 (0:00:01.223)       0:10:00.587 ********* 
+changed: [controller.example.com]
+
+TASK [nginx_with_cert : Nginx | restart nginx server] **************************
+Monday 04 August 2025  07:35:39 +0000 (0:00:04.407)       0:10:04.995 ********* 
+changed: [controller.example.com]
+
+TASK [nginx_with_cert : print out user.info] ***********************************
+Monday 04 August 2025  07:35:40 +0000 (0:00:00.971)       0:10:05.967 ********* 
+ok: [controller.example.com] => {
+    "changed": false,
+    "msg": "user.info: nginx_web_url: controller.85tcb.sandbox2588.opentlc.com\\n"
+}
+
+TASK [nginx_with_cert : Save user data] ****************************************
+Monday 04 August 2025  07:35:40 +0000 (0:00:00.028)       0:10:05.995 ********* 
+ok: [controller.example.com] => {
+    "changed": false,
+    "data": {
+        "nginx_web_url": "controller.85tcb.sandbox2588.opentlc.com"
+    }
+}
+
+TASK [ansible_automation_platform_configuration : Generate OCP bearer token for use in AAP as OCP credential] ***
+Monday 04 August 2025  07:35:40 +0000 (0:00:00.039)       0:10:06.034 ********* 
+skipping: [controller.example.com]
+
+TASK [ansible_automation_platform_configuration : Generate SSH keypair for use in AAP as ssh machine credential] ***
+Monday 04 August 2025  07:35:41 +0000 (0:00:00.019)       0:10:06.054 ********* 
+skipping: [controller.example.com]
+
+TASK [ansible_automation_platform_configuration : Generate SSH keypair for use in AAP as ssh machine credential] ***
+Monday 04 August 2025  07:35:41 +0000 (0:00:00.017)       0:10:06.071 ********* 
+included: /runner/project/ansible/roles/ansible_automation_platform_configuration/tasks/aap-configuration.yml for controller.example.com
+
+TASK [ansible_automation_platform_configuration : Create AAP Auth token] *******
+Monday 04 August 2025  07:35:41 +0000 (0:00:00.043)       0:10:06.115 ********* 
+skipping: [controller.example.com]
+
+TASK [ansible_automation_platform_configuration : Save token for agnosticd_user_info] ***
+Monday 04 August 2025  07:35:41 +0000 (0:00:00.016)       0:10:06.132 ********* 
+skipping: [controller.example.com]
+
+TASK [infra.aap_configuration.dispatch : Validating arguments against arg spec 'main' - An Ansible Role to call other roles to create objects on Ansible Automation Platform.] ***
+Monday 04 August 2025  07:35:41 +0000 (0:00:00.016)       0:10:06.148 ********* 
+ok: [controller.example.com]
+
+TASK [Run the following infra.aap_configuration roles: controller_license, gateway_settings, gateway_users, controller_credentials] ***
+Monday 04 August 2025  07:35:41 +0000 (0:00:00.030)       0:10:06.179 ********* 
+[WARNING]: Collection ansible.platform does not support Ansible version 2.15.13
+
+TASK [infra.aap_configuration.meta_dependency_check : Print dependency check status] ***
+Monday 04 August 2025  07:35:41 +0000 (0:00:00.133)       0:10:06.312 ********* 
+ok: [controller.example.com] => {
+    "msg": "Dependency check is deactivated. Required collections presence will not be verified. This might cause failure in the next tasks."
+}
+
+TASK [infra.aap_configuration.meta_dependency_check : Check awx.awx is installed] ***
+Monday 04 August 2025  07:35:41 +0000 (0:00:00.081)       0:10:06.394 ********* 
+skipping: [controller.example.com]
+
+TASK [infra.aap_configuration.meta_dependency_check : Check ansible.controller is installed] ***
+Monday 04 August 2025  07:35:41 +0000 (0:00:00.018)       0:10:06.412 ********* 
+skipping: [controller.example.com]
+
+TASK [infra.aap_configuration.meta_dependency_check : Ensure one is installed] ***
+Monday 04 August 2025  07:35:41 +0000 (0:00:00.018)       0:10:06.430 ********* 
+skipping: [controller.example.com]
+
+TASK [infra.aap_configuration.controller_license : Validating arguments against arg spec 'main' - An Ansible Role to deploy a license on Ansible Controller.] ***
+Monday 04 August 2025  07:35:41 +0000 (0:00:00.029)       0:10:06.460 ********* 
+ok: [controller.example.com]
+
+TASK [infra.aap_configuration.controller_license : Use manifest file] **********
+Monday 04 August 2025  07:35:41 +0000 (0:00:00.038)       0:10:06.499 ********* 
+included: /usr/share/ansible/collections/ansible_collections/infra/aap_configuration/roles/controller_license/tasks/manifest.yml for controller.example.com
+
+TASK [infra.aap_configuration.controller_license : manifest | Ensure manifest is set] ***
+Monday 04 August 2025  07:35:41 +0000 (0:00:00.045)       0:10:06.545 ********* 
+ok: [controller.example.com] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [infra.aap_configuration.controller_license : manifest | Move manifest file to temporary location] ***
+Monday 04 August 2025  07:35:41 +0000 (0:00:00.036)       0:10:06.581 ********* 
+skipping: [controller.example.com]
+
+TASK [infra.aap_configuration.controller_license : manifest | Fetch manifest from URL] ***
+Monday 04 August 2025  07:35:41 +0000 (0:00:00.024)       0:10:06.606 ********* 
+changed: [controller.example.com]
+
+TASK [infra.aap_configuration.controller_license : manifest | Create manifest file from base64 encoded content] ***
+Monday 04 August 2025  07:35:42 +0000 (0:00:01.332)       0:10:07.939 ********* 
+skipping: [controller.example.com]
+
+TASK [infra.aap_configuration.controller_license : manifest | Install the Controller license] ***
+Monday 04 August 2025  07:35:42 +0000 (0:00:00.022)       0:10:07.961 ********* 
+ok: [controller.example.com]
+
+TASK [infra.aap_configuration.controller_license : Use subscription pool id or subscription lookup] ***
+Monday 04 August 2025  07:35:47 +0000 (0:00:04.139)       0:10:12.100 ********* 
+skipping: [controller.example.com]
+
+TASK [infra.aap_configuration.gateway_settings : Validating arguments against arg spec 'main' - An Ansible Role to create settings on automation platform gateway.] ***
+Monday 04 August 2025  07:35:47 +0000 (0:00:00.031)       0:10:12.132 ********* 
+ok: [controller.example.com]
+
+TASK [infra.aap_configuration.gateway_settings : Update automation platform gateway Settings] ***
+Monday 04 August 2025  07:35:47 +0000 (0:00:00.027)       0:10:12.159 ********* 
+changed: [controller.example.com]
+
+TASK [infra.aap_configuration.gateway_users : Validating arguments against arg spec 'main' - An Ansible Role to create users on automation platform gateway.] ***
+Monday 04 August 2025  07:35:51 +0000 (0:00:03.978)       0:10:16.138 ********* 
+ok: [controller.example.com]
+
+TASK [infra.aap_configuration.gateway_users : Users | Configuration] ***********
+Monday 04 August 2025  07:35:51 +0000 (0:00:00.032)       0:10:16.170 ********* 
+ok: [controller.example.com] => (item=Create/Update the Gateway user lab-user)
+
+TASK [infra.aap_configuration.gateway_users : Users | Wait for finish the configuration] ***
+Monday 04 August 2025  07:35:52 +0000 (0:00:00.998)       0:10:17.168 ********* 
+FAILED - RETRYING: [controller.example.com]: Users | Wait for finish the configuration (30 retries left).
+FAILED - RETRYING: [controller.example.com]: Users | Wait for finish the configuration (29 retries left).
+changed: [controller.example.com] => (item=Create/Update Gateway user lab-user | Wait for finish the Gateway user creation)
+
+TASK [infra.aap_configuration.controller_credentials : Validating arguments against arg spec 'main' - An Ansible Role to create credentials on Ansible Controller.] ***
+Monday 04 August 2025  07:35:56 +0000 (0:00:04.577)       0:10:21.746 ********* 
+ok: [controller.example.com]
+
+TASK [infra.aap_configuration.controller_credentials : Managing Credentials] ***
+Monday 04 August 2025  07:35:56 +0000 (0:00:00.034)       0:10:21.781 ********* 
+ok: [controller.example.com] => (item=None)
+ok: [controller.example.com]
+
+TASK [infra.aap_configuration.controller_credentials : Flag for errors (check mode only)] ***
+Monday 04 August 2025  07:35:57 +0000 (0:00:00.899)       0:10:22.680 ********* 
+skipping: [controller.example.com]
+
+TASK [infra.aap_configuration.controller_credentials : Managing Controller Credentials | Wait for finish the credential management] ***
+Monday 04 August 2025  07:35:57 +0000 (0:00:00.021)       0:10:22.702 ********* 
+FAILED - RETRYING: [controller.example.com]: Managing Controller Credentials | Wait for finish the credential management (30 retries left).
+FAILED - RETRYING: [controller.example.com]: Managing Controller Credentials | Wait for finish the credential management (29 retries left).
+changed: [controller.example.com] => (item=None)
+changed: [controller.example.com]
+
+TASK [infra.aap_configuration.dispatch : Fail the playbook if there were errors (check mode only)] ***
+Monday 04 August 2025  07:36:02 +0000 (0:00:04.360)       0:10:27.063 ********* 
+skipping: [controller.example.com]
+
+PLAY [Install Software workloads for Satelliltes] ******************************
+skipping: no hosts matched
+
+PLAY [Install Software workloads for Satelllite Capsules] **********************
+skipping: no hosts matched
+
+PLAY [Install Software workloads for Automation Server] ************************
+skipping: no hosts matched
+
+PLAY [Install Software workloads for nodes] ************************************
+
+TASK [Deploying Software workloads on nodes] ***********************************
+Monday 04 August 2025  07:36:02 +0000 (0:00:00.063)       0:10:27.126 ********* 
+skipping: [node1.example.com]
+
+PLAY [Install Software workloads for rhel7 nodes] ******************************
+skipping: no hosts matched
+
+PLAY [Install Software workloads for rhel8 nodes] ******************************
+skipping: no hosts matched
+
+PLAY [Install Software workloads for rhel9 nodes] ******************************
+skipping: no hosts matched
+
+PLAY [Install Software workloads for rhel10 nodes] *****************************
+skipping: no hosts matched
+
+PLAY [Install Software workloads for centos nodes] *****************************
+
+TASK [Deploying Software workloads on centos nodes] ****************************
+Monday 04 August 2025  07:36:02 +0000 (0:00:00.053)       0:10:27.180 ********* 
+
+TASK [server_customization : Install] ******************************************
+Monday 04 August 2025  07:36:02 +0000 (0:00:00.041)       0:10:27.221 ********* 
+fatal: [server.example.com]: FAILED! => {"changed": false, "failures": [], "msg": "Depsolve Error occurred: \\n Problem: package ansible-rulebook-1.0.8-2.el9ap.noarch from ansible-automation-platform-2.4-for-rhel-9-x86_64-rpms requires python3.9dist(ansible-runner), but none of the providers can be installed\\n  - package python3.11-ansible-runner-2.4.0-1.el9ap.noarch from ansible-developer-1.2-for-rhel-9-x86_64-rpms obsoletes python3-ansible-runner < 2.4.0-1.el9ap provided by python3-ansible-runner-2.3.4-1.el9ap.noarch from ansible-automation-platform-2.4-for-rhel-9-x86_64-rpms\\n  - package python3.11-ansible-runner-2.4.0-1.el9ap.noarch from ansible-developer-1.2-for-rhel-9-x86_64-rpms obsoletes python3-ansible-runner < 2.4.0-1.el9ap provided by python3-ansible-runner-2.3.2-1.el9ap.noarch from ansible-automation-platform-2.4-for-rhel-9-x86_64-rpms\\n  - package python3.11-ansible-runner-2.4.0-1.el9ap.noarch from ansible-developer-1.2-for-rhel-9-x86_64-rpms obsoletes python3-ansible-runner < 2.4.0-1.el9ap provided by python3-ansible-runner-2.3.5-1.el9ap.noarch from ansible-automation-platform-2.4-for-rhel-9-x86_64-rpms\\n  - package python3.11-ansible-runner-2.4.0-1.el9ap.noarch from ansible-developer-1.2-for-rhel-9-x86_64-rpms obsoletes python3-ansible-runner < 2.4.0-1.el9ap provided by python3-ansible-runner-2.3.6-1.el9ap.noarch from ansible-automation-platform-2.4-for-rhel-9-x86_64-rpms\\n  - package ansible-navigator-25.5.0-1.el9ap.noarch from ansible-developer-1.2-for-rhel-9-x86_64-rpms requires (python3.11dist(ansible-runner) < 3 with python3.11dist(ansible-runner) >= 2.3.1), but none of the providers can be installed\\n  - package python3.11-ansible-runner-2.4.1-1.el9ap.noarch from ansible-developer-1.2-for-rhel-9-x86_64-rpms obsoletes python3-ansible-runner < 2.4.1-1.el9ap provided by python3-ansible-runner-2.3.4-1.el9ap.noarch from ansible-automation-platform-2.4-for-rhel-9-x86_64-rpms\\n  - package python3.11-ansible-runner-2.4.1-1.el9ap.noarch from ansible-developer-1.2-for-rhel-9-x86_64-rpms obsoletes python3-ansible-runner < 2.4.1-1.el9ap provided by python3-ansible-runner-2.3.2-1.el9ap.noarch from ansible-automation-platform-2.4-for-rhel-9-x86_64-rpms\\n  - package python3.11-ansible-runner-2.4.1-1.el9ap.noarch from ansible-developer-1.2-for-rhel-9-x86_64-rpms obsoletes python3-ansible-runner < 2.4.1-1.el9ap provided by python3-ansible-runner-2.3.5-1.el9ap.noarch from ansible-automation-platform-2.4-for-rhel-9-x86_64-rpms\\n  - package python3.11-ansible-runner-2.4.1-1.el9ap.noarch from ansible-developer-1.2-for-rhel-9-x86_64-rpms obsoletes python3-ansible-runner < 2.4.1-1.el9ap provided by python3-ansible-runner-2.3.6-1.el9ap.noarch from ansible-automation-platform-2.4-for-rhel-9-x86_64-rpms\\n  - cannot install the best candidate for the job", "rc": 1, "results": []}
+
+NO MORE HOSTS LEFT *************************************************************
+
+PLAY RECAP *********************************************************************
+bastion.example.com        : ok=67   changed=43   unreachable=0    failed=0    skipped=54   rescued=0    ignored=0   
+controller.example.com     : ok=63   changed=28   unreachable=0    failed=0    skipped=50   rescued=0    ignored=0   
+localhost                  : ok=125  changed=22   unreachable=0    failed=0    skipped=77   rescued=0    ignored=0   
+node1.example.com          : ok=33   changed=20   unreachable=0    failed=0    skipped=39   rescued=0    ignored=0   
+server.example.com         : ok=33   changed=20   unreachable=0    failed=1    skipped=38   rescued=0    ignored=0   
+
+TASKS RECAP ********************************************************************
+Monday 04 August 2025  07:36:06 +0000 (0:00:04.406)       0:10:31.628 ********* 
+=============================================================================== 
+common : install common packages for RHEL 9 --------------------------- 187.05s
+infra-ec2-template-create : Launch CloudFormation template (local) ---- 158.44s
+nginx_with_cert : nginx/RedHat9 | install nginx and certbot packages --- 44.69s
+nginx_with_cert : Nginx | generate certbot certificate ----------------- 14.03s
+ssh_authorized_keys : Add all authorized keys -------------------------- 13.17s
+set-repositories : sat | Remove rh-amazon-rhui-client package ---------- 11.47s
+set-repositories : sat | Install Satellite CA certificate package ------ 11.38s
+set-repositories : sat | Register with activation-key with HA ---------- 10.06s
+infra-ec2-wait_for_linux_hosts : wait for linux host to be available ---- 9.14s
+set-repositories : sat | Enable repos ----------------------------------- 8.25s
+nginx_with_cert : nginx/RedHat9 | enable EPEL --------------------------- 6.06s
+Gathering Facts --------------------------------------------------------- 5.78s
+nginx_with_cert : nginx/RedHat9 | remove EPEL after usage --------------- 5.68s
+infra.aap_configuration.gateway_users : Users | Wait for finish the configuration --- 4.58s
+infra-ec2-linux-set-hostname : stat ------------------------------------- 4.41s
+nginx_with_cert : Nginx | enable selinux boolean to connect with nginx_with_cert --- 4.41s
+server_customization : Install ------------------------------------------ 4.41s
+set-repositories : sat | Remove satellite Cert -------------------------- 4.38s
+infra.aap_configuration.controller_credentials : Managing Controller Credentials | Wait for finish the credential management --- 4.36s
+set-repositories : sat | Update CA Trust Bundle ------------------------- 4.22s

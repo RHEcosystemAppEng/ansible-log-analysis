@@ -1,0 +1,1806 @@
+[DEPRECATION WARNING]: ANSIBLE_COLLECTIONS_PATHS option. Reason: does not fit 
+var naming standard, use the singular form ANSIBLE_COLLECTIONS_PATH instead 
+Alternatives: none. This feature will be removed in version 2.19. Deprecation 
+warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+Vault password (gpte_vault_0): 
+
+PLAY [Step 0000 Set Action] ****************************************************
+
+TASK [Set ACTION to provision] *************************************************
+Tuesday 05 August 2025  01:46:45 +0000 (0:00:00.007)       0:00:00.007 ******** 
+skipping: [localhost]
+
+PLAY [Step 0000 Setup runtime] *************************************************
+
+TASK [debug] *******************************************************************
+Tuesday 05 August 2025  01:46:45 +0000 (0:00:00.016)       0:00:00.023 ******** 
+skipping: [localhost]
+
+TASK [Ensure cloud provider is supported] **************************************
+Tuesday 05 August 2025  01:46:45 +0000 (0:00:00.012)       0:00:00.036 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+PLAY [Step 0000 Setup Output Directory] ****************************************
+
+TASK [Set output_dir if not defined] *******************************************
+Tuesday 05 August 2025  01:46:45 +0000 (0:00:00.013)       0:00:00.049 ******** 
+skipping: [localhost]
+
+TASK [Create output_dir if it does not exists] *********************************
+Tuesday 05 August 2025  01:46:45 +0000 (0:00:00.014)       0:00:00.063 ******** 
+changed: [localhost]
+
+TASK [Attempt to restore output_dir contents] **********************************
+Tuesday 05 August 2025  01:46:46 +0000 (0:00:00.264)       0:00:00.328 ******** 
+included: agnosticd_restore_output_dir for localhost
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from s3 bucket] ********
+Tuesday 05 August 2025  01:46:46 +0000 (0:00:00.019)       0:00:00.348 ******** 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/restore-from-s3.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Tuesday 05 August 2025  01:46:46 +0000 (0:00:00.039)       0:00:00.387 ******** 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/fetch-from-s3-s3_object.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Tuesday 05 August 2025  01:46:46 +0000 (0:00:00.047)       0:00:00.434 ******** 
+ok: [localhost]
+
+TASK [agnosticd_restore_output_dir : Decrypt archive] **************************
+Tuesday 05 August 2025  01:46:47 +0000 (0:00:00.893)       0:00:01.328 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from archive] **********
+Tuesday 05 August 2025  01:46:47 +0000 (0:00:00.020)       0:00:01.348 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove archive file from output_dir] ******
+Tuesday 05 August 2025  01:46:47 +0000 (0:00:00.017)       0:00:01.366 ******** 
+ok: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove encrypted archive file from output_dir] ***
+Tuesday 05 August 2025  01:46:47 +0000 (0:00:00.166)       0:00:01.532 ******** 
+ok: [localhost]
+
+TASK [Touch file provision-user-data.yaml and provision-user-info.yaml] ********
+Tuesday 05 August 2025  01:46:47 +0000 (0:00:00.170)       0:00:01.703 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create empty user-info.yaml and user-data.yaml in output dir] ************
+Tuesday 05 August 2025  01:46:47 +0000 (0:00:00.309)       0:00:02.013 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create symlink user-data.yaml -> provision-user-data.yaml] ***************
+Tuesday 05 August 2025  01:46:48 +0000 (0:00:00.792)       0:00:02.806 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Tuesday 05 August 2025  01:46:48 +0000 (0:00:00.349)       0:00:03.155 ******** 
+ok: [localhost]
+
+TASK [Include variables files] *************************************************
+Tuesday 05 August 2025  01:46:48 +0000 (0:00:00.016)       0:00:03.171 ******** 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Tuesday 05 August 2025  01:46:48 +0000 (0:00:00.055)       0:00:03.226 ******** 
+skipping: [localhost]
+
+TASK [Set passthrough user data] ***********************************************
+Tuesday 05 August 2025  01:46:48 +0000 (0:00:00.014)       0:00:03.241 ******** 
+skipping: [localhost]
+
+PLAY [Step 0000 Install Galaxy roles and collections] **************************
+
+TASK [Use requirements_content] ************************************************
+Tuesday 05 August 2025  01:46:48 +0000 (0:00:00.015)       0:00:03.257 ******** 
+skipping: [localhost]
+
+TASK [Copy requirements content to output_dir] *********************************
+Tuesday 05 August 2025  01:46:48 +0000 (0:00:00.011)       0:00:03.269 ******** 
+skipping: [localhost]
+
+TASK [Use requirements_path from the config] ***********************************
+Tuesday 05 August 2025  01:46:48 +0000 (0:00:00.010)       0:00:03.279 ******** 
+ok: [localhost]
+
+TASK [Check if requirements.yml exists] ****************************************
+Tuesday 05 August 2025  01:46:49 +0000 (0:00:00.012)       0:00:03.292 ******** 
+ok: [localhost]
+
+TASK [set_fact] ****************************************************************
+Tuesday 05 August 2025  01:46:49 +0000 (0:00:00.149)       0:00:03.442 ******** 
+ok: [localhost]
+
+TASK [Install roles from requirements.yml] *************************************
+Tuesday 05 August 2025  01:46:49 +0000 (0:00:00.016)       0:00:03.458 ******** 
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (Not EE)] **********************
+Tuesday 05 August 2025  01:46:49 +0000 (0:00:00.527)       0:00:03.985 ******** 
+skipping: [localhost]
+
+TASK [Get installed collections (EE)] ******************************************
+Tuesday 05 August 2025  01:46:49 +0000 (0:00:00.021)       0:00:04.007 ******** 
+included: /runner/project/ansible/install_collections_ee.yml for localhost
+
+TASK [Get the list of installed collections (EE)] ******************************
+Tuesday 05 August 2025  01:46:49 +0000 (0:00:00.021)       0:00:04.029 ******** 
+changed: [localhost]
+
+TASK [Create temporary file for requirements.yml (EE)] *************************
+Tuesday 05 August 2025  01:46:50 +0000 (0:00:00.470)       0:00:04.499 ******** 
+changed: [localhost]
+
+TASK [Rewrite requirements, filter out installed collections (EE)] *************
+Tuesday 05 August 2025  01:46:50 +0000 (0:00:00.226)       0:00:04.726 ******** 
+[WARNING]: skipping installation of amazon.aws==4.0.0 ; amazon.aws==9.4.0
+already installed in EE
+[WARNING]: skipping installation of community.general==8.1.0 ;
+community.general==10.5.0 already installed in EE
+[WARNING]: skipping installation of containers.podman==1.10.1 ;
+containers.podman==1.16.3 already installed in EE
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (EE)] **************************
+Tuesday 05 August 2025  01:46:50 +0000 (0:00:00.288)       0:00:05.015 ******** 
+changed: [localhost]
+
+TASK [Cleanup tempfile (EE)] ***************************************************
+Tuesday 05 August 2025  01:46:51 +0000 (0:00:00.476)       0:00:05.491 ******** 
+changed: [localhost]
+
+TASK [Install dynamic sources] *************************************************
+Tuesday 05 August 2025  01:46:51 +0000 (0:00:00.166)       0:00:05.658 ******** 
+included: agnosticd_dynamic for localhost
+
+TASK [agnosticd_dynamic : Create dynamic-cache and dynamic-roles directories] ***
+Tuesday 05 August 2025  01:46:51 +0000 (0:00:00.020)       0:00:05.679 ******** 
+changed: [localhost] => (item=/runner/project/ansible/dynamic-cache)
+changed: [localhost] => (item=/runner/project/ansible/dynamic-roles)
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to dynamic roles dir] ***
+Tuesday 05 August 2025  01:46:51 +0000 (0:00:00.315)       0:00:05.994 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to cache] *************
+Tuesday 05 August 2025  01:46:51 +0000 (0:00:00.015)       0:00:06.009 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install git sources] *********************************
+Tuesday 05 August 2025  01:46:51 +0000 (0:00:00.012)       0:00:06.022 ******** 
+skipping: [localhost]
+
+PLAY [Step 000 Pre Infrastructure] *********************************************
+
+TASK [Generate Petname Hostnames for Systems] **********************************
+Tuesday 05 August 2025  01:46:51 +0000 (0:00:00.010)       0:00:06.033 ******** 
+skipping: [localhost]
+
+TASK [Pull Latest Windows Image] ***********************************************
+Tuesday 05 August 2025  01:46:51 +0000 (0:00:00.012)       0:00:06.045 ******** 
+skipping: [localhost]
+
+TASK [Step 000 Pre Infrastructure] *********************************************
+Tuesday 05 August 2025  01:46:51 +0000 (0:00:00.012)       0:00:06.057 ******** 
+ok: [localhost] => {
+    "msg": "Step 000 Pre Infrastructure"
+}
+
+PLAY [Install Pre Infra workloads for all nodes omit localhost] ****************
+skipping: no hosts matched
+
+PLAY [Install Pre Infra workloads on localhost] ********************************
+
+TASK [Deploying Pre Infra workloads  on localhost] *****************************
+Tuesday 05 August 2025  01:46:51 +0000 (0:00:00.016)       0:00:06.074 ******** 
+skipping: [localhost]
+[WARNING]: Could not match supplied host pattern, ignoring: windows
+
+PLAY [Install Pre Infra workloads on  all hosts] *******************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: bastions
+
+PLAY [Install Pre Infra workloads on bastion] **********************************
+skipping: no hosts matched
+
+PLAY [Install Pre Infra workloads for windows] *********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: gitlab
+
+PLAY [Install Pre Infra workloads for gitlab] **********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: nodes
+
+PLAY [Install Pre Infra workloads for nodes] ***********************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: centos_nodes
+
+PLAY [Install Pre Infra workloads for centos nodes] ****************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: satellites
+
+PLAY [Install Pre Infra workloads for Satellites] ******************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: capsules
+
+PLAY [Install Pre Infra workloads for Satellite Capsules] **********************
+skipping: no hosts matched
+
+PLAY [Step 001.0 Infrastructure Pre-Checks] ************************************
+
+TASK [Test aws command] ********************************************************
+Tuesday 05 August 2025  01:46:51 +0000 (0:00:00.033)       0:00:06.108 ******** 
+ok: [localhost]
+
+TASK [Fail if AWS command CLI if not available] ********************************
+Tuesday 05 August 2025  01:46:51 +0000 (0:00:00.158)       0:00:06.266 ******** 
+skipping: [localhost]
+
+PLAY [Step 001.1 Deploy Infrastructure] ****************************************
+
+TASK [Run infra-images] ********************************************************
+Tuesday 05 August 2025  01:46:51 +0000 (0:00:00.014)       0:00:06.280 ******** 
+included: infra-images for localhost
+
+TASK [infra-images : include_tasks] ********************************************
+Tuesday 05 August 2025  01:46:52 +0000 (0:00:00.017)       0:00:06.297 ******** 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2.yaml for localhost
+
+TASK [infra-images : include_tasks] ********************************************
+Tuesday 05 August 2025  01:46:52 +0000 (0:00:00.022)       0:00:06.320 ******** 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_images.yaml for localhost => (item={'count': 1, 'flavor': {'ec2': 'g6e.12xlarge'}, 'floating_ip': True, 'image': 'RHEL95GOLD-latest', 'name': 'llamastack', 'public_dns': True, 'rootfs_size': '200', 'security_groups': ['BastionSG', 'HostSG', 'ShowroomSG', 'AIServicesSG', 'LLamaStackServicesSG'], 'tags': [{'key': 'AnsibleGroup', 'value': 'bastions,showroom'}, {'key': 'ostype', 'value': 'linux'}, {'key': 'instance_filter', 'value': 'base-infra-base-infra@opentlc.com'}], 'unique': True})
+
+TASK [infra-images : include_tasks] ********************************************
+Tuesday 05 August 2025  01:46:52 +0000 (0:00:00.032)       0:00:06.352 ******** 
+included: /runner/project/ansible/roles-infra/infra-images/tasks/ec2_loop_image.yaml for localhost => (item={'owner': 309956199498, 'name': 'RHEL-9.5.*_HVM_*Access*', 'architecture': 'x86_64', 'aws_filters': {'is-public': False}})
+
+TASK [infra-images : Lookup image for llamastack] ******************************
+Tuesday 05 August 2025  01:46:52 +0000 (0:00:00.045)       0:00:06.398 ******** 
+ok: [localhost]
+
+TASK [infra-images : Fail if no image found for llamastack] ********************
+Tuesday 05 August 2025  01:46:53 +0000 (0:00:00.950)       0:00:07.348 ******** 
+skipping: [localhost]
+
+TASK [infra-images : Save image in agnosticd_images, use latest if multiple found] ***
+Tuesday 05 August 2025  01:46:53 +0000 (0:00:00.018)       0:00:07.367 ******** 
+ok: [localhost]
+
+TASK [infra-images : debug agnosticd_image] ************************************
+Tuesday 05 August 2025  01:46:53 +0000 (0:00:00.028)       0:00:07.396 ******** 
+skipping: [localhost]
+
+TASK [infra-images : Print images found for each instance] *********************
+Tuesday 05 August 2025  01:46:53 +0000 (0:00:00.020)       0:00:07.416 ******** 
+ok: [localhost] => (item=llamastack) => {
+    "msg": "llamastack - RHEL-9.5.0_HVM_GA-20241029-x86_64-0-Access2-GP3 - ami-02d42d2642a94f658 - Red Hat BYOL Linux - us-east-1"
+}
+
+TASK [Run infra-aws-capacity-reservation] **************************************
+Tuesday 05 August 2025  01:46:53 +0000 (0:00:00.026)       0:00:07.442 ******** 
+included: infra-aws-capacity-reservation for localhost
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Tuesday 05 August 2025  01:46:53 +0000 (0:00:00.017)       0:00:07.459 ******** 
+skipping: [localhost]
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Tuesday 05 August 2025  01:46:53 +0000 (0:00:00.015)       0:00:07.474 ******** 
+skipping: [localhost]
+
+TASK [infra-aws-capacity-reservation : include_tasks] **************************
+Tuesday 05 August 2025  01:46:53 +0000 (0:00:00.016)       0:00:07.491 ******** 
+skipping: [localhost]
+
+TASK [Empty the agnosticd_images and run the detection again] ******************
+Tuesday 05 August 2025  01:46:53 +0000 (0:00:00.014)       0:00:07.506 ******** 
+skipping: [localhost]
+
+TASK [Run infra-images again to use the proper region selected by the reservations] ***
+Tuesday 05 August 2025  01:46:53 +0000 (0:00:00.041)       0:00:07.547 ******** 
+skipping: [localhost]
+
+TASK [Run infra-aws-open-environment Role] *************************************
+Tuesday 05 August 2025  01:46:53 +0000 (0:00:00.052)       0:00:07.600 ******** 
+skipping: [localhost]
+
+TASK [Create ssh provision key] ************************************************
+Tuesday 05 August 2025  01:46:53 +0000 (0:00:00.058)       0:00:07.658 ******** 
+included: create_ssh_provision_key for localhost
+
+TASK [create_ssh_provision_key : include_tasks] ********************************
+Tuesday 05 August 2025  01:46:53 +0000 (0:00:00.086)       0:00:07.744 ******** 
+included: /runner/project/ansible/roles-infra/create_ssh_provision_key/tasks/checks.yaml for localhost
+
+TASK [create_ssh_provision_key : Ensure key_name is not defined] ***************
+Tuesday 05 August 2025  01:46:53 +0000 (0:00:00.013)       0:00:07.758 ******** 
+skipping: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH keys] ****************************
+Tuesday 05 August 2025  01:46:53 +0000 (0:00:00.013)       0:00:07.772 ******** 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Fix permission of ssh key] ********************
+Tuesday 05 August 2025  01:46:53 +0000 (0:00:00.424)       0:00:08.196 ******** 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH pub key content] *****************
+Tuesday 05 August 2025  01:46:54 +0000 (0:00:00.151)       0:00:08.348 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Save all facts for SSH] ***********************
+Tuesday 05 August 2025  01:46:54 +0000 (0:00:00.160)       0:00:08.509 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Write SSH pub key] ****************************
+Tuesday 05 August 2025  01:46:54 +0000 (0:00:00.017)       0:00:08.527 ******** 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Report user info for SSH provision key as user data] ***
+Tuesday 05 August 2025  01:46:54 +0000 (0:00:00.283)       0:00:08.810 ******** 
+skipping: [localhost]
+
+TASK [include_role : agnosticd_save_output_dir] ********************************
+Tuesday 05 August 2025  01:46:54 +0000 (0:00:00.015)       0:00:08.825 ******** 
+included: agnosticd_save_output_dir for localhost
+
+TASK [agnosticd_save_output_dir : Save output dir if archive file is defined] ***
+Tuesday 05 August 2025  01:46:54 +0000 (0:00:00.028)       0:00:08.853 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/save-output-dir.yml for localhost
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Tuesday 05 August 2025  01:46:54 +0000 (0:00:00.022)       0:00:08.876 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/create-output-dir-archive.yml for localhost
+
+TASK [agnosticd_save_output_dir : Create tempfile for archive] *****************
+Tuesday 05 August 2025  01:46:54 +0000 (0:00:00.025)       0:00:08.902 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Set agnosticd_save_output_dir_archive_tempfile] ***
+Tuesday 05 August 2025  01:46:54 +0000 (0:00:00.151)       0:00:09.054 ******** 
+ok: [localhost]
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Tuesday 05 August 2025  01:46:54 +0000 (0:00:00.015)       0:00:09.069 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Encrypt tarball using password] **************
+Tuesday 05 August 2025  01:46:54 +0000 (0:00:00.172)       0:00:09.242 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_save_output_dir : Upload output_dir archive to S3] *************
+Tuesday 05 August 2025  01:46:54 +0000 (0:00:00.016)       0:00:09.258 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3.yml for localhost
+
+TASK [Run infra-cloud-tags role] ***********************************************
+Tuesday 05 August 2025  01:46:54 +0000 (0:00:00.022)       0:00:09.281 ******** 
+included: infra-cloud-tags for localhost
+
+TASK [infra-cloud-tags : Set cloud_tags_final (string)] ************************
+Tuesday 05 August 2025  01:46:55 +0000 (0:00:00.024)       0:00:09.306 ******** 
+skipping: [localhost]
+
+TASK [infra-cloud-tags : Set cloud_tags_final (dictionary)] ********************
+Tuesday 05 August 2025  01:46:55 +0000 (0:00:00.019)       0:00:09.326 ******** 
+ok: [localhost]
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Tuesday 05 August 2025  01:46:55 +0000 (0:00:00.035)       0:00:09.361 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3-s3_object.yml for localhost
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Tuesday 05 August 2025  01:46:55 +0000 (0:00:00.039)       0:00:09.400 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir archive tempfile] **********
+Tuesday 05 August 2025  01:46:55 +0000 (0:00:00.858)       0:00:10.259 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir encrypted archive tempfile] ***
+Tuesday 05 August 2025  01:46:56 +0000 (0:00:00.163)       0:00:10.422 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_save_output_dir : Save output dir if archive file is defined] ***
+Tuesday 05 August 2025  01:46:56 +0000 (0:00:00.019)       0:00:10.441 ******** 
+skipping: [localhost]
+
+TASK [Locate environment SSH key] **********************************************
+Tuesday 05 August 2025  01:46:56 +0000 (0:00:00.017)       0:00:10.459 ******** 
+included: locate_env_authorized_key for localhost
+
+TASK [locate_env_authorized_key : Set env_authorized_key_path] *****************
+Tuesday 05 August 2025  01:46:56 +0000 (0:00:00.027)       0:00:10.487 ******** 
+ok: [localhost]
+
+TASK [locate_env_authorized_key : Set env_authorized_key_path_pub] *************
+Tuesday 05 August 2025  01:46:56 +0000 (0:00:00.019)       0:00:10.507 ******** 
+ok: [localhost]
+
+TASK [locate_env_authorized_key : Generate SSH pub key content if it doesn't exist] ***
+Tuesday 05 August 2025  01:46:56 +0000 (0:00:00.019)       0:00:10.527 ******** 
+ok: [localhost]
+
+TASK [locate_env_authorized_key : Save SSH pub key content as fact] ************
+Tuesday 05 August 2025  01:46:56 +0000 (0:00:00.165)       0:00:10.693 ******** 
+ok: [localhost]
+
+TASK [Create keypair in ec2] ***************************************************
+Tuesday 05 August 2025  01:46:56 +0000 (0:00:00.019)       0:00:10.713 ******** 
+included: infra-ec2-ssh-key for localhost
+
+TASK [infra-ec2-ssh-key : include_tasks] ***************************************
+Tuesday 05 August 2025  01:46:56 +0000 (0:00:00.028)       0:00:10.741 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-ssh-key : include_tasks] ***************************************
+Tuesday 05 August 2025  01:46:56 +0000 (0:00:00.011)       0:00:10.753 ******** 
+included: /runner/project/ansible/roles-infra/infra-ec2-ssh-key/tasks/create.yaml for localhost
+
+TASK [infra-ec2-ssh-key : Stat local infra key] ********************************
+Tuesday 05 August 2025  01:46:56 +0000 (0:00:00.016)       0:00:10.769 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-ssh-key : Generate SSH pub key content] ************************
+Tuesday 05 August 2025  01:46:56 +0000 (0:00:00.164)       0:00:10.933 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-ssh-key : Save all facts for SSH] ******************************
+Tuesday 05 August 2025  01:46:56 +0000 (0:00:00.018)       0:00:10.952 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-ssh-key : Create infra key] ************************************
+Tuesday 05 August 2025  01:46:56 +0000 (0:00:00.016)       0:00:10.969 ******** 
+changed: [localhost]
+
+TASK [Run infra-ec2-template-generate Role] ************************************
+Tuesday 05 August 2025  01:46:57 +0000 (0:00:00.885)       0:00:11.854 ******** 
+included: infra-ec2-template-generate for localhost
+
+TASK [infra-ec2-template-generate : Detect all possible Availability Zones that can host all the instance types and pick one] ***
+Tuesday 05 August 2025  01:46:57 +0000 (0:00:00.047)       0:00:11.902 ******** 
+included: /runner/project/ansible/roles-infra/infra-ec2-template-generate/tasks/locate_availability_zones.yml for localhost
+
+TASK [infra-ec2-template-generate : Get all the instance types] ****************
+Tuesday 05 August 2025  01:46:57 +0000 (0:00:00.032)       0:00:11.935 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Tuesday 05 August 2025  01:46:57 +0000 (0:00:00.048)       0:00:11.984 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Check if the AWS CLI has the 'describe-instance-type-offerings' feature] ***
+Tuesday 05 August 2025  01:46:57 +0000 (0:00:00.038)       0:00:12.022 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Get all subnets or networks in 'instances'] ***
+Tuesday 05 August 2025  01:46:58 +0000 (0:00:00.972)       0:00:12.995 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : include_tasks] *****************************
+Tuesday 05 August 2025  01:46:58 +0000 (0:00:00.036)       0:00:13.031 ******** 
+included: /runner/project/ansible/roles-infra/infra-ec2-template-generate/tasks/locate_availability_zones_tasks.yml for localhost
+
+TASK [infra-ec2-template-generate : Get the possible AZs] **********************
+Tuesday 05 August 2025  01:46:58 +0000 (0:00:00.021)       0:00:13.053 ******** 
+ok: [localhost] => (item=g6e.12xlarge)
+
+TASK [infra-ec2-template-generate : debug] *************************************
+Tuesday 05 August 2025  01:46:59 +0000 (0:00:00.879)       0:00:13.932 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Fail if return code is not 0] **************
+Tuesday 05 August 2025  01:46:59 +0000 (0:00:00.013)       0:00:13.945 ******** 
+skipping: [localhost] => (item=['aws', 'ec2', 'describe-instance-type-offerings', '--location-type', 'availability-zone', '--filters', 'Name=instance-type,Values=g6e.12xlarge', '--query', 'InstanceTypeOfferings[].Location', '--output', 'json']) 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Set fact of the possible Availability Zones] ***
+Tuesday 05 August 2025  01:46:59 +0000 (0:00:00.016)       0:00:13.962 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Calculate intersection of all AZs and set_fact] ***
+Tuesday 05 August 2025  01:46:59 +0000 (0:00:00.033)       0:00:13.996 ******** 
+ok: [localhost] => (item=['us-east-1d', 'us-east-1c', 'us-east-1a', 'us-east-1b'])
+
+TASK [infra-ec2-template-generate : Abort if no AZ is found] *******************
+Tuesday 05 August 2025  01:46:59 +0000 (0:00:00.018)       0:00:14.014 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [infra-ec2-template-generate : Print possible availability zones] *********
+Tuesday 05 August 2025  01:46:59 +0000 (0:00:00.016)       0:00:14.031 ******** 
+ok: [localhost] => {
+    "infra_ec2_template_generate_possible_azs": [
+        "us-east-1c",
+        "us-east-1d",
+        "us-east-1a",
+        "us-east-1b"
+    ]
+}
+
+TASK [infra-ec2-template-generate : Select the first AZ in the possible AZs and set fact aws_availability_zone] ***
+Tuesday 05 August 2025  01:46:59 +0000 (0:00:00.013)       0:00:14.044 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Debug] *************************************
+Tuesday 05 August 2025  01:46:59 +0000 (0:00:00.015)       0:00:14.059 ******** 
+ok: [localhost] => {
+    "aws_availability_zone": "us-east-1c"
+}
+
+TASK [infra-ec2-template-generate : Check if template exists for the environment] ***
+Tuesday 05 August 2025  01:46:59 +0000 (0:00:00.012)       0:00:14.072 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Use CloudFormation template from the environment] ***
+Tuesday 05 August 2025  01:46:59 +0000 (0:00:00.166)       0:00:14.238 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Use the default CloudFormation template] ***
+Tuesday 05 August 2025  01:46:59 +0000 (0:00:00.010)       0:00:14.249 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Print cloudformation_template_src] *********
+Tuesday 05 August 2025  01:46:59 +0000 (0:00:00.012)       0:00:14.262 ******** 
+ok: [localhost] => {
+    "cloudformation_template_src": "templates/cloud_template.j2"
+}
+
+TASK [infra-ec2-template-generate : Determine the security groups used in 'instances' dictionary] ***
+Tuesday 05 August 2025  01:46:59 +0000 (0:00:00.011)       0:00:14.273 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Tuesday 05 August 2025  01:47:00 +0000 (0:00:00.035)       0:00:14.309 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Print cloudformation_template] *************
+Tuesday 05 August 2025  01:47:00 +0000 (0:00:00.012)       0:00:14.322 ******** 
+ok: [localhost] => {
+    "cloudformation_template": "/tmp/output-9d7d1894-5ecd-57cb-ba58-c83be8d2b276/base-infra.qphfv.ec2_cloud_template"
+}
+
+TASK [infra-ec2-template-generate : AWS Generate CloudFormation Template] ******
+Tuesday 05 August 2025  01:47:00 +0000 (0:00:00.012)       0:00:14.335 ******** 
+changed: [localhost]
+
+TASK [infra-ec2-template-generate : Stop if debugging template] ****************
+Tuesday 05 August 2025  01:47:00 +0000 (0:00:00.352)       0:00:14.687 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Stat CloudFormation template] **************
+Tuesday 05 August 2025  01:47:00 +0000 (0:00:00.014)       0:00:14.701 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : Get user name] *****************************
+Tuesday 05 August 2025  01:47:00 +0000 (0:00:00.146)       0:00:14.848 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Tuesday 05 August 2025  01:47:00 +0000 (0:00:00.010)       0:00:14.859 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : set_fact] **********************************
+Tuesday 05 August 2025  01:47:00 +0000 (0:00:00.010)       0:00:14.869 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Create bucket] *****************************
+Tuesday 05 August 2025  01:47:00 +0000 (0:00:00.010)       0:00:14.880 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Copy Template to S3] ***********************
+Tuesday 05 August 2025  01:47:00 +0000 (0:00:00.010)       0:00:14.890 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : Check for !Ref in CF template] *************
+Tuesday 05 August 2025  01:47:00 +0000 (0:00:00.013)       0:00:14.904 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : validation cloudformation template] ********
+Tuesday 05 August 2025  01:47:00 +0000 (0:00:00.224)       0:00:15.128 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "Cloudformation template is syntactically valid"
+}
+
+TASK [infra-ec2-template-generate : Copy original !Ref CF template back in place] ***
+Tuesday 05 August 2025  01:47:00 +0000 (0:00:00.034)       0:00:15.162 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-generate : validate cloudformation template with validate-template (local)] ***
+Tuesday 05 August 2025  01:47:00 +0000 (0:00:00.012)       0:00:15.174 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-generate : validate cloudformation template with validate-template (S3)] ***
+Tuesday 05 August 2025  01:47:01 +0000 (0:00:00.826)       0:00:16.000 ******** 
+skipping: [localhost]
+
+TASK [Run infra-ec2-template-create Role] **************************************
+Tuesday 05 August 2025  01:47:01 +0000 (0:00:00.012)       0:00:16.013 ******** 
+included: infra-ec2-template-create for localhost
+
+TASK [infra-ec2-template-create : Retrieve stack_deployed from provision-user-data.yaml] ***
+Tuesday 05 August 2025  01:47:01 +0000 (0:00:00.047)       0:00:16.061 ******** 
+ok: [localhost]
+
+TASK [include_role : infra-cloud-tags] *****************************************
+Tuesday 05 August 2025  01:47:01 +0000 (0:00:00.020)       0:00:16.082 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : set_fact] ************************************
+Tuesday 05 August 2025  01:47:01 +0000 (0:00:00.015)       0:00:16.097 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Wait a bit for the previous stack and child resources to be deleted] ***
+Tuesday 05 August 2025  01:47:01 +0000 (0:00:00.016)       0:00:16.114 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : include_tasks] *******************************
+Tuesday 05 August 2025  01:47:01 +0000 (0:00:00.014)       0:00:16.129 ******** 
+skipping: [localhost]
+
+TASK [Regenerate the CloudFormation template because of custom images] *********
+Tuesday 05 August 2025  01:47:01 +0000 (0:00:00.018)       0:00:16.147 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Prepare for launch CloudFormation template from local] ***
+Tuesday 05 August 2025  01:47:01 +0000 (0:00:00.023)       0:00:16.171 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Prepare for launch CloudFormation template from S3 bucket] ***
+Tuesday 05 August 2025  01:47:01 +0000 (0:00:00.021)       0:00:16.192 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Launch CloudFormation template (local)] ******
+Tuesday 05 August 2025  01:47:01 +0000 (0:00:00.019)       0:00:16.211 ******** 
+[WARNING]: Using a variable for a task's 'args' is unsafe in some situations
+(see
+https://docs.ansible.com/ansible/devel/reference_appendices/faq.html#argsplat-
+unsafe)
+[DEPRECATION WARNING]: Param 'template' is deprecated. See the module docs for 
+more information. This feature will be removed from amazon.aws in a release 
+after 2026-05-01. Deprecation warnings can be disabled by setting 
+deprecation_warnings=False in ansible.cfg.
+changed: [localhost]
+
+TASK [infra-ec2-template-create : debug cloudformation] ************************
+Tuesday 05 August 2025  01:50:33 +0000 (0:03:31.732)       0:03:47.944 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : debug cloudformation] ************************
+Tuesday 05 August 2025  01:50:33 +0000 (0:00:00.016)       0:03:47.960 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Delete S3 bucket if it exists] ***************
+Tuesday 05 August 2025  01:50:33 +0000 (0:00:00.016)       0:03:47.977 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : report s3 error] *****************************
+Tuesday 05 August 2025  01:50:33 +0000 (0:00:00.015)       0:03:47.992 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Destroy cloudformation template] *************
+Tuesday 05 August 2025  01:50:33 +0000 (0:00:00.014)       0:03:48.007 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : report Cloudformation Destroy error] *********
+Tuesday 05 August 2025  01:50:33 +0000 (0:00:00.014)       0:03:48.022 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : report Cloudformation error] *****************
+Tuesday 05 August 2025  01:50:33 +0000 (0:00:00.014)       0:03:48.037 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Save aws_region_loop into aws_region_final] ***
+Tuesday 05 August 2025  01:50:33 +0000 (0:00:00.016)       0:03:48.053 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Output region] *******************************
+Tuesday 05 August 2025  01:50:33 +0000 (0:00:00.026)       0:03:48.079 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : Output region] *******************************
+Tuesday 05 August 2025  01:50:33 +0000 (0:00:00.018)       0:03:48.098 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : set_fact] ************************************
+Tuesday 05 August 2025  01:50:33 +0000 (0:00:00.020)       0:03:48.118 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-template-create : Save stack deployed for futur runs (idempotent)] ***
+Tuesday 05 August 2025  01:50:33 +0000 (0:00:00.022)       0:03:48.141 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-template-create : set_fact] ************************************
+Tuesday 05 August 2025  01:50:33 +0000 (0:00:00.018)       0:03:48.159 ******** 
+skipping: [localhost]
+
+TASK [Run infra-ec2-template-create Role into FallBack region] *****************
+Tuesday 05 August 2025  01:50:33 +0000 (0:00:00.017)       0:03:48.177 ******** 
+skipping: [localhost]
+
+TASK [report Cloudformation error] *********************************************
+Tuesday 05 August 2025  01:50:33 +0000 (0:00:00.019)       0:03:48.196 ******** 
+skipping: [localhost]
+
+PLAY [Step 001.2 Create Inventory and SSH config setup] ************************
+
+TASK [include_tasks] ***********************************************************
+Tuesday 05 August 2025  01:50:33 +0000 (0:00:00.022)       0:03:48.218 ******** 
+skipping: [localhost]
+
+TASK [Run infra-ec2-create-inventory Role] *************************************
+Tuesday 05 August 2025  01:50:33 +0000 (0:00:00.018)       0:03:48.237 ******** 
+included: infra-ec2-create-inventory for localhost
+
+TASK [infra-ec2-create-inventory : Report aws region] **************************
+Tuesday 05 August 2025  01:50:33 +0000 (0:00:00.024)       0:03:48.262 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : Gather EC2 info] ****************************
+Tuesday 05 August 2025  01:50:33 +0000 (0:00:00.020)       0:03:48.282 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : debug ec2_info] *****************************
+Tuesday 05 August 2025  01:50:34 +0000 (0:00:00.791)       0:03:49.074 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : windows ostype workaround] ******************
+Tuesday 05 August 2025  01:50:34 +0000 (0:00:00.015)       0:03:49.090 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : set_fact] ***********************************
+Tuesday 05 August 2025  01:50:34 +0000 (0:00:00.017)       0:03:49.108 ******** 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : Find the bastion in this batch of host] *****
+Tuesday 05 August 2025  01:50:34 +0000 (0:00:00.018)       0:03:49.127 ******** 
+ok: [localhost] => (item=llamastack.qphfv.internal)
+
+TASK [infra-ec2-create-inventory : Add hosts to the current inventory] *********
+Tuesday 05 August 2025  01:50:34 +0000 (0:00:00.032)       0:03:49.159 ******** 
+changed: [localhost] => (item=llamastack.qphfv.internal)
+
+TASK [infra-ec2-create-inventory : Add hosts to groups indicated by AnsibleGroup tag] ***
+Tuesday 05 August 2025  01:50:34 +0000 (0:00:00.048)       0:03:49.208 ******** 
+changed: [localhost] => (item=llamastack.qphfv.internal)
+
+TASK [infra-ec2-create-inventory : debug hostvars] *****************************
+Tuesday 05 August 2025  01:50:34 +0000 (0:00:00.026)       0:03:49.234 ******** 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : debug groups] *******************************
+Tuesday 05 August 2025  01:50:34 +0000 (0:00:00.015)       0:03:49.249 ******** 
+skipping: [localhost]
+
+TASK [Run Common SSH Config Generator Role] ************************************
+Tuesday 05 August 2025  01:50:34 +0000 (0:00:00.015)       0:03:49.264 ******** 
+included: infra-common-ssh-config-generate for localhost
+
+TASK [infra-common-ssh-config-generate : Store bastion hostname as a fact] *****
+Tuesday 05 August 2025  01:50:35 +0000 (0:00:00.029)       0:03:49.294 ******** 
+[WARNING]: Found variable using reserved name: remote_user
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : Delete dedicated known_host if it exists (new deployment)] ***
+Tuesday 05 August 2025  01:50:35 +0000 (0:00:00.017)       0:03:49.311 ******** 
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : delete local ssh config, start fresh] ***
+Tuesday 05 August 2025  01:50:35 +0000 (0:00:00.166)       0:03:49.478 ******** 
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : Create empty local ssh config] ********
+Tuesday 05 August 2025  01:50:35 +0000 (0:00:00.160)       0:03:49.639 ******** 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : Add bastion proxy config to workdir ssh config file] ***
+Tuesday 05 August 2025  01:50:35 +0000 (0:00:00.158)       0:03:49.797 ******** 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : Add all hosts to workdir ssh config file] ***
+Tuesday 05 August 2025  01:50:35 +0000 (0:00:00.279)       0:03:50.077 ******** 
+skipping: [localhost] => (item=llamastack.qphfv.internal) 
+skipping: [localhost]
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Tuesday 05 August 2025  01:50:35 +0000 (0:00:00.022)       0:03:50.099 ******** 
+ok: [localhost]
+ok: [llamastack.qphfv.internal]
+
+TASK [Include variables files] *************************************************
+Tuesday 05 August 2025  01:50:35 +0000 (0:00:00.026)       0:03:50.126 ******** 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_vars.yaml) 
+skipping: [llamastack.qphfv.internal] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_vars.yml) 
+skipping: [llamastack.qphfv.internal] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars.yaml) 
+skipping: [llamastack.qphfv.internal] => (item=/runner/project/ansible/configs/base-infra/env_vars.yaml) 
+skipping: [llamastack.qphfv.internal] => (item=/runner/project/ansible/configs/base-infra/env_vars.yml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars.yml)
+skipping: [llamastack.qphfv.internal] => (item=/runner/project/ansible/configs/base-infra/default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yaml) 
+ok: [llamastack.qphfv.internal] => (item=/runner/project/ansible/configs/base-infra/default_vars.yml)
+ok: [localhost] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yml)
+skipping: [llamastack.qphfv.internal] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yml) 
+ok: [llamastack.qphfv.internal] => (item=/runner/project/ansible/configs/base-infra/default_vars_ec2.yml)
+skipping: [llamastack.qphfv.internal] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yaml) 
+skipping: [llamastack.qphfv.internal] => (item=/runner/project/ansible/configs/base-infra/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Tuesday 05 August 2025  01:50:35 +0000 (0:00:00.079)       0:03:50.205 ******** 
+skipping: [localhost]
+skipping: [llamastack.qphfv.internal]
+
+TASK [Set passthrough user data] ***********************************************
+Tuesday 05 August 2025  01:50:35 +0000 (0:00:00.017)       0:03:50.223 ******** 
+skipping: [localhost]
+[WARNING]: Could not match supplied host pattern, ignoring: network
+
+PLAY [Step 001.3 Configure Linux Hosts and Wait for Connection] ****************
+
+TASK [set facts for remote access] *********************************************
+Tuesday 05 August 2025  01:50:35 +0000 (0:00:00.017)       0:03:50.240 ******** 
+ok: [llamastack.qphfv.internal]
+
+TASK [Run infra-ec2-wait_for_linux_hosts Role] *********************************
+Tuesday 05 August 2025  01:50:35 +0000 (0:00:00.016)       0:03:50.257 ******** 
+included: infra-ec2-wait_for_linux_hosts for llamastack.qphfv.internal
+
+TASK [infra-ec2-wait_for_linux_hosts : wait for linux host to be available] ****
+Tuesday 05 August 2025  01:50:35 +0000 (0:00:00.015)       0:03:50.272 ******** 
+ok: [llamastack.qphfv.internal]
+
+TASK [infra-ec2-wait_for_linux_hosts : restart instance if wait_for_connection failed] ***
+Tuesday 05 August 2025  01:50:37 +0000 (0:00:01.140)       0:03:51.413 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [infra-ec2-wait_for_linux_hosts : wait for linux host to be available (retry)] ***
+Tuesday 05 August 2025  01:50:37 +0000 (0:00:00.015)       0:03:51.429 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [infra-ec2-wait_for_linux_hosts : ping] ***********************************
+Tuesday 05 August 2025  01:50:37 +0000 (0:00:00.013)       0:03:51.443 ******** 
+[WARNING]: Platform linux on host llamastack.qphfv.internal is using the
+discovered Python interpreter at /usr/bin/python3.9, but future installation of
+another Python interpreter could change the meaning of that path. See
+https://docs.ansible.com/ansible-
+core/2.18/reference_appendices/interpreter_discovery.html for more information.
+ok: [llamastack.qphfv.internal]
+
+TASK [Run infra-ec2-linux-set-hostname Role] ***********************************
+Tuesday 05 August 2025  01:50:37 +0000 (0:00:00.643)       0:03:52.086 ******** 
+included: infra-ec2-linux-set-hostname for llamastack.qphfv.internal
+
+TASK [infra-ec2-linux-set-hostname : Set hostname based on tag_internaldns] ****
+Tuesday 05 August 2025  01:50:37 +0000 (0:00:00.020)       0:03:52.106 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [infra-ec2-linux-set-hostname : stat] *************************************
+Tuesday 05 August 2025  01:50:38 +0000 (0:00:00.935)       0:03:53.041 ******** 
+ok: [llamastack.qphfv.internal]
+
+TASK [infra-ec2-linux-set-hostname : disable updating hostname in /etc/cloud/cloud.cfg] ***
+Tuesday 05 August 2025  01:50:39 +0000 (0:00:00.555)       0:03:53.597 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [infra-ec2-linux-set-hostname : Add preserve_hostname to /etc/cloud/cloud.cfg] ***
+Tuesday 05 August 2025  01:50:39 +0000 (0:00:00.546)       0:03:54.144 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [Add authorized_keys] *****************************************************
+Tuesday 05 August 2025  01:50:40 +0000 (0:00:00.546)       0:03:54.690 ******** 
+included: ssh_authorized_keys for llamastack.qphfv.internal
+
+TASK [ssh_authorized_keys : Add all authorized keys] ***************************
+Tuesday 05 August 2025  01:50:40 +0000 (0:00:00.026)       0:03:54.716 ******** 
+changed: [llamastack.qphfv.internal] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvZvn+GL0wTOsAdh1ikIQoqj2Fw/RA6F14O347rgKdpkgOQpGQk1k2gM8wcla2Y1o0bPIzwlNy1oh5o9uNjZDMeDcEXWuXbu0cRBy4pVRhh8a8zAZfssnqoXHHLyPyHWpdTmgIhr0UIGYrzHrnySAnUcDp3gJuE46UEBtrlyv94cVvZf+EZUTaZ+2KjTRLoNryCn7vKoGHQBooYg1DeHLcLSRWEADUo+bP0y64+X/XTMZOAXbf8kTXocqAgfl/usbYdfLOgwU6zWuj8vxzAKuMEXS1AJSp5aeqRKlbbw40IkTmLoQIgJdb2Zt98BH/xHDe9xxhscUCfWeS37XLp75J opentlc_admin_backdoor'})
+changed: [llamastack.qphfv.internal] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCg5PJgwAB8U2NiXh4aRZAg09f3xjT3y1CP322StmT4ljiqhXoqOOZ++qDIKFmtHGmeEjvkCo11M2oVmJTeaibeS0E+Xsoi9wTcit47h2ka7WPdzhy/togFQOVAftbwi3RtHDOweIFL18FQ8inhu9W/oFibsZjQEWtHoHtLkmA5zOSQtWDmVfx3iWrKd4svkNbJ+SNZMnD0tCDoot3y0Knzyt+wpZtVd94YXpUDTCJ8Ie1nFSdm7H/QB9/bDXeOSSnHBq2xSmywodNoyA1gFZ1hhpPNEauQjzeKCMpNLPATg/jtQb1zojG6QnO/7I5euKOlDeJ1Odg35aTG31p8EbT3UL8NZssdn3YY3OEQ/2rN0PaQ+zxzmzfh1otx4Rsh1IbD5S99GuQD2ma7m0zOzrBb8Mil5TCaTaK8mIADq/lclj0sAMrH1EXyFvDiHEG+cV0iMyXOxEMTJs4YLr8DyqsTZ34TvVSJP9/0YwQuRYhg0MJmFbMvl/4yibTgyvTYLN0= instructor-key-2022'})
+changed: [llamastack.qphfv.internal] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIIDDIOD4M5yYo3uCFDBDb6del+NG2fkboWh90kW/S6H elliptical_instructor_key_2024'})
+changed: [llamastack.qphfv.internal] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOBfsRMLCEQt86EZnvQ/rK49wo1odLqpd1NEz3tDjUWY elliptical_admin_key_2023'})
+changed: [llamastack.qphfv.internal] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC3nKRSIwWn7pjMf2i1TyXgjsauEIoDS8Xulad2ZAbsmZrWcKU5hPi23xq0g2AjRYiXml8zSX9jAQfmlKnrXGYo5WN39iXGRI3lFJmXwmEHne3Z0qtUgt9MBA4w0Tcunw7pXniKntvo2oiDYZlXHztRMHMeUkUjLgCGjn2cfi0uqd4pxLmneMziHMKDxcyy+9MaGnWr5Bs27r3b6rWNFqG2fAo1Z5ZWEA/r3MhdI9ZzMRJVTUhunpstwMX8MRxx/OGk0zynyHcSkh91sqZ3xhPpvRkmYLRa5I0aw88AMenWBfc586FyORL2e/UVoIoyMkBMnovaRIoiTj74RuPeZ6gGKbbfpt1ggDs4j9Z1Go51GlGPYcchvLQvx+Ucv5+tLZSqZBhPOXLRqFuQgRZz4R6j5O5UkfdjLJxBoHQZxT0Wdzd/XiGcAlyDOq8puNSxdF3w/8eGGSKDdUONv1tc1dcTFd6kR+jYaedjD1fldVrC+4fRUFkFqEovDPVI4159VSqJWz78WuqazNnCRMVDnS4Le+Er1pvTbk5rOdYUkF67vxVwD3cyJ3D1C49wVsIc3+kngZN2246OEMsbVugEPG4A8/UOlHIE5iBps+mM9GX6UFSj4aLFh15XeOGKs7aH2r1thfvFPSvk12t8QvNDhhhhAf5EzzypvNEbXQ6fk3YSUw== rsa_admin_key_2023'})
+
+TASK [ssh_authorized_keys : Add all authorized keys (legacy var all_ssh_authorized_keys)] ***
+Tuesday 05 August 2025  01:50:43 +0000 (0:00:02.875)       0:03:57.592 ******** 
+skipping: [llamastack.qphfv.internal]
+
+PLAY [Step 001.4 Configure Windows Hosts and Wait for Connection] **************
+skipping: no hosts matched
+
+PLAY [Step 002 Post Infrastructure] ********************************************
+
+TASK [Step 002 Post Infrastructure] ********************************************
+Tuesday 05 August 2025  01:50:43 +0000 (0:00:00.016)       0:03:57.608 ******** 
+ok: [localhost] => {
+    "msg": "Step 000 Post Infrastructure"
+}
+
+PLAY [Step 002 Post Infrastructure regreSSHion Hotfix] *************************
+
+TASK [Gathering Facts] *********************************************************
+Tuesday 05 August 2025  01:50:43 +0000 (0:00:00.017)       0:03:57.626 ******** 
+ok: [llamastack.qphfv.internal]
+
+TASK [Have facts been gathered?] ***********************************************
+Tuesday 05 August 2025  01:50:44 +0000 (0:00:01.191)       0:03:58.817 ******** 
+ok: [llamastack.qphfv.internal]
+
+TASK [Set sshd LoginGraceTime to 0 in /etc/ssh/sshd_config] ********************
+Tuesday 05 August 2025  01:50:45 +0000 (0:00:00.633)       0:03:59.451 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [Restart SSH service for regreSSHion fix] *********************************
+Tuesday 05 August 2025  01:50:45 +0000 (0:00:00.533)       0:03:59.984 ******** 
+changed: [llamastack.qphfv.internal]
+
+PLAY [localhost] ***************************************************************
+
+TASK [Export in-memory inventory to inventory file] ****************************
+Tuesday 05 August 2025  01:50:46 +0000 (0:00:00.858)       0:04:00.843 ******** 
+included: agnosticd_inventory_exporter for localhost
+
+TASK [agnosticd_inventory_exporter : Export in-memory inventory to file] *******
+Tuesday 05 August 2025  01:50:46 +0000 (0:00:00.018)       0:04:00.861 ******** 
+changed: [localhost]
+
+PLAY [Step 003 Pre Software] ***************************************************
+
+TASK [Step 003 Pre Software] ***************************************************
+Tuesday 05 August 2025  01:50:47 +0000 (0:00:00.532)       0:04:01.394 ******** 
+ok: [localhost] => {
+    "msg": "Step 000 Pre Software"
+}
+
+PLAY [Install Pre Software workloads for all nodes omit localhost] *************
+
+TASK [Deploying Pre Software workloads on all nodes omit localhost] ************
+Tuesday 05 August 2025  01:50:47 +0000 (0:00:00.020)       0:04:01.414 ******** 
+skipping: [llamastack.qphfv.internal]
+
+PLAY [Install Pre Software workloads on localhost] *****************************
+
+TASK [Deploying Pre Software workloads  on localhost] **************************
+Tuesday 05 August 2025  01:50:47 +0000 (0:00:00.019)       0:04:01.434 ******** 
+skipping: [localhost]
+
+PLAY [Install Pre Software workloads on  all hosts] ****************************
+
+TASK [Deploying Pre Software workloads on all hosts] ***************************
+Tuesday 05 August 2025  01:50:47 +0000 (0:00:00.022)       0:04:01.457 ******** 
+skipping: [llamastack.qphfv.internal]
+
+PLAY [Install Pre Software workloads on bastion] *******************************
+
+TASK [Deploying Pre Software workloads on bastion] *****************************
+Tuesday 05 August 2025  01:50:47 +0000 (0:00:00.021)       0:04:01.479 ******** 
+skipping: [llamastack.qphfv.internal]
+
+PLAY [Install Pre Software workloads for windows] ******************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for gitlab] *******************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for nodes] ********************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for centos nodes] *************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for Satellites] ***************************
+skipping: no hosts matched
+
+PLAY [Install Pre Software workloads for Satellite Capsules] *******************
+skipping: no hosts matched
+
+PLAY [Create local ssh keys] ***************************************************
+
+TASK [create_ssh_provision_key : include_tasks] ********************************
+Tuesday 05 August 2025  01:50:47 +0000 (0:00:00.027)       0:04:01.507 ******** 
+included: /runner/project/ansible/roles-infra/create_ssh_provision_key/tasks/checks.yaml for localhost
+
+TASK [create_ssh_provision_key : Ensure key_name is not defined] ***************
+Tuesday 05 August 2025  01:50:47 +0000 (0:00:00.017)       0:04:01.525 ******** 
+skipping: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH keys] ****************************
+Tuesday 05 August 2025  01:50:47 +0000 (0:00:00.017)       0:04:01.542 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Fix permission of ssh key] ********************
+Tuesday 05 August 2025  01:50:47 +0000 (0:00:00.154)       0:04:01.696 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH pub key content] *****************
+Tuesday 05 August 2025  01:50:47 +0000 (0:00:00.154)       0:04:01.851 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Save all facts for SSH] ***********************
+Tuesday 05 August 2025  01:50:47 +0000 (0:00:00.158)       0:04:02.009 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Write SSH pub key] ****************************
+Tuesday 05 August 2025  01:50:47 +0000 (0:00:00.017)       0:04:02.027 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Report user info for SSH provision key as user data] ***
+Tuesday 05 August 2025  01:50:48 +0000 (0:00:00.283)       0:04:02.310 ******** 
+skipping: [localhost]
+
+TASK [include_role : agnosticd_save_output_dir] ********************************
+Tuesday 05 August 2025  01:50:48 +0000 (0:00:00.015)       0:04:02.326 ******** 
+skipping: [localhost]
+[WARNING]: Could not match supplied host pattern, ignoring: rhelai
+[WARNING]: Could not match supplied host pattern, ignoring: isolated
+
+PLAY [Configure all hosts with Repositories, and Common Files] *****************
+
+TASK [set-repositories : Run setup if gather_facts hasn't been run] ************
+Tuesday 05 August 2025  01:50:48 +0000 (0:00:00.026)       0:04:02.352 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [set-repositories : Configure satellite repositories] *********************
+Tuesday 05 August 2025  01:50:48 +0000 (0:00:00.017)       0:04:02.370 ******** 
+included: /runner/project/ansible/roles/set-repositories/tasks/satellite-repos.yml for llamastack.qphfv.internal
+
+TASK [set-repositories : sat | Check subscription-manager package existence] ***
+Tuesday 05 August 2025  01:50:48 +0000 (0:00:00.056)       0:04:02.426 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Install subscription-manager package] ***********
+Tuesday 05 August 2025  01:50:48 +0000 (0:00:00.021)       0:04:02.447 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Remove rh-amazon-rhui-client package] ***********
+Tuesday 05 August 2025  01:50:48 +0000 (0:00:00.021)       0:04:02.469 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Unregister the system just in case] *************
+Tuesday 05 August 2025  01:50:49 +0000 (0:00:01.388)       0:04:03.858 ******** 
+included: /runner/project/ansible/roles/set-repositories/tasks/unregister.yml for llamastack.qphfv.internal
+
+TASK [set-repositories : unreg | Unregister From Subscription Manager] *********
+Tuesday 05 August 2025  01:50:49 +0000 (0:00:00.028)       0:04:03.886 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Install CA certificate from satellite server] ***
+Tuesday 05 August 2025  01:50:50 +0000 (0:00:00.824)       0:04:04.711 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Update CA Trust Bundle] *************************
+Tuesday 05 August 2025  01:50:51 +0000 (0:00:00.757)       0:04:05.468 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Remove satellite Cert] **************************
+Tuesday 05 August 2025  01:50:52 +0000 (0:00:01.304)       0:04:06.773 ******** 
+ok: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Find current repository files] ******************
+Tuesday 05 August 2025  01:50:53 +0000 (0:00:00.861)       0:04:07.634 ******** 
+ok: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Remove current repository files] ****************
+Tuesday 05 August 2025  01:50:53 +0000 (0:00:00.637)       0:04:08.271 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Install Satellite CA certificate package] *******
+Tuesday 05 August 2025  01:50:53 +0000 (0:00:00.011)       0:04:08.283 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Disable Reporting Of Package Profile to Satellite] ***
+Tuesday 05 August 2025  01:50:56 +0000 (0:00:02.578)       0:04:10.862 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Run setup if gather_facts hasn't been run] ******
+Tuesday 05 August 2025  01:50:57 +0000 (0:00:00.665)       0:04:11.528 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [set-repositories : Generate UUID for dmi.system.uuid if cloud provider is Equinix Metal] ***
+Tuesday 05 August 2025  01:50:57 +0000 (0:00:00.018)       0:04:11.546 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Set set_repositories_subscription_hostname with randomization] ***
+Tuesday 05 August 2025  01:50:57 +0000 (0:00:00.017)       0:04:11.563 ******** 
+ok: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Set network.fqdn in /etc/rhsm/facts/katello.facts] ***
+Tuesday 05 August 2025  01:50:57 +0000 (0:00:00.027)       0:04:11.590 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Register with activation-key] *******************
+Tuesday 05 August 2025  01:50:58 +0000 (0:00:01.075)       0:04:12.665 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Register with activation-key with HA] ***********
+Tuesday 05 August 2025  01:50:58 +0000 (0:00:00.023)       0:04:12.689 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Enable RHSM to manage repositories] *************
+Tuesday 05 August 2025  01:51:03 +0000 (0:00:05.463)       0:04:18.153 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Lock RHEL 9 release to specific version] ********
+Tuesday 05 August 2025  01:51:04 +0000 (0:00:00.785)       0:04:18.938 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Lock RHEL 8 release to specific version] ********
+Tuesday 05 August 2025  01:51:04 +0000 (0:00:00.017)       0:04:18.956 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Lock RHEL 7 release to specific version] ********
+Tuesday 05 August 2025  01:51:04 +0000 (0:00:00.018)       0:04:18.974 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Enable repos] ***********************************
+Tuesday 05 August 2025  01:51:04 +0000 (0:00:00.018)       0:04:18.992 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Purge existing repos] ***************************
+Tuesday 05 August 2025  01:51:08 +0000 (0:00:03.415)       0:04:22.407 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Enable repos for RHEL] **************************
+Tuesday 05 August 2025  01:51:08 +0000 (0:00:00.018)       0:04:22.426 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Create the certificate and key files] ***********
+Tuesday 05 August 2025  01:51:08 +0000 (0:00:00.022)       0:04:22.448 ******** 
+skipping: [llamastack.qphfv.internal] => (item=/etc/pki/tls/Red_GPTE.key) 
+skipping: [llamastack.qphfv.internal] => (item=/etc/pki/tls/Red_GPTE.pem) 
+skipping: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | Add certificate and key content] ****************
+Tuesday 05 August 2025  01:51:08 +0000 (0:00:00.025)       0:04:22.473 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | create open.repo template on host] **************
+Tuesday 05 August 2025  01:51:08 +0000 (0:00:00.018)       0:04:22.492 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [set-repositories : sat | clean repositories] *****************************
+Tuesday 05 August 2025  01:51:08 +0000 (0:00:00.017)       0:04:22.509 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [set-repositories : Unregister from subscription manager] *****************
+Tuesday 05 August 2025  01:51:09 +0000 (0:00:01.077)       0:04:23.587 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [common : Deactivate DNS lookup in sshd] **********************************
+Tuesday 05 August 2025  01:51:09 +0000 (0:00:00.020)       0:04:23.607 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [common : Update all packages] ********************************************
+Tuesday 05 August 2025  01:51:09 +0000 (0:00:00.558)       0:04:24.166 ******** 
+ASYNC POLL on llamastack.qphfv.internal: jid=j297912504981.9492 started=1 finished=0
+ASYNC POLL on llamastack.qphfv.internal: jid=j297912504981.9492 started=1 finished=0
+ASYNC OK on llamastack.qphfv.internal: jid=j297912504981.9492
+changed: [llamastack.qphfv.internal]
+
+TASK [common : Update all packages Legacy] *************************************
+Tuesday 05 August 2025  01:52:42 +0000 (0:01:32.750)       0:05:56.917 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [common : Determine if reboot is needed] **********************************
+Tuesday 05 August 2025  01:52:42 +0000 (0:00:00.021)       0:05:56.938 ******** 
+ok: [llamastack.qphfv.internal]
+
+TASK [common : Reboot all VMs] *************************************************
+Tuesday 05 August 2025  01:52:43 +0000 (0:00:01.151)       0:05:58.089 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [common : Update network facts after reboot] ******************************
+Tuesday 05 August 2025  01:53:15 +0000 (0:00:31.714)       0:06:29.804 ******** 
+ok: [llamastack.qphfv.internal]
+
+TASK [common : Run setup if gather_facts hasn't been run] **********************
+Tuesday 05 August 2025  01:53:16 +0000 (0:00:00.784)       0:06:30.588 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [common : install common packages for RHEL 7] *****************************
+Tuesday 05 August 2025  01:53:16 +0000 (0:00:00.020)       0:06:30.608 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [common : install common packages for RHEL 8] *****************************
+Tuesday 05 August 2025  01:53:16 +0000 (0:00:00.018)       0:06:30.627 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [common : Set up python alternatives for convenience] *********************
+Tuesday 05 August 2025  01:53:16 +0000 (0:00:00.018)       0:06:30.646 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [common : install common packages for RHEL 9] *****************************
+Tuesday 05 August 2025  01:53:16 +0000 (0:00:00.020)       0:06:30.667 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [common : install extra packages] *****************************************
+Tuesday 05 August 2025  01:54:01 +0000 (0:00:45.522)       0:07:16.189 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [common : Update specified packages] **************************************
+Tuesday 05 August 2025  01:54:01 +0000 (0:00:00.021)       0:07:16.211 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [common : Determine if reboot is needed] **********************************
+Tuesday 05 August 2025  01:54:01 +0000 (0:00:00.019)       0:07:16.230 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [common : Reboot VMs] *****************************************************
+Tuesday 05 August 2025  01:54:01 +0000 (0:00:00.019)       0:07:16.250 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [common : Refresh network facts post-reboot] ******************************
+Tuesday 05 August 2025  01:54:01 +0000 (0:00:00.019)       0:07:16.269 ******** 
+skipping: [llamastack.qphfv.internal]
+
+RUNNING HANDLER [common : restart_sshd] ****************************************
+Tuesday 05 August 2025  01:54:02 +0000 (0:00:00.029)       0:07:16.299 ******** 
+changed: [llamastack.qphfv.internal]
+
+PLAY [Configure all hosts with ssh environment key] ****************************
+
+TASK [set_env_authorized_key : create /root/.ssh] ******************************
+Tuesday 05 August 2025  01:54:02 +0000 (0:00:00.746)       0:07:17.045 ******** 
+ok: [llamastack.qphfv.internal]
+
+TASK [set_env_authorized_key : copy the environment .pem key] ******************
+Tuesday 05 August 2025  01:54:03 +0000 (0:00:00.560)       0:07:17.606 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [set_env_authorized_key : copy the environment .pub key] ******************
+Tuesday 05 August 2025  01:54:04 +0000 (0:00:01.101)       0:07:18.708 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [set_env_authorized_key : Set authorized key from file] *******************
+Tuesday 05 August 2025  01:54:05 +0000 (0:00:01.105)       0:07:19.813 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [set_env_authorized_key : Generate host .ssh/config Template] *************
+Tuesday 05 August 2025  01:54:06 +0000 (0:00:00.582)       0:07:20.396 ******** 
+changed: [llamastack.qphfv.internal -> localhost]
+
+TASK [set_env_authorized_key : copy over host .ssh/config Template] ************
+Tuesday 05 August 2025  01:54:06 +0000 (0:00:00.291)       0:07:20.687 ******** 
+changed: [llamastack.qphfv.internal]
+
+PLAY [Configuring Bastion Hosts] ***********************************************
+
+TASK [bastion-base : Setup Red Hat packages for bastion] ***********************
+Tuesday 05 August 2025  01:54:07 +0000 (0:00:01.105)       0:07:21.793 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [bastion-base : Generate host .ssh/config Template] ***********************
+Tuesday 05 August 2025  01:54:13 +0000 (0:00:05.546)       0:07:27.340 ******** 
+changed: [llamastack.qphfv.internal -> localhost]
+
+TASK [bastion-base : copy over host .ssh/config Template] **********************
+Tuesday 05 August 2025  01:54:13 +0000 (0:00:00.285)       0:07:27.625 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [bastion-base : Add GUID to ~ec2-user/.bashrc] ****************************
+Tuesday 05 August 2025  01:54:14 +0000 (0:00:01.143)       0:07:28.769 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [bastion-student-user : Generate student_password if not defined] *********
+Tuesday 05 August 2025  01:54:15 +0000 (0:00:00.552)       0:07:29.322 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [bastion-student-user : Create user] **************************************
+Tuesday 05 August 2025  01:54:15 +0000 (0:00:00.028)       0:07:29.350 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [bastion-student-user : Add student public key] ***************************
+Tuesday 05 August 2025  01:54:16 +0000 (0:00:01.059)       0:07:30.409 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [bastion-student-user : Add env authorized public key to student user] ****
+Tuesday 05 August 2025  01:54:16 +0000 (0:00:00.020)       0:07:30.430 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [bastion-student-user : Enable password authentication] *******************
+Tuesday 05 August 2025  01:54:16 +0000 (0:00:00.627)       0:07:31.058 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [bastion-student-user : Remove PasswordAuthentication line from 50-cloud-init.conf] ***
+Tuesday 05 August 2025  01:54:17 +0000 (0:00:00.559)       0:07:31.618 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [bastion-student-user : Disable root password authentication] *************
+Tuesday 05 August 2025  01:54:17 +0000 (0:00:00.551)       0:07:32.169 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [bastion-student-user : Allow passwordless sudo] **************************
+Tuesday 05 August 2025  01:54:18 +0000 (0:00:00.547)       0:07:32.716 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [bastion-student-user : Restart sshd] *************************************
+Tuesday 05 August 2025  01:54:18 +0000 (0:00:00.553)       0:07:33.269 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [bastion-student-user : Print access info (non CNV)] **********************
+Tuesday 05 August 2025  01:54:19 +0000 (0:00:00.703)       0:07:33.972 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [bastion-student-user : Print access info (CNV)] **************************
+Tuesday 05 August 2025  01:54:19 +0000 (0:00:00.017)       0:07:33.990 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [bastion-student-user : Set access data] **********************************
+Tuesday 05 August 2025  01:54:19 +0000 (0:00:00.017)       0:07:34.008 ******** 
+ok: [llamastack.qphfv.internal] => {
+    "changed": false,
+    "data": {
+        "bastion_public_hostname": "ec2-44-198-117-51.compute-1.amazonaws.com",
+        "bastion_ssh_command": "ssh llama@ec2-44-198-117-51.compute-1.amazonaws.com",
+        "bastion_ssh_password": "[REDACTED_Secret Keyword_SECRET]",
+        "bastion_ssh_user_name": "llama"
+    }
+}
+
+TASK [bastion-student-user : Set bastion port for CNV] *************************
+Tuesday 05 August 2025  01:54:19 +0000 (0:00:00.040)       0:07:34.048 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [Prepare student user for using Ansible within the environment] ***********
+Tuesday 05 August 2025  01:54:19 +0000 (0:00:00.016)       0:07:34.065 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [Install control student user configuration] ******************************
+Tuesday 05 August 2025  01:54:19 +0000 (0:00:00.024)       0:07:34.089 ******** 
+included: user-create-ansible-service-account for llamastack.qphfv.internal
+
+TASK [user-create-ansible-service-account : Create user skel files] ************
+Tuesday 05 August 2025  01:54:19 +0000 (0:00:00.051)       0:07:34.141 ******** 
+changed: [llamastack.qphfv.internal] => (item=.vimrc)
+
+TASK [user-create-ansible-service-account : Create user llama] *****************
+Tuesday 05 August 2025  01:54:20 +0000 (0:00:01.109)       0:07:35.250 ******** 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/create-user.yml for llamastack.qphfv.internal
+
+TASK [user-create-ansible-service-account : Create user llama] *****************
+Tuesday 05 August 2025  01:54:20 +0000 (0:00:00.020)       0:07:35.271 ******** 
+[WARNING]: 'append' is set, but no 'groups' are specified. Use 'groups' for
+appending new groups.This will change to an error in Ansible 2.14.
+ok: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : Set random ssh user llama password] ***
+Tuesday 05 August 2025  01:54:21 +0000 (0:00:00.587)       0:07:35.858 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : Setup user's resource directory] ***
+Tuesday 05 August 2025  01:54:22 +0000 (0:00:00.889)       0:07:36.748 ******** 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/create-directory.yml for llamastack.qphfv.internal
+
+TASK [user-create-ansible-service-account : Create resource directory] *********
+Tuesday 05 August 2025  01:54:22 +0000 (0:00:00.019)       0:07:36.768 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : Create user's custom directory] ****
+Tuesday 05 August 2025  01:54:22 +0000 (0:00:00.016)       0:07:36.785 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : Enable sudoers] ********************
+Tuesday 05 August 2025  01:54:22 +0000 (0:00:00.017)       0:07:36.802 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : ssh setup for user] ****************
+Tuesday 05 August 2025  01:54:23 +0000 (0:00:01.100)       0:07:37.903 ******** 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/ssh-config.yml for llamastack.qphfv.internal
+
+TASK [user-create-ansible-service-account : create /home/llama/.ssh] ***********
+Tuesday 05 August 2025  01:54:23 +0000 (0:00:00.027)       0:07:37.931 ******** 
+ok: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : copy the environment .pem key] *****
+Tuesday 05 August 2025  01:54:24 +0000 (0:00:00.554)       0:07:38.486 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : copy the environment .pub key] *****
+Tuesday 05 August 2025  01:54:25 +0000 (0:00:01.103)       0:07:39.589 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : copy custom ssh key] ***************
+Tuesday 05 August 2025  01:54:26 +0000 (0:00:01.101)       0:07:40.691 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : Copy ssh config template] **********
+Tuesday 05 August 2025  01:54:26 +0000 (0:00:00.018)       0:07:40.710 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : Enable password ssh authentication] ***
+Tuesday 05 August 2025  01:54:27 +0000 (0:00:01.103)       0:07:41.814 ******** 
+ok: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : Disable root password ssh authentication] ***
+Tuesday 05 August 2025  01:54:28 +0000 (0:00:00.555)       0:07:42.369 ******** 
+ok: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : Restart sshd to read conf changes] ***
+Tuesday 05 August 2025  01:54:28 +0000 (0:00:00.555)       0:07:42.924 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : Copy files] ************************
+Tuesday 05 August 2025  01:54:29 +0000 (0:00:00.700)       0:07:43.625 ******** 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/copy-files.yml for llamastack.qphfv.internal
+
+TASK [user-create-ansible-service-account : Copy user's file to resource dir] ***
+Tuesday 05 August 2025  01:54:29 +0000 (0:00:00.024)       0:07:43.649 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : Copy user's template to resource dir] ***
+Tuesday 05 August 2025  01:54:29 +0000 (0:00:00.017)       0:07:43.667 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : Copy user's contentto resource dir] ***
+Tuesday 05 August 2025  01:54:29 +0000 (0:00:00.017)       0:07:43.685 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : Copy templates] ********************
+Tuesday 05 August 2025  01:54:29 +0000 (0:00:00.019)       0:07:43.704 ******** 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/copy-templates.yml for llamastack.qphfv.internal
+
+TASK [user-create-ansible-service-account : Copy user's template to resource dir] ***
+Tuesday 05 August 2025  01:54:29 +0000 (0:00:00.026)       0:07:43.730 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : Copy user's template to home dir] ***
+Tuesday 05 August 2025  01:54:29 +0000 (0:00:00.017)       0:07:43.748 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : Copy user's template to path] ******
+Tuesday 05 August 2025  01:54:29 +0000 (0:00:00.016)       0:07:43.765 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : Copy contents] *********************
+Tuesday 05 August 2025  01:54:29 +0000 (0:00:00.017)       0:07:43.782 ******** 
+included: /runner/project/ansible/roles/user-create-ansible-service-account/tasks/copy-contents.yml for llamastack.qphfv.internal
+
+TASK [user-create-ansible-service-account : Copy user's content to resource dir] ***
+Tuesday 05 August 2025  01:54:29 +0000 (0:00:00.024)       0:07:43.807 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : Copy user's content to home dir] ***
+Tuesday 05 August 2025  01:54:29 +0000 (0:00:00.017)       0:07:43.824 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : Copy user's content to path] *******
+Tuesday 05 August 2025  01:54:29 +0000 (0:00:00.017)       0:07:43.841 ******** 
+skipping: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : Install preferred python] **********
+Tuesday 05 August 2025  01:54:29 +0000 (0:00:00.018)       0:07:43.860 ******** 
+ok: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : Ensure Python 3.9 default python3] ***
+Tuesday 05 August 2025  01:54:31 +0000 (0:00:02.178)       0:07:46.038 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [user-create-ansible-service-account : Ensure Python 3.9 default python] ***
+Tuesday 05 August 2025  01:54:32 +0000 (0:00:00.690)       0:07:46.729 ******** 
+ok: [llamastack.qphfv.internal]
+
+TASK [Inject assets onto host(s)] **********************************************
+Tuesday 05 August 2025  01:54:33 +0000 (0:00:00.563)       0:07:47.292 ******** 
+included: asset_injector for llamastack.qphfv.internal
+
+TASK [asset_injector : Simple user management] *********************************
+Tuesday 05 August 2025  01:54:33 +0000 (0:00:00.078)       0:07:47.370 ******** 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone lab code repo', 'dest': '/home/llama/lab', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/rhpds/llamastack-lab.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Create directory for additional bonus content', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'path': '/home/llama/additional_content', 'state': 'directory', 'type': 'file'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone solaius/llama-stack', 'dest': '/home/llama/additional_content/llama-stack', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/solaius/llama-stack', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-demos', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/opendatahub-io/llama-stack-demos.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-tutorial', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/burrsutter/llama-stack-tutorial', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Tmp Google key\\nexport GOOGLE_MAPS_API_KEY="[REDACTED_Secret Keyword_SECRET]"\\nexport STREAMLIT_SERVER_SSL_CERT_FILE="/home/llama/.jupyter/ssl/fullchain.pem"\\nexport STREAMLIT_SERVER_SSL_KEY_FILE="/home/llama/.jupyter/ssl/privkey.pem"\\n', 'description': 'Insert Google tmp key for MCP google maps', 'group': 'users', 'marker': '# {mark} Our custom Key settings via Ansible', 'owner': 'llama', 'path': '/home/llama/.bashrc', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [llamastack.qphfv.internal]
+
+TASK [asset_injector : Clone Git repositories] *********************************
+Tuesday 05 August 2025  01:54:33 +0000 (0:00:00.067)       0:07:47.438 ******** 
+changed: [llamastack.qphfv.internal] => (item={'description': 'Clone lab code repo', 'dest': '/home/llama/lab', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/rhpds/llamastack-lab.git', 'type': 'git', 'version': 'main'})
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Create directory for additional bonus content', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'path': '/home/llama/additional_content', 'state': 'directory', 'type': 'file'}) 
+changed: [llamastack.qphfv.internal] => (item={'description': 'Clone solaius/llama-stack', 'dest': '/home/llama/additional_content/llama-stack', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/solaius/llama-stack', 'type': 'git', 'version': 'main'})
+changed: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-demos', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/opendatahub-io/llama-stack-demos.git', 'type': 'git', 'version': 'main'})
+changed: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-tutorial', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/burrsutter/llama-stack-tutorial', 'type': 'git', 'version': 'main'})
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Tmp Google key\\nexport GOOGLE_MAPS_API_KEY="[REDACTED_Secret Keyword_SECRET]"\\nexport STREAMLIT_SERVER_SSL_CERT_FILE="/home/llama/.jupyter/ssl/fullchain.pem"\\nexport STREAMLIT_SERVER_SSL_KEY_FILE="/home/llama/.jupyter/ssl/privkey.pem"\\n', 'description': 'Insert Google tmp key for MCP google maps', 'group': 'users', 'marker': '# {mark} Our custom Key settings via Ansible', 'owner': 'llama', 'path': '/home/llama/.bashrc', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+[WARNING]: Module remote_tmp /home/llama/.ansible/tmp did not exist and was
+created with a mode of 0700, this may cause issues when running as another
+user. To avoid this, create the remote_tmp dir with the correct permissions
+manually
+
+TASK [asset_injector : Fetch files via HTTP server] ****************************
+Tuesday 05 August 2025  01:54:38 +0000 (0:00:05.497)       0:07:52.935 ******** 
+skipping: [llamastack.qphfv.internal] => (item=None) 
+skipping: [llamastack.qphfv.internal] => (item=None) 
+skipping: [llamastack.qphfv.internal] => (item=None) 
+skipping: [llamastack.qphfv.internal] => (item=None) 
+skipping: [llamastack.qphfv.internal] => (item=None) 
+skipping: [llamastack.qphfv.internal] => (item=None) 
+skipping: [llamastack.qphfv.internal] => (item=None) 
+skipping: [llamastack.qphfv.internal] => (item=None) 
+skipping: [llamastack.qphfv.internal] => (item=None) 
+skipping: [llamastack.qphfv.internal] => (item=None) 
+skipping: [llamastack.qphfv.internal]
+
+TASK [asset_injector : Copy local files] ***************************************
+Tuesday 05 August 2025  01:54:38 +0000 (0:00:00.043)       0:07:52.978 ******** 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone lab code repo', 'dest': '/home/llama/lab', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/rhpds/llamastack-lab.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Create directory for additional bonus content', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'path': '/home/llama/additional_content', 'state': 'directory', 'type': 'file'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone solaius/llama-stack', 'dest': '/home/llama/additional_content/llama-stack', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/solaius/llama-stack', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-demos', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/opendatahub-io/llama-stack-demos.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-tutorial', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/burrsutter/llama-stack-tutorial', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Tmp Google key\\nexport GOOGLE_MAPS_API_KEY="[REDACTED_Secret Keyword_SECRET]"\\nexport STREAMLIT_SERVER_SSL_CERT_FILE="/home/llama/.jupyter/ssl/fullchain.pem"\\nexport STREAMLIT_SERVER_SSL_KEY_FILE="/home/llama/.jupyter/ssl/privkey.pem"\\n', 'description': 'Insert Google tmp key for MCP google maps', 'group': 'users', 'marker': '# {mark} Our custom Key settings via Ansible', 'owner': 'llama', 'path': '/home/llama/.bashrc', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [llamastack.qphfv.internal]
+
+TASK [asset_injector : Inject local templates] *********************************
+Tuesday 05 August 2025  01:54:38 +0000 (0:00:00.044)       0:07:53.022 ******** 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone lab code repo', 'dest': '/home/llama/lab', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/rhpds/llamastack-lab.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Create directory for additional bonus content', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'path': '/home/llama/additional_content', 'state': 'directory', 'type': 'file'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone solaius/llama-stack', 'dest': '/home/llama/additional_content/llama-stack', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/solaius/llama-stack', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-demos', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/opendatahub-io/llama-stack-demos.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-tutorial', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/burrsutter/llama-stack-tutorial', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Tmp Google key\\nexport GOOGLE_MAPS_API_KEY="[REDACTED_Secret Keyword_SECRET]"\\nexport STREAMLIT_SERVER_SSL_CERT_FILE="/home/llama/.jupyter/ssl/fullchain.pem"\\nexport STREAMLIT_SERVER_SSL_KEY_FILE="/home/llama/.jupyter/ssl/privkey.pem"\\n', 'description': 'Insert Google tmp key for MCP google maps', 'group': 'users', 'marker': '# {mark} Our custom Key settings via Ansible', 'owner': 'llama', 'path': '/home/llama/.bashrc', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [llamastack.qphfv.internal]
+
+TASK [asset_injector : Unarchive archive] **************************************
+Tuesday 05 August 2025  01:54:38 +0000 (0:00:00.045)       0:07:53.068 ******** 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone lab code repo', 'dest': '/home/llama/lab', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/rhpds/llamastack-lab.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Create directory for additional bonus content', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'path': '/home/llama/additional_content', 'state': 'directory', 'type': 'file'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone solaius/llama-stack', 'dest': '/home/llama/additional_content/llama-stack', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/solaius/llama-stack', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-demos', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/opendatahub-io/llama-stack-demos.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-tutorial', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/burrsutter/llama-stack-tutorial', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Tmp Google key\\nexport GOOGLE_MAPS_API_KEY="[REDACTED_Secret Keyword_SECRET]"\\nexport STREAMLIT_SERVER_SSL_CERT_FILE="/home/llama/.jupyter/ssl/fullchain.pem"\\nexport STREAMLIT_SERVER_SSL_KEY_FILE="/home/llama/.jupyter/ssl/privkey.pem"\\n', 'description': 'Insert Google tmp key for MCP google maps', 'group': 'users', 'marker': '# {mark} Our custom Key settings via Ansible', 'owner': 'llama', 'path': '/home/llama/.bashrc', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [llamastack.qphfv.internal]
+
+TASK [asset_injector : Remove files] *******************************************
+Tuesday 05 August 2025  01:54:38 +0000 (0:00:00.042)       0:07:53.110 ******** 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone lab code repo', 'dest': '/home/llama/lab', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/rhpds/llamastack-lab.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Create directory for additional bonus content', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'path': '/home/llama/additional_content', 'state': 'directory', 'type': 'file'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone solaius/llama-stack', 'dest': '/home/llama/additional_content/llama-stack', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/solaius/llama-stack', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-demos', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/opendatahub-io/llama-stack-demos.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-tutorial', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/burrsutter/llama-stack-tutorial', 'type': 'git', 'version': 'main'}) 
+changed: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'})
+changed: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'})
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Tmp Google key\\nexport GOOGLE_MAPS_API_KEY="[REDACTED_Secret Keyword_SECRET]"\\nexport STREAMLIT_SERVER_SSL_CERT_FILE="/home/llama/.jupyter/ssl/fullchain.pem"\\nexport STREAMLIT_SERVER_SSL_KEY_FILE="/home/llama/.jupyter/ssl/privkey.pem"\\n', 'description': 'Insert Google tmp key for MCP google maps', 'group': 'users', 'marker': '# {mark} Our custom Key settings via Ansible', 'owner': 'llama', 'path': '/home/llama/.bashrc', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+
+TASK [asset_injector : Create blockinfile entries] *****************************
+Tuesday 05 August 2025  01:54:39 +0000 (0:00:01.135)       0:07:54.246 ******** 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone lab code repo', 'dest': '/home/llama/lab', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/rhpds/llamastack-lab.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Create directory for additional bonus content', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'path': '/home/llama/additional_content', 'state': 'directory', 'type': 'file'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone solaius/llama-stack', 'dest': '/home/llama/additional_content/llama-stack', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/solaius/llama-stack', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-demos', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/opendatahub-io/llama-stack-demos.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-tutorial', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/burrsutter/llama-stack-tutorial', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+changed: [llamastack.qphfv.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'})
+changed: [llamastack.qphfv.internal] => (item={'block': '# Tmp Google key\\nexport GOOGLE_MAPS_API_KEY="[REDACTED_Secret Keyword_SECRET]"\\nexport STREAMLIT_SERVER_SSL_CERT_FILE="/home/llama/.jupyter/ssl/fullchain.pem"\\nexport STREAMLIT_SERVER_SSL_KEY_FILE="/home/llama/.jupyter/ssl/privkey.pem"\\n', 'description': 'Insert Google tmp key for MCP google maps', 'group': 'users', 'marker': '# {mark} Our custom Key settings via Ansible', 'owner': 'llama', 'path': '/home/llama/.bashrc', 'state': 'present', 'type': 'blockinfile'})
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+
+TASK [asset_injector : Manage dnf packages] ************************************
+Tuesday 05 August 2025  01:54:41 +0000 (0:00:01.137)       0:07:55.383 ******** 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone lab code repo', 'dest': '/home/llama/lab', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/rhpds/llamastack-lab.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Create directory for additional bonus content', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'path': '/home/llama/additional_content', 'state': 'directory', 'type': 'file'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone solaius/llama-stack', 'dest': '/home/llama/additional_content/llama-stack', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/solaius/llama-stack', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-demos', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/opendatahub-io/llama-stack-demos.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-tutorial', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/burrsutter/llama-stack-tutorial', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Tmp Google key\\nexport GOOGLE_MAPS_API_KEY="[REDACTED_Secret Keyword_SECRET]"\\nexport STREAMLIT_SERVER_SSL_CERT_FILE="/home/llama/.jupyter/ssl/fullchain.pem"\\nexport STREAMLIT_SERVER_SSL_KEY_FILE="/home/llama/.jupyter/ssl/privkey.pem"\\n', 'description': 'Insert Google tmp key for MCP google maps', 'group': 'users', 'marker': '# {mark} Our custom Key settings via Ansible', 'owner': 'llama', 'path': '/home/llama/.bashrc', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [llamastack.qphfv.internal]
+
+TASK [asset_injector : Manage services] ****************************************
+Tuesday 05 August 2025  01:54:41 +0000 (0:00:00.044)       0:07:55.428 ******** 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone lab code repo', 'dest': '/home/llama/lab', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/rhpds/llamastack-lab.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Create directory for additional bonus content', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'path': '/home/llama/additional_content', 'state': 'directory', 'type': 'file'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone solaius/llama-stack', 'dest': '/home/llama/additional_content/llama-stack', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/solaius/llama-stack', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-demos', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/opendatahub-io/llama-stack-demos.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-tutorial', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/burrsutter/llama-stack-tutorial', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Tmp Google key\\nexport GOOGLE_MAPS_ STREAMLIT_SERVER_SSL_CERT_FILE="/home/llama/.jupyter/ssl/fullchain.pem"\\nexport STREAMLIT_SERVER_SSL_KEY_FILE="/home/llama/.jupyter/ssl/privkey.pem"\\n', 'description': 'Insert Google tmp key for MCP google maps', 'group': 'users', 'marker': '# {mark} Our custom Key settings via Ansible', 'owner': 'llama', 'path': '/home/llama/.bashrc', 'state': 'present', 'type': 'blockinfile'}) 
+changed: [llamastack.qphfv.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'})
+
+TASK [asset_injector : Manage capabilities] ************************************
+Tuesday 05 August 2025  01:54:41 +0000 (0:00:00.724)       0:07:56.152 ******** 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone lab code repo', 'dest': '/home/llama/lab', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/rhpds/llamastack-lab.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Create directory for additional bonus content', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'path': '/home/llama/additional_content', 'state': 'directory', 'type': 'file'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone solaius/llama-stack', 'dest': '/home/llama/additional_content/llama-stack', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/solaius/llama-stack', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-demos', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/opendatahub-io/llama-stack-demos.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-tutorial', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/burrsutter/llama-stack-tutorial', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Tmp Google key\\nexport GOOGLE_MAPS_ STREAMLIT_SERVER_SSL_CERT_FILE="/home/llama/.jupyter/ssl/fullchain.pem"\\nexport STREAMLIT_SERVER_SSL_KEY_FILE="/home/llama/.jupyter/ssl/privkey.pem"\\n', 'description': 'Insert Google tmp key for MCP google maps', 'group': 'users', 'marker': '# {mark} Our custom Key settings via Ansible', 'owner': 'llama', 'path': '/home/llama/.bashrc', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [llamastack.qphfv.internal]
+
+TASK [asset_injector : Manage files] *******************************************
+Tuesday 05 August 2025  01:54:41 +0000 (0:00:00.044)       0:07:56.197 ******** 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone lab code repo', 'dest': '/home/llama/lab', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/rhpds/llamastack-lab.git', 'type': 'git', 'version': 'main'}) 
+ok: [llamastack.qphfv.internal] => (item={'description': 'Create directory for additional bonus content', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'path': '/home/llama/additional_content', 'state': 'directory', 'type': 'file'})
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone solaius/llama-stack', 'dest': '/home/llama/additional_content/llama-stack', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/solaius/llama-stack', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-demos', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/opendatahub-io/llama-stack-demos.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-tutorial', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/burrsutter/llama-stack-tutorial', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Tmp Google key\\nexport GOOGLE_MAPS_ STREAMLIT_SERVER_SSL_CERT_FILE="/home/llama/.jupyter/ssl/fullchain.pem"\\nexport STREAMLIT_SERVER_SSL_KEY_FILE="/home/llama/.jupyter/ssl/privkey.pem"\\n', 'description': 'Insert Google tmp key for MCP google maps', 'group': 'users', 'marker': '# {mark} Our custom Key settings via Ansible', 'owner': 'llama', 'path': '/home/llama/.bashrc', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+
+TASK [asset_injector : Execute Commands] ***************************************
+Tuesday 05 August 2025  01:54:42 +0000 (0:00:00.586)       0:07:56.784 ******** 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone lab code repo', 'dest': '/home/llama/lab', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/rhpds/llamastack-lab.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Create directory for additional bonus content', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'path': '/home/llama/additional_content', 'state': 'directory', 'type': 'file'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone solaius/llama-stack', 'dest': '/home/llama/additional_content/llama-stack', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/solaius/llama-stack', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-demos', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/opendatahub-io/llama-stack-demos.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-tutorial', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/burrsutter/llama-stack-tutorial', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Tmp Google key\\nexport GOOGLE_MAPS_ STREAMLIT_SERVER_SSL_CERT_FILE="/home/llama/.jupyter/ssl/fullchain.pem"\\nexport STREAMLIT_SERVER_SSL_KEY_FILE="/home/llama/.jupyter/ssl/privkey.pem"\\n', 'description': 'Insert Google tmp key for MCP google maps', 'group': 'users', 'marker': '# {mark} Our custom Key settings via Ansible', 'owner': 'llama', 'path': '/home/llama/.bashrc', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [llamastack.qphfv.internal]
+
+TASK [asset_injector : Manage groups] ******************************************
+Tuesday 05 August 2025  01:54:42 +0000 (0:00:00.043)       0:07:56.827 ******** 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone lab code repo', 'dest': '/home/llama/lab', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/rhpds/llamastack-lab.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Create directory for additional bonus content', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'path': '/home/llama/additional_content', 'state': 'directory', 'type': 'file'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone solaius/llama-stack', 'dest': '/home/llama/additional_content/llama-stack', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/solaius/llama-stack', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-demos', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/opendatahub-io/llama-stack-demos.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-tutorial', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/burrsutter/llama-stack-tutorial', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Tmp Google key\\nexport GOOGLE_MAPS_ STREAMLIT_SERVER_SSL_CERT_FILE="/home/llama/.jupyter/ssl/fullchain.pem"\\nexport STREAMLIT_SERVER_SSL_KEY_FILE="/home/llama/.jupyter/ssl/privkey.pem"\\n', 'description': 'Insert Google tmp key for MCP google maps', 'group': 'users', 'marker': '# {mark} Our custom Key settings via Ansible', 'owner': 'llama', 'path': '/home/llama/.bashrc', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [llamastack.qphfv.internal]
+
+TASK [asset_injector : Create lineinfile entries] ******************************
+Tuesday 05 August 2025  01:54:42 +0000 (0:00:00.041)       0:07:56.869 ******** 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone lab code repo', 'dest': '/home/llama/lab', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/rhpds/llamastack-lab.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Create directory for additional bonus content', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'path': '/home/llama/additional_content', 'state': 'directory', 'type': 'file'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone solaius/llama-stack', 'dest': '/home/llama/additional_content/llama-stack', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/solaius/llama-stack', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-demos', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/opendatahub-io/llama-stack-demos.git', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Clone Opendatahub llama-stack-demos', 'dest': '/home/llama/additional_content/llama-stack-tutorial', 'group': 'users', 'mode': 'u=rwx,g=rx,o=rx', 'owner': 'llama', 'src': 'https://github.com/burrsutter/llama-stack-tutorial', 'type': 'git', 'version': 'main'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-cloud-init.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-cloud-init.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Remove 50-redhat.conf, ssh issue', 'path': '/etc/ssh/sshd_config.d/50-redhat.conf', 'type': 'remove'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Our custom SSH settings via Ansible\\nChallengeResponseAuthentication no\\nPasswordAuthentication yes\\nUsePAM yes\\n', 'description': 'Update sshd_config for password auth', 'marker': '# {mark} Our custom SSH settings via Ansible', 'path': '/etc/ssh/sshd_config', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'block': '# Tmp Google key\\nexport GOOGLE_MAPS_ STREAMLIT_SERVER_SSL_CERT_FILE="/home/llama/.jupyter/ssl/fullchain.pem"\\nexport STREAMLIT_SERVER_SSL_KEY_FILE="/home/llama/.jupyter/ssl/privkey.pem"\\n', 'description': 'Insert Google tmp key for MCP google maps', 'group': 'users', 'marker': '# {mark} Our custom Key settings via Ansible', 'owner': 'llama', 'path': '/home/llama/.bashrc', 'state': 'present', 'type': 'blockinfile'}) 
+skipping: [llamastack.qphfv.internal] => (item={'description': 'Restart sshd to pick up new password support configuration', 'name': 'sshd', 'state': 'restarted', 'type': 'service'}) 
+skipping: [llamastack.qphfv.internal]
+
+PLAY [PreSoftware flight-check] ************************************************
+
+TASK [Pre-Software checks completed successfully] ******************************
+Tuesday 05 August 2025  01:54:42 +0000 (0:00:00.050)       0:07:56.920 ******** 
+ok: [localhost] => {
+    "msg": "Pre-Software checks completed successfully"
+}
+
+PLAY [Step 00xxxxx software] ***************************************************
+
+TASK [Software tasks Started] **************************************************
+Tuesday 05 August 2025  01:54:42 +0000 (0:00:00.017)       0:07:56.937 ******** 
+ok: [localhost] => {
+    "msg": "Software tasks Started"
+}
+
+PLAY [Install Software workloads for all nodes omit localhost] *****************
+
+TASK [Deploying Software workloads on all nodes omit localhost] ****************
+Tuesday 05 August 2025  01:54:42 +0000 (0:00:00.022)       0:07:56.960 ******** 
+skipping: [llamastack.qphfv.internal]
+
+PLAY [Install Software workloads on localhost] *********************************
+
+TASK [Deploying Software workloads  on localhost] ******************************
+Tuesday 05 August 2025  01:54:42 +0000 (0:00:00.026)       0:07:56.986 ******** 
+skipping: [localhost]
+
+PLAY [Install Software workloads on  all hosts] ********************************
+
+TASK [Deploying Software workloads on all hosts] *******************************
+Tuesday 05 August 2025  01:54:42 +0000 (0:00:00.026)       0:07:57.012 ******** 
+skipping: [llamastack.qphfv.internal]
+
+PLAY [Install Software workloads on bastion] ***********************************
+
+TASK [Deploying Software workloads on bastion] *********************************
+Tuesday 05 August 2025  01:54:42 +0000 (0:00:00.023)       0:07:57.036 ******** 
+included: agnosticd.ai.setup_nvidia_cuda for llamastack.qphfv.internal => (item=agnosticd.ai.setup_nvidia_cuda)
+included: agnosticd.ai.setup_python_env for llamastack.qphfv.internal => (item=agnosticd.ai.setup_python_env)
+included: agnosticd.ai.service_vm_ollama for llamastack.qphfv.internal => (item=agnosticd.ai.service_vm_ollama)
+included: agnosticd.ai.service_vm_jupyter_lab for llamastack.qphfv.internal => (item=agnosticd.ai.service_vm_jupyter_lab)
+
+TASK [agnosticd.ai.setup_nvidia_cuda : Install EPEL] ***************************
+Tuesday 05 August 2025  01:54:42 +0000 (0:00:00.069)       0:07:57.106 ******** 
+changed: [llamastack.qphfv.internal]
+
+TASK [agnosticd.ai.setup_nvidia_cuda : Setup repos] ****************************
+Tuesday 05 August 2025  01:54:45 +0000 (0:00:02.902)       0:08:00.009 ******** 
+changed: [llamastack.qphfv.internal] => (item={'name': 'cuda-rhel-x86_64', 'description': 'NVIDIA CUDA Repository', 'baseurl': 'https://developer.download.nvidia.com/compute/cuda/repos/rhel9/x86_64', 'enabled': True, 'gpgcheck': False})
+
+TASK [agnosticd.ai.setup_nvidia_cuda : Install nvdia drivers and CUDA] *********
+Tuesday 05 August 2025  01:54:46 +0000 (0:00:00.694)       0:08:00.703 ******** 
+changed: [llamastack.qphfv.internal] => (item=@nvidia-driver:latest-dkms)
+changed: [llamastack.qphfv.internal] => (item=cuda-toolkit-12-8)
+failed: [llamastack.qphfv.internal] (item=nvidia-gds) => {"ansible_loop_var": "package", "changed": false, "failures": [], "msg": "Depsolve Error occurred: \\n Problem: package nvidia-gds-13-0-13.0.0-1.x86_64 from cuda-rhel-x86_64 requires nvidia-fs >= 2.26.6, but none of the providers can be installed\\n  - package nvidia-fs-2.26.6-1.x86_64 from cuda-rhel-x86_64 requires nvidia-fs-dkms = 2.26.6, but none of the providers can be installed\\n  - package nvidia-gds-13.0.0-1.x86_64 from cuda-rhel-x86_64 requires nvidia-gds-13-0 >= 13.0.0, but none of the providers can be installed\\n  - package nvidia-fs-dkms-2.26.6-1.x86_64 from cuda-rhel-x86_64 requires kmod-nvidia-open-dkms >= 515.43.04, but none of the providers can be installed\\n  - cannot install the best candidate for the job\\n  - package kmod-nvidia-open-dkms-3:515.105.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:515.48.07-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:515.65.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:515.65.07-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:515.86.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:520.61.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:525.105.17-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:525.125.06-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:525.147.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:525.60.13-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:525.85.12-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:530.30.02-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.104.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.104.12-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.129.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.154.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.161.07-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.161.08-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.183.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.183.06-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.216.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.216.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.230.02-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.247.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.261.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.54.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:535.86.10-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:545.23.06-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:545.23.08-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.127.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.127.08-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.144.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.163.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.54.14-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.54.15-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.90.07-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:550.90.12-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:555.42.02-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:555.42.06-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:560.28.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:560.35.03-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:560.35.05-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:565.57.01-1.el9.x86_64 from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.124.06-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.133.20-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.148.08-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.158.01-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.172.08-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.86.10-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:570.86.15-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:575.51.03-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:575.57.08-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering\\n  - package kmod-nvidia-open-dkms-3:580.65.06-1.el9.noarch from cuda-rhel-x86_64 is filtered out by modular filtering", "package": "nvidia-gds", "rc": 1, "results": []}
+changed: [llamastack.qphfv.internal] => (item=libcudnn8)
+changed: [llamastack.qphfv.internal] => (item=libcudnn8-devel)
+ok: [llamastack.qphfv.internal] => (item=cuda-cccl-12-8)
+changed: [llamastack.qphfv.internal] => (item=libnccl-2.26.2-1+cuda12.8.x86_64)
+
+PLAY RECAP *********************************************************************
+llamastack.qphfv.internal  : ok=91   changed=52   unreachable=0    failed=1    skipped=63   rescued=0    ignored=0   
+localhost                  : ok=122  changed=26   unreachable=0    failed=0    skipped=76   rescued=0    ignored=0   
+
+TASKS RECAP ********************************************************************
+Tuesday 05 August 2025  02:02:07 +0000 (0:07:20.718)       0:15:21.421 ******** 
+=============================================================================== 
+agnosticd.ai.setup_nvidia_cuda : Install nvdia drivers and CUDA ------- 440.72s
+infra-ec2-template-create : Launch CloudFormation template (local) ---- 211.73s
+common : Update all packages ------------------------------------------- 92.75s
+common : install common packages for RHEL 9 ---------------------------- 45.52s
+common : Reboot all VMs ------------------------------------------------ 31.71s
+bastion-base : Setup Red Hat packages for bastion ----------------------- 5.55s
+asset_injector : Clone Git repositories --------------------------------- 5.50s
+set-repositories : sat | Register with activation-key with HA ----------- 5.46s
+set-repositories : sat | Enable repos ----------------------------------- 3.42s
+agnosticd.ai.setup_nvidia_cuda : Install EPEL --------------------------- 2.90s
+ssh_authorized_keys : Add all authorized keys --------------------------- 2.88s
+set-repositories : sat | Install Satellite CA certificate package ------- 2.58s
+user-create-ansible-service-account : Install preferred python ---------- 2.18s
+set-repositories : sat | Remove rh-amazon-rhui-client package ----------- 1.39s
+set-repositories : sat | Update CA Trust Bundle ------------------------- 1.30s
+Gathering Facts --------------------------------------------------------- 1.19s
+common : Determine if reboot is needed ---------------------------------- 1.15s
+bastion-base : copy over host .ssh/config Template ---------------------- 1.14s
+infra-ec2-wait_for_linux_hosts : wait for linux host to be available ---- 1.14s
+asset_injector : Create blockinfile entries ----------------------------- 1.14s

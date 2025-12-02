@@ -1,0 +1,1630 @@
+Vault password (gpte_vault_0): 
+
+PLAY [Step 0000 Set Action] ****************************************************
+
+TASK [Set ACTION to provision] *************************************************
+Tuesday 05 August 2025  08:31:58 +0000 (0:00:00.011)       0:00:00.011 ******** 
+skipping: [localhost]
+
+PLAY [Step 0000 Setup runtime] *************************************************
+
+TASK [debug] *******************************************************************
+Tuesday 05 August 2025  08:31:58 +0000 (0:00:00.028)       0:00:00.040 ******** 
+skipping: [localhost]
+
+TASK [Ensure cloud provider is supported] **************************************
+Tuesday 05 August 2025  08:31:58 +0000 (0:00:00.014)       0:00:00.054 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+PLAY [Step 0000 Setup Output Directory] ****************************************
+
+TASK [Set output_dir if not defined] *******************************************
+Tuesday 05 August 2025  08:31:58 +0000 (0:00:00.035)       0:00:00.089 ******** 
+skipping: [localhost]
+
+TASK [Create output_dir if it does not exists] *********************************
+Tuesday 05 August 2025  08:31:58 +0000 (0:00:00.016)       0:00:00.106 ******** 
+changed: [localhost]
+
+TASK [Attempt to restore output_dir contents] **********************************
+Tuesday 05 August 2025  08:31:58 +0000 (0:00:00.265)       0:00:00.371 ******** 
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from s3 bucket] ********
+Tuesday 05 August 2025  08:31:58 +0000 (0:00:00.024)       0:00:00.396 ******** 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/restore-from-s3.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Tuesday 05 August 2025  08:31:58 +0000 (0:00:00.035)       0:00:00.431 ******** 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/fetch-from-s3-s3_object.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Tuesday 05 August 2025  08:31:58 +0000 (0:00:00.025)       0:00:00.457 ******** 
+ok: [localhost]
+
+TASK [agnosticd_restore_output_dir : Decrypt archive] **************************
+Tuesday 05 August 2025  08:31:59 +0000 (0:00:00.832)       0:00:01.289 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from archive] **********
+Tuesday 05 August 2025  08:31:59 +0000 (0:00:00.015)       0:00:01.305 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove archive file from output_dir] ******
+Tuesday 05 August 2025  08:31:59 +0000 (0:00:00.016)       0:00:01.321 ******** 
+ok: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove encrypted archive file from output_dir] ***
+Tuesday 05 August 2025  08:31:59 +0000 (0:00:00.170)       0:00:01.492 ******** 
+ok: [localhost]
+
+TASK [Touch file provision-user-data.yaml and provision-user-info.yaml] ********
+Tuesday 05 August 2025  08:32:00 +0000 (0:00:00.165)       0:00:01.657 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create empty user-info.yaml and user-data.yaml in output dir] ************
+Tuesday 05 August 2025  08:32:00 +0000 (0:00:00.327)       0:00:01.985 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create symlink user-data.yaml -> provision-user-data.yaml] ***************
+Tuesday 05 August 2025  08:32:01 +0000 (0:00:00.719)       0:00:02.705 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Tuesday 05 August 2025  08:32:01 +0000 (0:00:00.322)       0:00:03.027 ******** 
+ok: [localhost]
+
+TASK [Include variables files] *************************************************
+Tuesday 05 August 2025  08:32:01 +0000 (0:00:00.021)       0:00:03.049 ******** 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars_openshift_cnv.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars_openshift_cnv.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_secret_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Tuesday 05 August 2025  08:32:01 +0000 (0:00:00.072)       0:00:03.121 ******** 
+skipping: [localhost]
+
+TASK [Set passthrough user data] ***********************************************
+Tuesday 05 August 2025  08:32:01 +0000 (0:00:00.018)       0:00:03.140 ******** 
+skipping: [localhost]
+
+PLAY [Step 0000 Install Galaxy roles and collections] **************************
+
+TASK [Use requirements_content] ************************************************
+Tuesday 05 August 2025  08:32:01 +0000 (0:00:00.030)       0:00:03.170 ******** 
+skipping: [localhost]
+
+TASK [Copy requirements content to output_dir] *********************************
+Tuesday 05 August 2025  08:32:01 +0000 (0:00:00.012)       0:00:03.182 ******** 
+skipping: [localhost]
+
+TASK [Use requirements_path from the config] ***********************************
+Tuesday 05 August 2025  08:32:01 +0000 (0:00:00.012)       0:00:03.195 ******** 
+ok: [localhost]
+
+TASK [Check if requirements.yml exists] ****************************************
+Tuesday 05 August 2025  08:32:01 +0000 (0:00:00.015)       0:00:03.211 ******** 
+ok: [localhost]
+
+TASK [set_fact] ****************************************************************
+Tuesday 05 August 2025  08:32:01 +0000 (0:00:00.156)       0:00:03.367 ******** 
+ok: [localhost]
+
+TASK [Install roles from requirements.yml] *************************************
+Tuesday 05 August 2025  08:32:01 +0000 (0:00:00.018)       0:00:03.386 ******** 
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (Not EE)] **********************
+Tuesday 05 August 2025  08:32:02 +0000 (0:00:00.837)       0:00:04.223 ******** 
+skipping: [localhost]
+
+TASK [Get installed collections (EE)] ******************************************
+Tuesday 05 August 2025  08:32:02 +0000 (0:00:00.022)       0:00:04.246 ******** 
+included: /runner/project/ansible/install_collections_ee.yml for localhost
+
+TASK [Get the list of installed collections (EE)] ******************************
+Tuesday 05 August 2025  08:32:02 +0000 (0:00:00.025)       0:00:04.272 ******** 
+changed: [localhost]
+
+TASK [Create temporary file for requirements.yml (EE)] *************************
+Tuesday 05 August 2025  08:32:03 +0000 (0:00:00.529)       0:00:04.801 ******** 
+changed: [localhost]
+
+TASK [Rewrite requirements, filter out installed collections (EE)] *************
+Tuesday 05 August 2025  08:32:03 +0000 (0:00:00.250)       0:00:05.052 ******** 
+[WARNING]: skipping installation of community.general==9.2.0 ;
+community.general==8.6.0 already installed in EE
+[WARNING]: skipping installation of community.crypto==2.21.1 ;
+community.crypto==2.19.1 already installed in EE
+[WARNING]: skipping installation of ansible.posix==1.5.4 ; ansible.posix==1.5.4
+already installed in EE
+[WARNING]: skipping installation of kubernetes.core==5.0.0 ;
+kubernetes.core==3.0.1 already installed in EE
+[WARNING]: skipping installation of amazon.aws==8.1.0 ; amazon.aws==7.6.0
+already installed in EE
+[WARNING]: skipping installation of community.vmware==4.5.0 ;
+community.vmware==4.3.0 already installed in EE
+[WARNING]: skipping installation of google.cloud==1.3.0 ; google.cloud==1.3.0
+already installed in EE
+[WARNING]: skipping installation of openstack.cloud==2.2.0 ;
+openstack.cloud==2.2.0 already installed in EE
+[WARNING]: skipping installation of community.okd==4.0.0 ; community.okd==3.0.1
+already installed in EE
+[WARNING]: skipping installation of kubevirt.core==2.0.0 ; kubevirt.core==1.3.2
+already installed in EE
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (EE)] **************************
+Tuesday 05 August 2025  08:32:03 +0000 (0:00:00.303)       0:00:05.356 ******** 
+changed: [localhost]
+
+TASK [Cleanup tempfile (EE)] ***************************************************
+Tuesday 05 August 2025  08:32:08 +0000 (0:00:05.230)       0:00:10.586 ******** 
+changed: [localhost]
+
+TASK [Install dynamic sources] *************************************************
+Tuesday 05 August 2025  08:32:09 +0000 (0:00:00.161)       0:00:10.748 ******** 
+
+TASK [agnosticd_dynamic : Create dynamic-cache and dynamic-roles directories] ***
+Tuesday 05 August 2025  08:32:09 +0000 (0:00:00.020)       0:00:10.768 ******** 
+changed: [localhost] => (item=/runner/project/ansible/dynamic-cache)
+changed: [localhost] => (item=/runner/project/ansible/dynamic-roles)
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to dynamic roles dir] ***
+Tuesday 05 August 2025  08:32:09 +0000 (0:00:00.302)       0:00:11.071 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to cache] *************
+Tuesday 05 August 2025  08:32:09 +0000 (0:00:00.017)       0:00:11.088 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install git sources] *********************************
+Tuesday 05 August 2025  08:32:09 +0000 (0:00:00.017)       0:00:11.106 ******** 
+skipping: [localhost]
+
+PLAY [Step 000 - Pre Infrastructure] *******************************************
+
+TASK [Print debug message] *****************************************************
+Tuesday 05 August 2025  08:32:09 +0000 (0:00:00.034)       0:00:11.141 ******** 
+ok: [localhost] => {
+    "msg": "Step 000 Pre Infrastructure"
+}
+
+TASK [Ensure variables are set] ************************************************
+Tuesday 05 August 2025  08:32:09 +0000 (0:00:00.013)       0:00:11.154 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "ocp4_pull_secret variable is defined"
+}
+
+TASK [Run add user to GCP project role] ****************************************
+Tuesday 05 August 2025  08:32:09 +0000 (0:00:00.018)       0:00:11.173 ******** 
+skipping: [localhost]
+
+TASK [Create GCP Credentials File] *********************************************
+Tuesday 05 August 2025  08:32:09 +0000 (0:00:00.011)       0:00:11.184 ******** 
+skipping: [localhost]
+
+TASK [Get Google Cloud SDK] ****************************************************
+Tuesday 05 August 2025  08:32:09 +0000 (0:00:00.012)       0:00:11.197 ******** 
+skipping: [localhost]
+
+TASK [Generate windows Administrator password if not already defined] **********
+Tuesday 05 August 2025  08:32:09 +0000 (0:00:00.010)       0:00:11.207 ******** 
+skipping: [localhost]
+
+TASK [Set fact generated_windows_password (just generated)] ********************
+Tuesday 05 August 2025  08:32:09 +0000 (0:00:00.010)       0:00:11.218 ******** 
+skipping: [localhost]
+
+TASK [Run infra-aws-capacity-reservation] **************************************
+Tuesday 05 August 2025  08:32:09 +0000 (0:00:00.010)       0:00:11.229 ******** 
+skipping: [localhost]
+
+TASK [Set availability zone for bastion, masters and workers] ******************
+Tuesday 05 August 2025  08:32:09 +0000 (0:00:00.010)       0:00:11.240 ******** 
+skipping: [localhost]
+
+PLAY [Step 001.1 Deploy Infrastructure] ****************************************
+
+TASK [Create ssh provision key] ************************************************
+Tuesday 05 August 2025  08:32:09 +0000 (0:00:00.023)       0:00:11.263 ******** 
+
+TASK [create_ssh_provision_key : include_tasks] ********************************
+Tuesday 05 August 2025  08:32:09 +0000 (0:00:00.033)       0:00:11.297 ******** 
+included: /runner/project/ansible/roles-infra/create_ssh_provision_key/tasks/checks.yaml for localhost
+
+TASK [create_ssh_provision_key : Ensure key_name is not defined] ***************
+Tuesday 05 August 2025  08:32:09 +0000 (0:00:00.014)       0:00:11.311 ******** 
+skipping: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH keys] ****************************
+Tuesday 05 August 2025  08:32:09 +0000 (0:00:00.014)       0:00:11.326 ******** 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Fix permission of ssh key] ********************
+Tuesday 05 August 2025  08:32:09 +0000 (0:00:00.237)       0:00:11.564 ******** 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH pub key content] *****************
+Tuesday 05 August 2025  08:32:10 +0000 (0:00:00.181)       0:00:11.745 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Save all facts for SSH] ***********************
+Tuesday 05 August 2025  08:32:10 +0000 (0:00:00.186)       0:00:11.931 ******** 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Write SSH pub key] ****************************
+Tuesday 05 August 2025  08:32:10 +0000 (0:00:00.018)       0:00:11.950 ******** 
+changed: [localhost]
+
+TASK [create_ssh_provision_key : Report user info for SSH provision key as user data] ***
+Tuesday 05 August 2025  08:32:10 +0000 (0:00:00.290)       0:00:12.240 ******** 
+skipping: [localhost]
+
+TASK [include_role : agnosticd_save_output_dir] ********************************
+Tuesday 05 August 2025  08:32:10 +0000 (0:00:00.013)       0:00:12.254 ******** 
+
+TASK [agnosticd_save_output_dir : Save output dir if archive file is defined] ***
+Tuesday 05 August 2025  08:32:10 +0000 (0:00:00.025)       0:00:12.280 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/save-output-dir.yml for localhost
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Tuesday 05 August 2025  08:32:10 +0000 (0:00:00.023)       0:00:12.303 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/create-output-dir-archive.yml for localhost
+
+TASK [agnosticd_save_output_dir : Create tempfile for archive] *****************
+Tuesday 05 August 2025  08:32:10 +0000 (0:00:00.020)       0:00:12.324 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Set agnosticd_save_output_dir_archive_tempfile] ***
+Tuesday 05 August 2025  08:32:10 +0000 (0:00:00.167)       0:00:12.492 ******** 
+ok: [localhost]
+
+TASK [agnosticd_save_output_dir : Create output_dir archive] *******************
+Tuesday 05 August 2025  08:32:10 +0000 (0:00:00.017)       0:00:12.509 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Encrypt tarball using password] **************
+Tuesday 05 August 2025  08:32:11 +0000 (0:00:00.166)       0:00:12.676 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_save_output_dir : Upload output_dir archive to S3] *************
+Tuesday 05 August 2025  08:32:11 +0000 (0:00:00.019)       0:00:12.696 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3.yml for localhost
+
+TASK [Run infra-cloud-tags role] ***********************************************
+Tuesday 05 August 2025  08:32:11 +0000 (0:00:00.028)       0:00:12.724 ******** 
+
+TASK [infra-cloud-tags : Set cloud_tags_final (string)] ************************
+Tuesday 05 August 2025  08:32:11 +0000 (0:00:00.029)       0:00:12.753 ******** 
+skipping: [localhost]
+
+TASK [infra-cloud-tags : Set cloud_tags_final (dictionary)] ********************
+Tuesday 05 August 2025  08:32:11 +0000 (0:00:00.018)       0:00:12.772 ******** 
+ok: [localhost]
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Tuesday 05 August 2025  08:32:11 +0000 (0:00:00.029)       0:00:12.802 ******** 
+included: /runner/project/ansible/roles/agnosticd_save_output_dir/tasks/upload-archive-s3-s3_object.yml for localhost
+
+TASK [agnosticd_save_output_dir : Save output_dir archive to AWS S3] ***********
+Tuesday 05 August 2025  08:32:11 +0000 (0:00:00.028)       0:00:12.830 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir archive tempfile] **********
+Tuesday 05 August 2025  08:32:12 +0000 (0:00:00.943)       0:00:13.773 ******** 
+changed: [localhost]
+
+TASK [agnosticd_save_output_dir : Remove output_dir encrypted archive tempfile] ***
+Tuesday 05 August 2025  08:32:12 +0000 (0:00:00.169)       0:00:13.943 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_save_output_dir : Save output dir if archive file is defined] ***
+Tuesday 05 August 2025  08:32:12 +0000 (0:00:00.018)       0:00:13.962 ******** 
+skipping: [localhost]
+
+TASK [Run infra-openshift-cnv-resources Role] **********************************
+Tuesday 05 August 2025  08:32:12 +0000 (0:00:00.019)       0:00:13.981 ******** 
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.include_tasks] ***********
+Tuesday 05 August 2025  08:32:12 +0000 (0:00:00.025)       0:00:14.007 ******** 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.include_tasks] ***********
+Tuesday 05 August 2025  08:32:12 +0000 (0:00:00.015)       0:00:14.022 ******** 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.include_tasks] ***********
+Tuesday 05 August 2025  08:32:12 +0000 (0:00:00.017)       0:00:14.040 ******** 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_networks.yaml for localhost
+
+TASK [infra-openshift-cnv-resources : Create Networks] *************************
+Tuesday 05 August 2025  08:32:12 +0000 (0:00:00.016)       0:00:14.056 ******** 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_network.yaml for localhost => (item={'name': 'cluster'})
+
+TASK [infra-openshift-cnv-resources : Create network cluster] ******************
+Tuesday 05 August 2025  08:32:12 +0000 (0:00:00.024)       0:00:14.081 ******** 
+changed: [localhost]
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.include_tasks] ***********
+Tuesday 05 August 2025  08:32:13 +0000 (0:00:01.115)       0:00:15.197 ******** 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_instances.yaml for localhost
+
+TASK [ansible.builtin.include_role : infra-cloud-tags] *************************
+Tuesday 05 August 2025  08:32:13 +0000 (0:00:00.021)       0:00:15.219 ******** 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : set_fact] ********************************
+Tuesday 05 August 2025  08:32:13 +0000 (0:00:00.018)       0:00:15.237 ******** 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create Instances] ************************
+Tuesday 05 August 2025  08:32:13 +0000 (0:00:00.019)       0:00:15.257 ******** 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_instance.yaml for localhost => (item={'name': 'bastion', 'count': 1, 'unique': True, 'alt_name': 'bastion', 'memory': '6Gi', 'cores': 2, 'image_size': '30Gi', 'image': 'rhel-9.6', 'networkdata': 'network:\\n  version: 2\\n  ethernets:\\n    eth0:\\n      dhcp4: yes\\n    eth1:\\n      dhcp4: no\\n      addresses:\\n        - 10.10.10.1/24\\n', 'userdata': '#cloud-config\\nwrite_files:\\n  - path: /etc/sysctl.d/99-ip-forwarding.conf\\n    content: |\\n      net.ipv4.ip_forward=1\\n\\n  - path: /etc/nftables/ruleset.nft\\n    content: |\\n      table inet nat {\\n        chain postrouting {\\n          type nat hook postrouting priority 100; policy accept;\\n          oifname "eth0" masquerade\\n        }\\n      }\\n\\n      table inet filter {\\n        chain forward {\\n          type filter hook forward priority 0; policy drop;\\n          iifname "eth1" oifname "eth0" accept\\n          iifname "eth0" oifname "eth1" ct state related,established accept\\n        }\\n      }\\n\\n  - path: /etc/systemd/system/nftables-restore.service\\n    content: |\\n      [Unit]\\n      Description=Restore nftables rules\\n      After=network.target\\n\\n      [Service]\\n      Type=oneshot\\n      ExecStart=/bin/bash -c \\'while [ ! -x /usr/sbin/nft ]; do sleep 2; done; /usr/sbin/nft -f /etc/nftables/ruleset.nft\\'\\n      RemainAfterExit=yes\\n\\n      [Install]\\n      WantedBy=multi-user.target\\n\\nruncmd:\\n  - sysctl --system\\n  - systemctl daemon-reload\\n  - systemctl enable --now nftables-restore.service\\n', 'metadata': [{'AnsibleGroup': 'bastions'}, {'function': 'bastion'}, {'user': 'lab-user'}, {'project': 'ocp4-cluster-cr4sv'}, {'ostype': 'linux'}, {'Purpose': 'production'}], 'tags': [{'key': 'AnsibleGroup', 'value': 'bastions'}, {'key': 'ostype', 'value': 'linux'}, {'key': 'instance_filter', 'value': 'ocp4-cluster-cr4sv'}], 'networks': ['default', 'cluster']})
+
+TASK [infra-openshift-cnv-resources : Empty variable _instance_] ***************
+Tuesday 05 August 2025  08:32:13 +0000 (0:00:00.034)       0:00:15.291 ******** 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Set the instances interfaces] ************
+Tuesday 05 August 2025  08:32:13 +0000 (0:00:00.021)       0:00:15.312 ******** 
+ok: [localhost] => (item=default)
+ok: [localhost] => (item=cluster)
+
+TASK [infra-openshift-cnv-resources : Set the instances disks] *****************
+Tuesday 05 August 2025  08:32:13 +0000 (0:00:00.070)       0:00:15.383 ******** 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Set cloud_config] ************************
+Tuesday 05 August 2025  08:32:13 +0000 (0:00:00.017)       0:00:15.400 ******** 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Set cloud init disk if needed] ***********
+Tuesday 05 August 2025  08:32:13 +0000 (0:00:00.025)       0:00:15.426 ******** 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create instance(s) "bastion"] ************
+Tuesday 05 August 2025  08:32:13 +0000 (0:00:00.024)       0:00:15.450 ******** 
+changed: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : Wait till VM is running] *****************
+Tuesday 05 August 2025  08:32:14 +0000 (0:00:00.806)       0:00:16.257 ******** 
+FAILED - RETRYING: [localhost]: Wait till VM is running (30 retries left).
+FAILED - RETRYING: [localhost]: Wait till VM is running (29 retries left).
+FAILED - RETRYING: [localhost]: Wait till VM is running (28 retries left).
+ok: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.set_fact] ****************
+Tuesday 05 August 2025  08:32:47 +0000 (0:00:32.697)       0:00:48.955 ******** 
+ok: [localhost] => (item={'changed': True, 'result': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'bastions', 'Purpose': 'production', 'Stack': 'ocp4-cluster-cr4sv', 'env_type': 'ocp4-cluster', 'function': 'bastion', 'guid': 'cr4sv', 'instance_filter': 'ocp4-cluster-cr4sv', 'ostype': 'linux', 'owner': 'unknown', 'project': 'ocp4-cluster-cr4sv', 'user': 'lab-user', 'uuid': 'fd2f4e9d-29b6-5ad2-a17e-22324340f063'}, 'creationTimestamp': '2025-08-05T08:32:14Z', 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Purpose': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:function': {}, 'f:guid': {}, 'f:instance_filter': {}, 'f:ostype': {}, 'f:owner': {}, 'f:project': {}, 'f:user': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:networks': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-05T08:32:14Z'}], 'name': 'bastion', 'namespace': 'sandbox-cr4sv-ocp4-cluster', 'resourceVersion': '607825209', 'uid': 'f7a29f83-62ac-48fc-b994-448bf4d08dba'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'bastion-cr4sv'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '30Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-9.6', 'namespace': 'cnv-images'}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'bastion'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 2, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'bastion-cr4sv'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'e1000e', 'name': 'default', 'pciAddress': '0000:00:03.0'}, {'bridge': {}, 'macAddress': '2c:c2:60:d8:d9:c4', 'model': 'e1000e', 'name': 'clustercr4sv', 'pciAddress': '0000:00:04.0'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': '035a287c-83bb-5260-884a-b8fb565ba9b4'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '6Gi'}, 'resources': {}}, 'networks': [{'name': 'default', 'pod': {}}, {'multus': {'networkName': 'clustercr4sv'}, 'name': 'clustercr4sv'}], 'volumes': [{'dataVolume': {'name': 'bastion-cr4sv'}, 'name': 'bastion-cr4sv'}, {'cloudInitNoCloud': {'networkDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]', 'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]'}, 'name': 'cloudinitdisk'}]}}}}, 'method': 'create', 'invocation': {'module_args': {'host': 'https://api.ocpv06.dal10.infra.demo.redhat.com:6443', 'api_key': '[REDACTED_Secret Keyword_SECRET]', 'validate_certs': False, 'definition': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'name': 'bastion', 'namespace': 'sandbox-cr4sv-ocp4-cluster', 'annotations': {'Stack': 'ocp4-cluster-cr4sv', 'owner': 'unknown', 'env_type': 'ocp4-cluster', 'guid': 'cr4sv', 'uuid': 'fd2f4e9d-29b6-5ad2-a17e-22324340f063', 'AnsibleGroup': 'bastions', 'function': 'bastion', 'user': 'lab-user', 'project': 'ocp4-cluster-cr4sv', 'ostype': 'linux', 'Purpose': 'production', 'instance_filter': 'ocp4-cluster-cr4sv'}}, 'spec': {'dataVolumeTemplates': [{'metadata': {'name': 'bastion-cr4sv'}, 'spec': {'source': {'pvc': {'namespace': 'cnv-images', 'name': 'rhel-9.6'}}, 'pvc': {'accessModes': ['ReadWriteMany'], 'volumeMode': 'Block', 'resources': {'requests': {'storage': '30Gi'}}}}}], 'running': True, 'template': {'metadata': {'labels': {'vm.cnv.io/name': 'bastion'}}, 'spec': {'domain': {'firmware': {'uuid': '035a287c-83bb-5260-884a-b8fb565ba9b4', 'bootloader': {'bios': {}}}, 'cpu': {'cores': 2, 'model': 'host-passthrough'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '6Gi', 'memory': {'hugepages': {'pageSize': '1Gi'}}}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'bastion-cr4sv'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'name': 'default', 'model': 'e1000e', 'pciAddress': '0000:00:03.0', 'masquerade': {}}, {'name': 'clustercr4sv', 'macAddress': '2c:c2:60:d8:d9:c4', 'bridge': {}, 'model': 'e1000e', 'pciAddress': '0000:00:04.0'}]}}, 'networks': [{'name': 'default', 'pod': {}}, {'name': 'clustercr4sv', 'multus': {'networkName': 'clustercr4sv'}}], 'volumes': [{'dataVolume': {'name': 'bastion-cr4sv'}, 'name': 'bastion-cr4sv'}, {'name': 'cloudinitdisk', 'cloudInitNoCloud': {'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]', 'networkDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]'}}]}}}}, 'resource_definition': {'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'name': 'bastion', 'namespace': 'sandbox-cr4sv-ocp4-cluster', 'annotations': {'Stack': 'ocp4-cluster-cr4sv', 'owner': 'unknown', 'env_type': 'ocp4-cluster', 'guid': 'cr4sv', 'uuid': 'fd2f4e9d-29b6-5ad2-a17e-22324340f063', 'AnsibleGroup': 'bastions', 'function': 'bastion', 'user': 'lab-user', 'project': 'ocp4-cluster-cr4sv', 'ostype': 'linux', 'Purpose': 'production', 'instance_filter': 'ocp4-cluster-cr4sv'}}, 'spec': {'dataVolumeTemplates': [{'metadata': {'name': 'bastion-cr4sv'}, 'spec': {'source': {'pvc': {'namespace': 'cnv-images', 'name': 'rhel-9.6'}}, 'pvc': {'accessModes': ['ReadWriteMany'], 'volumeMode': 'Block', 'resources': {'requests': {'storage': '30Gi'}}}}}], 'running': True, 'template': {'metadata': {'labels': {'vm.cnv.io/name': 'bastion'}}, 'spec': {'domain': {'firmware': {'uuid': '035a287c-83bb-5260-884a-b8fb565ba9b4', 'bootloader': {'bios': {}}}, 'cpu': {'cores': 2, 'model': 'host-passthrough'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '6Gi', 'memory': {'hugepages': {'pageSize': '1Gi'}}}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'bastion-cr4sv'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'name': 'default', 'model': 'e1000e', 'pciAddress': '0000:00:03.0', 'masquerade': {}}, {'name': 'clustercr4sv', 'macAddress': '2c:c2:60:d8:d9:c4', 'bridge': {}, 'model': 'e1000e', 'pciAddress': '0000:00:04.0'}]}}, 'networks': [{'name': 'default', 'pod': {}}, {'name': 'clustercr4sv', 'multus': {'networkName': 'clustercr4sv'}}], 'volumes': [{'dataVolume': {'name': 'bastion-cr4sv'}, 'name': 'bastion-cr4sv'}, {'name': 'cloudinitdisk', 'cloudInitNoCloud': {'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]', 'networkDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]'}}]}}}}, 'api_version': 'v1', 'wait': False, 'wait_sleep': 5, 'wait_timeout': 120, 'append_hash': False, 'apply': False, 'continue_on_error': False, 'state': 'present', 'force': False, 'delete_all': False, 'kind': None, 'name': None, 'namespace': None, 'src': None, 'kubeconfig': None, 'context': None, 'username': None, 'password': None, 'ca_cert': None, 'client_cert': None, 'client_key': None, 'proxy': None, 'no_proxy': None, 'proxy_headers': None, 'persist_config': None, 'impersonate_user': None, 'impersonate_groups': None, 'wait_condition': None, 'merge_type': None, 'validate': None, 'template': None, 'delete_options': None, 'label_selectors': None, 'generate_name': None, 'server_side_apply': None, 'hidden_fields': None}}, 'failed': False, 'attempts': 1, 'item': 1, 'ansible_loop_var': 'item', '_index': 0, 'ansible_index_var': '_index'})
+
+TASK [infra-openshift-cnv-resources : Create services for the nodes] ***********
+Tuesday 05 August 2025  08:32:47 +0000 (0:00:00.055)       0:00:49.010 ******** 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_services.yaml for localhost => (item={'name': 'bastion', 'count': 1, 'unique': True, 'alt_name': 'bastion', 'memory': '6Gi', 'cores': 2, 'image_size': '30Gi', 'image': 'rhel-9.6', 'networkdata': 'network:\\n  version: 2\\n  ethernets:\\n    eth0:\\n      dhcp4: yes\\n    eth1:\\n      dhcp4: no\\n      addresses:\\n        - 10.10.10.1/24\\n', 'userdata': '#cloud-config\\nwrite_files:\\n  - path: /etc/sysctl.d/99-ip-forwarding.conf\\n    content: |\\n      net.ipv4.ip_forward=1\\n\\n  - path: /etc/nftables/ruleset.nft\\n    content: |\\n      table inet nat {\\n        chain postrouting {\\n          type nat hook postrouting priority 100; policy accept;\\n          oifname "eth0" masquerade\\n        }\\n      }\\n\\n      table inet filter {\\n        chain forward {\\n          type filter hook forward priority 0; policy drop;\\n          iifname "eth1" oifname "eth0" accept\\n          iifname "eth0" oifname "eth1" ct state related,established accept\\n        }\\n      }\\n\\n  - path: /etc/systemd/system/nftables-restore.service\\n    content: |\\n      [Unit]\\n      Description=Restore nftables rules\\n      After=network.target\\n\\n      [Service]\\n      Type=oneshot\\n      ExecStart=/bin/bash -c \\'while [ ! -x /usr/sbin/nft ]; do sleep 2; done; /usr/sbin/nft -f /etc/nftables/ruleset.nft\\'\\n      RemainAfterExit=yes\\n\\n      [Install]\\n      WantedBy=multi-user.target\\n\\nruncmd:\\n  - sysctl --system\\n  - systemctl daemon-reload\\n  - systemctl enable --now nftables-restore.service\\n', 'metadata': [{'AnsibleGroup': 'bastions'}, {'function': 'bastion'}, {'user': 'lab-user'}, {'project': 'ocp4-cluster-cr4sv'}, {'ostype': 'linux'}, {'Purpose': 'production'}], 'tags': [{'key': 'AnsibleGroup', 'value': 'bastions'}, {'key': 'ostype', 'value': 'linux'}, {'key': 'instance_filter', 'value': 'ocp4-cluster-cr4sv'}], 'networks': ['default', 'cluster']})
+
+TASK [infra-openshift-cnv-resources : Create a SSH (or defined one) service for internal connections for node bastion] ***
+Tuesday 05 August 2025  08:32:47 +0000 (0:00:00.035)       0:00:49.045 ******** 
+changed: [localhost] => (item=1)
+
+TASK [infra-openshift-cnv-resources : Create services for the instances] *******
+Tuesday 05 August 2025  08:32:48 +0000 (0:00:00.749)       0:00:49.795 ******** 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create routes for the nodes] *************
+Tuesday 05 August 2025  08:32:48 +0000 (0:00:00.013)       0:00:49.809 ******** 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-resources/tasks/create_routes.yaml for localhost => (item={'name': 'bastion', 'count': 1, 'unique': True, 'alt_name': 'bastion', 'memory': '6Gi', 'cores': 2, 'image_size': '30Gi', 'image': 'rhel-9.6', 'networkdata': 'network:\\n  version: 2\\n  ethernets:\\n    eth0:\\n      dhcp4: yes\\n    eth1:\\n      dhcp4: no\\n      addresses:\\n        - 10.10.10.1/24\\n', 'userdata': '#cloud-config\\nwrite_files:\\n  - path: /etc/sysctl.d/99-ip-forwarding.conf\\n    content: |\\n      net.ipv4.ip_forward=1\\n\\n  - path: /etc/nftables/ruleset.nft\\n    content: |\\n      table inet nat {\\n        chain postrouting {\\n          type nat hook postrouting priority 100; policy accept;\\n          oifname "eth0" masquerade\\n        }\\n      }\\n\\n      table inet filter {\\n        chain forward {\\n          type filter hook forward priority 0; policy drop;\\n          iifname "eth1" oifname "eth0" accept\\n          iifname "eth0" oifname "eth1" ct state related,established accept\\n        }\\n      }\\n\\n  - path: /etc/systemd/system/nftables-restore.service\\n    content: |\\n      [Unit]\\n      Description=Restore nftables rules\\n      After=network.target\\n\\n      [Service]\\n      Type=oneshot\\n      ExecStart=/bin/bash -c \\'while [ ! -x /usr/sbin/nft ]; do sleep 2; done; /usr/sbin/nft -f /etc/nftables/ruleset.nft\\'\\n      RemainAfterExit=yes\\n\\n      [Install]\\n      WantedBy=multi-user.target\\n\\nruncmd:\\n  - sysctl --system\\n  - systemctl daemon-reload\\n  - systemctl enable --now nftables-restore.service\\n', 'metadata': [{'AnsibleGroup': 'bastions'}, {'function': 'bastion'}, {'user': 'lab-user'}, {'project': 'ocp4-cluster-cr4sv'}, {'ostype': 'linux'}, {'Purpose': 'production'}], 'tags': [{'key': 'AnsibleGroup', 'value': 'bastions'}, {'key': 'ostype', 'value': 'linux'}, {'key': 'instance_filter', 'value': 'ocp4-cluster-cr4sv'}], 'networks': ['default', 'cluster']})
+
+TASK [infra-openshift-cnv-resources : Create routes with tls] ******************
+Tuesday 05 August 2025  08:32:48 +0000 (0:00:00.035)       0:00:49.845 ******** 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : Create routes without tls] ***************
+Tuesday 05 August 2025  08:32:48 +0000 (0:00:00.013)       0:00:49.858 ******** 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.include_tasks] ***********
+Tuesday 05 August 2025  08:32:48 +0000 (0:00:00.012)       0:00:49.871 ******** 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.include_tasks] ***********
+Tuesday 05 August 2025  08:32:48 +0000 (0:00:00.011)       0:00:49.882 ******** 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-resources : ansible.builtin.include_tasks] ***********
+Tuesday 05 August 2025  08:32:48 +0000 (0:00:00.011)       0:00:49.894 ******** 
+skipping: [localhost]
+
+PLAY [Step 001.2 Create Inventory and SSH config setup] ************************
+
+TASK [Run infra-dns Role] ******************************************************
+Tuesday 05 August 2025  08:32:48 +0000 (0:00:00.028)       0:00:49.923 ******** 
+
+TASK [infra-dns : fail] ********************************************************
+Tuesday 05 August 2025  08:32:48 +0000 (0:00:00.044)       0:00:49.967 ******** 
+skipping: [localhost]
+
+TASK [infra-dns : fail] ********************************************************
+Tuesday 05 August 2025  08:32:48 +0000 (0:00:00.023)       0:00:49.990 ******** 
+skipping: [localhost]
+
+TASK [infra-dns : Iterate over all instances and create DNS entries] ***********
+Tuesday 05 August 2025  08:32:48 +0000 (0:00:00.046)       0:00:50.037 ******** 
+skipping: [localhost] => (item={'name': 'bastion', 'count': 1, 'unique': True, 'alt_name': 'bastion', 'memory': '6Gi', 'cores': 2, 'image_size': '30Gi', 'image': 'rhel-9.6', 'networkdata': 'network:\\n  version: 2\\n  ethernets:\\n    eth0:\\n      dhcp4: yes\\n    eth1:\\n      dhcp4: no\\n      addresses:\\n        - 10.10.10.1/24\\n', 'userdata': '#cloud-config\\nwrite_files:\\n  - path: /etc/sysctl.d/99-ip-forwarding.conf\\n    content: |\\n      net.ipv4.ip_forward=1\\n\\n  - path: /etc/nftables/ruleset.nft\\n    content: |\\n      table inet nat {\\n        chain postrouting {\\n          type nat hook postrouting priority 100; policy accept;\\n          oifname "eth0" masquerade\\n        }\\n      }\\n\\n      table inet filter {\\n        chain forward {\\n          type filter hook forward priority 0; policy drop;\\n          iifname "eth1" oifname "eth0" accept\\n          iifname "eth0" oifname "eth1" ct state related,established accept\\n        }\\n      }\\n\\n  - path: /etc/systemd/system/nftables-restore.service\\n    content: |\\n      [Unit]\\n      Description=Restore nftables rules\\n      After=network.target\\n\\n      [Service]\\n      Type=oneshot\\n      ExecStart=/bin/bash -c \\'while [ ! -x /usr/sbin/nft ]; do sleep 2; done; /usr/sbin/nft -f /etc/nftables/ruleset.nft\\'\\n      RemainAfterExit=yes\\n\\n      [Install]\\n      WantedBy=multi-user.target\\n\\nruncmd:\\n  - sysctl --system\\n  - systemctl daemon-reload\\n  - systemctl enable --now nftables-restore.service\\n', 'metadata': [{'AnsibleGroup': 'bastions'}, {'function': 'bastion'}, {'user': 'lab-user'}, {'project': 'ocp4-cluster-cr4sv'}, {'ostype': 'linux'}, {'Purpose': 'production'}], 'tags': [{'key': 'AnsibleGroup', 'value': 'bastions'}, {'key': 'ostype', 'value': 'linux'}, {'key': 'instance_filter', 'value': 'ocp4-cluster-cr4sv'}], 'networks': ['default', 'cluster']}) 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-create-inventory : include_tasks] ********************
+Tuesday 05 August 2025  08:32:48 +0000 (0:00:00.028)       0:00:50.065 ******** 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-create-inventory : ansible.builtin.include_tasks] ****
+Tuesday 05 August 2025  08:32:48 +0000 (0:00:00.015)       0:00:50.080 ******** 
+included: /runner/project/ansible/roles-infra/infra-openshift-cnv-create-inventory/tasks/create_inventory.yaml for localhost
+
+TASK [infra-openshift-cnv-create-inventory : Search for all running pods] ******
+Tuesday 05 August 2025  08:32:48 +0000 (0:00:00.017)       0:00:50.098 ******** 
+ok: [localhost]
+
+TASK [infra-openshift-cnv-create-inventory : Debug OpenShift CNV Instances fact] ***
+Tuesday 05 August 2025  08:32:49 +0000 (0:00:00.657)       0:00:50.755 ******** 
+skipping: [localhost]
+
+TASK [infra-openshift-cnv-create-inventory : Find the bastion in this batch of hosts] ***
+Tuesday 05 August 2025  08:32:49 +0000 (0:00:00.018)       0:00:50.773 ******** 
+ok: [localhost] => (item={'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'bastions', 'Purpose': 'production', 'Stack': 'ocp4-cluster-cr4sv', 'env_type': 'ocp4-cluster', 'function': 'bastion', 'guid': 'cr4sv', 'instance_filter': 'ocp4-cluster-cr4sv', 'kubevirt.io/latest-observed-api-version': 'v1', 'kubevirt.io/storage-observed-api-version': 'v1', 'ostype': 'linux', 'owner': 'unknown', 'project': 'ocp4-cluster-cr4sv', 'user': 'lab-user', 'uuid': 'fd2f4e9d-29b6-5ad2-a17e-22324340f063'}, 'creationTimestamp': '2025-08-05T08:32:14Z', 'finalizers': ['kubevirt.io/virtualMachineControllerFinalize'], 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Purpose': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:function': {}, 'f:guid': {}, 'f:instance_filter': {}, 'f:ostype': {}, 'f:owner': {}, 'f:project': {}, 'f:user': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:networks': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-05T08:32:14Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'f:kubevirt.io/latest-observed-api-version': {}, 'f:kubevirt.io/storage-observed-api-version': {}}, 'f:finalizers': {'.': {}, 'v:"kubevirt.io/virtualMachineControllerFinalize"': {}}}}, 'manager': 'virt-controller', 'operation': 'Update', 'time': '2025-08-05T08:32:14Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:status': {'.': {}, 'f:conditions': {}, 'f:created': {}, 'f:desiredGeneration': {}, 'f:observedGeneration': {}, 'f:printableStatus': {}, 'f:ready': {}, 'f:runStrategy': {}, 'f:volumeSnapshotStatuses': {}}}, 'manager': 'virt-controller', 'operation': 'Update', 'subresource': 'status', 'time': '2025-08-05T08:32:40Z'}], 'name': 'bastion', 'namespace': 'sandbox-cr4sv-ocp4-cluster', 'resourceVersion': '607825988', 'uid': 'f7a29f83-62ac-48fc-b994-448bf4d08dba'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'bastion-cr4sv'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '30Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-9.6', 'namespace': 'cnv-images'}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'bastion'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 2, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'bastion-cr4sv'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'e1000e', 'name': 'default', 'pciAddress': '0000:00:03.0'}, {'bridge': {}, 'macAddress': '2c:c2:60:d8:d9:c4', 'model': 'e1000e', 'name': 'clustercr4sv', 'pciAddress': '0000:00:04.0'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': '035a287c-83bb-5260-884a-b8fb565ba9b4'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '6Gi'}, 'resources': {}}, 'networks': [{'name': 'default', 'pod': {}}, {'multus': {'networkName': 'clustercr4sv'}, 'name': 'clustercr4sv'}], 'volumes': [{'dataVolume': {'name': 'bastion-cr4sv'}, 'name': 'bastion-cr4sv'}, {'cloudInitNoCloud': {'networkDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]', 'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]'}, 'name': 'cloudinitdisk'}]}}}, 'status': {'conditions': [{'lastProbeTime': None, 'lastTransitionTime': '2025-08-05T08:32:38Z', 'status': 'True', 'type': 'Ready'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'message': "All of the VMI's DVs are bound and not running", 'reason': 'AllDVsReady', 'status': 'True', 'type': 'DataVolumesReady'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'status': 'True', 'type': 'LiveMigratable'}], 'created': True, 'desiredGeneration': 1, 'observedGeneration': 1, 'printableStatus': 'Running', 'ready': True, 'runStrategy': 'Always', 'volumeSnapshotStatuses': [{'enabled': True, 'name': 'bastion-cr4sv'}, {'enabled': False, 'name': 'cloudinitdisk', 'reason': 'Snapshot is not supported for this volumeSource type [cloudinitdisk]'}]}})
+
+TASK [infra-openshift-cnv-create-inventory : Expose bastion externally] ********
+Tuesday 05 August 2025  08:32:49 +0000 (0:00:00.035)       0:00:50.808 ******** 
+changed: [localhost]
+
+TASK [infra-openshift-cnv-create-inventory : Create inventory (add_host)] ******
+Tuesday 05 August 2025  08:32:49 +0000 (0:00:00.725)       0:00:51.534 ******** 
+changed: [localhost] => (item={'apiVersion': 'kubevirt.io/v1', 'kind': 'VirtualMachine', 'metadata': {'annotations': {'AnsibleGroup': 'bastions', 'Purpose': 'production', 'Stack': 'ocp4-cluster-cr4sv', 'env_type': 'ocp4-cluster', 'function': 'bastion', 'guid': 'cr4sv', 'instance_filter': 'ocp4-cluster-cr4sv', 'kubevirt.io/latest-observed-api-version': 'v1', 'kubevirt.io/storage-observed-api-version': 'v1', 'ostype': 'linux', 'owner': 'unknown', 'project': 'ocp4-cluster-cr4sv', 'user': 'lab-user', 'uuid': 'fd2f4e9d-29b6-5ad2-a17e-22324340f063'}, 'creationTimestamp': '2025-08-05T08:32:14Z', 'finalizers': ['kubevirt.io/virtualMachineControllerFinalize'], 'generation': 1, 'managedFields': [{'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'.': {}, 'f:AnsibleGroup': {}, 'f:Purpose': {}, 'f:Stack': {}, 'f:env_type': {}, 'f:function': {}, 'f:guid': {}, 'f:instance_filter': {}, 'f:ostype': {}, 'f:owner': {}, 'f:project': {}, 'f:user': {}, 'f:uuid': {}}}, 'f:spec': {'.': {}, 'f:dataVolumeTemplates': {}, 'f:running': {}, 'f:template': {'.': {}, 'f:metadata': {'.': {}, 'f:labels': {'.': {}, 'f:vm.cnv.io/name': {}}}, 'f:spec': {'.': {}, 'f:domain': {'.': {}, 'f:cpu': {'.': {}, 'f:cores': {}, 'f:model': {}}, 'f:devices': {'.': {}, 'f:disks': {}, 'f:interfaces': {}}, 'f:firmware': {'.': {}, 'f:bootloader': {'.': {}, 'f:bios': {}}, 'f:uuid': {}}, 'f:machine': {'.': {}, 'f:type': {}}, 'f:memory': {'.': {}, 'f:guest': {}}}, 'f:networks': {}, 'f:volumes': {}}}}}, 'manager': 'OpenAPI-Generator', 'operation': 'Update', 'time': '2025-08-05T08:32:14Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:metadata': {'f:annotations': {'f:kubevirt.io/latest-observed-api-version': {}, 'f:kubevirt.io/storage-observed-api-version': {}}, 'f:finalizers': {'.': {}, 'v:"kubevirt.io/virtualMachineControllerFinalize"': {}}}}, 'manager': 'virt-controller', 'operation': 'Update', 'time': '2025-08-05T08:32:14Z'}, {'apiVersion': 'kubevirt.io/v1', 'fieldsType': 'FieldsV1', 'fieldsV1': {'f:status': {'.': {}, 'f:conditions': {}, 'f:created': {}, 'f:desiredGeneration': {}, 'f:observedGeneration': {}, 'f:printableStatus': {}, 'f:ready': {}, 'f:runStrategy': {}, 'f:volumeSnapshotStatuses': {}}}, 'manager': 'virt-controller', 'operation': 'Update', 'subresource': 'status', 'time': '2025-08-05T08:32:40Z'}], 'name': 'bastion', 'namespace': 'sandbox-cr4sv-ocp4-cluster', 'resourceVersion': '607825988', 'uid': 'f7a29f83-62ac-48fc-b994-448bf4d08dba'}, 'spec': {'dataVolumeTemplates': [{'metadata': {'creationTimestamp': None, 'name': 'bastion-cr4sv'}, 'spec': {'pvc': {'accessModes': ['ReadWriteMany'], 'resources': {'requests': {'storage': '30Gi'}}, 'volumeMode': 'Block'}, 'source': {'pvc': {'name': 'rhel-9.6', 'namespace': 'cnv-images'}}}}], 'running': True, 'template': {'metadata': {'creationTimestamp': None, 'labels': {'vm.cnv.io/name': 'bastion'}}, 'spec': {'architecture': 'amd64', 'domain': {'cpu': {'cores': 2, 'model': 'host-passthrough'}, 'devices': {'disks': [{'disk': {'bus': 'virtio'}, 'name': 'bastion-cr4sv'}, {'disk': {'bus': 'virtio'}, 'name': 'cloudinitdisk'}], 'interfaces': [{'masquerade': {}, 'model': 'e1000e', 'name': 'default', 'pciAddress': '0000:00:03.0'}, {'bridge': {}, 'macAddress': '2c:c2:60:d8:d9:c4', 'model': 'e1000e', 'name': 'clustercr4sv', 'pciAddress': '0000:00:04.0'}]}, 'firmware': {'bootloader': {'bios': {}}, 'uuid': '035a287c-83bb-5260-884a-b8fb565ba9b4'}, 'machine': {'type': 'pc-q35-rhel9.2.0'}, 'memory': {'guest': '6Gi'}, 'resources': {}}, 'networks': [{'name': 'default', 'pod': {}}, {'multus': {'networkName': 'clustercr4sv'}, 'name': 'clustercr4sv'}], 'volumes': [{'dataVolume': {'name': 'bastion-cr4sv'}, 'name': 'bastion-cr4sv'}, {'cloudInitNoCloud': {'networkDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]', 'userDataBase64': '[REDACTED_Base64 High Entropy String_SECRET]'}, 'name': 'cloudinitdisk'}]}}}, 'status': {'conditions': [{'lastProbeTime': None, 'lastTransitionTime': '2025-08-05T08:32:38Z', 'status': 'True', 'type': 'Ready'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'message': "All of the VMI's DVs are bound and not running", 'reason': 'AllDVsReady', 'status': 'True', 'type': 'DataVolumesReady'}, {'lastProbeTime': None, 'lastTransitionTime': None, 'status': 'True', 'type': 'LiveMigratable'}], 'created': True, 'desiredGeneration': 1, 'observedGeneration': 1, 'printableStatus': 'Running', 'ready': True, 'runStrategy': 'Always', 'volumeSnapshotStatuses': [{'enabled': True, 'name': 'bastion-cr4sv'}, {'enabled': False, 'name': 'cloudinitdisk', 'reason': 'Snapshot is not supported for this volumeSource type [cloudinitdisk]'}]}})
+
+TASK [infra-common-ssh-config-generate : Store bastion hostname as a fact] *****
+Tuesday 05 August 2025  08:32:49 +0000 (0:00:00.044)       0:00:51.578 ******** 
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : Delete dedicated known_host if it exists (new deployment)] ***
+Tuesday 05 August 2025  08:32:49 +0000 (0:00:00.024)       0:00:51.602 ******** 
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : delete local ssh config, start fresh] ***
+Tuesday 05 August 2025  08:32:50 +0000 (0:00:00.173)       0:00:51.776 ******** 
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : Create empty local ssh config] ********
+Tuesday 05 August 2025  08:32:50 +0000 (0:00:00.169)       0:00:51.946 ******** 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : Add bastion proxy config to workdir ssh config file] ***
+Tuesday 05 August 2025  08:32:50 +0000 (0:00:00.195)       0:00:52.141 ******** 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : Add all hosts to workdir ssh config file] ***
+Tuesday 05 August 2025  08:32:50 +0000 (0:00:00.285)       0:00:52.427 ******** 
+skipping: [localhost] => (item=bastion) 
+skipping: [localhost]
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Tuesday 05 August 2025  08:32:50 +0000 (0:00:00.050)       0:00:52.477 ******** 
+ok: [localhost]
+ok: [bastion]
+
+TASK [Include variables files] *************************************************
+Tuesday 05 August 2025  08:32:50 +0000 (0:00:00.034)       0:00:52.512 ******** 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yaml) 
+skipping: [bastion] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yml) 
+skipping: [bastion] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_vars.yaml) 
+skipping: [bastion] => (item=/runner/project/ansible/configs/ocp4-cluster/env_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_vars.yml) 
+skipping: [bastion] => (item=/runner/project/ansible/configs/ocp4-cluster/env_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars.yaml) 
+skipping: [bastion] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars_openshift_cnv.yaml) 
+ok: [bastion] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars.yml)
+skipping: [bastion] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars_openshift_cnv.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars_openshift_cnv.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_secret_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_secret_vars.yml) 
+ok: [bastion] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars_openshift_cnv.yml)
+skipping: [bastion] => (item=/runner/project/ansible/configs/ocp4-cluster/env_secret_vars.yaml) 
+skipping: [bastion] => (item=/runner/project/ansible/configs/ocp4-cluster/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Tuesday 05 August 2025  08:32:50 +0000 (0:00:00.077)       0:00:52.590 ******** 
+skipping: [localhost]
+skipping: [bastion]
+
+TASK [Set passthrough user data] ***********************************************
+Tuesday 05 August 2025  08:32:50 +0000 (0:00:00.021)       0:00:52.612 ******** 
+skipping: [localhost]
+[WARNING]: Could not match supplied host pattern, ignoring: windows
+[WARNING]: Could not match supplied host pattern, ignoring: network
+
+PLAY [Step 001.3 Configure Linux Hosts and Wait for Connection] ****************
+
+TASK [set facts for remote access] *********************************************
+Tuesday 05 August 2025  08:32:51 +0000 (0:00:00.038)       0:00:52.650 ******** 
+ok: [bastion]
+
+TASK [Run infra-generic-wait_for_linux_hosts Role] *****************************
+Tuesday 05 August 2025  08:32:51 +0000 (0:00:00.017)       0:00:52.667 ******** 
+
+TASK [infra-generic-wait_for_linux_hosts : wait for linux host to be available] ***
+Tuesday 05 August 2025  08:32:51 +0000 (0:00:00.017)       0:00:52.685 ******** 
+ok: [bastion]
+
+TASK [infra-generic-wait_for_linux_hosts : ping] *******************************
+Tuesday 05 August 2025  08:33:24 +0000 (0:00:32.934)       0:01:25.619 ******** 
+ok: [bastion]
+
+TASK [Add authorized_keys] *****************************************************
+Tuesday 05 August 2025  08:33:25 +0000 (0:00:01.543)       0:01:27.163 ******** 
+
+TASK [ssh_authorized_keys : Add all authorized keys] ***************************
+Tuesday 05 August 2025  08:33:25 +0000 (0:00:00.025)       0:01:27.189 ******** 
+changed: [bastion] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvZvn+GL0wTOsAdh1ikIQoqj2Fw/RA6F14O347rgKdpkgOQpGQk1k2gM8wcla2Y1o0bPIzwlNy1oh5o9uNjZDMeDcEXWuXbu0cRBy4pVRhh8a8zAZfssnqoXHHLyPyHWpdTmgIhr0UIGYrzHrnySAnUcDp3gJuE46UEBtrlyv94cVvZf+EZUTaZ+2KjTRLoNryCn7vKoGHQBooYg1DeHLcLSRWEADUo+bP0y64+X/XTMZOAXbf8kTXocqAgfl/usbYdfLOgwU6zWuj8vxzAKuMEXS1AJSp5aeqRKlbbw40IkTmLoQIgJdb2Zt98BH/xHDe9xxhscUCfWeS37XLp75J opentlc_admin_backdoor'})
+changed: [bastion] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCg5PJgwAB8U2NiXh4aRZAg09f3xjT3y1CP322StmT4ljiqhXoqOOZ++qDIKFmtHGmeEjvkCo11M2oVmJTeaibeS0E+Xsoi9wTcit47h2ka7WPdzhy/togFQOVAftbwi3RtHDOweIFL18FQ8inhu9W/oFibsZjQEWtHoHtLkmA5zOSQtWDmVfx3iWrKd4svkNbJ+SNZMnD0tCDoot3y0Knzyt+wpZtVd94YXpUDTCJ8Ie1nFSdm7H/QB9/bDXeOSSnHBq2xSmywodNoyA1gFZ1hhpPNEauQjzeKCMpNLPATg/jtQb1zojG6QnO/7I5euKOlDeJ1Odg35aTG31p8EbT3UL8NZssdn3YY3OEQ/2rN0PaQ+zxzmzfh1otx4Rsh1IbD5S99GuQD2ma7m0zOzrBb8Mil5TCaTaK8mIADq/lclj0sAMrH1EXyFvDiHEG+cV0iMyXOxEMTJs4YLr8DyqsTZ34TvVSJP9/0YwQuRYhg0MJmFbMvl/4yibTgyvTYLN0= instructor-key-2022'})
+changed: [bastion] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIIDDIOD4M5yYo3uCFDBDb6del+NG2fkboWh90kW/S6H elliptical_instructor_key_2024'})
+changed: [bastion] => (item={'key': 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOBfsRMLCEQt86EZnvQ/rK49wo1odLqpd1NEz3tDjUWY elliptical_admin_key_2023'})
+changed: [bastion] => (item={'key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC3nKRSIwWn7pjMf2i1TyXgjsauEIoDS8Xulad2ZAbsmZrWcKU5hPi23xq0g2AjRYiXml8zSX9jAQfmlKnrXGYo5WN39iXGRI3lFJmXwmEHne3Z0qtUgt9MBA4w0Tcunw7pXniKntvo2oiDYZlXHztRMHMeUkUjLgCGjn2cfi0uqd4pxLmneMziHMKDxcyy+9MaGnWr5Bs27r3b6rWNFqG2fAo1Z5ZWEA/r3MhdI9ZzMRJVTUhunpstwMX8MRxx/OGk0zynyHcSkh91sqZ3xhPpvRkmYLRa5I0aw88AMenWBfc586FyORL2e/UVoIoyMkBMnovaRIoiTj74RuPeZ6gGKbbfpt1ggDs4j9Z1Go51GlGPYcchvLQvx+Ucv5+tLZSqZBhPOXLRqFuQgRZz4R6j5O5UkfdjLJxBoHQZxT0Wdzd/XiGcAlyDOq8puNSxdF3w/8eGGSKDdUONv1tc1dcTFd6kR+jYaedjD1fldVrC+4fRUFkFqEovDPVI4159VSqJWz78WuqazNnCRMVDnS4Le+Er1pvTbk5rOdYUkF67vxVwD3cyJ3D1C49wVsIc3+kngZN2246OEMsbVugEPG4A8/UOlHIE5iBps+mM9GX6UFSj4aLFh15XeOGKs7aH2r1thfvFPSvk12t8QvNDhhhhAf5EzzypvNEbXQ6fk3YSUw== rsa_admin_key_2023'})
+
+TASK [ssh_authorized_keys : Add all authorized keys (legacy var all_ssh_authorized_keys)] ***
+Tuesday 05 August 2025  08:33:32 +0000 (0:00:06.547)       0:01:33.737 ******** 
+skipping: [bastion]
+
+PLAY [Step 002 - Post Infrastructure] ******************************************
+
+TASK [All-Cloud Post Infrastructure] *******************************************
+Tuesday 05 August 2025  08:33:32 +0000 (0:00:00.031)       0:01:33.768 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "data": {
+        "cloud_provider": "openshift_cnv",
+        "guid": "cr4sv"
+    }
+}
+
+TASK [OpenShift Floating IPs on OpenStack] *************************************
+Tuesday 05 August 2025  08:33:32 +0000 (0:00:00.022)       0:01:33.791 ******** 
+skipping: [localhost]
+
+TASK [Create secret for SSH Key] ***********************************************
+Tuesday 05 August 2025  08:33:32 +0000 (0:00:00.016)       0:01:33.808 ******** 
+skipping: [localhost]
+
+TASK [Save Route53User credentials from stack outputs] *************************
+Tuesday 05 August 2025  08:33:32 +0000 (0:00:00.020)       0:01:33.828 ******** 
+skipping: [localhost]
+
+TASK [Set FQDN for the bastion VM] *********************************************
+Tuesday 05 August 2025  08:33:32 +0000 (0:00:00.022)       0:01:33.851 ******** 
+skipping: [localhost]
+
+TASK [Set FQDN for each Windows VM] ********************************************
+Tuesday 05 August 2025  08:33:32 +0000 (0:00:00.019)       0:01:33.870 ******** 
+skipping: [localhost]
+
+TASK [Set FQDN for each Windows VM] ********************************************
+Tuesday 05 August 2025  08:33:32 +0000 (0:00:00.017)       0:01:33.888 ******** 
+skipping: [localhost]
+
+TASK [Print Host Information] **************************************************
+Tuesday 05 August 2025  08:33:32 +0000 (0:00:00.016)       0:01:33.905 ******** 
+skipping: [localhost]
+
+PLAY [Step 002 Post Infrastructure regreSSHion hotfix] *************************
+
+TASK [Gathering Facts] *********************************************************
+Tuesday 05 August 2025  08:33:32 +0000 (0:00:00.025)       0:01:33.931 ******** 
+ok: [bastion]
+
+TASK [Have facts been gathered?] ***********************************************
+Tuesday 05 August 2025  08:33:34 +0000 (0:00:01.980)       0:01:35.911 ******** 
+ok: [bastion]
+
+TASK [Set sshd LoginGraceTime to 0 in /etc/ssh/sshd_config] ********************
+Tuesday 05 August 2025  08:33:35 +0000 (0:00:01.431)       0:01:37.343 ******** 
+changed: [bastion]
+
+TASK [Restart SSH service for regreSSHion fix] *********************************
+Tuesday 05 August 2025  08:33:37 +0000 (0:00:01.314)       0:01:38.658 ******** 
+changed: [bastion]
+
+PLAY [localhost] ***************************************************************
+
+TASK [Export in-memory inventory to inventory file] ****************************
+Tuesday 05 August 2025  08:33:38 +0000 (0:00:01.615)       0:01:40.273 ******** 
+skipping: [localhost]
+
+PLAY [Step 003 - Pre Software] *************************************************
+
+TASK [Print debug message] *****************************************************
+Tuesday 05 August 2025  08:33:38 +0000 (0:00:00.028)       0:01:40.302 ******** 
+ok: [localhost] => {
+    "msg": "Step 003 - Pre Software"
+}
+[WARNING]: Could not match supplied host pattern, ignoring: isolated
+
+PLAY [Step 003.1 Configure all hosts with repositories, common files and set environment key] ***
+
+TASK [set-repositories : Run setup if gather_facts hasn't been run] ************
+Tuesday 05 August 2025  08:33:38 +0000 (0:00:00.044)       0:01:40.347 ******** 
+skipping: [bastion]
+
+TASK [set-repositories : Configure satellite repositories] *********************
+Tuesday 05 August 2025  08:33:38 +0000 (0:00:00.026)       0:01:40.373 ******** 
+included: /runner/project/ansible/roles/set-repositories/tasks/satellite-repos.yml for bastion
+
+TASK [set-repositories : sat | Check subscription-manager package existence] ***
+Tuesday 05 August 2025  08:33:38 +0000 (0:00:00.051)       0:01:40.425 ******** 
+skipping: [bastion]
+
+TASK [set-repositories : sat | Install subscription-manager package] ***********
+Tuesday 05 August 2025  08:33:38 +0000 (0:00:00.020)       0:01:40.445 ******** 
+skipping: [bastion]
+
+TASK [set-repositories : sat | Remove rh-amazon-rhui-client package] ***********
+Tuesday 05 August 2025  08:33:38 +0000 (0:00:00.019)       0:01:40.465 ******** 
+skipping: [bastion]
+
+TASK [set-repositories : sat | Unregister the system just in case] *************
+Tuesday 05 August 2025  08:33:38 +0000 (0:00:00.018)       0:01:40.484 ******** 
+included: /runner/project/ansible/roles/set-repositories/tasks/unregister.yml for bastion
+
+TASK [set-repositories : unreg | Unregister From Subscription Manager] *********
+Tuesday 05 August 2025  08:33:38 +0000 (0:00:00.029)       0:01:40.513 ******** 
+changed: [bastion]
+
+TASK [set-repositories : sat | Install CA certificate from satellite server] ***
+Tuesday 05 August 2025  08:33:40 +0000 (0:00:01.895)       0:01:42.408 ******** 
+changed: [bastion]
+
+TASK [set-repositories : sat | Update CA Trust Bundle] *************************
+Tuesday 05 August 2025  08:33:42 +0000 (0:00:01.659)       0:01:44.067 ******** 
+changed: [bastion]
+
+TASK [set-repositories : sat | Remove satellite Cert] **************************
+Tuesday 05 August 2025  08:33:44 +0000 (0:00:02.263)       0:01:46.330 ******** 
+ok: [bastion]
+
+TASK [set-repositories : sat | Find current repository files] ******************
+Tuesday 05 August 2025  08:33:46 +0000 (0:00:02.031)       0:01:48.361 ******** 
+ok: [bastion]
+
+TASK [set-repositories : sat | Remove current repository files] ****************
+Tuesday 05 August 2025  08:33:48 +0000 (0:00:01.379)       0:01:49.741 ******** 
+skipping: [bastion]
+
+TASK [set-repositories : sat | Install Satellite CA certificate package] *******
+Tuesday 05 August 2025  08:33:48 +0000 (0:00:00.014)       0:01:49.755 ******** 
+changed: [bastion]
+
+TASK [set-repositories : sat | Disable Reporting Of Package Profile to Satellite] ***
+Tuesday 05 August 2025  08:33:52 +0000 (0:00:04.216)       0:01:53.972 ******** 
+changed: [bastion]
+
+TASK [set-repositories : sat | Run setup if gather_facts hasn't been run] ******
+Tuesday 05 August 2025  08:33:53 +0000 (0:00:01.383)       0:01:55.355 ******** 
+skipping: [bastion]
+
+TASK [set-repositories : Generate UUID for dmi.system.uuid if cloud provider is Equinix Metal] ***
+Tuesday 05 August 2025  08:33:53 +0000 (0:00:00.021)       0:01:55.377 ******** 
+skipping: [bastion]
+
+TASK [set-repositories : sat | Set set_repositories_subscription_hostname with randomization] ***
+Tuesday 05 August 2025  08:33:53 +0000 (0:00:00.020)       0:01:55.397 ******** 
+ok: [bastion]
+
+TASK [set-repositories : sat | Set network.fqdn in /etc/rhsm/facts/katello.facts] ***
+Tuesday 05 August 2025  08:33:53 +0000 (0:00:00.026)       0:01:55.424 ******** 
+changed: [bastion]
+
+TASK [set-repositories : sat | Register with activation-key] *******************
+Tuesday 05 August 2025  08:33:56 +0000 (0:00:02.515)       0:01:57.939 ******** 
+skipping: [bastion]
+
+TASK [set-repositories : sat | Register with activation-key with HA] ***********
+Tuesday 05 August 2025  08:33:56 +0000 (0:00:00.022)       0:01:57.961 ******** 
+changed: [bastion]
+
+TASK [set-repositories : sat | Enable RHSM to manage repositories] *************
+Tuesday 05 August 2025  08:34:03 +0000 (0:00:07.636)       0:02:05.598 ******** 
+changed: [bastion]
+
+TASK [set-repositories : sat | Lock RHEL 9 release to specific version] ********
+Tuesday 05 August 2025  08:34:05 +0000 (0:00:01.624)       0:02:07.223 ******** 
+skipping: [bastion]
+
+TASK [set-repositories : sat | Lock RHEL 8 release to specific version] ********
+Tuesday 05 August 2025  08:34:05 +0000 (0:00:00.020)       0:02:07.243 ******** 
+skipping: [bastion]
+
+TASK [set-repositories : sat | Lock RHEL 7 release to specific version] ********
+Tuesday 05 August 2025  08:34:05 +0000 (0:00:00.019)       0:02:07.262 ******** 
+skipping: [bastion]
+
+TASK [set-repositories : sat | Enable repos] ***********************************
+Tuesday 05 August 2025  08:34:05 +0000 (0:00:00.019)       0:02:07.282 ******** 
+changed: [bastion]
+
+TASK [set-repositories : sat | Purge existing repos] ***************************
+Tuesday 05 August 2025  08:34:12 +0000 (0:00:06.929)       0:02:14.211 ******** 
+skipping: [bastion]
+
+TASK [set-repositories : sat | Enable repos for RHEL] **************************
+Tuesday 05 August 2025  08:34:12 +0000 (0:00:00.020)       0:02:14.232 ******** 
+skipping: [bastion]
+
+TASK [set-repositories : sat | Create the certificate and key files] ***********
+Tuesday 05 August 2025  08:34:12 +0000 (0:00:00.020)       0:02:14.253 ******** 
+skipping: [bastion] => (item=/etc/pki/tls/Red_GPTE.key) 
+skipping: [bastion] => (item=/etc/pki/tls/Red_GPTE.pem) 
+skipping: [bastion]
+
+TASK [set-repositories : sat | Add certificate and key content] ****************
+Tuesday 05 August 2025  08:34:12 +0000 (0:00:00.025)       0:02:14.279 ******** 
+skipping: [bastion]
+
+TASK [set-repositories : sat | create open.repo template on host] **************
+Tuesday 05 August 2025  08:34:12 +0000 (0:00:00.021)       0:02:14.300 ******** 
+skipping: [bastion]
+
+TASK [set-repositories : sat | clean repositories] *****************************
+Tuesday 05 August 2025  08:34:12 +0000 (0:00:00.019)       0:02:14.319 ******** 
+changed: [bastion]
+
+TASK [set-repositories : Unregister from subscription manager] *****************
+Tuesday 05 August 2025  08:34:14 +0000 (0:00:02.125)       0:02:16.445 ******** 
+skipping: [bastion]
+
+TASK [common : Deactivate DNS lookup in sshd] **********************************
+Tuesday 05 August 2025  08:34:14 +0000 (0:00:00.024)       0:02:16.470 ******** 
+changed: [bastion]
+
+TASK [common : Update all packages] ********************************************
+Tuesday 05 August 2025  08:34:16 +0000 (0:00:01.256)       0:02:17.726 ******** 
+ASYNC POLL on bastion: jid=j613319843104.8147 started=1 finished=0
+ASYNC POLL on bastion: jid=j613319843104.8147 started=1 finished=0
+ASYNC POLL on bastion: jid=j613319843104.8147 started=1 finished=0
+ASYNC POLL on bastion: jid=j613319843104.8147 started=1 finished=0
+ASYNC POLL on bastion: jid=j613319843104.8147 started=1 finished=0
+ASYNC POLL on bastion: jid=j613319843104.8147 started=1 finished=0
+ASYNC POLL on bastion: jid=j613319843104.8147 started=1 finished=0
+ASYNC POLL on bastion: jid=j613319843104.8147 started=1 finished=0
+ASYNC POLL on bastion: jid=j613319843104.8147 started=1 finished=0
+ASYNC OK on bastion: jid=j613319843104.8147
+changed: [bastion]
+
+TASK [common : Update all packages Legacy] *************************************
+Tuesday 05 August 2025  08:39:30 +0000 (0:05:14.666)       0:07:32.392 ******** 
+skipping: [bastion]
+
+TASK [common : Determine if reboot is needed] **********************************
+Tuesday 05 August 2025  08:39:30 +0000 (0:00:00.024)       0:07:32.417 ******** 
+ok: [bastion]
+
+TASK [common : Reboot all VMs] *************************************************
+Tuesday 05 August 2025  08:39:32 +0000 (0:00:02.192)       0:07:34.610 ******** 
+changed: [bastion]
+
+TASK [common : Update network facts after reboot] ******************************
+Tuesday 05 August 2025  08:40:07 +0000 (0:00:34.025)       0:08:08.635 ******** 
+ok: [bastion]
+
+TASK [common : Run setup if gather_facts hasn't been run] **********************
+Tuesday 05 August 2025  08:40:08 +0000 (0:00:01.631)       0:08:10.267 ******** 
+skipping: [bastion]
+
+TASK [common : install common packages for RHEL 7] *****************************
+Tuesday 05 August 2025  08:40:08 +0000 (0:00:00.020)       0:08:10.288 ******** 
+skipping: [bastion]
+
+TASK [common : install common packages for RHEL 8] *****************************
+Tuesday 05 August 2025  08:40:08 +0000 (0:00:00.021)       0:08:10.309 ******** 
+skipping: [bastion]
+
+TASK [common : Set up python alternatives for convenience] *********************
+Tuesday 05 August 2025  08:40:08 +0000 (0:00:00.022)       0:08:10.332 ******** 
+skipping: [bastion]
+
+TASK [common : install common packages for RHEL 9] *****************************
+Tuesday 05 August 2025  08:40:08 +0000 (0:00:00.022)       0:08:10.355 ******** 
+changed: [bastion]
+
+TASK [common : install extra packages] *****************************************
+Tuesday 05 August 2025  08:41:34 +0000 (0:01:26.179)       0:09:36.535 ******** 
+skipping: [bastion]
+
+TASK [common : Update specified packages] **************************************
+Tuesday 05 August 2025  08:41:34 +0000 (0:00:00.024)       0:09:36.559 ******** 
+skipping: [bastion]
+
+TASK [common : Determine if reboot is needed] **********************************
+Tuesday 05 August 2025  08:41:34 +0000 (0:00:00.019)       0:09:36.578 ******** 
+skipping: [bastion]
+
+TASK [common : Reboot VMs] *****************************************************
+Tuesday 05 August 2025  08:41:34 +0000 (0:00:00.019)       0:09:36.598 ******** 
+skipping: [bastion]
+
+TASK [common : Refresh network facts post-reboot] ******************************
+Tuesday 05 August 2025  08:41:35 +0000 (0:00:00.019)       0:09:36.617 ******** 
+skipping: [bastion]
+
+TASK [set_env_authorized_key : create /root/.ssh] ******************************
+Tuesday 05 August 2025  08:41:35 +0000 (0:00:00.025)       0:09:36.643 ******** 
+ok: [bastion]
+
+TASK [set_env_authorized_key : copy the environment .pem key] ******************
+Tuesday 05 August 2025  08:41:36 +0000 (0:00:01.246)       0:09:37.889 ******** 
+changed: [bastion]
+
+TASK [set_env_authorized_key : copy the environment .pub key] ******************
+Tuesday 05 August 2025  08:41:38 +0000 (0:00:02.445)       0:09:40.334 ******** 
+changed: [bastion]
+
+TASK [set_env_authorized_key : Set authorized key from file] *******************
+Tuesday 05 August 2025  08:41:41 +0000 (0:00:02.461)       0:09:42.795 ******** 
+ok: [bastion]
+
+TASK [set_env_authorized_key : Generate host .ssh/config Template] *************
+Tuesday 05 August 2025  08:41:42 +0000 (0:00:01.202)       0:09:43.998 ******** 
+changed: [bastion -> localhost]
+
+TASK [set_env_authorized_key : copy over host .ssh/config Template] ************
+Tuesday 05 August 2025  08:41:42 +0000 (0:00:00.294)       0:09:44.293 ******** 
+changed: [bastion]
+
+TASK [Add GUID to /etc/skel/.bashrc] *******************************************
+Tuesday 05 August 2025  08:41:45 +0000 (0:00:02.508)       0:09:46.801 ******** 
+changed: [bastion]
+
+RUNNING HANDLER [common : restart_sshd] ****************************************
+Tuesday 05 August 2025  08:41:46 +0000 (0:00:01.177)       0:09:47.978 ******** 
+changed: [bastion]
+
+PLAY [Step 003.2 - Configuring Bastion Hosts] **********************************
+
+TASK [bastion-lite : Generate an SSH key on the Bastion and configure access on all the hosts] ***
+Tuesday 05 August 2025  08:41:48 +0000 (0:00:02.380)       0:09:50.359 ******** 
+included: /runner/project/ansible/roles/bastion-lite/tasks/./create_bastion_ssh_key_and_access.yml for bastion
+
+TASK [bastion-lite : Generate SSH keys] ****************************************
+Tuesday 05 August 2025  08:41:48 +0000 (0:00:00.026)       0:09:50.385 ******** 
+changed: [bastion]
+
+TASK [bastion-lite : Fix permission of ssh key] ********************************
+Tuesday 05 August 2025  08:41:50 +0000 (0:00:01.809)       0:09:52.194 ******** 
+changed: [bastion]
+
+TASK [bastion-lite : Generate SSH pub key content] *****************************
+Tuesday 05 August 2025  08:41:51 +0000 (0:00:01.237)       0:09:53.431 ******** 
+ok: [bastion]
+
+TASK [bastion-lite : Save all facts for SSH] ***********************************
+Tuesday 05 August 2025  08:41:52 +0000 (0:00:01.157)       0:09:54.589 ******** 
+ok: [bastion]
+
+TASK [bastion-lite : Write SSH pub key] ****************************************
+Tuesday 05 August 2025  08:41:52 +0000 (0:00:00.024)       0:09:54.613 ******** 
+changed: [bastion]
+
+TASK [bastion-lite : Add bastion access to all hosts] **************************
+Tuesday 05 August 2025  08:41:55 +0000 (0:00:02.553)       0:09:57.166 ******** 
+changed: [bastion] => (item=bastion)
+
+TASK [bastion-lite : Add bastion access to all hosts] **************************
+Tuesday 05 August 2025  08:41:56 +0000 (0:00:01.211)       0:09:58.378 ******** 
+changed: [bastion] => (item=bastion)
+
+TASK [bastion-lite : Generate .ssh/config] *************************************
+Tuesday 05 August 2025  08:41:57 +0000 (0:00:01.204)       0:09:59.582 ******** 
+changed: [bastion]
+
+TASK [Install FTL] *************************************************************
+Tuesday 05 August 2025  08:42:00 +0000 (0:00:02.551)       0:10:02.134 ******** 
+skipping: [bastion]
+
+TASK [bastion-lite : Ensure system Python3 has selinux library installed] ******
+Tuesday 05 August 2025  08:42:00 +0000 (0:00:00.018)       0:10:02.152 ******** 
+skipping: [bastion]
+
+TASK [bastion-lite : Install OpenShift Helm 3] *********************************
+Tuesday 05 August 2025  08:42:00 +0000 (0:00:00.017)       0:10:02.170 ******** 
+skipping: [bastion]
+
+TASK [bastion-lite : Add GUID to /etc/skel/.bashrc] ****************************
+Tuesday 05 August 2025  08:42:00 +0000 (0:00:00.017)       0:10:02.188 ******** 
+ok: [bastion]
+
+TASK [bastion-lite : Add GUID to ~cloud-user/.bashrc] **************************
+Tuesday 05 August 2025  08:42:01 +0000 (0:00:01.158)       0:10:03.346 ******** 
+changed: [bastion]
+
+TASK [bastion-lite : Add CLOUDUSER to /etc/skel/.bashrc] ***********************
+Tuesday 05 August 2025  08:42:02 +0000 (0:00:01.142)       0:10:04.488 ******** 
+changed: [bastion]
+
+TASK [bastion-lite : Add CLOUDUSER to ~cloud-user/.bashrc] *********************
+Tuesday 05 August 2025  08:42:04 +0000 (0:00:01.155)       0:10:05.644 ******** 
+changed: [bastion]
+
+TASK [bastion-student-user : Generate student_password if not defined] *********
+Tuesday 05 August 2025  08:42:05 +0000 (0:00:01.186)       0:10:06.830 ******** 
+ok: [bastion]
+
+TASK [bastion-student-user : Create user] **************************************
+Tuesday 05 August 2025  08:42:05 +0000 (0:00:00.027)       0:10:06.858 ******** 
+changed: [bastion]
+
+TASK [bastion-student-user : Add student public key] ***************************
+Tuesday 05 August 2025  08:42:06 +0000 (0:00:01.755)       0:10:08.613 ******** 
+skipping: [bastion]
+
+TASK [bastion-student-user : Add env authorized public key to student user] ****
+Tuesday 05 August 2025  08:42:07 +0000 (0:00:00.080)       0:10:08.694 ******** 
+changed: [bastion]
+
+TASK [bastion-student-user : Enable password authentication] *******************
+Tuesday 05 August 2025  08:42:08 +0000 (0:00:01.256)       0:10:09.950 ******** 
+changed: [bastion]
+
+TASK [bastion-student-user : Remove PasswordAuthentication line from 50-cloud-init.conf] ***
+Tuesday 05 August 2025  08:42:09 +0000 (0:00:01.155)       0:10:11.106 ******** 
+changed: [bastion]
+
+TASK [bastion-student-user : Disable root password authentication] *************
+Tuesday 05 August 2025  08:42:10 +0000 (0:00:01.160)       0:10:12.266 ******** 
+changed: [bastion]
+
+TASK [bastion-student-user : Allow passwordless sudo] **************************
+Tuesday 05 August 2025  08:42:11 +0000 (0:00:01.163)       0:10:13.430 ******** 
+changed: [bastion]
+
+TASK [bastion-student-user : Restart sshd] *************************************
+Tuesday 05 August 2025  08:42:12 +0000 (0:00:01.158)       0:10:14.589 ******** 
+changed: [bastion]
+
+TASK [bastion-student-user : Print access info (non CNV)] **********************
+Tuesday 05 August 2025  08:42:14 +0000 (0:00:01.348)       0:10:15.938 ******** 
+skipping: [bastion]
+
+TASK [bastion-student-user : Print access info (CNV)] **************************
+Tuesday 05 August 2025  08:42:14 +0000 (0:00:00.017)       0:10:15.955 ******** 
+skipping: [bastion]
+
+TASK [bastion-student-user : Set access data] **********************************
+Tuesday 05 August 2025  08:42:14 +0000 (0:00:00.016)       0:10:15.972 ******** 
+ok: [bastion] => {
+    "changed": false,
+    "data": {
+        "bastion_public_hostname": "ssh.ocpv06.rhdp.net",
+        "bastion_ssh_password": "[REDACTED_Secret Keyword_SECRET]",
+        "bastion_ssh_user_name": "lab-user"
+    }
+}
+
+TASK [bastion-student-user : Set bastion port for CNV] *************************
+Tuesday 05 August 2025  08:42:14 +0000 (0:00:00.041)       0:10:16.014 ******** 
+ok: [bastion] => {
+    "changed": false,
+    "data": {
+        "bastion_ssh_port": "32296"
+    }
+}
+
+TASK [Prepare student user for using Ansible within the environment] ***********
+Tuesday 05 August 2025  08:42:14 +0000 (0:00:00.037)       0:10:16.051 ******** 
+skipping: [bastion]
+
+TASK [Copy SSH private key to student user .ssh directory] *********************
+Tuesday 05 August 2025  08:42:14 +0000 (0:00:00.027)       0:10:16.079 ******** 
+changed: [bastion]
+
+TASK [Copy SSH public key to student user .ssh directory] **********************
+Tuesday 05 August 2025  08:42:15 +0000 (0:00:01.170)       0:10:17.249 ******** 
+changed: [bastion]
+
+TASK [Copy SSH config to student user .ssh directory] **************************
+Tuesday 05 August 2025  08:42:16 +0000 (0:00:01.178)       0:10:18.427 ******** 
+changed: [bastion]
+
+PLAY [Step 003.3 Create a Python3 VirtualEnv for use in the k8s Ansible tasks] ***
+
+TASK [Setup k8s virtualenv (EL9)] **********************************************
+Tuesday 05 August 2025  08:42:18 +0000 (0:00:01.197)       0:10:19.624 ******** 
+
+TASK [host_virtualenv : Check host_virtualenv_path is defined] *****************
+Tuesday 05 August 2025  08:42:18 +0000 (0:00:00.026)       0:10:19.651 ******** 
+ok: [bastion] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [host_virtualenv : Gather basic ansible facts to determine pkg_mgr] *******
+Tuesday 05 August 2025  08:42:18 +0000 (0:00:00.021)       0:10:19.672 ******** 
+skipping: [bastion]
+
+TASK [host_virtualenv : Install virtualenv package prerequisites] **************
+Tuesday 05 August 2025  08:42:18 +0000 (0:00:00.017)       0:10:19.689 ******** 
+changed: [bastion]
+
+TASK [host_virtualenv : Install virtualenv module system-wide for compatibility with previous behavior] ***
+Tuesday 05 August 2025  08:42:47 +0000 (0:00:29.304)       0:10:48.993 ******** 
+changed: [bastion]
+
+TASK [host_virtualenv : Make virtualenv path] **********************************
+Tuesday 05 August 2025  08:42:50 +0000 (0:00:03.279)       0:10:52.273 ******** 
+changed: [bastion]
+
+TASK [host_virtualenv : Write /opt/virtualenvs/k8s/host_virtualenv-requirements.txt] ***
+Tuesday 05 August 2025  08:42:51 +0000 (0:00:01.256)       0:10:53.530 ******** 
+changed: [bastion]
+
+TASK [host_virtualenv : Set up virtualenv with updated pip] ********************
+Tuesday 05 August 2025  08:42:54 +0000 (0:00:02.479)       0:10:56.009 ******** 
+changed: [bastion]
+
+TASK [host_virtualenv : Install requirements in virtualenv] ********************
+Tuesday 05 August 2025  08:42:59 +0000 (0:00:05.256)       0:11:01.265 ******** 
+changed: [bastion]
+
+TASK [host_virtualenv : Ownership of files in virtualenv path] *****************
+Tuesday 05 August 2025  08:43:48 +0000 (0:00:49.264)       0:11:50.530 ******** 
+skipping: [bastion]
+
+TASK [Setup k8s virtualenv (EL8)] **********************************************
+Tuesday 05 August 2025  08:43:48 +0000 (0:00:00.022)       0:11:50.552 ******** 
+skipping: [bastion]
+
+PLAY [PreSoftware flight-check] ************************************************
+
+TASK [Print debug message] *****************************************************
+Tuesday 05 August 2025  08:43:48 +0000 (0:00:00.032)       0:11:50.585 ******** 
+ok: [localhost] => {
+    "msg": "Pre-Software checks completed successfully"
+}
+
+PLAY [Step 004 - Software] *****************************************************
+
+TASK [Debug ocp4-cluster software playbook] ************************************
+Tuesday 05 August 2025  08:43:49 +0000 (0:00:00.060)       0:11:50.646 ******** 
+ok: [bastion] => {
+    "msg": "ocp4-cluster Software playbook"
+}
+
+PLAY [Step 004.2 - Install OpenShift using Assisted Installer] *****************
+
+TASK [Call Role to install OpenShift using Assisted Installer] *****************
+Tuesday 05 August 2025  08:43:49 +0000 (0:00:00.040)       0:11:50.686 ******** 
+
+TASK [host-ocp4-assisted-installer : Set Ansible Python interpreter to k8s virtualenv] ***
+Tuesday 05 August 2025  08:43:49 +0000 (0:00:00.081)       0:11:50.767 ******** 
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Set URLs for OpenShift GA releases (specific version)] ***
+Tuesday 05 August 2025  08:43:49 +0000 (0:00:00.017)       0:11:50.785 ******** 
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Set URLs for OpenShift GA releases (latest stable)] ***
+Tuesday 05 August 2025  08:43:49 +0000 (0:00:00.024)       0:11:50.810 ******** 
+skipping: [bastion]
+
+TASK [host-ocp4-assisted-installer : Get the OpenShift CLI] ********************
+Tuesday 05 August 2025  08:43:49 +0000 (0:00:00.018)       0:11:50.829 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Log in (obtain access token)] *************
+Tuesday 05 August 2025  08:43:57 +0000 (0:00:08.045)       0:11:58.874 ******** 
+skipping: [bastion]
+
+TASK [host-ocp4-assisted-installer : Add the service (type LoadBalancer) for SNO] ***
+Tuesday 05 August 2025  08:43:57 +0000 (0:00:00.017)       0:11:58.892 ******** 
+skipping: [bastion]
+
+TASK [host-ocp4-assisted-installer : Wait for the LoadBalancer value - masters] ***
+Tuesday 05 August 2025  08:43:57 +0000 (0:00:00.019)       0:11:58.912 ******** 
+skipping: [bastion]
+
+TASK [host-ocp4-assisted-installer : Add A dns record - masters] ***************
+Tuesday 05 August 2025  08:43:57 +0000 (0:00:00.019)       0:11:58.932 ******** 
+skipping: [bastion]
+
+TASK [host-ocp4-assisted-installer : Add A dns record - masters] ***************
+Tuesday 05 August 2025  08:43:57 +0000 (0:00:00.019)       0:11:58.951 ******** 
+skipping: [bastion]
+
+TASK [host-ocp4-assisted-installer : Add A dns record - workers] ***************
+Tuesday 05 August 2025  08:43:57 +0000 (0:00:00.019)       0:11:58.971 ******** 
+skipping: [bastion]
+
+TASK [host-ocp4-assisted-installer : Add A dns record - workers] ***************
+Tuesday 05 August 2025  08:43:57 +0000 (0:00:00.024)       0:11:58.995 ******** 
+skipping: [bastion]
+
+TASK [host-ocp4-assisted-installer : Add the service (type LoadBalancer) for Full Clusters - masters] ***
+Tuesday 05 August 2025  08:43:57 +0000 (0:00:00.024)       0:11:59.020 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Wait for the LoadBalancer value - masters] ***
+Tuesday 05 August 2025  08:43:59 +0000 (0:00:01.775)       0:12:00.795 ******** 
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Add A dns record - masters] ***************
+Tuesday 05 August 2025  08:44:00 +0000 (0:00:01.632)       0:12:02.428 ******** 
+skipping: [bastion]
+
+TASK [host-ocp4-assisted-installer : Add A dns record - masters] ***************
+Tuesday 05 August 2025  08:44:00 +0000 (0:00:00.025)       0:12:02.453 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Add the service (type LoadBalancer) for Full Clusters - workers] ***
+Tuesday 05 August 2025  08:44:06 +0000 (0:00:05.906)       0:12:08.360 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Wait for the LoadBalancer value - workers] ***
+Tuesday 05 August 2025  08:44:08 +0000 (0:00:01.782)       0:12:10.142 ******** 
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Add A dns record - workers] ***************
+Tuesday 05 August 2025  08:44:10 +0000 (0:00:01.613)       0:12:11.756 ******** 
+skipping: [bastion]
+
+TASK [host-ocp4-assisted-installer : Add A dns record - workers] ***************
+Tuesday 05 August 2025  08:44:10 +0000 (0:00:00.026)       0:12:11.782 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Create OVN secondary network] *************
+Tuesday 05 August 2025  08:44:16 +0000 (0:00:05.852)       0:12:17.635 ******** 
+skipping: [bastion]
+
+TASK [host-ocp4-assisted-installer : Create Assisted Installer Cluster] ********
+Tuesday 05 August 2025  08:44:16 +0000 (0:00:00.019)       0:12:17.655 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Add etcd manifest] ************************
+Tuesday 05 August 2025  08:44:17 +0000 (0:00:01.899)       0:12:19.555 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Add routers replicas manifest] ************
+Tuesday 05 August 2025  08:44:19 +0000 (0:00:01.802)       0:12:21.357 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Add OVN-Kubernetes to switch to local gateway mode manifest] ***
+Tuesday 05 August 2025  08:44:21 +0000 (0:00:01.620)       0:12:22.977 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Enable ip_forwarding for control plane] ***
+Tuesday 05 August 2025  08:44:22 +0000 (0:00:01.572)       0:12:24.550 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Enable ip_forwarding for workers] *********
+Tuesday 05 August 2025  08:44:24 +0000 (0:00:01.553)       0:12:26.104 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Generate mac addresses for control plane] ***
+Tuesday 05 August 2025  08:44:26 +0000 (0:00:01.565)       0:12:27.670 ******** 
+ok: [bastion] => (item=1)
+ok: [bastion] => (item=2)
+ok: [bastion] => (item=3)
+
+TASK [host-ocp4-assisted-installer : Generate MAC addresses for control plane for attached networks] ***
+Tuesday 05 August 2025  08:44:26 +0000 (0:00:00.062)       0:12:27.732 ******** 
+skipping: [bastion]
+
+TASK [host-ocp4-assisted-installer : Generate mac addresses for workers] *******
+Tuesday 05 August 2025  08:44:26 +0000 (0:00:00.016)       0:12:27.749 ******** 
+ok: [bastion] => (item=1)
+ok: [bastion] => (item=2)
+ok: [bastion] => (item=3)
+ok: [bastion] => (item=4)
+
+TASK [host-ocp4-assisted-installer : Generate MAC addresses for workers for attached networks] ***
+Tuesday 05 August 2025  08:44:26 +0000 (0:00:00.130)       0:12:27.879 ******** 
+ok: [bastion] => (item=[1, 'default/flatnetwork'])
+ok: [bastion] => (item=[2, 'default/flatnetwork'])
+ok: [bastion] => (item=[3, 'default/flatnetwork'])
+ok: [bastion] => (item=[4, 'default/flatnetwork'])
+
+TASK [host-ocp4-assisted-installer : Set static_network_config variable] *******
+Tuesday 05 August 2025  08:44:26 +0000 (0:00:00.074)       0:12:27.954 ******** 
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Create Infrastructure environment] ********
+Tuesday 05 August 2025  08:44:26 +0000 (0:00:00.075)       0:12:28.029 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Create PVC for the installation ISO] ******
+Tuesday 05 August 2025  08:44:28 +0000 (0:00:01.787)       0:12:29.817 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Create a three master VMs for Full cluster] ***
+Tuesday 05 August 2025  08:44:29 +0000 (0:00:01.677)       0:12:31.494 ******** 
+included: /runner/project/ansible/roles/host-ocp4-assisted-installer/tasks/kubevirt/create_masters_etcd.yaml for bastion => (item=1)
+included: /runner/project/ansible/roles/host-ocp4-assisted-installer/tasks/kubevirt/create_masters_etcd.yaml for bastion => (item=2)
+included: /runner/project/ansible/roles/host-ocp4-assisted-installer/tasks/kubevirt/create_masters_etcd.yaml for bastion => (item=3)
+
+TASK [host-ocp4-assisted-installer : Set default interfaces/networks variables] ***
+Tuesday 05 August 2025  08:44:29 +0000 (0:00:00.054)       0:12:31.549 ******** 
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Add attach masters networks if defined] ***
+Tuesday 05 August 2025  08:44:29 +0000 (0:00:00.032)       0:12:31.581 ******** 
+skipping: [bastion]
+
+TASK [host-ocp4-assisted-installer : Set default volumes/disks variables] ******
+Tuesday 05 August 2025  08:44:29 +0000 (0:00:00.015)       0:12:31.597 ******** 
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Set the instances disks] ******************
+Tuesday 05 August 2025  08:44:30 +0000 (0:00:00.032)       0:12:31.630 ******** 
+skipping: [bastion]
+
+TASK [host-ocp4-assisted-installer : Create Master virtual machine] ************
+Tuesday 05 August 2025  08:44:30 +0000 (0:00:00.018)       0:12:31.649 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Wait till VM is running] ******************
+Tuesday 05 August 2025  08:44:31 +0000 (0:00:01.889)       0:12:33.538 ******** 
+FAILED - RETRYING: [bastion]: Wait till VM is running (120 retries left).
+FAILED - RETRYING: [bastion]: Wait till VM is running (119 retries left).
+FAILED - RETRYING: [bastion]: Wait till VM is running (118 retries left).
+FAILED - RETRYING: [bastion]: Wait till VM is running (117 retries left).
+FAILED - RETRYING: [bastion]: Wait till VM is running (116 retries left).
+FAILED - RETRYING: [bastion]: Wait till VM is running (115 retries left).
+FAILED - RETRYING: [bastion]: Wait till VM is running (114 retries left).
+FAILED - RETRYING: [bastion]: Wait till VM is running (113 retries left).
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Set default interfaces/networks variables] ***
+Tuesday 05 August 2025  08:46:07 +0000 (0:01:35.269)       0:14:08.808 ******** 
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Add attach masters networks if defined] ***
+Tuesday 05 August 2025  08:46:07 +0000 (0:00:00.027)       0:14:08.835 ******** 
+skipping: [bastion]
+
+TASK [host-ocp4-assisted-installer : Set default volumes/disks variables] ******
+Tuesday 05 August 2025  08:46:07 +0000 (0:00:00.012)       0:14:08.848 ******** 
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Set the instances disks] ******************
+Tuesday 05 August 2025  08:46:07 +0000 (0:00:00.026)       0:14:08.875 ******** 
+skipping: [bastion]
+
+TASK [host-ocp4-assisted-installer : Create Master virtual machine] ************
+Tuesday 05 August 2025  08:46:07 +0000 (0:00:00.017)       0:14:08.893 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Wait till VM is running] ******************
+Tuesday 05 August 2025  08:46:09 +0000 (0:00:01.736)       0:14:10.629 ******** 
+FAILED - RETRYING: [bastion]: Wait till VM is running (120 retries left).
+FAILED - RETRYING: [bastion]: Wait till VM is running (119 retries left).
+FAILED - RETRYING: [bastion]: Wait till VM is running (118 retries left).
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Set default interfaces/networks variables] ***
+Tuesday 05 August 2025  08:46:45 +0000 (0:00:36.817)       0:14:47.447 ******** 
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Add attach masters networks if defined] ***
+Tuesday 05 August 2025  08:46:45 +0000 (0:00:00.028)       0:14:47.475 ******** 
+skipping: [bastion]
+
+TASK [host-ocp4-assisted-installer : Set default volumes/disks variables] ******
+Tuesday 05 August 2025  08:46:45 +0000 (0:00:00.012)       0:14:47.488 ******** 
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Set the instances disks] ******************
+Tuesday 05 August 2025  08:46:45 +0000 (0:00:00.024)       0:14:47.512 ******** 
+skipping: [bastion]
+
+TASK [host-ocp4-assisted-installer : Create Master virtual machine] ************
+Tuesday 05 August 2025  08:46:45 +0000 (0:00:00.016)       0:14:47.529 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Wait till VM is running] ******************
+Tuesday 05 August 2025  08:46:47 +0000 (0:00:01.719)       0:14:49.248 ******** 
+FAILED - RETRYING: [bastion]: Wait till VM is running (120 retries left).
+FAILED - RETRYING: [bastion]: Wait till VM is running (119 retries left).
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Create a 4 worker VMs for Full cluster] ***
+Tuesday 05 August 2025  08:47:12 +0000 (0:00:25.286)       0:15:14.534 ******** 
+included: /runner/project/ansible/roles/host-ocp4-assisted-installer/tasks/kubevirt/create_workers.yaml for bastion => (item=1)
+included: /runner/project/ansible/roles/host-ocp4-assisted-installer/tasks/kubevirt/create_workers.yaml for bastion => (item=2)
+included: /runner/project/ansible/roles/host-ocp4-assisted-installer/tasks/kubevirt/create_workers.yaml for bastion => (item=3)
+included: /runner/project/ansible/roles/host-ocp4-assisted-installer/tasks/kubevirt/create_workers.yaml for bastion => (item=4)
+
+TASK [host-ocp4-assisted-installer : Set default interfaces/networks variables] ***
+Tuesday 05 August 2025  08:47:12 +0000 (0:00:00.064)       0:15:14.599 ******** 
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Add attach workers networks if defined] ***
+Tuesday 05 August 2025  08:47:13 +0000 (0:00:00.026)       0:15:14.625 ******** 
+ok: [bastion] => (item=default/flatnetwork)
+
+TASK [host-ocp4-assisted-installer : Set default volumes/disks variables] ******
+Tuesday 05 August 2025  08:47:13 +0000 (0:00:00.030)       0:15:14.655 ******** 
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Set the instances disks] ******************
+Tuesday 05 August 2025  08:47:13 +0000 (0:00:00.021)       0:15:14.677 ******** 
+skipping: [bastion]
+
+TASK [host-ocp4-assisted-installer : Create Worker virtual machine] ************
+Tuesday 05 August 2025  08:47:13 +0000 (0:00:00.014)       0:15:14.692 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Wait till VM is running] ******************
+Tuesday 05 August 2025  08:47:14 +0000 (0:00:01.909)       0:15:16.601 ******** 
+FAILED - RETRYING: [bastion]: Wait till VM is running (30 retries left).
+FAILED - RETRYING: [bastion]: Wait till VM is running (29 retries left).
+FAILED - RETRYING: [bastion]: Wait till VM is running (28 retries left).
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Set default interfaces/networks variables] ***
+Tuesday 05 August 2025  08:47:52 +0000 (0:00:37.043)       0:15:53.645 ******** 
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Add attach workers networks if defined] ***
+Tuesday 05 August 2025  08:47:52 +0000 (0:00:00.027)       0:15:53.673 ******** 
+ok: [bastion] => (item=default/flatnetwork)
+
+TASK [host-ocp4-assisted-installer : Set default volumes/disks variables] ******
+Tuesday 05 August 2025  08:47:52 +0000 (0:00:00.030)       0:15:53.704 ******** 
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Set the instances disks] ******************
+Tuesday 05 August 2025  08:47:52 +0000 (0:00:00.021)       0:15:53.726 ******** 
+skipping: [bastion]
+
+TASK [host-ocp4-assisted-installer : Create Worker virtual machine] ************
+Tuesday 05 August 2025  08:47:52 +0000 (0:00:00.014)       0:15:53.741 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Wait till VM is running] ******************
+Tuesday 05 August 2025  08:47:53 +0000 (0:00:01.845)       0:15:55.586 ******** 
+FAILED - RETRYING: [bastion]: Wait till VM is running (30 retries left).
+FAILED - RETRYING: [bastion]: Wait till VM is running (29 retries left).
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Set default interfaces/networks variables] ***
+Tuesday 05 August 2025  08:48:19 +0000 (0:00:25.033)       0:16:20.619 ******** 
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Add attach workers networks if defined] ***
+Tuesday 05 August 2025  08:48:19 +0000 (0:00:00.026)       0:16:20.646 ******** 
+ok: [bastion] => (item=default/flatnetwork)
+
+TASK [host-ocp4-assisted-installer : Set default volumes/disks variables] ******
+Tuesday 05 August 2025  08:48:19 +0000 (0:00:00.030)       0:16:20.676 ******** 
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Set the instances disks] ******************
+Tuesday 05 August 2025  08:48:19 +0000 (0:00:00.022)       0:16:20.699 ******** 
+skipping: [bastion]
+
+TASK [host-ocp4-assisted-installer : Create Worker virtual machine] ************
+Tuesday 05 August 2025  08:48:19 +0000 (0:00:00.015)       0:16:20.714 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Wait till VM is running] ******************
+Tuesday 05 August 2025  08:48:20 +0000 (0:00:01.718)       0:16:22.433 ******** 
+FAILED - RETRYING: [bastion]: Wait till VM is running (30 retries left).
+FAILED - RETRYING: [bastion]: Wait till VM is running (29 retries left).
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Set default interfaces/networks variables] ***
+Tuesday 05 August 2025  08:48:45 +0000 (0:00:25.035)       0:16:47.469 ******** 
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Add attach workers networks if defined] ***
+Tuesday 05 August 2025  08:48:45 +0000 (0:00:00.026)       0:16:47.495 ******** 
+ok: [bastion] => (item=default/flatnetwork)
+
+TASK [host-ocp4-assisted-installer : Set default volumes/disks variables] ******
+Tuesday 05 August 2025  08:48:45 +0000 (0:00:00.030)       0:16:47.525 ******** 
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Set the instances disks] ******************
+Tuesday 05 August 2025  08:48:45 +0000 (0:00:00.021)       0:16:47.547 ******** 
+skipping: [bastion]
+
+TASK [host-ocp4-assisted-installer : Create Worker virtual machine] ************
+Tuesday 05 August 2025  08:48:45 +0000 (0:00:00.014)       0:16:47.562 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Wait till VM is running] ******************
+Tuesday 05 August 2025  08:48:47 +0000 (0:00:01.742)       0:16:49.304 ******** 
+FAILED - RETRYING: [bastion]: Wait till VM is running (30 retries left).
+FAILED - RETRYING: [bastion]: Wait till VM is running (29 retries left).
+FAILED - RETRYING: [bastion]: Wait till VM is running (28 retries left).
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Set the variable ai_configure_hosts for control-plane] ***
+Tuesday 05 August 2025  08:49:24 +0000 (0:00:36.718)       0:17:26.023 ******** 
+ok: [bastion] => (item=1)
+ok: [bastion] => (item=2)
+ok: [bastion] => (item=3)
+
+TASK [host-ocp4-assisted-installer : Set the variable ai_configure_hosts for workers] ***
+Tuesday 05 August 2025  08:49:24 +0000 (0:00:00.041)       0:17:26.064 ******** 
+ok: [bastion] => (item=1)
+ok: [bastion] => (item=2)
+ok: [bastion] => (item=3)
+ok: [bastion] => (item=4)
+
+TASK [host-ocp4-assisted-installer : Wait for the hosts to be ready] ***********
+Tuesday 05 August 2025  08:49:24 +0000 (0:00:00.051)       0:17:26.116 ******** 
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Start cluster installation] ***************
+Tuesday 05 August 2025  08:53:37 +0000 (0:04:13.210)       0:21:39.326 ******** 
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC POLL on bastion: jid=j569970908173.20514 started=1 finished=0
+ASYNC OK on bastion: jid=j569970908173.20514
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Obtain OpenShift cluster credentials] *****
+Tuesday 05 August 2025  09:29:34 +0000 (0:35:57.207)       0:57:36.534 ******** 
+ok: [bastion]
+
+TASK [host-ocp4-assisted-installer : Display credentials for debugging purpose] ***
+Tuesday 05 August 2025  09:29:36 +0000 (0:00:01.779)       0:57:38.313 ******** 
+ok: [bastion] => {
+    "ai_credentials.result": {
+        "console_url": "https://console-openshift-console.apps.cluster-cr4sv.dynamic.redhatworkshops.io",
+        "password": "[REDACTED_Secret Keyword_SECRET]",
+        "username": "kubeadmin"
+    }
+}
+
+TASK [host-ocp4-assisted-installer : Create directory for downloaded credential files] ***
+Tuesday 05 August 2025  09:29:36 +0000 (0:00:00.020)       0:57:38.333 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Downloads OpenShift cluster credentials] ***
+Tuesday 05 August 2025  09:29:38 +0000 (0:00:01.352)       0:57:39.686 ******** 
+changed: [bastion] => (item=kubeadmin-password)
+changed: [bastion] => (item=kubeconfig)
+changed: [bastion] => (item=kubeconfig-noingress)
+
+TASK [host-ocp4-assisted-installer : Downloads OpenShift cluster files] ********
+Tuesday 05 August 2025  09:29:43 +0000 (0:00:05.256)       0:57:44.942 ******** 
+changed: [bastion] => (item=bootstrap.ign)
+changed: [bastion] => (item=master.ign)
+changed: [bastion] => (item=metadata.json)
+changed: [bastion] => (item=worker.ign)
+changed: [bastion] => (item=install-config.yaml)
+changed: [bastion] => (item=custom_manifests.json)
+changed: [bastion] => (item=custom_manifests.yaml)
+
+TASK [host-ocp4-assisted-installer : Fetch kube config] ************************
+Tuesday 05 August 2025  09:29:55 +0000 (0:00:12.623)       0:57:57.565 ******** 
+changed: [bastion] => (item=kubeconfig)
+changed: [bastion] => (item=kubeadmin-password)
+
+TASK [host-ocp4-assisted-installer : Make sure .kube directory exists for cloud-user] ***
+Tuesday 05 August 2025  09:29:59 +0000 (0:00:03.637)       0:58:01.202 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Make sure .kube directory exists for root] ***
+Tuesday 05 August 2025  09:30:00 +0000 (0:00:01.294)       0:58:02.496 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Copy cluster kubeconfig to /home/cloud-user/.kube/config] ***
+Tuesday 05 August 2025  09:30:02 +0000 (0:00:01.324)       0:58:03.821 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Copy cluster kubeconfig to /root/.kube/config] ***
+Tuesday 05 August 2025  09:30:03 +0000 (0:00:01.311)       0:58:05.133 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Make sure .kube directory exists in /home/lab-user] ***
+Tuesday 05 August 2025  09:30:04 +0000 (0:00:01.320)       0:58:06.453 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Copy /home/cloud-user/cluster-cr4sv/auth/kubeconfig to /home/lab-user/.kube] ***
+Tuesday 05 August 2025  09:30:06 +0000 (0:00:01.320)       0:58:07.774 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Create OpenShift Bash completion file] ****
+Tuesday 05 August 2025  09:30:07 +0000 (0:00:01.327)       0:58:09.101 ******** 
+changed: [bastion]
+
+TASK [host-ocp4-assisted-installer : Find installer Pods in Error Status with label app=installer] ***
+Tuesday 05 August 2025  09:30:08 +0000 (0:00:01.436)       0:58:10.538 ******** 
+FAILED - RETRYING: [bastion]: Find installer Pods in Error Status with label app=installer (10 retries left).
+FAILED - RETRYING: [bastion]: Find installer Pods in Error Status with label app=installer (9 retries left).
+FAILED - RETRYING: [bastion]: Find installer Pods in Error Status with label app=installer (8 retries left).
+FAILED - RETRYING: [bastion]: Find installer Pods in Error Status with label app=installer (7 retries left).
+FAILED - RETRYING: [bastion]: Find installer Pods in Error Status with label app=installer (6 retries left).
+FAILED - RETRYING: [bastion]: Find installer Pods in Error Status with label app=installer (5 retries left).
+FAILED - RETRYING: [bastion]: Find installer Pods in Error Status with label app=installer (4 retries left).
+FAILED - RETRYING: [bastion]: Find installer Pods in Error Status with label app=installer (3 retries left).
+FAILED - RETRYING: [bastion]: Find installer Pods in Error Status with label app=installer (2 retries left).
+FAILED - RETRYING: [bastion]: Find installer Pods in Error Status with label app=installer (1 retries left).
+An exception occurred during task execution. To see the full traceback, use -vvv. The error was: urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api.cluster-cr4sv.dynamic.redhatworkshops.io', port=6443): Max retries exceeded with url: /version (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7fe798d16640>: Failed to establish a new connection: [Errno 111] Connection refused'))
+fatal: [bastion]: FAILED! => {"attempts": 10, "changed": false, "module_stderr": "Shared connection to ssh.ocpv06.rhdp.net closed.\\r\\n", "module_stdout": "Traceback (most recent call last):\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/urllib3/connection.py\\", line 174, in _new_conn\\r\\n    conn = connection.create_connection(\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/urllib3/util/connection.py\\", line 95, in create_connection\\r\\n    raise err\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/urllib3/util/connection.py\\", line 85, in create_connection\\r\\n    sock.connect(sa)\\r\\nConnectionRefusedError: [Errno 111] Connection refused\\r\\n\\r\\nDuring handling of the above exception, another exception occurred:\\r\\n\\r\\nTraceback (most recent call last):\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/urllib3/connectionpool.py\\", line 715, in urlopen\\r\\n    httplib_response = self._make_request(\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/urllib3/connectionpool.py\\", line 404, in _make_request\\r\\n    self._validate_conn(conn)\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/urllib3/connectionpool.py\\", line 1058, in _validate_conn\\r\\n    conn.connect()\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/urllib3/connection.py\\", line 363, in connect\\r\\n    self.sock = conn = self._new_conn()\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/urllib3/connection.py\\", line 186, in _new_conn\\r\\n    raise NewConnectionError(\\r\\nurllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPSConnection object at 0x7fe798d16640>: Failed to establish a new connection: [Errno 111] Connection refused\\r\\n\\r\\nDuring handling of the above exception, another exception occurred:\\r\\n\\r\\nTraceback (most recent call last):\\r\\n  File \\"/home/cloud-user/.ansible/tmp/ansible-tmp-1754386528.1856902-2766-222047297765124/AnsiballZ_k8s_info.py\\", line 107, in <module>\\r\\n    _ansiballz_main()\\r\\n  File \\"/home/cloud-user/.ansible/tmp/ansible-tmp-1754386528.1856902-2766-222047297765124/AnsiballZ_k8s_info.py\\", line 99, in _ansiballz_main\\r\\n    invoke_module(zipped_mod, temp_path, ANSIBALLZ_PARAMS)\\r\\n  File \\"/home/cloud-user/.ansible/tmp/ansible-tmp-1754386528.1856902-2766-222047297765124/AnsiballZ_k8s_info.py\\", line 47, in invoke_module\\r\\n    runpy.run_module(mod_name='ansible_collections.kubernetes.core.plugins.modules.k8s_info', init_globals=dict(_module_fqn='ansible_collections.kubernetes.core.plugins.modules.k8s_info', _modlib_path=modlib_path),\\r\\n  File \\"/usr/lib64/python3.9/runpy.py\\", line 225, in run_module\\r\\n    return _run_module_code(code, init_globals, run_name, mod_spec)\\r\\n  File \\"/usr/lib64/python3.9/runpy.py\\", line 97, in _run_module_code\\r\\n    _run_code(code, mod_globals, init_globals,\\r\\n  File \\"/usr/lib64/python3.9/runpy.py\\", line 87, in _run_code\\r\\n    exec(code, run_globals)\\r\\n  File \\"/tmp/ansible_kubernetes.core.k8s_info_payload_u5t5j73h/ansible_kubernetes.core.k8s_info_payload.zip/ansible_collections/kubernetes/core/plugins/modules/k8s_info.py\\", line 229, in <module>\\r\\n  File \\"/tmp/ansible_kubernetes.core.k8s_info_payload_u5t5j73h/ansible_kubernetes.core.k8s_info_payload.zip/ansible_collections/kubernetes/core/plugins/modules/k8s_info.py\\", line 221, in main\\r\\n  File \\"/tmp/ansible_kubernetes.core.k8s_info_payload_u5t5j73h/ansible_kubernetes.core.k8s_info_payload.zip/ansible_collections/kubernetes/core/plugins/module_utils/k8s/client.py\\", line 352, in get_api_client\\r\\n  File \\"/tmp/ansible_kubernetes.core.k8s_info_payload_u5t5j73h/ansible_kubernetes.core.k8s_info_payload.zip/ansible_collections/kubernetes/core/plugins/module_utils/k8s/client.py\\", line 246, in wrapper\\r\\n  File \\"/tmp/ansible_kubernetes.core.k8s_info_payload_u5t5j73h/ansible_kubernetes.core.k8s_info_payload.zip/ansible_collections/kubernetes/core/plugins/module_utils/k8s/client.py\\", line 259, in create_api_client\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/kubernetes/dynamic/client.py\\", line 84, in __init__\\r\\n    self.__discoverer = discoverer(self, cache_file)\\r\\n  File \\"/tmp/ansible_kubernetes.core.k8s_info_payload_u5t5j73h/ansible_kubernetes.core.k8s_info_payload.zip/ansible_collections/kubernetes/core/plugins/module_utils/client/discovery.py\\", line 190, in __init__\\r\\n  File \\"/tmp/ansible_kubernetes.core.k8s_info_payload_u5t5j73h/ansible_kubernetes.core.k8s_info_payload.zip/ansible_collections/kubernetes/core/plugins/module_utils/client/discovery.py\\", line 45, in __init__\\r\\n  File \\"/tmp/ansible_kubernetes.core.k8s_info_payload_u5t5j73h/ansible_kubernetes.core.k8s_info_payload.zip/ansible_collections/kubernetes/core/plugins/module_utils/client/discovery.py\\", line 92, in __init_cache\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/kubernetes/dynamic/discovery.py\\", line 145, in _load_server_info\\r\\n    'kubernetes': self.client.request('get', '/version', serializer=just_json)\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/kubernetes/dynamic/client.py\\", line 55, in inner\\r\\n    resp = func(self, *args, **kwargs)\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/kubernetes/dynamic/client.py\\", line 273, in request\\r\\n    api_response = self.client.call_api(\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/kubernetes/client/api_client.py\\", line 348, in call_api\\r\\n    return self.__call_api(resource_path, method,\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/kubernetes/client/api_client.py\\", line 180, in __call_api\\r\\n    response_data = self.request(\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/kubernetes/client/api_client.py\\", line 373, in request\\r\\n    return self.rest_client.GET(url,\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/kubernetes/client/rest.py\\", line 244, in GET\\r\\n    return self.request(\\"GET\\", url,\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/kubernetes/client/rest.py\\", line 217, in request\\r\\n    r = self.pool_manager.request(method, url,\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/urllib3/request.py\\", line 77, in request\\r\\n    return self.request_encode_url(\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/urllib3/request.py\\", line 99, in request_encode_url\\r\\n    return self.urlopen(method, url, **extra_kw)\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/urllib3/poolmanager.py\\", line 376, in urlopen\\r\\n    response = conn.urlopen(method, u.request_uri, **kw)\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/urllib3/connectionpool.py\\", line 827, in urlopen\\r\\n    return self.urlopen(\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/urllib3/connectionpool.py\\", line 827, in urlopen\\r\\n    return self.urlopen(\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/urllib3/connectionpool.py\\", line 827, in urlopen\\r\\n    return self.urlopen(\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/urllib3/connectionpool.py\\", line 799, in urlopen\\r\\n    retries = retries.increment(\\r\\n  File \\"/opt/virtualenvs/k8s/lib64/python3.9/site-packages/urllib3/util/retry.py\\", line 592, in increment\\r\\n    raise MaxRetryError(_pool, url, error or ResponseError(cause))\\r\\nurllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api.cluster-cr4sv.dynamic.redhatworkshops.io', port=6443): Max retries exceeded with url: /version (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7fe798d16640>: Failed to establish a new connection: [Errno 111] Connection refused'))\\r\\n", "msg": "MODULE FAILURE\\nSee stdout/stderr for the exact error", "rc": 1}
+
+NO MORE HOSTS LEFT *************************************************************
+
+PLAY RECAP *********************************************************************
+bastion                    : ok=150  changed=79   unreachable=0    failed=1    skipped=61   rescued=0    ignored=0   
+localhost                  : ok=72   changed=25   unreachable=0    failed=0    skipped=52   rescued=0    ignored=0   
+Tuesday 05 August 2025  09:35:29 +0000 (0:05:20.980)       1:03:31.518 ******** 
+=============================================================================== 
+host-ocp4-assisted-installer : Start cluster installation ------------ 2157.21s
+host-ocp4-assisted-installer : Find installer Pods in Error Status with label app=installer - 320.98s
+common : Update all packages ------------------------------------------ 314.67s
+host-ocp4-assisted-installer : Wait for the hosts to be ready --------- 253.21s
+host-ocp4-assisted-installer : Wait till VM is running ----------------- 95.27s
+common : install common packages for RHEL 9 ---------------------------- 86.18s
+host_virtualenv : Install requirements in virtualenv ------------------- 49.26s
+host-ocp4-assisted-installer : Wait till VM is running ----------------- 37.04s
+host-ocp4-assisted-installer : Wait till VM is running ----------------- 36.82s
+host-ocp4-assisted-installer : Wait till VM is running ----------------- 36.72s
+common : Reboot all VMs ------------------------------------------------ 34.03s
+infra-generic-wait_for_linux_hosts : wait for linux host to be available -- 32.93s
+infra-openshift-cnv-resources : Wait till VM is running ---------------- 32.70s
+host_virtualenv : Install virtualenv package prerequisites ------------- 29.30s
+host-ocp4-assisted-installer : Wait till VM is running ----------------- 25.29s
+host-ocp4-assisted-installer : Wait till VM is running ----------------- 25.04s
+host-ocp4-assisted-installer : Wait till VM is running ----------------- 25.03s
+host-ocp4-assisted-installer : Downloads OpenShift cluster files ------- 12.62s
+host-ocp4-assisted-installer : Get the OpenShift CLI -------------------- 8.05s
+set-repositories : sat | Register with activation-key with HA ----------- 7.64s

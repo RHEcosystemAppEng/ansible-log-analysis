@@ -1,0 +1,417 @@
+Vault password (gpte_vault_0): 
+
+PLAY [Step 0000 Set Action] ****************************************************
+
+TASK [Set ACTION to destroy] ***************************************************
+Thursday 07 August 2025  16:49:04 +0000 (0:00:00.013)       0:00:00.013 ******* 
+skipping: [localhost]
+
+PLAY [Step 0000 Setup runtime] *************************************************
+
+TASK [debug] *******************************************************************
+Thursday 07 August 2025  16:49:04 +0000 (0:00:00.036)       0:00:00.049 ******* 
+skipping: [localhost]
+
+TASK [Ensure cloud provider is supported] **************************************
+Thursday 07 August 2025  16:49:04 +0000 (0:00:00.019)       0:00:00.069 ******* 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+PLAY [Step 0000 Setup Output Directory] ****************************************
+
+TASK [Set output_dir if not defined] *******************************************
+Thursday 07 August 2025  16:49:04 +0000 (0:00:00.031)       0:00:00.101 ******* 
+skipping: [localhost]
+
+TASK [Create output_dir if it does not exists] *********************************
+Thursday 07 August 2025  16:49:05 +0000 (0:00:00.031)       0:00:00.133 ******* 
+changed: [localhost]
+
+TASK [Attempt to restore output_dir contents] **********************************
+Thursday 07 August 2025  16:49:05 +0000 (0:00:00.326)       0:00:00.459 ******* 
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from s3 bucket] ********
+Thursday 07 August 2025  16:49:05 +0000 (0:00:00.029)       0:00:00.488 ******* 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/restore-from-s3.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Thursday 07 August 2025  16:49:05 +0000 (0:00:00.055)       0:00:00.544 ******* 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/fetch-from-s3-s3_object.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Thursday 07 August 2025  16:49:05 +0000 (0:00:00.090)       0:00:00.635 ******* 
+changed: [localhost]
+
+TASK [agnosticd_restore_output_dir : Decrypt archive] **************************
+Thursday 07 August 2025  16:49:06 +0000 (0:00:01.252)       0:00:01.887 ******* 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from archive] **********
+Thursday 07 August 2025  16:49:06 +0000 (0:00:00.029)       0:00:01.917 ******* 
+changed: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove archive file from output_dir] ******
+Thursday 07 August 2025  16:49:07 +0000 (0:00:00.711)       0:00:02.629 ******* 
+changed: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove encrypted archive file from output_dir] ***
+Thursday 07 August 2025  16:49:07 +0000 (0:00:00.204)       0:00:02.833 ******* 
+ok: [localhost]
+
+TASK [Touch file provision-user-data.yaml and provision-user-info.yaml] ********
+Thursday 07 August 2025  16:49:07 +0000 (0:00:00.197)       0:00:03.030 ******* 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create empty user-info.yaml and user-data.yaml in output dir] ************
+Thursday 07 August 2025  16:49:08 +0000 (0:00:00.360)       0:00:03.391 ******* 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create symlink user-data.yaml -> provision-user-data.yaml] ***************
+Thursday 07 August 2025  16:49:09 +0000 (0:00:00.809)       0:00:04.200 ******* 
+ok: [localhost] => (item=user-info.yaml)
+ok: [localhost] => (item=user-data.yaml)
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Thursday 07 August 2025  16:49:09 +0000 (0:00:00.414)       0:00:04.615 ******* 
+ok: [localhost]
+
+TASK [Include variables files] *************************************************
+Thursday 07 August 2025  16:49:09 +0000 (0:00:00.025)       0:00:04.640 ******* 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars_ec2.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars_ec2.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_secret_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Thursday 07 August 2025  16:49:09 +0000 (0:00:00.080)       0:00:04.721 ******* 
+skipping: [localhost]
+
+TASK [Set passthrough user data] ***********************************************
+Thursday 07 August 2025  16:49:09 +0000 (0:00:00.019)       0:00:04.740 ******* 
+skipping: [localhost]
+
+PLAY [Step 0000 Install Galaxy roles and collections] **************************
+
+TASK [Use requirements_content] ************************************************
+Thursday 07 August 2025  16:49:09 +0000 (0:00:00.031)       0:00:04.772 ******* 
+ok: [localhost]
+
+TASK [Copy requirements content to output_dir] *********************************
+Thursday 07 August 2025  16:49:09 +0000 (0:00:00.035)       0:00:04.807 ******* 
+ok: [localhost]
+
+TASK [Use requirements_path from the config] ***********************************
+Thursday 07 August 2025  16:49:10 +0000 (0:00:00.352)       0:00:05.160 ******* 
+skipping: [localhost]
+
+TASK [Check if requirements.yml exists] ****************************************
+Thursday 07 August 2025  16:49:10 +0000 (0:00:00.034)       0:00:05.195 ******* 
+ok: [localhost]
+
+TASK [set_fact] ****************************************************************
+Thursday 07 August 2025  16:49:10 +0000 (0:00:00.159)       0:00:05.354 ******* 
+ok: [localhost]
+
+TASK [Install roles from requirements.yml] *************************************
+Thursday 07 August 2025  16:49:10 +0000 (0:00:00.035)       0:00:05.390 ******* 
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (Not EE)] **********************
+Thursday 07 August 2025  16:49:10 +0000 (0:00:00.690)       0:00:06.081 ******* 
+skipping: [localhost]
+
+TASK [Get installed collections (EE)] ******************************************
+Thursday 07 August 2025  16:49:11 +0000 (0:00:00.082)       0:00:06.164 ******* 
+included: /runner/project/ansible/install_collections_ee.yml for localhost
+
+TASK [Get the list of installed collections (EE)] ******************************
+Thursday 07 August 2025  16:49:11 +0000 (0:00:00.079)       0:00:06.243 ******* 
+changed: [localhost]
+
+TASK [Create temporary file for requirements.yml (EE)] *************************
+Thursday 07 August 2025  16:49:11 +0000 (0:00:00.511)       0:00:06.755 ******* 
+changed: [localhost]
+
+TASK [Rewrite requirements, filter out installed collections (EE)] *************
+Thursday 07 August 2025  16:49:11 +0000 (0:00:00.278)       0:00:07.034 ******* 
+[WARNING]: skipping installation of kubernetes.core==2.3.1 ;
+kubernetes.core==2.4.0 already installed in EE
+[WARNING]: skipping installation of openstack.cloud==1.7.2 ;
+openstack.cloud==2.1.0 already installed in EE
+[WARNING]: skipping installation of amazon.aws==2.2.0 ; amazon.aws==6.2.0
+already installed in EE
+[WARNING]: skipping installation of community.general==4.6.1 ;
+community.general==7.2.1 already installed in EE
+[WARNING]: skipping installation of ansible.posix==1.3.0 ; ansible.posix==1.5.4
+already installed in EE
+[WARNING]: skipping installation of awx.awx==21.1.0 ; awx.awx==22.6.0 already
+installed in EE
+[WARNING]: skipping installation of community.okd==2.3.0 ; community.okd==2.3.0
+already installed in EE
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (EE)] **************************
+Thursday 07 August 2025  16:49:12 +0000 (0:00:00.321)       0:00:07.356 ******* 
+changed: [localhost]
+
+TASK [Cleanup tempfile (EE)] ***************************************************
+Thursday 07 August 2025  16:49:12 +0000 (0:00:00.495)       0:00:07.852 ******* 
+changed: [localhost]
+
+TASK [Install dynamic sources] *************************************************
+Thursday 07 August 2025  16:49:12 +0000 (0:00:00.170)       0:00:08.022 ******* 
+
+TASK [agnosticd_dynamic : Create dynamic-cache and dynamic-roles directories] ***
+Thursday 07 August 2025  16:49:12 +0000 (0:00:00.020)       0:00:08.043 ******* 
+changed: [localhost] => (item=/runner/project/ansible/dynamic-cache)
+changed: [localhost] => (item=/runner/project/ansible/dynamic-roles)
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to dynamic roles dir] ***
+Thursday 07 August 2025  16:49:13 +0000 (0:00:00.344)       0:00:08.388 ******* 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to cache] *************
+Thursday 07 August 2025  16:49:13 +0000 (0:00:00.042)       0:00:08.431 ******* 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install git sources] *********************************
+Thursday 07 August 2025  16:49:13 +0000 (0:00:00.037)       0:00:08.468 ******* 
+skipping: [localhost]
+
+PLAY [Step 0000 Detect in what region the stack is] ****************************
+
+TASK [include_tasks] ***********************************************************
+Thursday 07 August 2025  16:49:13 +0000 (0:00:00.025)       0:00:08.494 ******* 
+included: /runner/project/ansible/cloud_providers/ec2_detect_region_tasks.yml for localhost
+
+TASK [fallback_regions is defined, detect region for AWS] **********************
+Thursday 07 August 2025  16:49:13 +0000 (0:00:00.025)       0:00:08.519 ******* 
+skipping: [localhost] => (item=us-east-2) 
+skipping: [localhost]
+
+TASK [Set aws_region_final] ****************************************************
+Thursday 07 August 2025  16:49:13 +0000 (0:00:00.043)       0:00:08.563 ******* 
+skipping: [localhost] => (item=unknown) 
+skipping: [localhost]
+
+TASK [Set aws_region_final as provided with aws_region] ************************
+Thursday 07 August 2025  16:49:13 +0000 (0:00:00.043)       0:00:08.606 ******* 
+ok: [localhost]
+
+PLAY [Destroy environment on AWS] **********************************************
+
+TASK [Get fact for cloudformation stack] ***************************************
+Thursday 07 August 2025  16:49:13 +0000 (0:00:00.050)       0:00:08.657 ******* 
+ok: [localhost]
+
+TASK [Grab and set stack creation time] ****************************************
+Thursday 07 August 2025  16:49:14 +0000 (0:00:00.576)       0:00:09.234 ******* 
+ok: [localhost]
+
+TASK [Run infra-ec2-create-inventory role] *************************************
+Thursday 07 August 2025  16:49:14 +0000 (0:00:00.048)       0:00:09.283 ******* 
+
+TASK [infra-ec2-create-inventory : Report aws region] **************************
+Thursday 07 August 2025  16:49:14 +0000 (0:00:00.020)       0:00:09.303 ******* 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : Gather EC2 info] ****************************
+Thursday 07 August 2025  16:49:14 +0000 (0:00:00.032)       0:00:09.336 ******* 
+[WARNING]: Both option access_key and its alias aws_access_key are set.
+[WARNING]: Both option secret_key and its alias aws_secret_key are set.
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : debug ec2_info] *****************************
+Thursday 07 August 2025  16:49:15 +0000 (0:00:00.812)       0:00:10.148 ******* 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : windows ostype workaround] ******************
+Thursday 07 August 2025  16:49:15 +0000 (0:00:00.034)       0:00:10.183 ******* 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : set_fact] ***********************************
+Thursday 07 August 2025  16:49:15 +0000 (0:00:00.040)       0:00:10.223 ******* 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : Find the bastion in this batch of host] *****
+Thursday 07 August 2025  16:49:15 +0000 (0:00:00.040)       0:00:10.264 ******* 
+ok: [localhost] => (item=bastion.jjtng.internal)
+
+TASK [infra-ec2-create-inventory : Add hosts to the current inventory] *********
+Thursday 07 August 2025  16:49:15 +0000 (0:00:00.048)       0:00:10.312 ******* 
+changed: [localhost] => (item=bastion.jjtng.internal)
+
+TASK [infra-ec2-create-inventory : Add hosts to groups indicated by AnsibleGroup tag] ***
+Thursday 07 August 2025  16:49:15 +0000 (0:00:00.173)       0:00:10.486 ******* 
+changed: [localhost] => (item=bastion.jjtng.internal)
+
+TASK [infra-ec2-create-inventory : debug hostvars] *****************************
+Thursday 07 August 2025  16:49:15 +0000 (0:00:00.053)       0:00:10.539 ******* 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : debug groups] *******************************
+Thursday 07 August 2025  16:49:15 +0000 (0:00:00.036)       0:00:10.576 ******* 
+skipping: [localhost]
+
+TASK [Create local ssh provision facts (key already exists)] *******************
+Thursday 07 August 2025  16:49:15 +0000 (0:00:00.038)       0:00:10.614 ******* 
+
+TASK [create_ssh_provision_key : include_tasks] ********************************
+Thursday 07 August 2025  16:49:15 +0000 (0:00:00.037)       0:00:10.652 ******* 
+included: /runner/project/ansible/roles-infra/create_ssh_provision_key/tasks/checks.yaml for localhost
+
+TASK [create_ssh_provision_key : Ensure key_name is not defined] ***************
+Thursday 07 August 2025  16:49:15 +0000 (0:00:00.023)       0:00:10.676 ******* 
+fatal: [localhost]: FAILED! => {"changed": false, "msg": "WARNING: key_name is DEPRECATED and should not be defined when using new create_ssh_provision_key role."}
+...ignoring
+
+TASK [create_ssh_provision_key : Generate SSH keys] ****************************
+Thursday 07 August 2025  16:49:15 +0000 (0:00:00.048)       0:00:10.725 ******* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Fix permission of ssh key] ********************
+Thursday 07 August 2025  16:49:15 +0000 (0:00:00.194)       0:00:10.919 ******* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH pub key content] *****************
+Thursday 07 August 2025  16:49:16 +0000 (0:00:00.201)       0:00:11.120 ******* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Save all facts for SSH] ***********************
+Thursday 07 August 2025  16:49:16 +0000 (0:00:00.200)       0:00:11.321 ******* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Write SSH pub key] ****************************
+Thursday 07 August 2025  16:49:16 +0000 (0:00:00.039)       0:00:11.360 ******* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Report user info for SSH provision key as user data] ***
+Thursday 07 August 2025  16:49:16 +0000 (0:00:00.341)       0:00:11.701 ******* 
+skipping: [localhost]
+
+TASK [include_role : agnosticd_save_output_dir] ********************************
+Thursday 07 August 2025  16:49:16 +0000 (0:00:00.028)       0:00:11.730 ******* 
+skipping: [localhost]
+
+TASK [SSH config setup] ********************************************************
+Thursday 07 August 2025  16:49:16 +0000 (0:00:00.019)       0:00:11.749 ******* 
+
+TASK [infra-common-ssh-config-generate : Store bastion hostname as a fact] *****
+Thursday 07 August 2025  16:49:16 +0000 (0:00:00.058)       0:00:11.808 ******* 
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : Delete dedicated known_host if it exists (new deployment)] ***
+Thursday 07 August 2025  16:49:16 +0000 (0:00:00.042)       0:00:11.850 ******* 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : delete local ssh config, start fresh] ***
+Thursday 07 August 2025  16:49:16 +0000 (0:00:00.218)       0:00:12.068 ******* 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : Create empty local ssh config] ********
+Thursday 07 August 2025  16:49:17 +0000 (0:00:00.243)       0:00:12.312 ******* 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : Add bastion proxy config to workdir ssh config file] ***
+Thursday 07 August 2025  16:49:17 +0000 (0:00:00.206)       0:00:12.518 ******* 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : Add all hosts to workdir ssh config file] ***
+Thursday 07 August 2025  16:49:17 +0000 (0:00:00.347)       0:00:12.865 ******* 
+skipping: [localhost] => (item=bastion.jjtng.internal) 
+skipping: [localhost]
+
+PLAY [Set ssh extra args for all hosts, use ssh_config just created] ***********
+
+TASK [add -F option ansible_ssh_extra_args] ************************************
+Thursday 07 August 2025  16:49:17 +0000 (0:00:00.036)       0:00:12.901 ******* 
+ok: [bastion.jjtng.internal]
+
+PLAY [Start all EC2 instances if they are stopped] *****************************
+
+TASK [ansible.builtin.include_tasks] *******************************************
+Thursday 07 August 2025  16:49:17 +0000 (0:00:00.063)       0:00:12.965 ******* 
+included: /runner/project/ansible/configs/ocp4-cluster/ec2_instances_start.yaml for localhost
+
+TASK [Get all EC2 instances] ***************************************************
+Thursday 07 August 2025  16:49:17 +0000 (0:00:00.017)       0:00:12.982 ******* 
+ok: [localhost]
+
+TASK [Ensure EC2 instances are running] ****************************************
+Thursday 07 August 2025  16:49:18 +0000 (0:00:00.694)       0:00:13.677 ******* 
+changed: [localhost] => (item={'ami_launch_index': 0, 'image_id': 'ami-078e26f293629fe91', 'instance_id': 'i-023df86f26a7c31c7', 'instance_type': 'm5a.8xlarge', 'launch_time': '2025-08-06T16:09:29+00:00', 'monitoring': {'state': 'disabled'}, 'placement': {'availability_zone': 'us-east-2c', 'group_name': '', 'tenancy': 'default'}, 'private_dns_name': 'ip-10-0-61-226.us-east-2.compute.internal', 'private_ip_address': '10.0.61.226', 'product_codes': [], 'public_dns_name': '', 'state': {'code': 80, 'name': 'stopped'}, 'state_transition_reason': 'User initiated (2025-08-06 22:11:15 GMT)', 'subnet_id': 'subnet-0f759212a212d0dc4', 'vpc_id': 'vpc-0679b673176a1a5c7', 'architecture': 'x86_64', 'block_device_mappings': [{'device_name': '/dev/xvda', 'ebs': {'attach_time': '2025-08-05T17:11:04+00:00', 'delete_on_termination': True, 'status': 'attached', 'volume_id': 'vol-03e7a20656ce6a6d7'}}],  'ebs_optimized': False, 'ena_support': True, 'hypervisor': 'xen', 'iam_instance_profile': {'arn': 'arn:aws:iam::631632167633:instance-profile/cluster-jjtng-22w84-master-profile', 'id': 'AIPAZGEBWALIW7QNYOKAS'}, 'network_interfaces': [{'attachment': {'attach_time': '2025-08-05T17:11:03+00:00', 'attachment_id': 'eni-attach-023760a83c4e3341e', 'delete_on_termination': True, 'device_index': 0, 'status': 'attached', 'network_card_index': 0}, 'description': '', 'groups': [{'group_name': 'cluster-jjtng-22w84-node', 'group_id': 'sg-03e8c48d66a0fcf62'}, {'group_name': 'cluster-jjtng-22w84-controlplane', 'group_id': 'sg-022ca899a30c70c9b'}, {'group_name': 'cluster-jjtng-22w84-lb', 'group_id': 'sg-072a63a2201d654ed'}], 'ipv6_addresses': [], 'mac_address': '0a:08:57:75:6d:cd', 'network_interface_id': 'eni-01d46fc5b65b469d9', 'owner_id': '631632167633', 'private_dns_name': 'ip-10-0-61-226.us-east-2.compute.internal', 'private_ip_address': '10.0.61.226', 'private_ip_addresses': [{'primary': True, 'private_dns_name': 'ip-10-0-61-226.us-east-2.compute.internal', 'private_ip_address': '10.0.61.226'}], 'source_dest_check': True, 'status': 'in-use', 'subnet_id': 'subnet-0f759212a212d0dc4', 'vpc_id': 'vpc-0679b673176a1a5c7', 'interface_type': 'interface'}], 'root_device_name': '/dev/xvda', 'root_device_type': 'ebs', 'security_groups': [{'group_name': 'cluster-jjtng-22w84-node', 'group_id': 'sg-03e8c48d66a0fcf62'}, {'group_name': 'cluster-jjtng-22w84-controlplane', 'group_id': 'sg-022ca899a30c70c9b'}, {'group_name': 'cluster-jjtng-22w84-lb', 'group_id': 'sg-072a63a2201d654ed'}], 'source_dest_check': True, 'state_reason': {'code': 'Client.UserInitiatedShutdown', 'message': 'Client.UserInitiatedShutdown: User initiated shutdown'}, 'tags': {'Stack': 'ocp4-cluster-jjtng', 'guid': 'jjtng', 'Name': 'cluster-jjtng-22w84-master-0', 'kubernetes.io/cluster/cluster-jjtng-22w84': 'owned', 'platform': 'RHPDS', 'env_type': 'ocp4-cluster', 'owner': 'unknown', 'MachineName': 'openshift-cluster-api-guests/cluster-jjtng-22w84-master-0', 'uuid': 'cf42e52a-994d-54fb-a829-d2fa66aeb5e1', 'sigs.k8s.io/cluster-api-provider-aws/cluster/cluster-jjtng-22w84': 'owned', 'sigs.k8s.io/cluster-api-provider-aws/role': 'control-plane'}, 'virtualization_type': 'hvm', 'cpu_options': {'core_count': 16, 'threads_per_core': 2}, 'capacity_reservation_specification': {'capacity_reservation_preference': 'open'}, 'hibernation_options': {'configured': False}, 'metadata_options': {'state': 'applied', 'http_tokens': 'optional', 'http_put_response_hop_limit': 1, 'http_endpoint': 'enabled', 'http_protocol_ipv6': 'disabled', 'instance_metadata_tags': 'disabled'}, 'enclave_options': {'enabled': False}, 'platform_details': 'Linux/UNIX', 'usage_operation': 'RunInstances', 'usage_operation_update_time': '2025-08-05T17:11:03+00:00', 'private_dns_name_options': {'hostname_type': 'ip-name', 'enable_resource_name_dns_a_record': False, 'enable_resource_name_dns_aaaa_record': False}, 'maintenance_options': {'auto_recovery': 'default'}, 'current_instance_boot_mode': 'legacy-bios'})
+changed: [localhost] => (item={'ami_launch_index': 0, 'image_id': 'ami-0bad99bf35aa6fa42', 'instance_id': 'i-0eb4681608e3a5040', 'instance_type': 't3a.medium', 'key_name': 'ssh_provision_jjtng', 'launch_time': '2025-08-06T16:09:30+00:00', 'monitoring': {'state': 'disabled'}, 'placement': {'availability_zone': 'us-east-2c', 'group_name': '', 'tenancy': 'default'}, 'private_dns_name': 'ip-192-168-0-88.us-east-2.compute.internal', 'private_ip_address': '192.168.0.88', 'product_codes': [], 'public_dns_name': 'ec2-3-150-40-222.us-east-2.compute.amazonaws.com', 'public_ip_address': '3.150.40.222', 'state': {'code': 80, 'name': 'stopped'}, 'state_transition_reason': 'User initiated (2025-08-06 22:11:15 GMT)', 'subnet_id': 'subnet-09c23b23b138ba927', 'vpc_id': 'vpc-0c5dad3823316d1e2', 'architecture': 'x86_64', 'block_device_mappings': [{'device_name': '/dev/sda1', 'ebs': {'attach_time': '2025-08-05T16:48:39+00:00', 'delete_on_termination': True, 'status': 'attached', 'volume_id': 'vol-02e20171d0b969213'}}],  'ebs_optimized': False, 'ena_support': True, 'hypervisor': 'xen', 'network_interfaces': [{'association': {'ip_owner_id': '631632167633', 'public_dns_name': 'ec2-3-150-40-222.us-east-2.compute.amazonaws.com', 'public_ip': '3.150.40.222'}, 'attachment': {'attach_time': '2025-08-05T16:48:38+00:00', 'attachment_id': 'eni-attach-08c72b9996289d859', 'delete_on_termination': True, 'device_index': 0, 'status': 'attached', 'network_card_index': 0}, 'description': '', 'groups': [{'group_name': 'BastionSG', 'group_id': 'sg-001d2c6aaac901cf2'}], 'ipv6_addresses': [], 'mac_address': '0a:c7:d4:a3:60:e7', 'network_interface_id': 'eni-0c1fda6efe111f9c1', 'owner_id': '631632167633', 'private_dns_name': 'ip-192-168-0-88.us-east-2.compute.internal', 'private_ip_address': '192.168.0.88', 'private_ip_addresses': [{'association': {'ip_owner_id': '631632167633', 'public_dns_name': 'ec2-3-150-40-222.us-east-2.compute.amazonaws.com', 'public_ip': '3.150.40.222'}, 'primary': True, 'private_dns_name': 'ip-192-168-0-88.us-east-2.compute.internal', 'private_ip_address': '192.168.0.88'}], 'source_dest_check': True, 'status': 'in-use', 'subnet_id': 'subnet-09c23b23b138ba927', 'vpc_id': 'vpc-0c5dad3823316d1e2', 'interface_type': 'interface'}], 'root_device_name': '/dev/sda1', 'root_device_type': 'ebs', 'security_groups': [{'group_name': 'BastionSG', 'group_id': 'sg-001d2c6aaac901cf2'}], 'source_dest_check': True, 'state_reason': {'code': 'Client.UserInitiatedShutdown', 'message': 'Client.UserInitiatedShutdown: User initiated shutdown'}, 'tags': {'Name': 'bastion', 'aws:cloudformation:stack-name': 'ocp4-cluster-jjtng', 'env_type': 'ocp4-cluster', 'owner': 'unknownuser', 'Project': 'ocp4-cluster-jjtng', 'ostype': 'linux', 'user': 'lab-user', 'AnsibleGroup': 'bastions,clientvms', 'internaldns': 'bastion.jjtng.internal', 'project': 'ocp4-cluster-jjtng', 'uuid': 'cf42e52a-994d-54fb-a829-d2fa66aeb5e1', 'Stack': 'ocp4-cluster-jjtng', 'ocp4-cluster-jjtng': 'bastion', 'aws:cloudformation:stack-id': 'arn:aws:cloudformation:us-east-2:631632167633:stack/ocp4-cluster-jjtng/fa0a0710-721b-11f0-96b6-062521e17185', 'platform': 'RHPDS', 'guid': 'jjtng', 'aws:cloudformation:logical-id': 'bastion1', 'Purpose': 'production'}, 'virtualization_type': 'hvm', 'cpu_options': {'core_count': 1, 'threads_per_core': 2}, 'capacity_reservation_specification': {'capacity_reservation_preference': 'open'}, 'hibernation_options': {'configured': False}, 'metadata_options': {'state': 'applied', 'http_tokens': 'optional', 'http_put_response_hop_limit': 1, 'http_endpoint': 'enabled', 'http_protocol_ipv6': 'disabled', 'instance_metadata_tags': 'disabled'}, 'enclave_options': {'enabled': False}, 'platform_details': 'Red Hat BYOL Linux', 'usage_operation': 'RunInstances:00g0', 'usage_operation_update_time': '2025-08-05T16:48:38+00:00', 'private_dns_name_options': {'hostname_type': 'ip-name', 'enable_resource_name_dns_a_record': False, 'enable_resource_name_dns_aaaa_record': False}, 'maintenance_options': {'auto_recovery': 'default'}, 'current_instance_boot_mode': 'legacy-bios'})
+
+TASK [Wait until all EC2 instances are running] ********************************
+Thursday 07 August 2025  16:49:21 +0000 (0:00:03.076)       0:00:16.753 ******* 
+FAILED - RETRYING: [localhost]: Wait until all EC2 instances are running (60 retries left).
+ok: [localhost]
+
+PLAY [Remove workloads] ********************************************************
+
+TASK [Invoke roles to remove ocp workloads] ************************************
+Thursday 07 August 2025  16:49:32 +0000 (0:00:11.342)       0:00:28.096 ******* 
+
+TASK [ocp4_workload_ols : Running Pre Workload Tasks] **************************
+Thursday 07 August 2025  16:49:33 +0000 (0:00:00.056)       0:00:28.153 ******* 
+skipping: [localhost]
+
+TASK [ocp4_workload_ols : Running Workload Tasks] ******************************
+Thursday 07 August 2025  16:49:33 +0000 (0:00:00.052)       0:00:28.206 ******* 
+skipping: [localhost]
+
+TASK [ocp4_workload_ols : Running Post Workload Tasks] *************************
+Thursday 07 August 2025  16:49:33 +0000 (0:00:00.054)       0:00:28.260 ******* 
+skipping: [localhost]
+
+TASK [ocp4_workload_ols : Running Workload removal Tasks] **********************
+Thursday 07 August 2025  16:49:33 +0000 (0:00:00.046)       0:00:28.307 ******* 
+included: /runner/project/ansible/roles_ocp_workloads/ocp4_workload_ols/tasks/./remove_workload.yml for localhost
+
+TASK [ocp4_workload_ols : Install Microsoft GPG key] ***************************
+Thursday 07 August 2025  16:49:33 +0000 (0:00:00.052)       0:00:28.359 ******* 
+ok: [localhost]
+
+TASK [ocp4_workload_ols : Install Microsoft package repository] ****************
+Thursday 07 August 2025  16:49:33 +0000 (0:00:00.579)       0:00:28.938 ******* 
+fatal: [localhost]: FAILED! => {"ansible_facts": {"pkg_mgr": "dnf"}, "changed": false, "failures": [], "msg": "Depsolve Error occurred: \\n Problem: conflicting requests\\n  - nothing provides system-release >= 9 needed by packages-microsoft-prod-1.1-2.noarch", "rc": 1, "results": []}
+
+NO MORE HOSTS LEFT *************************************************************
+
+PLAY RECAP *********************************************************************
+bastion.jjtng.internal     : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+localhost                  : ok=53   changed=20   unreachable=0    failed=1    skipped=23   rescued=0    ignored=1   
+Thursday 07 August 2025  16:49:41 +0000 (0:00:07.556)       0:00:36.495 ******* 
+=============================================================================== 
+Wait until all EC2 instances are running ------------------------------- 11.34s
+ocp4_workload_ols : Install Microsoft package repository ---------------- 7.56s
+Ensure EC2 instances are running ---------------------------------------- 3.08s
+agnosticd_restore_output_dir : Get output_dir archive from s3 ----------- 1.25s
+infra-ec2-create-inventory : Gather EC2 info ---------------------------- 0.81s
+Create empty user-info.yaml and user-data.yaml in output dir ------------ 0.81s
+agnosticd_restore_output_dir : Restore output_dir from archive ---------- 0.71s
+Get all EC2 instances --------------------------------------------------- 0.69s
+Install roles from requirements.yml ------------------------------------- 0.69s
+ocp4_workload_ols : Install Microsoft GPG key --------------------------- 0.58s
+Get fact for cloudformation stack --------------------------------------- 0.58s
+Get the list of installed collections (EE) ------------------------------ 0.51s
+Install collections from requirements.yml (EE) -------------------------- 0.50s
+Create symlink user-data.yaml -> provision-user-data.yaml --------------- 0.41s
+Touch file provision-user-data.yaml and provision-user-info.yaml -------- 0.36s
+Copy requirements content to output_dir --------------------------------- 0.35s
+infra-common-ssh-config-generate : Add bastion proxy config to workdir ssh config file --- 0.35s
+agnosticd_dynamic : Create dynamic-cache and dynamic-roles directories --- 0.34s
+create_ssh_provision_key : Write SSH pub key ---------------------------- 0.34s
+Create output_dir if it does not exists --------------------------------- 0.33s

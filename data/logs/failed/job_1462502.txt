@@ -1,0 +1,210 @@
+Vault password (gpte_vault_0): 
+
+PLAY [Step 0000 Set Action] ****************************************************
+
+TASK [Set ACTION to destroy] ***************************************************
+Tuesday 05 August 2025  02:14:02 +0000 (0:00:00.012)       0:00:00.012 ******** 
+skipping: [localhost]
+
+PLAY [Step 0000 Setup runtime] *************************************************
+
+TASK [debug] *******************************************************************
+Tuesday 05 August 2025  02:14:02 +0000 (0:00:00.029)       0:00:00.041 ******** 
+skipping: [localhost]
+
+TASK [Ensure cloud provider is supported] **************************************
+Tuesday 05 August 2025  02:14:02 +0000 (0:00:00.014)       0:00:00.056 ******** 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+PLAY [Step 0000 Setup Output Directory] ****************************************
+
+TASK [Set output_dir if not defined] *******************************************
+Tuesday 05 August 2025  02:14:02 +0000 (0:00:00.025)       0:00:00.081 ******** 
+skipping: [localhost]
+
+TASK [Create output_dir if it does not exists] *********************************
+Tuesday 05 August 2025  02:14:02 +0000 (0:00:00.013)       0:00:00.095 ******** 
+changed: [localhost]
+
+TASK [Attempt to restore output_dir contents] **********************************
+Tuesday 05 August 2025  02:14:03 +0000 (0:00:00.292)       0:00:00.388 ******** 
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from s3 bucket] ********
+Tuesday 05 August 2025  02:14:03 +0000 (0:00:00.022)       0:00:00.410 ******** 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/restore-from-s3.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Tuesday 05 August 2025  02:14:03 +0000 (0:00:00.034)       0:00:00.444 ******** 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/fetch-from-s3-s3_object.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Tuesday 05 August 2025  02:14:03 +0000 (0:00:00.067)       0:00:00.511 ******** 
+changed: [localhost]
+
+TASK [agnosticd_restore_output_dir : Decrypt archive] **************************
+Tuesday 05 August 2025  02:14:04 +0000 (0:00:01.038)       0:00:01.550 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from archive] **********
+Tuesday 05 August 2025  02:14:04 +0000 (0:00:00.015)       0:00:01.566 ******** 
+changed: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove archive file from output_dir] ******
+Tuesday 05 August 2025  02:14:04 +0000 (0:00:00.588)       0:00:02.154 ******** 
+changed: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove encrypted archive file from output_dir] ***
+Tuesday 05 August 2025  02:14:04 +0000 (0:00:00.153)       0:00:02.307 ******** 
+ok: [localhost]
+
+TASK [Touch file provision-user-data.yaml and provision-user-info.yaml] ********
+Tuesday 05 August 2025  02:14:05 +0000 (0:00:00.182)       0:00:02.490 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create empty user-info.yaml and user-data.yaml in output dir] ************
+Tuesday 05 August 2025  02:14:05 +0000 (0:00:00.322)       0:00:02.812 ******** 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create symlink user-data.yaml -> provision-user-data.yaml] ***************
+Tuesday 05 August 2025  02:14:06 +0000 (0:00:00.761)       0:00:03.574 ******** 
+ok: [localhost] => (item=user-info.yaml)
+ok: [localhost] => (item=user-data.yaml)
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Tuesday 05 August 2025  02:14:06 +0000 (0:00:00.397)       0:00:03.971 ******** 
+ok: [localhost]
+
+TASK [Include variables files] *************************************************
+Tuesday 05 August 2025  02:14:06 +0000 (0:00:00.031)       0:00:04.003 ******** 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars_openshift_cnv.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars_openshift_cnv.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_secret_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Tuesday 05 August 2025  02:14:06 +0000 (0:00:00.076)       0:00:04.079 ******** 
+skipping: [localhost]
+
+TASK [Set passthrough user data] ***********************************************
+Tuesday 05 August 2025  02:14:06 +0000 (0:00:00.016)       0:00:04.095 ******** 
+skipping: [localhost]
+
+PLAY [Step 0000 Install Galaxy roles and collections] **************************
+
+TASK [Use requirements_content] ************************************************
+Tuesday 05 August 2025  02:14:06 +0000 (0:00:00.028)       0:00:04.124 ******** 
+ok: [localhost]
+
+TASK [Copy requirements content to output_dir] *********************************
+Tuesday 05 August 2025  02:14:06 +0000 (0:00:00.041)       0:00:04.165 ******** 
+ok: [localhost]
+
+TASK [Use requirements_path from the config] ***********************************
+Tuesday 05 August 2025  02:14:07 +0000 (0:00:00.337)       0:00:04.502 ******** 
+skipping: [localhost]
+
+TASK [Check if requirements.yml exists] ****************************************
+Tuesday 05 August 2025  02:14:07 +0000 (0:00:00.025)       0:00:04.528 ******** 
+ok: [localhost]
+
+TASK [set_fact] ****************************************************************
+Tuesday 05 August 2025  02:14:07 +0000 (0:00:00.161)       0:00:04.690 ******** 
+ok: [localhost]
+
+TASK [Install roles from requirements.yml] *************************************
+Tuesday 05 August 2025  02:14:07 +0000 (0:00:00.029)       0:00:04.720 ******** 
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (Not EE)] **********************
+Tuesday 05 August 2025  02:14:08 +0000 (0:00:00.629)       0:00:05.349 ******** 
+skipping: [localhost]
+
+TASK [Get installed collections (EE)] ******************************************
+Tuesday 05 August 2025  02:14:08 +0000 (0:00:00.034)       0:00:05.384 ******** 
+included: /runner/project/ansible/install_collections_ee.yml for localhost
+
+TASK [Get the list of installed collections (EE)] ******************************
+Tuesday 05 August 2025  02:14:08 +0000 (0:00:00.043)       0:00:05.427 ******** 
+changed: [localhost]
+
+TASK [Create temporary file for requirements.yml (EE)] *************************
+Tuesday 05 August 2025  02:14:08 +0000 (0:00:00.539)       0:00:05.967 ******** 
+changed: [localhost]
+
+TASK [Rewrite requirements, filter out installed collections (EE)] *************
+Tuesday 05 August 2025  02:14:08 +0000 (0:00:00.249)       0:00:06.217 ******** 
+[WARNING]: skipping installation of kubernetes.core==2.4.0 ;
+kubernetes.core==3.0.1 already installed in EE
+[WARNING]: skipping installation of amazon.aws==2.3.0 ; amazon.aws==7.6.0
+already installed in EE
+[WARNING]: skipping installation of community.general==6.4.0 ;
+community.general==8.6.0 already installed in EE
+[WARNING]: skipping installation of ansible.posix==1.5.1 ; ansible.posix==1.5.4
+already installed in EE
+[WARNING]: skipping installation of awx.awx==21.1.0 ; awx.awx==24.3.1 already
+installed in EE
+[WARNING]: skipping installation of containers.podman==1.16.3 ;
+containers.podman==1.13.0 already installed in EE
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (EE)] **************************
+Tuesday 05 August 2025  02:14:09 +0000 (0:00:00.330)       0:00:06.547 ******** 
+changed: [localhost]
+
+TASK [Cleanup tempfile (EE)] ***************************************************
+Tuesday 05 August 2025  02:14:12 +0000 (0:00:03.439)       0:00:09.986 ******** 
+changed: [localhost]
+
+TASK [Install dynamic sources] *************************************************
+Tuesday 05 August 2025  02:14:12 +0000 (0:00:00.159)       0:00:10.146 ******** 
+
+TASK [agnosticd_dynamic : Create dynamic-cache and dynamic-roles directories] ***
+Tuesday 05 August 2025  02:14:12 +0000 (0:00:00.023)       0:00:10.170 ******** 
+changed: [localhost] => (item=/runner/project/ansible/dynamic-cache)
+changed: [localhost] => (item=/runner/project/ansible/dynamic-roles)
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to dynamic roles dir] ***
+Tuesday 05 August 2025  02:14:13 +0000 (0:00:00.326)       0:00:10.496 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to cache] *************
+Tuesday 05 August 2025  02:14:13 +0000 (0:00:00.028)       0:00:10.525 ******** 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install git sources] *********************************
+Tuesday 05 August 2025  02:14:13 +0000 (0:00:00.026)       0:00:10.551 ******** 
+skipping: [localhost]
+
+PLAY [Step 0000 Detect in what region the stack is] ****************************
+
+TASK [include_tasks] ***********************************************************
+Tuesday 05 August 2025  02:14:13 +0000 (0:00:00.025)       0:00:10.576 ******** 
+skipping: [localhost]
+
+PLAY [Destroy environment on OpenShift CNV] ************************************
+
+TASK [Run host-ocp4-assisted-destroy role] *************************************
+Tuesday 05 August 2025  02:14:13 +0000 (0:00:00.023)       0:00:10.600 ******** 
+ERROR! couldn't resolve module/action 'rhpds.assisted_installer.list_clusters'. This often indicates a misspelling, missing collection, or incorrect module path.
+
+The error appears to be in '/runner/project/ansible/roles/host-ocp4-assisted-destroy/tasks/main.yaml': line 62, column 7, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+
+    - name: Get a list of clusters
+      ^ here

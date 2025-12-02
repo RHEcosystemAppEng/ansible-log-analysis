@@ -1,0 +1,392 @@
+Vault password (gpte_vault_0): 
+
+PLAY [Step 0000 Set Action] ****************************************************
+
+TASK [Set ACTION to destroy] ***************************************************
+Thursday 07 August 2025  18:06:50 +0000 (0:00:00.012)       0:00:00.012 ******* 
+skipping: [localhost]
+
+PLAY [Step 0000 Setup runtime] *************************************************
+
+TASK [debug] *******************************************************************
+Thursday 07 August 2025  18:06:50 +0000 (0:00:00.032)       0:00:00.044 ******* 
+skipping: [localhost]
+
+TASK [Ensure cloud provider is supported] **************************************
+Thursday 07 August 2025  18:06:50 +0000 (0:00:00.020)       0:00:00.065 ******* 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+PLAY [Step 0000 Setup Output Directory] ****************************************
+
+TASK [Set output_dir if not defined] *******************************************
+Thursday 07 August 2025  18:06:50 +0000 (0:00:00.036)       0:00:00.101 ******* 
+skipping: [localhost]
+
+TASK [Create output_dir if it does not exists] *********************************
+Thursday 07 August 2025  18:06:50 +0000 (0:00:00.023)       0:00:00.124 ******* 
+changed: [localhost]
+
+TASK [Attempt to restore output_dir contents] **********************************
+Thursday 07 August 2025  18:06:50 +0000 (0:00:00.284)       0:00:00.409 ******* 
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from s3 bucket] ********
+Thursday 07 August 2025  18:06:50 +0000 (0:00:00.047)       0:00:00.456 ******* 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/restore-from-s3.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Thursday 07 August 2025  18:06:50 +0000 (0:00:00.049)       0:00:00.506 ******* 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/fetch-from-s3-s3_object.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Thursday 07 August 2025  18:06:50 +0000 (0:00:00.074)       0:00:00.580 ******* 
+changed: [localhost]
+
+TASK [agnosticd_restore_output_dir : Decrypt archive] **************************
+Thursday 07 August 2025  18:06:51 +0000 (0:00:01.171)       0:00:01.752 ******* 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from archive] **********
+Thursday 07 August 2025  18:06:51 +0000 (0:00:00.020)       0:00:01.773 ******* 
+changed: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove archive file from output_dir] ******
+Thursday 07 August 2025  18:06:52 +0000 (0:00:00.611)       0:00:02.384 ******* 
+changed: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove encrypted archive file from output_dir] ***
+Thursday 07 August 2025  18:06:52 +0000 (0:00:00.161)       0:00:02.546 ******* 
+ok: [localhost]
+
+TASK [Touch file provision-user-data.yaml and provision-user-info.yaml] ********
+Thursday 07 August 2025  18:06:52 +0000 (0:00:00.182)       0:00:02.728 ******* 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create empty user-info.yaml and user-data.yaml in output dir] ************
+Thursday 07 August 2025  18:06:53 +0000 (0:00:00.327)       0:00:03.056 ******* 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create symlink user-data.yaml -> provision-user-data.yaml] ***************
+Thursday 07 August 2025  18:06:53 +0000 (0:00:00.703)       0:00:03.759 ******* 
+ok: [localhost] => (item=user-info.yaml)
+ok: [localhost] => (item=user-data.yaml)
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Thursday 07 August 2025  18:06:54 +0000 (0:00:00.357)       0:00:04.117 ******* 
+ok: [localhost]
+
+TASK [Include variables files] *************************************************
+Thursday 07 August 2025  18:06:54 +0000 (0:00:00.022)       0:00:04.140 ******* 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/ec2_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars_ec2.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/default_vars_ec2.yml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_secret_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/ocp4-cluster/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Thursday 07 August 2025  18:06:54 +0000 (0:00:00.079)       0:00:04.220 ******* 
+skipping: [localhost]
+
+TASK [Set passthrough user data] ***********************************************
+Thursday 07 August 2025  18:06:54 +0000 (0:00:00.018)       0:00:04.238 ******* 
+skipping: [localhost]
+
+PLAY [Step 0000 Install Galaxy roles and collections] **************************
+
+TASK [Use requirements_content] ************************************************
+Thursday 07 August 2025  18:06:54 +0000 (0:00:00.030)       0:00:04.268 ******* 
+skipping: [localhost]
+
+TASK [Copy requirements content to output_dir] *********************************
+Thursday 07 August 2025  18:06:54 +0000 (0:00:00.030)       0:00:04.299 ******* 
+skipping: [localhost]
+
+TASK [Use requirements_path from the config] ***********************************
+Thursday 07 August 2025  18:06:54 +0000 (0:00:00.034)       0:00:04.334 ******* 
+ok: [localhost]
+
+TASK [Check if requirements.yml exists] ****************************************
+Thursday 07 August 2025  18:06:54 +0000 (0:00:00.050)       0:00:04.384 ******* 
+ok: [localhost]
+
+TASK [set_fact] ****************************************************************
+Thursday 07 August 2025  18:06:54 +0000 (0:00:00.159)       0:00:04.544 ******* 
+ok: [localhost]
+
+TASK [Install roles from requirements.yml] *************************************
+Thursday 07 August 2025  18:06:54 +0000 (0:00:00.033)       0:00:04.577 ******* 
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (Not EE)] **********************
+Thursday 07 August 2025  18:06:55 +0000 (0:00:00.916)       0:00:05.494 ******* 
+skipping: [localhost]
+
+TASK [Get installed collections (EE)] ******************************************
+Thursday 07 August 2025  18:06:55 +0000 (0:00:00.073)       0:00:05.568 ******* 
+included: /runner/project/ansible/install_collections_ee.yml for localhost
+
+TASK [Get the list of installed collections (EE)] ******************************
+Thursday 07 August 2025  18:06:55 +0000 (0:00:00.080)       0:00:05.648 ******* 
+changed: [localhost]
+
+TASK [Create temporary file for requirements.yml (EE)] *************************
+Thursday 07 August 2025  18:06:56 +0000 (0:00:00.513)       0:00:06.162 ******* 
+changed: [localhost]
+
+TASK [Rewrite requirements, filter out installed collections (EE)] *************
+Thursday 07 August 2025  18:06:56 +0000 (0:00:00.246)       0:00:06.408 ******* 
+[WARNING]: skipping installation of community.general==9.2.0 ;
+community.general==7.4.0 already installed in EE
+[WARNING]: skipping installation of community.crypto==2.21.1 ;
+community.crypto==2.15.1 already installed in EE
+[WARNING]: skipping installation of ansible.posix==1.5.4 ; ansible.posix==1.5.4
+already installed in EE
+[WARNING]: skipping installation of kubernetes.core==5.0.0 ;
+kubernetes.core==2.4.0 already installed in EE
+[WARNING]: skipping installation of amazon.aws==8.1.0 ; amazon.aws==6.4.0
+already installed in EE
+[WARNING]: skipping installation of community.vmware==4.5.0 ;
+community.vmware==3.9.0 already installed in EE
+[WARNING]: skipping installation of google.cloud==1.3.0 ; google.cloud==1.2.0
+already installed in EE
+[WARNING]: skipping installation of openstack.cloud==2.2.0 ;
+openstack.cloud==2.1.0 already installed in EE
+[WARNING]: skipping installation of community.okd==4.0.0 ; community.okd==2.3.0
+already installed in EE
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (EE)] **************************
+Thursday 07 August 2025  18:06:56 +0000 (0:00:00.323)       0:00:06.732 ******* 
+changed: [localhost]
+
+TASK [Cleanup tempfile (EE)] ***************************************************
+Thursday 07 August 2025  18:07:06 +0000 (0:00:09.576)       0:00:16.309 ******* 
+changed: [localhost]
+
+TASK [Install dynamic sources] *************************************************
+Thursday 07 August 2025  18:07:06 +0000 (0:00:00.166)       0:00:16.476 ******* 
+
+TASK [agnosticd_dynamic : Create dynamic-cache and dynamic-roles directories] ***
+Thursday 07 August 2025  18:07:06 +0000 (0:00:00.021)       0:00:16.497 ******* 
+changed: [localhost] => (item=/runner/project/ansible/dynamic-cache)
+changed: [localhost] => (item=/runner/project/ansible/dynamic-roles)
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to dynamic roles dir] ***
+Thursday 07 August 2025  18:07:07 +0000 (0:00:00.332)       0:00:16.830 ******* 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to cache] *************
+Thursday 07 August 2025  18:07:07 +0000 (0:00:00.044)       0:00:16.875 ******* 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install git sources] *********************************
+Thursday 07 August 2025  18:07:07 +0000 (0:00:00.041)       0:00:16.916 ******* 
+skipping: [localhost]
+
+PLAY [Step 0000 Detect in what region the stack is] ****************************
+
+TASK [include_tasks] ***********************************************************
+Thursday 07 August 2025  18:07:07 +0000 (0:00:00.025)       0:00:16.942 ******* 
+included: /runner/project/ansible/cloud_providers/ec2_detect_region_tasks.yml for localhost
+
+TASK [fallback_regions is defined, detect region for AWS] **********************
+Thursday 07 August 2025  18:07:07 +0000 (0:00:00.024)       0:00:16.966 ******* 
+skipping: [localhost] => (item=us-east-2) 
+skipping: [localhost]
+
+TASK [Set aws_region_final] ****************************************************
+Thursday 07 August 2025  18:07:07 +0000 (0:00:00.042)       0:00:17.009 ******* 
+skipping: [localhost] => (item=unknown) 
+skipping: [localhost]
+
+TASK [Set aws_region_final as provided with aws_region] ************************
+Thursday 07 August 2025  18:07:07 +0000 (0:00:00.042)       0:00:17.051 ******* 
+ok: [localhost]
+
+PLAY [Destroy environment on AWS] **********************************************
+
+TASK [Get fact for cloudformation stack] ***************************************
+Thursday 07 August 2025  18:07:07 +0000 (0:00:00.040)       0:00:17.091 ******* 
+ok: [localhost]
+
+TASK [Grab and set stack creation time] ****************************************
+Thursday 07 August 2025  18:07:07 +0000 (0:00:00.583)       0:00:17.675 ******* 
+ok: [localhost]
+
+TASK [Run infra-ec2-create-inventory role] *************************************
+Thursday 07 August 2025  18:07:07 +0000 (0:00:00.049)       0:00:17.725 ******* 
+
+TASK [infra-ec2-create-inventory : Report aws region] **************************
+Thursday 07 August 2025  18:07:07 +0000 (0:00:00.020)       0:00:17.746 ******* 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : Gather EC2 info] ****************************
+Thursday 07 August 2025  18:07:07 +0000 (0:00:00.032)       0:00:17.778 ******* 
+[WARNING]: Both option access_key and its alias aws_access_key are set.
+[WARNING]: Both option secret_key and its alias aws_secret_key are set.
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : debug ec2_info] *****************************
+Thursday 07 August 2025  18:07:08 +0000 (0:00:00.782)       0:00:18.561 ******* 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : windows ostype workaround] ******************
+Thursday 07 August 2025  18:07:08 +0000 (0:00:00.032)       0:00:18.594 ******* 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : set_fact] ***********************************
+Thursday 07 August 2025  18:07:08 +0000 (0:00:00.044)       0:00:18.638 ******* 
+ok: [localhost]
+
+TASK [infra-ec2-create-inventory : Find the bastion in this batch of host] *****
+Thursday 07 August 2025  18:07:08 +0000 (0:00:00.044)       0:00:18.683 ******* 
+ok: [localhost] => (item=bastion.z2sgl.internal)
+
+TASK [infra-ec2-create-inventory : Add hosts to the current inventory] *********
+Thursday 07 August 2025  18:07:08 +0000 (0:00:00.048)       0:00:18.732 ******* 
+changed: [localhost] => (item=bastion.z2sgl.internal)
+
+TASK [infra-ec2-create-inventory : Add hosts to groups indicated by AnsibleGroup tag] ***
+Thursday 07 August 2025  18:07:09 +0000 (0:00:00.157)       0:00:18.889 ******* 
+changed: [localhost] => (item=bastion.z2sgl.internal)
+
+TASK [infra-ec2-create-inventory : debug hostvars] *****************************
+Thursday 07 August 2025  18:07:09 +0000 (0:00:00.058)       0:00:18.947 ******* 
+skipping: [localhost]
+
+TASK [infra-ec2-create-inventory : debug groups] *******************************
+Thursday 07 August 2025  18:07:09 +0000 (0:00:00.033)       0:00:18.981 ******* 
+skipping: [localhost]
+
+TASK [Create local ssh provision facts (key already exists)] *******************
+Thursday 07 August 2025  18:07:09 +0000 (0:00:00.034)       0:00:19.016 ******* 
+
+TASK [create_ssh_provision_key : include_tasks] ********************************
+Thursday 07 August 2025  18:07:09 +0000 (0:00:00.033)       0:00:19.049 ******* 
+included: /runner/project/ansible/roles-infra/create_ssh_provision_key/tasks/checks.yaml for localhost
+
+TASK [create_ssh_provision_key : Ensure key_name is not defined] ***************
+Thursday 07 August 2025  18:07:09 +0000 (0:00:00.014)       0:00:19.064 ******* 
+fatal: [localhost]: FAILED! => {"changed": false, "msg": "WARNING: key_name is DEPRECATED and should not be defined when using new create_ssh_provision_key role."}
+...ignoring
+
+TASK [create_ssh_provision_key : Generate SSH keys] ****************************
+Thursday 07 August 2025  18:07:09 +0000 (0:00:00.040)       0:00:19.105 ******* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Fix permission of ssh key] ********************
+Thursday 07 August 2025  18:07:09 +0000 (0:00:00.198)       0:00:19.304 ******* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Generate SSH pub key content] *****************
+Thursday 07 August 2025  18:07:09 +0000 (0:00:00.198)       0:00:19.502 ******* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Save all facts for SSH] ***********************
+Thursday 07 August 2025  18:07:09 +0000 (0:00:00.188)       0:00:19.691 ******* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Write SSH pub key] ****************************
+Thursday 07 August 2025  18:07:09 +0000 (0:00:00.037)       0:00:19.728 ******* 
+ok: [localhost]
+
+TASK [create_ssh_provision_key : Report user info for SSH provision key as user data] ***
+Thursday 07 August 2025  18:07:10 +0000 (0:00:00.327)       0:00:20.056 ******* 
+skipping: [localhost]
+
+TASK [include_role : agnosticd_save_output_dir] ********************************
+Thursday 07 August 2025  18:07:10 +0000 (0:00:00.027)       0:00:20.084 ******* 
+skipping: [localhost]
+
+TASK [SSH config setup] ********************************************************
+Thursday 07 August 2025  18:07:10 +0000 (0:00:00.018)       0:00:20.102 ******* 
+
+TASK [infra-common-ssh-config-generate : Store bastion hostname as a fact] *****
+Thursday 07 August 2025  18:07:10 +0000 (0:00:00.069)       0:00:20.171 ******* 
+ok: [localhost]
+
+TASK [infra-common-ssh-config-generate : Delete dedicated known_host if it exists (new deployment)] ***
+Thursday 07 August 2025  18:07:10 +0000 (0:00:00.043)       0:00:20.215 ******* 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : delete local ssh config, start fresh] ***
+Thursday 07 August 2025  18:07:10 +0000 (0:00:00.194)       0:00:20.409 ******* 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : Create empty local ssh config] ********
+Thursday 07 August 2025  18:07:10 +0000 (0:00:00.191)       0:00:20.601 ******* 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : Add bastion proxy config to workdir ssh config file] ***
+Thursday 07 August 2025  18:07:10 +0000 (0:00:00.201)       0:00:20.802 ******* 
+changed: [localhost]
+
+TASK [infra-common-ssh-config-generate : Add all hosts to workdir ssh config file] ***
+Thursday 07 August 2025  18:07:11 +0000 (0:00:00.340)       0:00:21.143 ******* 
+skipping: [localhost] => (item=bastion.z2sgl.internal) 
+skipping: [localhost]
+
+PLAY [Set ssh extra args for all hosts, use ssh_config just created] ***********
+
+TASK [add -F option ansible_ssh_extra_args] ************************************
+Thursday 07 August 2025  18:07:11 +0000 (0:00:00.032)       0:00:21.175 ******* 
+ok: [bastion.z2sgl.internal]
+
+PLAY [Start all EC2 instances if they are stopped] *****************************
+
+TASK [ansible.builtin.include_tasks] *******************************************
+Thursday 07 August 2025  18:07:11 +0000 (0:00:00.048)       0:00:21.223 ******* 
+included: /runner/project/ansible/configs/ocp4-cluster/ec2_instances_start.yaml for localhost
+
+TASK [Get all EC2 instances] ***************************************************
+Thursday 07 August 2025  18:07:11 +0000 (0:00:00.014)       0:00:21.238 ******* 
+ok: [localhost]
+
+TASK [Ensure EC2 instances are running] ****************************************
+Thursday 07 August 2025  18:07:12 +0000 (0:00:00.667)       0:00:21.905 ******* 
+changed: [localhost] => (item={'ami_launch_index': 0, 'image_id': 'ami-078e26f293629fe91', 'instance_id': 'i-0035f5f8879751a1a', 'instance_type': 'm6a.4xlarge', 'launch_time': '2025-08-06T15:47:10+00:00', 'monitoring': {'state': 'disabled'}, 'placement': {'availability_zone': 'us-east-2a', 'group_name': '', 'tenancy': 'default'}, 'private_dns_name': 'ip-10-0-52-180.us-east-2.compute.internal', 'private_ip_address': '10.0.52.180', 'product_codes': [], 'public_dns_name': '', 'state': {'code': 80, 'name': 'stopped'}, 'state_transition_reason': 'User initiated (2025-08-06 21:48:55 GMT)', 'subnet_id': 'subnet-02a7d281d4d4d77dc', 'vpc_id': 'vpc-07ed939b2a6647a19', 'architecture': 'x86_64', 'block_device_mappings': [{'device_name': '/dev/xvda', 'ebs': {'attach_time': '2025-08-05T18:30:08+00:00', 'delete_on_termination': True, 'status': 'attached', 'volume_id': 'vol-07bfcd8c3e0a4d054'}}, {'device_name': '/dev/xvdaa', 'ebs': {'attach_time': '2025-08-05T20:04:04.441000+00:00', 'delete_on_termination': False, 'status': 'attached', 'volume_id': 'vol-0d8ea568125bf3133'}}, {'device_name': '/dev/xvdab', 'ebs': {'attach_time': '2025-08-05T20:04:04.379000+00:00', 'delete_on_termination': False, 'status': 'attached', 'volume_id': 'vol-0f556958e2468530c'}}, {'device_name': '/dev/xvdac', 'ebs': {'attach_time': '2025-08-05T20:05:54.703000+00:00', 'delete_on_termination': False, 'status': 'attached', 'volume_id': 'vol-0567397f7081cf1b6'}}, {'device_name': '/dev/xvdad', 'ebs': {'attach_time': '2025-08-05T20:07:06.886000+00:00', 'delete_on_termination': False, 'status': 'attached', 'volume_id': 'vol-0242f3567a0fe0e55'}}, {'device_name': '/dev/xvdaf', 'ebs': {'attach_time': '2025-08-05T20:07:08.433000+00:00', 'delete_on_termination': False, 'status': 'attached', 'volume_id': 'vol-08dcf80c0300fd15f'}}],  'ebs_optimized': False, 'ena_support': True, 'hypervisor': 'xen', 'iam_instance_profile': {'arn': 'arn:aws:iam::924521267965:instance-profile/cluster-z2sgl-gltjk-master-profile', 'id': 'AIPA5OQODAL6STAY7E6CA'}, 'network_interfaces': [{'attachment': {'attach_time': '2025-08-05T18:30:07+00:00', 'attachment_id': 'eni-attach-06bb3efc31d5e8470', 'delete_on_termination': True, 'device_index': 0, 'status': 'attached', 'network_card_index': 0}, 'description': '', 'groups': [{'group_name': 'cluster-z2sgl-gltjk-node', 'group_id': 'sg-033524481f8a873b0'}, {'group_name': 'cluster-z2sgl-gltjk-controlplane', 'group_id': 'sg-05a9afa96de81b1b2'}, {'group_name': 'cluster-z2sgl-gltjk-lb', 'group_id': 'sg-04fd2d7208c73b792'}], 'ipv6_addresses': [], 'mac_address': '02:15:f2:16:75:41', 'network_interface_id': 'eni-0ab0723ce67e9d6b1', 'owner_id': '924521267965', 'private_dns_name': 'ip-10-0-52-180.us-east-2.compute.internal', 'private_ip_address': '10.0.52.180', 'private_ip_addresses': [{'primary': True, 'private_dns_name': 'ip-10-0-52-180.us-east-2.compute.internal', 'private_ip_address': '10.0.52.180'}], 'source_dest_check': True, 'status': 'in-use', 'subnet_id': 'subnet-02a7d281d4d4d77dc', 'vpc_id': 'vpc-07ed939b2a6647a19', 'interface_type': 'interface'}], 'root_device_name': '/dev/xvda', 'root_device_type': 'ebs', 'security_groups': [{'group_name': 'cluster-z2sgl-gltjk-node', 'group_id': 'sg-033524481f8a873b0'}, {'group_name': 'cluster-z2sgl-gltjk-controlplane', 'group_id': 'sg-05a9afa96de81b1b2'}, {'group_name': 'cluster-z2sgl-gltjk-lb', 'group_id': 'sg-04fd2d7208c73b792'}], 'source_dest_check': True, 'state_reason': {'code': 'Client.UserInitiatedShutdown', 'message': 'Client.UserInitiatedShutdown: User initiated shutdown'}, 'tags': {'sigs.k8s.io/cluster-api-provider-aws/role': 'control-plane', 'Stack': 'project ocp4-cluster-z2sgl', 'platform': 'RHPDS', 'kubernetes.io/cluster/cluster-z2sgl-gltjk': 'owned', 'sigs.k8s.io/cluster-api-provider-aws/cluster/cluster-z2sgl-gltjk': 'owned', 'MachineName': 'openshift-cluster-api-guests/cluster-z2sgl-gltjk-master-0', 'uuid': 'c4deb4ac-d894-54f6-a581-de2b1baf82bd', 'env_type': 'ocp4-cluster', 'owner': 'unknown', 'Name': 'cluster-z2sgl-gltjk-master-0', 'guid': 'z2sgl'}, 'virtualization_type': 'hvm', 'cpu_options': {'core_count': 8, 'threads_per_core': 2}, 'capacity_reservation_specification': {'capacity_reservation_preference': 'open'}, 'hibernation_options': {'configured': False}, 'metadata_options': {'state': 'applied', 'http_tokens': 'optional', 'http_put_response_hop_limit': 1, 'http_endpoint': 'enabled', 'http_protocol_ipv6': 'disabled', 'instance_metadata_tags': 'disabled'}, 'enclave_options': {'enabled': False}, 'platform_details': 'Linux/UNIX', 'usage_operation': 'RunInstances', 'usage_operation_update_time': '2025-08-05T18:30:07+00:00', 'private_dns_name_options': {'hostname_type': 'ip-name', 'enable_resource_name_dns_a_record': False, 'enable_resource_name_dns_aaaa_record': False}, 'maintenance_options': {'auto_recovery': 'default'}, 'current_instance_boot_mode': 'legacy-bios'})
+changed: [localhost] => (item={'ami_launch_index': 0, 'image_id': 'ami-078e26f293629fe91', 'instance_id': 'i-069888bc7f909f647', 'instance_type': 'g5.2xlarge', 'launch_time': '2025-08-06T15:47:11+00:00', 'monitoring': {'state': 'disabled'}, 'placement': {'availability_zone': 'us-east-2a', 'group_name': '', 'tenancy': 'default'}, 'private_dns_name': 'ip-10-0-54-202.us-east-2.compute.internal', 'private_ip_address': '10.0.54.202', 'product_codes': [], 'public_dns_name': '', 'state': {'code': 80, 'name': 'stopped'}, 'state_transition_reason': 'User initiated (2025-08-06 21:48:55 GMT)', 'subnet_id': 'subnet-02a7d281d4d4d77dc', 'vpc_id': 'vpc-07ed939b2a6647a19', 'architecture': 'x86_64', 'block_device_mappings': [{'device_name': '/dev/xvda', 'ebs': {'attach_time': '2025-08-05T20:08:11+00:00', 'delete_on_termination': True, 'status': 'attached', 'volume_id': 'vol-0ccaa9b3f55c9b2f3'}}],  'ebs_optimized': False, 'ena_support': True, 'hypervisor': 'xen', 'iam_instance_profile': {'arn': 'arn:aws:iam::924521267965:instance-profile/cluster-z2sgl-gltjk-worker-profile', 'id': 'AIPA5OQODAL67ZCXKALHN'}, 'network_interfaces': [{'attachment': {'attach_time': '2025-08-05T20:08:11+00:00', 'attachment_id': 'eni-attach-09fcf5a312136fbad', 'delete_on_termination': True, 'device_index': 0, 'status': 'attached', 'network_card_index': 0}, 'description': '', 'groups': [{'group_name': 'cluster-z2sgl-gltjk-node', 'group_id': 'sg-033524481f8a873b0'}, {'group_name': 'cluster-z2sgl-gltjk-lb', 'group_id': 'sg-04fd2d7208c73b792'}], 'ipv6_addresses': [], 'mac_address': '02:41:d8:fc:f7:29', 'network_interface_id': 'eni-0bac7a0e73968bb86', 'owner_id': '924521267965', 'private_dns_name': 'ip-10-0-54-202.us-east-2.compute.internal', 'private_ip_address': '10.0.54.202', 'private_ip_addresses': [{'primary': True, 'private_dns_name': 'ip-10-0-54-202.us-east-2.compute.internal', 'private_ip_address': '10.0.54.202'}], 'source_dest_check': True, 'status': 'in-use', 'subnet_id': 'subnet-02a7d281d4d4d77dc', 'vpc_id': 'vpc-07ed939b2a6647a19', 'interface_type': 'interface'}], 'root_device_name': '/dev/xvda', 'root_device_type': 'ebs', 'security_groups': [{'group_name': 'cluster-z2sgl-gltjk-node', 'group_id': 'sg-033524481f8a873b0'}, {'group_name': 'cluster-z2sgl-gltjk-lb', 'group_id': 'sg-04fd2d7208c73b792'}], 'source_dest_check': True, 'state_reason': {'code': 'Client.UserInitiatedShutdown', 'message': 'Client.UserInitiatedShutdown: User initiated shutdown'}, 'tags': {'uuid': 'c4deb4ac-d894-54f6-a581-de2b1baf82bd', 'env_type': 'ocp4-cluster', 'owner': 'unknown', 'platform': 'RHPDS', 'Stack': 'project ocp4-cluster-z2sgl', 'kubernetes.io/cluster/cluster-z2sgl-gltjk': 'owned', 'Name': 'cluster-z2sgl-gltjk-g5-us-east-2a-mx4ts', 'guid': 'z2sgl'}, 'virtualization_type': 'hvm', 'cpu_options': {'core_count': 4, 'threads_per_core': 2}, 'capacity_reservation_specification': {'capacity_reservation_preference': 'open'}, 'hibernation_options': {'configured': False}, 'metadata_options': {'state': 'applied', 'http_tokens': 'optional', 'http_put_response_hop_limit': 1, 'http_endpoint': 'enabled', 'http_protocol_ipv6': 'disabled', 'instance_metadata_tags': 'disabled'}, 'enclave_options': {'enabled': False}, 'platform_details': 'Linux/UNIX', 'usage_operation': 'RunInstances', 'usage_operation_update_time': '2025-08-05T20:08:11+00:00', 'private_dns_name_options': {'hostname_type': 'ip-name', 'enable_resource_name_dns_a_record': False, 'enable_resource_name_dns_aaaa_record': False}, 'maintenance_options': {'auto_recovery': 'default'}, 'current_instance_boot_mode': 'legacy-bios'})
+changed: [localhost] => (item={'ami_launch_index': 0, 'image_id': 'ami-07996050bcabaa915', 'instance_id': 'i-0b554cbd132065a6c', 'instance_type': 't3a.medium', 'key_name': 'ssh_provision_z2sgl', 'launch_time': '2025-08-06T15:47:11+00:00', 'monitoring': {'state': 'disabled'}, 'placement': {'availability_zone': 'us-east-2a', 'group_name': '', 'tenancy': 'default'}, 'private_dns_name': 'ip-192-168-0-38.us-east-2.compute.internal', 'private_ip_address': '192.168.0.38', 'product_codes': [], 'public_dns_name': 'ec2-18-220-139-124.us-east-2.compute.amazonaws.com', 'public_ip_address': '18.220.139.124', 'state': {'code': 80, 'name': 'stopped'}, 'state_transition_reason': 'User initiated (2025-08-06 21:48:56 GMT)', 'subnet_id': 'subnet-0f45e21f38f51dc56', 'vpc_id': 'vpc-01a3fff2bcb816067', 'architecture': 'x86_64', 'block_device_mappings': [{'device_name': '/dev/sda1', 'ebs': {'attach_time': '2025-08-05T18:07:01+00:00', 'delete_on_termination': True, 'status': 'attached', 'volume_id': 'vol-073350542caaf6af9'}}],  'ebs_optimized': False, 'ena_support': True, 'hypervisor': 'xen', 'network_interfaces': [{'association': {'ip_owner_id': '924521267965', 'public_dns_name': 'ec2-18-220-139-124.us-east-2.compute.amazonaws.com', 'public_ip': '18.220.139.124'}, 'attachment': {'attach_time': '2025-08-05T18:07:00+00:00', 'attachment_id': 'eni-attach-0b5e178ac8724050f', 'delete_on_termination': True, 'device_index': 0, 'status': 'attached', 'network_card_index': 0}, 'description': '', 'groups': [{'group_name': 'BastionSG', 'group_id': 'sg-08f90f0873a8c6e5d'}], 'ipv6_addresses': [], 'mac_address': '02:43:3c:7d:da:8f', 'network_interface_id': 'eni-0fc84844c61f7c343', 'owner_id': '924521267965', 'private_dns_name': 'ip-192-168-0-38.us-east-2.compute.internal', 'private_ip_address': '192.168.0.38', 'private_ip_addresses': [{'association': {'ip_owner_id': '924521267965', 'public_dns_name': 'ec2-18-220-139-124.us-east-2.compute.amazonaws.com', 'public_ip': '18.220.139.124'}, 'primary': True, 'private_dns_name': 'ip-192-168-0-38.us-east-2.compute.internal', 'private_ip_address': '192.168.0.38'}], 'source_dest_check': True, 'status': 'in-use', 'subnet_id': 'subnet-0f45e21f38f51dc56', 'vpc_id': 'vpc-01a3fff2bcb816067', 'interface_type': 'interface'}], 'root_device_name': '/dev/sda1', 'root_device_type': 'ebs', 'security_groups': [{'group_name': 'BastionSG', 'group_id': 'sg-08f90f0873a8c6e5d'}], 'source_dest_check': True, 'state_reason': {'code': 'Client.UserInitiatedShutdown', 'message': 'Client.UserInitiatedShutdown: User initiated shutdown'}, 'tags': {'guid': 'z2sgl', 'Purpose': 'production', 'Name': 'bastion', 'ocp4-cluster-z2sgl': 'bastion', 'owner': 'unknownuser', 'aws:cloudformation:stack-name': 'ocp4-cluster-z2sgl', 'Project': 'ocp4-cluster-z2sgl', 'uuid': 'c4deb4ac-d894-54f6-a581-de2b1baf82bd', 'internaldns': 'bastion.z2sgl.internal', 'aws:cloudformation:logical-id': 'bastion1', 'Stack': 'project ocp4-cluster-z2sgl', 'platform': 'RHPDS', 'user': 'lab-user', 'project': 'ocp4-cluster-z2sgl', 'AnsibleGroup': 'bastions,clientvms', 'env_type': 'ocp4-cluster', 'ostype': 'linux', 'aws:cloudformation:stack-id': 'arn:aws:cloudformation:us-east-2:924521267965:stack/ocp4-cluster-z2sgl/eca93040-7226-11f0-83d2-0aab6df1a4a3'}, 'virtualization_type': 'hvm', 'cpu_options': {'core_count': 1, 'threads_per_core': 2}, 'capacity_reservation_specification': {'capacity_reservation_preference': 'open'}, 'hibernation_options': {'configured': False}, 'metadata_options': {'state': 'applied', 'http_tokens': 'optional', 'http_put_response_hop_limit': 1, 'http_endpoint': 'enabled', 'http_protocol_ipv6': 'disabled', 'instance_metadata_tags': 'disabled'}, 'enclave_options': {'enabled': False}, 'boot_mode': 'uefi-preferred', 'platform_details': 'Red Hat BYOL Linux', 'usage_operation': 'RunInstances:00g0', 'usage_operation_update_time': '2025-08-05T18:07:00+00:00', 'private_dns_name_options': {'hostname_type': 'ip-name', 'enable_resource_name_dns_a_record': False, 'enable_resource_name_dns_aaaa_record': False}, 'maintenance_options': {'auto_recovery': 'default'}, 'current_instance_boot_mode': 'uefi'})
+failed: [localhost] (item={'ami_launch_index': 0, 'image_id': 'ami-078e26f293629fe91', 'instance_id': 'i-0cadc613ebad80f35', 'instance_type': 'g5.2xlarge', 'launch_time': '2025-08-06T15:47:12+00:00', 'monitoring': {'state': 'disabled'}, 'placement': {'availability_zone': 'us-east-2a', 'group_name': '', 'tenancy': 'default'}, 'private_dns_name': 'ip-10-0-8-89.us-east-2.compute.internal', 'private_ip_address': '10.0.8.89', 'product_codes': [], 'public_dns_name': '', 'state': {'code': 80, 'name': 'stopped'}, 'state_transition_reason': 'User initiated (2025-08-06 21:48:56 GMT)', 'subnet_id': 'subnet-02a7d281d4d4d77dc', 'vpc_id': 'vpc-07ed939b2a6647a19', 'architecture': 'x86_64', 'block_device_mappings': [{'device_name': '/dev/xvda', 'ebs': {'attach_time': '2025-08-05T20:08:13+00:00', 'delete_on_termination': True, 'status': 'attached', 'volume_id': 'vol-0ae75ee119a9b23cb'}}],  'ebs_optimized': False, 'ena_support': True, 'hypervisor': 'xen', 'iam_instance_profile': {'arn': 'arn:aws:iam::924521267965:instance-profile/cluster-z2sgl-gltjk-worker-profile', 'id': 'AIPA5OQODAL67ZCXKALHN'}, 'network_interfaces': [{'attachment': {'attach_time': '2025-08-05T20:08:12+00:00', 'attachment_id': 'eni-attach-0d04bd5233f568296', 'delete_on_termination': True, 'device_index': 0, 'status': 'attached', 'network_card_index': 0}, 'description': '', 'groups': [{'group_name': 'cluster-z2sgl-gltjk-node', 'group_id': 'sg-033524481f8a873b0'}, {'group_name': 'cluster-z2sgl-gltjk-lb', 'group_id': 'sg-04fd2d7208c73b792'}], 'ipv6_addresses': [], 'mac_address': '02:4a:59:d9:f6:51', 'network_interface_id': 'eni-01f5741a9f3b3f56e', 'owner_id': '924521267965', 'private_dns_name': 'ip-10-0-8-89.us-east-2.compute.internal', 'private_ip_address': '10.0.8.89', 'private_ip_addresses': [{'primary': True, 'private_dns_name': 'ip-10-0-8-89.us-east-2.compute.internal', 'private_ip_address': '10.0.8.89'}], 'source_dest_check': True, 'status': 'in-use', 'subnet_id': 'subnet-02a7d281d4d4d77dc', 'vpc_id': 'vpc-07ed939b2a6647a19', 'interface_type': 'interface'}], 'root_device_name': '/dev/xvda', 'root_device_type': 'ebs', 'security_groups': [{'group_name': 'cluster-z2sgl-gltjk-node', 'group_id': 'sg-033524481f8a873b0'}, {'group_name': 'cluster-z2sgl-gltjk-lb', 'group_id': 'sg-04fd2d7208c73b792'}], 'source_dest_check': True, 'state_reason': {'code': 'Client.UserInitiatedShutdown', 'message': 'Client.UserInitiatedShutdown: User initiated shutdown'}, 'tags': {'Stack': 'project ocp4-cluster-z2sgl', 'kubernetes.io/cluster/cluster-z2sgl-gltjk': 'owned', 'env_type': 'ocp4-cluster', 'owner': 'unknown', 'platform': 'RHPDS', 'uuid': 'c4deb4ac-d894-54f6-a581-de2b1baf82bd', 'guid': 'z2sgl', 'Name': 'cluster-z2sgl-gltjk-g5-us-east-2a-d9hfh'}, 'virtualization_type': 'hvm', 'cpu_options': {'core_count': 4, 'threads_per_core': 2}, 'capacity_reservation_specification': {'capacity_reservation_preference': 'open'}, 'hibernation_options': {'configured': False}, 'metadata_options': {'state': 'applied', 'http_tokens': 'optional', 'http_put_response_hop_limit': 1, 'http_endpoint': 'enabled', 'http_protocol_ipv6': 'disabled', 'instance_metadata_tags': 'disabled'}, 'enclave_options': {'enabled': False}, 'platform_details': 'Linux/UNIX', 'usage_operation': 'RunInstances', 'usage_operation_update_time': '2025-08-05T20:08:12+00:00', 'private_dns_name_options': {'hostname_type': 'ip-name', 'enable_resource_name_dns_a_record': False, 'enable_resource_name_dns_aaaa_record': False}, 'maintenance_options': {'auto_recovery': 'default'}, 'current_instance_boot_mode': 'legacy-bios'}) => {"ansible_loop_var": "item", "changed": false, "item": {"ami_launch_index": 0, "architecture": "x86_64", "block_device_mappings": [{"device_name": "/dev/xvda", "ebs": {"attach_time": "2025-08-05T20:08:13+00:00", "delete_on_termination": true, "status": "attached", "volume_id": "vol-0ae75ee119a9b23cb"}}], "capacity_reservation_specification": {"capacity_reservation_preference": "open"},  "cpu_options": {"core_count": 4, "threads_per_core": 2}, "current_instance_boot_mode": "legacy-bios", "ebs_optimized": false, "ena_support": true, "enclave_options": {"enabled": false}, "hibernation_options": {"configured": false}, "hypervisor": "xen", "iam_instance_profile": {"arn": "arn:aws:iam::924521267965:instance-profile/cluster-z2sgl-gltjk-worker-profile", "id": "AIPA5OQODAL67ZCXKALHN"}, "image_id": "ami-078e26f293629fe91", "instance_id": "i-0cadc613ebad80f35", "instance_type": "g5.2xlarge", "launch_time": "2025-08-06T15:47:12+00:00", "maintenance_options": {"auto_recovery": "default"}, "metadata_options": {"http_endpoint": "enabled", "http_protocol_ipv6": "disabled", "http_put_response_hop_limit": 1, "http_tokens": "optional", "instance_metadata_tags": "disabled", "state": "applied"}, "monitoring": {"state": "disabled"}, "network_interfaces": [{"attachment": {"attach_time": "2025-08-05T20:08:12+00:00", "attachment_id": "eni-attach-0d04bd5233f568296", "delete_on_termination": true, "device_index": 0, "network_card_index": 0, "status": "attached"}, "description": "", "groups": [{"group_id": "sg-033524481f8a873b0", "group_name": "cluster-z2sgl-gltjk-node"}, {"group_id": "sg-04fd2d7208c73b792", "group_name": "cluster-z2sgl-gltjk-lb"}], "interface_type": "interface", "ipv6_addresses": [], "mac_address": "02:4a:59:d9:f6:51", "network_interface_id": "eni-01f5741a9f3b3f56e", "owner_id": "924521267965", "private_dns_name": "ip-10-0-8-89.us-east-2.compute.internal", "private_ip_address": "10.0.8.89", "private_ip_addresses": [{"primary": true, "private_dns_name": "ip-10-0-8-89.us-east-2.compute.internal", "private_ip_address": "10.0.8.89"}], "source_dest_check": true, "status": "in-use", "subnet_id": "subnet-02a7d281d4d4d77dc", "vpc_id": "vpc-07ed939b2a6647a19"}], "placement": {"availability_zone": "us-east-2a", "group_name": "", "tenancy": "default"}, "platform_details": "Linux/UNIX", "private_dns_name": "ip-10-0-8-89.us-east-2.compute.internal", "private_dns_name_options": {"enable_resource_name_dns_a_record": false, "enable_resource_name_dns_aaaa_record": false, "hostname_type": "ip-name"}, "private_ip_address": "10.0.8.89", "product_codes": [], "public_dns_name": "", "root_device_name": "/dev/xvda", "root_device_type": "ebs", "security_groups": [{"group_id": "sg-033524481f8a873b0", "group_name": "cluster-z2sgl-gltjk-node"}, {"group_id": "sg-04fd2d7208c73b792", "group_name": "cluster-z2sgl-gltjk-lb"}], "source_dest_check": true, "state": {"code": 80, "name": "stopped"}, "state_reason": {"code": "Client.UserInitiatedShutdown", "message": "Client.UserInitiatedShutdown: User initiated shutdown"}, "state_transition_reason": "User initiated (2025-08-06 21:48:56 GMT)", "subnet_id": "subnet-02a7d281d4d4d77dc", "tags": {"Name": "cluster-z2sgl-gltjk-g5-us-east-2a-d9hfh", "Stack": "project ocp4-cluster-z2sgl", "env_type": "ocp4-cluster", "guid": "z2sgl", "kubernetes.io/cluster/cluster-z2sgl-gltjk": "owned", "owner": "unknown", "platform": "RHPDS", "uuid": "c4deb4ac-d894-54f6-a581-de2b1baf82bd"}, "usage_operation": "RunInstances", "usage_operation_update_time": "2025-08-05T20:08:12+00:00", "virtualization_type": "hvm", "vpc_id": "vpc-07ed939b2a6647a19"}, "msg": "Unable to start instances: An error occurred (InsufficientInstanceCapacity) when calling the StartInstances operation (reached max retries: 4): Insufficient capacity.", "reboot_failed": ["i-0cadc613ebad80f35"], "reboot_success": []}
+failed: [localhost] (item={'ami_launch_index': 0, 'image_id': 'ami-078e26f293629fe91', 'instance_id': 'i-0ed6b251519ae7261', 'instance_type': 'g5.2xlarge', 'launch_time': '2025-08-06T15:47:13+00:00', 'monitoring': {'state': 'disabled'}, 'placement': {'availability_zone': 'us-east-2a', 'group_name': '', 'tenancy': 'default'}, 'private_dns_name': 'ip-10-0-6-201.us-east-2.compute.internal', 'private_ip_address': '10.0.6.201', 'product_codes': [], 'public_dns_name': '', 'state': {'code': 80, 'name': 'stopped'}, 'state_transition_reason': 'User initiated (2025-08-06 21:48:57 GMT)', 'subnet_id': 'subnet-02a7d281d4d4d77dc', 'vpc_id': 'vpc-07ed939b2a6647a19', 'architecture': 'x86_64', 'block_device_mappings': [{'device_name': '/dev/xvda', 'ebs': {'attach_time': '2025-08-05T20:08:15+00:00', 'delete_on_termination': True, 'status': 'attached', 'volume_id': 'vol-039abdcf7bad2eaf1'}}],  'ebs_optimized': False, 'ena_support': True, 'hypervisor': 'xen', 'iam_instance_profile': {'arn': 'arn:aws:iam::924521267965:instance-profile/cluster-z2sgl-gltjk-worker-profile', 'id': 'AIPA5OQODAL67ZCXKALHN'}, 'network_interfaces': [{'attachment': {'attach_time': '2025-08-05T20:08:14+00:00', 'attachment_id': 'eni-attach-03b56e6211922d691', 'delete_on_termination': True, 'device_index': 0, 'status': 'attached', 'network_card_index': 0}, 'description': '', 'groups': [{'group_name': 'cluster-z2sgl-gltjk-node', 'group_id': 'sg-033524481f8a873b0'}, {'group_name': 'cluster-z2sgl-gltjk-lb', 'group_id': 'sg-04fd2d7208c73b792'}], 'ipv6_addresses': [], 'mac_address': '02:1e:a9:68:92:fb', 'network_interface_id': 'eni-0181f3cedfdcc04d1', 'owner_id': '924521267965', 'private_dns_name': 'ip-10-0-6-201.us-east-2.compute.internal', 'private_ip_address': '10.0.6.201', 'private_ip_addresses': [{'primary': True, 'private_dns_name': 'ip-10-0-6-201.us-east-2.compute.internal', 'private_ip_address': '10.0.6.201'}], 'source_dest_check': True, 'status': 'in-use', 'subnet_id': 'subnet-02a7d281d4d4d77dc', 'vpc_id': 'vpc-07ed939b2a6647a19', 'interface_type': 'interface'}], 'root_device_name': '/dev/xvda', 'root_device_type': 'ebs', 'security_groups': [{'group_name': 'cluster-z2sgl-gltjk-node', 'group_id': 'sg-033524481f8a873b0'}, {'group_name': 'cluster-z2sgl-gltjk-lb', 'group_id': 'sg-04fd2d7208c73b792'}], 'source_dest_check': True, 'state_reason': {'code': 'Client.UserInitiatedShutdown', 'message': 'Client.UserInitiatedShutdown: User initiated shutdown'}, 'tags': {'uuid': 'c4deb4ac-d894-54f6-a581-de2b1baf82bd', 'guid': 'z2sgl', 'kubernetes.io/cluster/cluster-z2sgl-gltjk': 'owned', 'env_type': 'ocp4-cluster', 'owner': 'unknown', 'Stack': 'project ocp4-cluster-z2sgl', 'Name': 'cluster-z2sgl-gltjk-g5-us-east-2a-gtzpl', 'platform': 'RHPDS'}, 'virtualization_type': 'hvm', 'cpu_options': {'core_count': 4, 'threads_per_core': 2}, 'capacity_reservation_specification': {'capacity_reservation_preference': 'open'}, 'hibernation_options': {'configured': False}, 'metadata_options': {'state': 'applied', 'http_tokens': 'optional', 'http_put_response_hop_limit': 1, 'http_endpoint': 'enabled', 'http_protocol_ipv6': 'disabled', 'instance_metadata_tags': 'disabled'}, 'enclave_options': {'enabled': False}, 'platform_details': 'Linux/UNIX', 'usage_operation': 'RunInstances', 'usage_operation_update_time': '2025-08-05T20:08:14+00:00', 'private_dns_name_options': {'hostname_type': 'ip-name', 'enable_resource_name_dns_a_record': False, 'enable_resource_name_dns_aaaa_record': False}, 'maintenance_options': {'auto_recovery': 'default'}, 'current_instance_boot_mode': 'legacy-bios'}) => {"ansible_loop_var": "item", "changed": false, "item": {"ami_launch_index": 0, "architecture": "x86_64", "block_device_mappings": [{"device_name": "/dev/xvda", "ebs": {"attach_time": "2025-08-05T20:08:15+00:00", "delete_on_termination": true, "status": "attached", "volume_id": "vol-039abdcf7bad2eaf1"}}], "capacity_reservation_specification": {"capacity_reservation_preference": "open"},  "cpu_options": {"core_count": 4, "threads_per_core": 2}, "current_instance_boot_mode": "legacy-bios", "ebs_optimized": false, "ena_support": true, "enclave_options": {"enabled": false}, "hibernation_options": {"configured": false}, "hypervisor": "xen", "iam_instance_profile": {"arn": "arn:aws:iam::924521267965:instance-profile/cluster-z2sgl-gltjk-worker-profile", "id": "AIPA5OQODAL67ZCXKALHN"}, "image_id": "ami-078e26f293629fe91", "instance_id": "i-0ed6b251519ae7261", "instance_type": "g5.2xlarge", "launch_time": "2025-08-06T15:47:13+00:00", "maintenance_options": {"auto_recovery": "default"}, "metadata_options": {"http_endpoint": "enabled", "http_protocol_ipv6": "disabled", "http_put_response_hop_limit": 1, "http_tokens": "optional", "instance_metadata_tags": "disabled", "state": "applied"}, "monitoring": {"state": "disabled"}, "network_interfaces": [{"attachment": {"attach_time": "2025-08-05T20:08:14+00:00", "attachment_id": "eni-attach-03b56e6211922d691", "delete_on_termination": true, "device_index": 0, "network_card_index": 0, "status": "attached"}, "description": "", "groups": [{"group_id": "sg-033524481f8a873b0", "group_name": "cluster-z2sgl-gltjk-node"}, {"group_id": "sg-04fd2d7208c73b792", "group_name": "cluster-z2sgl-gltjk-lb"}], "interface_type": "interface", "ipv6_addresses": [], "mac_address": "02:1e:a9:68:92:fb", "network_interface_id": "eni-0181f3cedfdcc04d1", "owner_id": "924521267965", "private_dns_name": "ip-10-0-6-201.us-east-2.compute.internal", "private_ip_address": "10.0.6.201", "private_ip_addresses": [{"primary": true, "private_dns_name": "ip-10-0-6-201.us-east-2.compute.internal", "private_ip_address": "10.0.6.201"}], "source_dest_check": true, "status": "in-use", "subnet_id": "subnet-02a7d281d4d4d77dc", "vpc_id": "vpc-07ed939b2a6647a19"}], "placement": {"availability_zone": "us-east-2a", "group_name": "", "tenancy": "default"}, "platform_details": "Linux/UNIX", "private_dns_name": "ip-10-0-6-201.us-east-2.compute.internal", "private_dns_name_options": {"enable_resource_name_dns_a_record": false, "enable_resource_name_dns_aaaa_record": false, "hostname_type": "ip-name"}, "private_ip_address": "10.0.6.201", "product_codes": [], "public_dns_name": "", "root_device_name": "/dev/xvda", "root_device_type": "ebs", "security_groups": [{"group_id": "sg-033524481f8a873b0", "group_name": "cluster-z2sgl-gltjk-node"}, {"group_id": "sg-04fd2d7208c73b792", "group_name": "cluster-z2sgl-gltjk-lb"}], "source_dest_check": true, "state": {"code": 80, "name": "stopped"}, "state_reason": {"code": "Client.UserInitiatedShutdown", "message": "Client.UserInitiatedShutdown: User initiated shutdown"}, "state_transition_reason": "User initiated (2025-08-06 21:48:57 GMT)", "subnet_id": "subnet-02a7d281d4d4d77dc", "tags": {"Name": "cluster-z2sgl-gltjk-g5-us-east-2a-gtzpl", "Stack": "project ocp4-cluster-z2sgl", "env_type": "ocp4-cluster", "guid": "z2sgl", "kubernetes.io/cluster/cluster-z2sgl-gltjk": "owned", "owner": "unknown", "platform": "RHPDS", "uuid": "c4deb4ac-d894-54f6-a581-de2b1baf82bd"}, "usage_operation": "RunInstances", "usage_operation_update_time": "2025-08-05T20:08:14+00:00", "virtualization_type": "hvm", "vpc_id": "vpc-07ed939b2a6647a19"}, "msg": "Unable to start instances: An error occurred (InsufficientInstanceCapacity) when calling the StartInstances operation (reached max retries: 4): Insufficient capacity.", "reboot_failed": ["i-0ed6b251519ae7261"], "reboot_success": []}
+changed: [localhost] => (item={'ami_launch_index': 0, 'image_id': 'ami-078e26f293629fe91', 'instance_id': 'i-0484e9093c5f7b322', 'instance_type': 'g5.2xlarge', 'launch_time': '2025-08-06T15:47:13+00:00', 'monitoring': {'state': 'disabled'}, 'placement': {'availability_zone': 'us-east-2a', 'group_name': '', 'tenancy': 'default'}, 'private_dns_name': 'ip-10-0-4-78.us-east-2.compute.internal', 'private_ip_address': '10.0.4.78', 'product_codes': [], 'public_dns_name': '', 'state': {'code': 80, 'name': 'stopped'}, 'state_transition_reason': 'User initiated (2025-08-06 21:48:57 GMT)', 'subnet_id': 'subnet-02a7d281d4d4d77dc', 'vpc_id': 'vpc-07ed939b2a6647a19', 'architecture': 'x86_64', 'block_device_mappings': [{'device_name': '/dev/xvda', 'ebs': {'attach_time': '2025-08-05T20:08:09+00:00', 'delete_on_termination': True, 'status': 'attached', 'volume_id': 'vol-00f293ac835c58bc1'}}],  'ebs_optimized': False, 'ena_support': True, 'hypervisor': 'xen', 'iam_instance_profile': {'arn': 'arn:aws:iam::924521267965:instance-profile/cluster-z2sgl-gltjk-worker-profile', 'id': 'AIPA5OQODAL67ZCXKALHN'}, 'network_interfaces': [{'attachment': {'attach_time': '2025-08-05T20:08:08+00:00', 'attachment_id': 'eni-attach-02bd0b28e9e155069', 'delete_on_termination': True, 'device_index': 0, 'status': 'attached', 'network_card_index': 0}, 'description': '', 'groups': [{'group_name': 'cluster-z2sgl-gltjk-node', 'group_id': 'sg-033524481f8a873b0'}, {'group_name': 'cluster-z2sgl-gltjk-lb', 'group_id': 'sg-04fd2d7208c73b792'}], 'ipv6_addresses': [], 'mac_address': '02:f6:1f:e8:dc:d9', 'network_interface_id': 'eni-00fcd6011ab5aadb0', 'owner_id': '924521267965', 'private_dns_name': 'ip-10-0-4-78.us-east-2.compute.internal', 'private_ip_address': '10.0.4.78', 'private_ip_addresses': [{'primary': True, 'private_dns_name': 'ip-10-0-4-78.us-east-2.compute.internal', 'private_ip_address': '10.0.4.78'}], 'source_dest_check': True, 'status': 'in-use', 'subnet_id': 'subnet-02a7d281d4d4d77dc', 'vpc_id': 'vpc-07ed939b2a6647a19', 'interface_type': 'interface'}], 'root_device_name': '/dev/xvda', 'root_device_type': 'ebs', 'security_groups': [{'group_name': 'cluster-z2sgl-gltjk-node', 'group_id': 'sg-033524481f8a873b0'}, {'group_name': 'cluster-z2sgl-gltjk-lb', 'group_id': 'sg-04fd2d7208c73b792'}], 'source_dest_check': True, 'state_reason': {'code': 'Client.UserInitiatedShutdown', 'message': 'Client.UserInitiatedShutdown: User initiated shutdown'}, 'tags': {'kubernetes.io/cluster/cluster-z2sgl-gltjk': 'owned', 'platform': 'RHPDS', 'env_type': 'ocp4-cluster', 'owner': 'unknown', 'guid': 'z2sgl', 'uuid': 'c4deb4ac-d894-54f6-a581-de2b1baf82bd', 'Name': 'cluster-z2sgl-gltjk-g5-us-east-2a-whd6x', 'Stack': 'project ocp4-cluster-z2sgl'}, 'virtualization_type': 'hvm', 'cpu_options': {'core_count': 4, 'threads_per_core': 2}, 'capacity_reservation_specification': {'capacity_reservation_preference': 'open'}, 'hibernation_options': {'configured': False}, 'metadata_options': {'state': 'applied', 'http_tokens': 'optional', 'http_put_response_hop_limit': 1, 'http_endpoint': 'enabled', 'http_protocol_ipv6': 'disabled', 'instance_metadata_tags': 'disabled'}, 'enclave_options': {'enabled': False}, 'platform_details': 'Linux/UNIX', 'usage_operation': 'RunInstances', 'usage_operation_update_time': '2025-08-05T20:08:08+00:00', 'private_dns_name_options': {'hostname_type': 'ip-name', 'enable_resource_name_dns_a_record': False, 'enable_resource_name_dns_aaaa_record': False}, 'maintenance_options': {'auto_recovery': 'default'}, 'current_instance_boot_mode': 'legacy-bios'})
+changed: [localhost] => (item={'ami_launch_index': 0, 'image_id': 'ami-078e26f293629fe91', 'instance_id': 'i-0ae2857ab30e8902d', 'instance_type': 'm6a.4xlarge', 'launch_time': '2025-08-06T15:47:14+00:00', 'monitoring': {'state': 'disabled'}, 'placement': {'availability_zone': 'us-east-2a', 'group_name': '', 'tenancy': 'default'}, 'private_dns_name': 'ip-10-0-5-12.us-east-2.compute.internal', 'private_ip_address': '10.0.5.12', 'product_codes': [], 'public_dns_name': '', 'state': {'code': 80, 'name': 'stopped'}, 'state_transition_reason': 'User initiated (2025-08-06 21:48:57 GMT)', 'subnet_id': 'subnet-02a7d281d4d4d77dc', 'vpc_id': 'vpc-07ed939b2a6647a19', 'architecture': 'x86_64', 'block_device_mappings': [{'device_name': '/dev/xvda', 'ebs': {'attach_time': '2025-08-05T20:12:04+00:00', 'delete_on_termination': True, 'status': 'attached', 'volume_id': 'vol-07bed99744ea1c11d'}}],  'ebs_optimized': False, 'ena_support': True, 'hypervisor': 'xen', 'iam_instance_profile': {'arn': 'arn:aws:iam::924521267965:instance-profile/cluster-z2sgl-gltjk-worker-profile', 'id': 'AIPA5OQODAL67ZCXKALHN'}, 'network_interfaces': [{'attachment': {'attach_time': '2025-08-05T20:12:03+00:00', 'attachment_id': 'eni-attach-0d3b8d9ca80cea5f8', 'delete_on_termination': True, 'device_index': 0, 'status': 'attached', 'network_card_index': 0}, 'description': '', 'groups': [{'group_name': 'cluster-z2sgl-gltjk-node', 'group_id': 'sg-033524481f8a873b0'}, {'group_name': 'cluster-z2sgl-gltjk-lb', 'group_id': 'sg-04fd2d7208c73b792'}], 'ipv6_addresses': [], 'mac_address': '02:42:b7:62:a2:35', 'network_interface_id': 'eni-025cf09c327581418', 'owner_id': '924521267965', 'private_dns_name': 'ip-10-0-5-12.us-east-2.compute.internal', 'private_ip_address': '10.0.5.12', 'private_ip_addresses': [{'primary': True, 'private_dns_name': 'ip-10-0-5-12.us-east-2.compute.internal', 'private_ip_address': '10.0.5.12'}], 'source_dest_check': True, 'status': 'in-use', 'subnet_id': 'subnet-02a7d281d4d4d77dc', 'vpc_id': 'vpc-07ed939b2a6647a19', 'interface_type': 'interface'}], 'root_device_name': '/dev/xvda', 'root_device_type': 'ebs', 'security_groups': [{'group_name': 'cluster-z2sgl-gltjk-node', 'group_id': 'sg-033524481f8a873b0'}, {'group_name': 'cluster-z2sgl-gltjk-lb', 'group_id': 'sg-04fd2d7208c73b792'}], 'source_dest_check': True, 'state_reason': {'code': 'Client.UserInitiatedShutdown', 'message': 'Client.UserInitiatedShutdown: User initiated shutdown'}, 'tags': {'Name': 'cluster-z2sgl-gltjk-worker-us-east-2a-f5qgp', 'uuid': 'c4deb4ac-d894-54f6-a581-de2b1baf82bd', 'env_type': 'ocp4-cluster', 'owner': 'unknown', 'Stack': 'project ocp4-cluster-z2sgl', 'kubernetes.io/cluster/cluster-z2sgl-gltjk': 'owned', 'platform': 'RHPDS', 'guid': 'z2sgl'}, 'virtualization_type': 'hvm', 'cpu_options': {'core_count': 8, 'threads_per_core': 2}, 'capacity_reservation_specification': {'capacity_reservation_preference': 'open'}, 'hibernation_options': {'configured': False}, 'metadata_options': {'state': 'applied', 'http_tokens': 'optional', 'http_put_response_hop_limit': 1, 'http_endpoint': 'enabled', 'http_protocol_ipv6': 'disabled', 'instance_metadata_tags': 'disabled'}, 'enclave_options': {'enabled': False}, 'platform_details': 'Linux/UNIX', 'usage_operation': 'RunInstances', 'usage_operation_update_time': '2025-08-05T20:12:03+00:00', 'private_dns_name_options': {'hostname_type': 'ip-name', 'enable_resource_name_dns_a_record': False, 'enable_resource_name_dns_aaaa_record': False}, 'maintenance_options': {'auto_recovery': 'default'}, 'current_instance_boot_mode': 'legacy-bios'})
+
+NO MORE HOSTS LEFT *************************************************************
+
+PLAY RECAP *********************************************************************
+bastion.z2sgl.internal     : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+localhost                  : ok=48   changed=19   unreachable=0    failed=1    skipped=21   rescued=0    ignored=1   
+Thursday 07 August 2025  18:07:50 +0000 (0:00:38.340)       0:01:00.246 ******* 
+=============================================================================== 
+Ensure EC2 instances are running --------------------------------------- 38.34s
+Install collections from requirements.yml (EE) -------------------------- 9.58s
+agnosticd_restore_output_dir : Get output_dir archive from s3 ----------- 1.17s
+Install roles from requirements.yml ------------------------------------- 0.92s
+infra-ec2-create-inventory : Gather EC2 info ---------------------------- 0.78s
+Create empty user-info.yaml and user-data.yaml in output dir ------------ 0.70s
+Get all EC2 instances --------------------------------------------------- 0.67s
+agnosticd_restore_output_dir : Restore output_dir from archive ---------- 0.61s
+Get fact for cloudformation stack --------------------------------------- 0.58s
+Get the list of installed collections (EE) ------------------------------ 0.51s
+Create symlink user-data.yaml -> provision-user-data.yaml --------------- 0.36s
+infra-common-ssh-config-generate : Add bastion proxy config to workdir ssh config file --- 0.34s
+agnosticd_dynamic : Create dynamic-cache and dynamic-roles directories --- 0.33s
+Touch file provision-user-data.yaml and provision-user-info.yaml -------- 0.33s
+create_ssh_provision_key : Write SSH pub key ---------------------------- 0.33s
+Rewrite requirements, filter out installed collections (EE) ------------- 0.32s
+Create output_dir if it does not exists --------------------------------- 0.28s
+Create temporary file for requirements.yml (EE) ------------------------- 0.25s
+infra-common-ssh-config-generate : Create empty local ssh config -------- 0.20s
+create_ssh_provision_key : Generate SSH keys ---------------------------- 0.20s

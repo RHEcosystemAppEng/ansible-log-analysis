@@ -1,0 +1,217 @@
+[DEPRECATION WARNING]: ANSIBLE_COLLECTIONS_PATHS option. Reason: does not fit 
+var naming standard, use the singular form ANSIBLE_COLLECTIONS_PATH instead 
+Alternatives: none. This feature will be removed in version 2.19. Deprecation 
+warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+Vault password (gpte_vault_0): 
+[WARNING]: Found variable using reserved name: remote_user
+
+PLAY [Step 0000 Setup runtime] *************************************************
+
+TASK [debug] *******************************************************************
+Thursday 07 August 2025  18:40:01 +0000 (0:00:00.007)       0:00:00.007 ******* 
+skipping: [localhost]
+
+TASK [Ensure cloud provider is supported] **************************************
+Thursday 07 August 2025  18:40:01 +0000 (0:00:00.013)       0:00:00.020 ******* 
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+PLAY [Step 0000 Setup Output Directory] ****************************************
+
+TASK [Set output_dir if not defined] *******************************************
+Thursday 07 August 2025  18:40:01 +0000 (0:00:00.013)       0:00:00.033 ******* 
+skipping: [localhost]
+
+TASK [Create output_dir if it does not exists] *********************************
+Thursday 07 August 2025  18:40:01 +0000 (0:00:00.015)       0:00:00.048 ******* 
+changed: [localhost]
+
+TASK [Attempt to restore output_dir contents] **********************************
+Thursday 07 August 2025  18:40:01 +0000 (0:00:00.260)       0:00:00.309 ******* 
+included: agnosticd_restore_output_dir for localhost
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from s3 bucket] ********
+Thursday 07 August 2025  18:40:01 +0000 (0:00:00.025)       0:00:00.335 ******* 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/restore-from-s3.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Thursday 07 August 2025  18:40:01 +0000 (0:00:00.035)       0:00:00.370 ******* 
+included: /runner/project/ansible/roles/agnosticd_restore_output_dir/tasks/fetch-from-s3-s3_object.yml for localhost
+
+TASK [agnosticd_restore_output_dir : Get output_dir archive from s3] ***********
+Thursday 07 August 2025  18:40:01 +0000 (0:00:00.042)       0:00:00.412 ******* 
+changed: [localhost]
+
+TASK [agnosticd_restore_output_dir : Decrypt archive] **************************
+Thursday 07 August 2025  18:40:02 +0000 (0:00:01.079)       0:00:01.492 ******* 
+skipping: [localhost]
+
+TASK [agnosticd_restore_output_dir : Restore output_dir from archive] **********
+Thursday 07 August 2025  18:40:02 +0000 (0:00:00.013)       0:00:01.505 ******* 
+changed: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove archive file from output_dir] ******
+Thursday 07 August 2025  18:40:03 +0000 (0:00:00.553)       0:00:02.059 ******* 
+changed: [localhost]
+
+TASK [agnosticd_restore_output_dir : Remove encrypted archive file from output_dir] ***
+Thursday 07 August 2025  18:40:03 +0000 (0:00:00.150)       0:00:02.209 ******* 
+ok: [localhost]
+
+TASK [Touch file provision-user-data.yaml and provision-user-info.yaml] ********
+Thursday 07 August 2025  18:40:03 +0000 (0:00:00.167)       0:00:02.377 ******* 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create empty user-info.yaml and user-data.yaml in output dir] ************
+Thursday 07 August 2025  18:40:04 +0000 (0:00:00.304)       0:00:02.682 ******* 
+changed: [localhost] => (item=user-info.yaml)
+changed: [localhost] => (item=user-data.yaml)
+
+TASK [Create symlink user-data.yaml -> provision-user-data.yaml] ***************
+Thursday 07 August 2025  18:40:04 +0000 (0:00:00.635)       0:00:03.317 ******* 
+ok: [localhost] => (item=user-info.yaml)
+ok: [localhost] => (item=user-data.yaml)
+
+PLAY [Step 0000 Include Vars] **************************************************
+
+TASK [Set output_dir for all hosts] ********************************************
+Thursday 07 August 2025  18:40:04 +0000 (0:00:00.309)       0:00:03.626 ******* 
+ok: [localhost]
+
+TASK [Include variables files] *************************************************
+Thursday 07 August 2025  18:40:04 +0000 (0:00:00.015)       0:00:03.642 ******* 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/cloud_providers/openshift_cnv_default_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_vars.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars.yaml) 
+ok: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars.yml)
+ok: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars_openshift_cnv.yaml)
+skipping: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/default_vars_openshift_cnv.yml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_secret_vars.yaml) 
+skipping: [localhost] => (item=/runner/project/ansible/configs/zero-touch-base-rhel/env_secret_vars.yml) 
+
+TASK [Include secret_file if passed as extra-var] ******************************
+Thursday 07 August 2025  18:40:05 +0000 (0:00:00.062)       0:00:03.705 ******* 
+skipping: [localhost]
+
+TASK [Set passthrough user data] ***********************************************
+Thursday 07 August 2025  18:40:05 +0000 (0:00:00.013)       0:00:03.718 ******* 
+skipping: [localhost]
+
+PLAY [Step 0000 Install Galaxy roles and collections] **************************
+
+TASK [Use requirements_content] ************************************************
+Thursday 07 August 2025  18:40:05 +0000 (0:00:00.014)       0:00:03.732 ******* 
+skipping: [localhost]
+
+TASK [Copy requirements content to output_dir] *********************************
+Thursday 07 August 2025  18:40:05 +0000 (0:00:00.023)       0:00:03.756 ******* 
+skipping: [localhost]
+
+TASK [Use requirements_path from the config] ***********************************
+Thursday 07 August 2025  18:40:05 +0000 (0:00:00.023)       0:00:03.779 ******* 
+ok: [localhost]
+
+TASK [Check if requirements.yml exists] ****************************************
+Thursday 07 August 2025  18:40:05 +0000 (0:00:00.033)       0:00:03.812 ******* 
+ok: [localhost]
+
+TASK [set_fact] ****************************************************************
+Thursday 07 August 2025  18:40:05 +0000 (0:00:00.171)       0:00:03.984 ******* 
+ok: [localhost]
+
+TASK [Install roles from requirements.yml] *************************************
+Thursday 07 August 2025  18:40:05 +0000 (0:00:00.027)       0:00:04.012 ******* 
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (Not EE)] **********************
+Thursday 07 August 2025  18:40:05 +0000 (0:00:00.537)       0:00:04.549 ******* 
+skipping: [localhost]
+
+TASK [Get installed collections (EE)] ******************************************
+Thursday 07 August 2025  18:40:05 +0000 (0:00:00.032)       0:00:04.581 ******* 
+included: /runner/project/ansible/install_collections_ee.yml for localhost
+
+TASK [Get the list of installed collections (EE)] ******************************
+Thursday 07 August 2025  18:40:05 +0000 (0:00:00.033)       0:00:04.615 ******* 
+changed: [localhost]
+
+TASK [Create temporary file for requirements.yml (EE)] *************************
+Thursday 07 August 2025  18:40:06 +0000 (0:00:00.484)       0:00:05.100 ******* 
+changed: [localhost]
+
+TASK [Rewrite requirements, filter out installed collections (EE)] *************
+Thursday 07 August 2025  18:40:06 +0000 (0:00:00.237)       0:00:05.337 ******* 
+[WARNING]: skipping installation of amazon.aws==4.0.0 ; amazon.aws==9.4.0
+already installed in EE
+[WARNING]: skipping installation of community.general==4.8.1 ;
+community.general==10.5.0 already installed in EE
+[WARNING]: skipping installation of containers.podman==1.10.1 ;
+containers.podman==1.16.3 already installed in EE
+changed: [localhost]
+
+TASK [Install collections from requirements.yml (EE)] **************************
+Thursday 07 August 2025  18:40:06 +0000 (0:00:00.310)       0:00:05.647 ******* 
+changed: [localhost]
+
+TASK [Cleanup tempfile (EE)] ***************************************************
+Thursday 07 August 2025  18:40:07 +0000 (0:00:00.475)       0:00:06.123 ******* 
+changed: [localhost]
+
+TASK [Install dynamic sources] *************************************************
+Thursday 07 August 2025  18:40:07 +0000 (0:00:00.146)       0:00:06.269 ******* 
+included: agnosticd_dynamic for localhost
+
+TASK [agnosticd_dynamic : Create dynamic-cache and dynamic-roles directories] ***
+Thursday 07 August 2025  18:40:07 +0000 (0:00:00.017)       0:00:06.287 ******* 
+changed: [localhost] => (item=/runner/project/ansible/dynamic-cache)
+changed: [localhost] => (item=/runner/project/ansible/dynamic-roles)
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to dynamic roles dir] ***
+Thursday 07 August 2025  18:40:07 +0000 (0:00:00.304)       0:00:06.592 ******* 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install ansible-galaxy sources to cache] *************
+Thursday 07 August 2025  18:40:07 +0000 (0:00:00.025)       0:00:06.617 ******* 
+skipping: [localhost]
+
+TASK [agnosticd_dynamic : Install git sources] *********************************
+Thursday 07 August 2025  18:40:07 +0000 (0:00:00.021)       0:00:06.639 ******* 
+skipping: [localhost]
+
+PLAY [Start instances] *********************************************************
+
+TASK [Starting all instances] **************************************************
+Thursday 07 August 2025  18:40:07 +0000 (0:00:00.010)       0:00:06.650 ******* 
+fatal: [localhost]: FAILED! => {"msg": "The field 'environment' has an invalid value, which includes an undefined variable.. 'aws_access_key_id' is undefined\\n\\nThe error appears to be in '/runner/project/ansible/configs/zero-touch-base-rhel/start.yml': line 13, column 7, but may\\nbe elsewhere in the file depending on the exact syntax problem.\\n\\nThe offending line appears to be:\\n\\n\\n    - name: Starting all instances\\n      ^ here\\n"}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=26   changed=13   unreachable=0    failed=1    skipped=11   rescued=0    ignored=0   
+
+TASKS RECAP ********************************************************************
+Thursday 07 August 2025  18:40:07 +0000 (0:00:00.008)       0:00:06.658 ******* 
+=============================================================================== 
+agnosticd_restore_output_dir : Get output_dir archive from s3 ----------- 1.08s
+Create empty user-info.yaml and user-data.yaml in output dir ------------ 0.64s
+agnosticd_restore_output_dir : Restore output_dir from archive ---------- 0.55s
+Install roles from requirements.yml ------------------------------------- 0.54s
+Get the list of installed collections (EE) ------------------------------ 0.48s
+Install collections from requirements.yml (EE) -------------------------- 0.48s
+Rewrite requirements, filter out installed collections (EE) ------------- 0.31s
+Create symlink user-data.yaml -> provision-user-data.yaml --------------- 0.31s
+agnosticd_dynamic : Create dynamic-cache and dynamic-roles directories --- 0.30s
+Touch file provision-user-data.yaml and provision-user-info.yaml -------- 0.30s
+Create output_dir if it does not exists --------------------------------- 0.26s
+Create temporary file for requirements.yml (EE) ------------------------- 0.24s
+Check if requirements.yml exists ---------------------------------------- 0.17s
+agnosticd_restore_output_dir : Remove encrypted archive file from output_dir --- 0.17s
+agnosticd_restore_output_dir : Remove archive file from output_dir ------ 0.15s
+Cleanup tempfile (EE) --------------------------------------------------- 0.15s
+Include variables files ------------------------------------------------- 0.06s
+agnosticd_restore_output_dir : Get output_dir archive from s3 ----------- 0.04s
+agnosticd_restore_output_dir : Restore output_dir from s3 bucket -------- 0.04s
+Get installed collections (EE) ------------------------------------------ 0.03s
