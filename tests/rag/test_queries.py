@@ -3,7 +3,7 @@
 
 """
 Interactive testing tool for the query pipeline.
-Requires TEI (text-embeddings-inference) configuration via environment variables.
+Uses TEI (text-embeddings-inference) service for embeddings.
 
 Usage (from project root):
     # Interactive mode
@@ -15,8 +15,8 @@ Usage (from project root):
     # Batch mode with custom queries file
     python tests/rag/test_queries.py /path/to/queries.txt
 
-Note: Configure EMBEDDINGS_LLM_URL and EMBEDDINGS_LLM_MODEL_NAME as environment variables
-      or in .env file. See .env.example for reference.
+Note: Model is hardcoded to nomic-ai/nomic-embed-text-v1.5.
+      EMBEDDINGS_LLM_URL can be set to override default (http://alm-embedding:8080).
 """
 
 import sys
@@ -44,9 +44,7 @@ def interactive_mode():
     print("=" * 70)
 
     # Show configuration mode
-    print(
-        f"\n✓ Using TEI (text-embeddings-inference) mode: {config.embeddings.api_url}"
-    )
+    print(f"\n✓ Using MAAS API mode: {config.embeddings.api_url}")
     print(f"  Model: {config.embeddings.model_name}")
 
     print("\nInitializing...")
@@ -120,9 +118,7 @@ def batch_mode(queries_file: str):
     print("=" * 70)
 
     # Show configuration mode
-    print(
-        f"\n✓ Using TEI (text-embeddings-inference) mode: {config.embeddings.api_url}"
-    )
+    print(f"\n✓ Using MAAS API mode: {config.embeddings.api_url}")
     print(f"  Model: {config.embeddings.model_name}")
 
     # Load queries from file

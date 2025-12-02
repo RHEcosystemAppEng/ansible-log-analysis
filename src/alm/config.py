@@ -3,7 +3,11 @@
 
 """
 Configuration management for Ansible Error RAG System.
-Loads settings from environment variables.
+Loads settings from .env file.
+
+Uses TEI (text-embeddings-inference) service for embeddings.
+Model is hardcoded to nomic-ai/nomic-embed-text-v1.5.
+Service URL defaults to http://alm-embedding:8080 (can be overridden via EMBEDDINGS_LLM_URL).
 """
 
 import os
@@ -16,16 +20,25 @@ load_dotenv(dotenv_path=env_path)
 
 
 class EmbeddingsConfig:
-    """Configuration for TEI embedding service."""
+    """Configuration for embedding model (TEI service)."""
+
+    # Hardcoded model - only nomic-ai/nomic-embed-text-v1.5 is supported
+    MODEL_NAME = "nomic-ai/nomic-embed-text-v1.5"
+    DEFAULT_API_URL = "http://alm-embedding:8080"
 
     def __init__(self):
-        self.model_name = os.getenv("EMBEDDINGS_LLM_MODEL_NAME", "").strip()
-        self.api_url = os.getenv("EMBEDDINGS_LLM_URL", "").strip()
+        # Model name is hardcoded
+        self.model_name = self.MODEL_NAME
 
+        # API URL can be overridden via environment variable, otherwise use default
+        self.api_url = os.getenv("EMBEDDINGS_LLM_URL", self.DEFAULT_API_URL).strip()
+
+    def validate(self):
+        """Validate configuration."""
         if not self.model_name:
-            raise ValueError("EMBEDDINGS_LLM_MODEL_NAME must be set")
+            raise ValueError("Model name must be set")
         if not self.api_url:
-            raise ValueError("EMBEDDINGS_LLM_URL must be set")
+            raise ValueError("API URL must be set")
 
     def __repr__(self):
         return (
@@ -80,6 +93,7 @@ class Config:
 
     def validate(self):
         """Validate all configuration."""
+        self.embeddings.validate()
         self.storage.ensure_directories()
 
     def print_config(self):

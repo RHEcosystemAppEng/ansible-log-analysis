@@ -229,9 +229,9 @@ cp .env.example .env
 # - OPENAI_MODEL: Model to use (e.g., llama-4-scout-17b-16e-w4a16	)
 # - LANGSMITH_API_KEY: Optional, for LangSmith tracing
 # Configure RAG
-# Set embedding service configuration (TEI - text-embeddings-inference)
-# - EMBEDDINGS_LLM_URL=http://alm-embedding:80 (default internal TEI service)
-# - EMBEDDINGS_LLM_MODEL_NAME=nomic-ai/nomic-embed-text-v1.5
+# Model is hardcoded to nomic-ai/nomic-embed-text-v1.5 (no config needed)
+# Optional: Override TEI service URL (defaults to http://alm-embedding:8080)
+# - EMBEDDINGS_LLM_URL=http://alm-embedding:8080
 # Optional: Customize query parameters
 # - RAG_TOP_K=10 (the number of candidates retrieved from the FAISS index)
 # - RAG_TOP_N=3 (the number of final results returned after filtering by the similarity threshold)

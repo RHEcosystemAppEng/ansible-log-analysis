@@ -66,7 +66,9 @@ spec:
             - -c
             - |
               echo "Waiting for embedding service to be ready..."
-              EMBEDDING_URL="http://alm-embedding:8080/health"
+              EMBEDDING_SERVICE="{{ .Values.global.servicesNames.embedding | default "alm-embedding" }}"
+              EMBEDDING_PORT="{{ .Values.rag.embedding.port | default 8080 }}"
+              EMBEDDING_URL="http://${EMBEDDING_SERVICE}:${EMBEDDING_PORT}/health"
               until curl -f -s "$EMBEDDING_URL" > /dev/null; do
                 echo "Still waiting for embedding service at $EMBEDDING_URL..."
                 sleep 5

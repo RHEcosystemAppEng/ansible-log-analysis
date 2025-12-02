@@ -11,7 +11,8 @@ This module implements:
 - Persists index and metadata to disk
 
 Uses TEI (text-embeddings-inference) service for embeddings.
-Environment variables EMBEDDINGS_LLM_URL and EMBEDDINGS_LLM_MODEL_NAME must be set.
+Model is hardcoded to nomic-ai/nomic-embed-text-v1.5.
+Service URL defaults to http://alm-embedding:8080 (can be overridden via EMBEDDINGS_LLM_URL).
 """
 
 import os
@@ -38,17 +39,18 @@ class EmbeddingClient:
 
     def __init__(
         self,
-        model_name: str,
-        api_url: str,
+        model_name: Optional[str] = None,
+        api_url: Optional[str] = None,
     ):
-        if not api_url:
+        # Use hardcoded defaults from config
+        self.model_name = model_name or config.embeddings.MODEL_NAME
+        self.api_url = api_url or config.embeddings.api_url
+
+        if not self.api_url:
             raise ValueError(
                 "api_url is required. "
                 "Please configure EMBEDDINGS_LLM_URL as an environment variable or in your .env file."
             )
-
-        self.model_name = model_name
-        self.api_url = api_url
 
         self._init_api_client()
 
@@ -106,17 +108,11 @@ class EmbeddingClient:
         - search_query: for queries (added in query_pipeline)
 
         Texts passed here may already have prefixes, so we don't add them again.
+
+        Batches requests to respect TEI's MAX_CLIENT_BATCH_SIZE limit (default: 16).
         """
         headers = {
             "Content-Type": "application/json",
-        }
-
-        # TEI uses OpenAI-compatible format
-        # Texts may already have task prefixes (search_document:, search_query:, etc.)
-        # so we use them as-is
-        payload = {
-            "model": self.model_name,
-            "input": texts,
         }
 
         # Ensure URL ends with /embeddings for OpenAI format
@@ -124,31 +120,64 @@ class EmbeddingClient:
         if not url.endswith("/embeddings"):
             url = url.rstrip("/") + "/embeddings"
 
+        # TEI batch size limit (TEI MAX_CLIENT_BATCH_SIZE is 32, we use 30 to be safe)
+        BATCH_SIZE = 30
+
         print(f"Calling TEI at: {url}")
         print(f"  Model: {self.model_name}")
-        print(f"  Texts: {len(texts)} (may include task prefixes)")
+        print(
+            f"  Total texts: {len(texts)} (will be batched into chunks of {BATCH_SIZE})"
+        )
 
-        try:
-            response = requests.post(url, json=payload, headers=headers, timeout=120)
+        all_embeddings = []
 
-            if response.status_code != 200:
-                print(f"Response status: {response.status_code}")
-                print(f"Response body: {response.text[:500]}")
+        # Process texts in batches
+        for i in range(0, len(texts), BATCH_SIZE):
+            batch = texts[i : i + BATCH_SIZE]
+            batch_num = (i // BATCH_SIZE) + 1
+            total_batches = (len(texts) + BATCH_SIZE - 1) // BATCH_SIZE
 
-            response.raise_for_status()
+            print(
+                f"  Processing batch {batch_num}/{total_batches} ({len(batch)} texts)..."
+            )
 
-            result = response.json()
-            # OpenAI format: {"data": [{"embedding": [...]}, ...]}
-            if "data" in result:
-                return [item["embedding"] for item in result["data"]]
-            # Alternative format: {"embeddings": [[...], ...]}
-            elif "embeddings" in result:
-                return result["embeddings"]
-            else:
-                raise ValueError(f"Unexpected TEI response format: {result.keys()}")
-        except Exception as e:
-            print(f"Error calling TEI: {e}")
-            raise
+            payload = {
+                "model": self.model_name,
+                "input": batch,
+            }
+
+            try:
+                response = requests.post(
+                    url, json=payload, headers=headers, timeout=120
+                )
+
+                if response.status_code != 200:
+                    print(f"Response status: {response.status_code}")
+                    print(f"Response body: {response.text[:500]}")
+
+                response.raise_for_status()
+
+                result = response.json()
+                # OpenAI format: {"data": [{"embedding": [...]}, ...]}
+                if "data" in result:
+                    batch_embeddings = [item["embedding"] for item in result["data"]]
+                # Alternative format: {"embeddings": [[...], ...]}
+                elif "embeddings" in result:
+                    batch_embeddings = result["embeddings"]
+                else:
+                    raise ValueError(f"Unexpected TEI response format: {result.keys()}")
+
+                all_embeddings.extend(batch_embeddings)
+                print(
+                    f"  ✓ Batch {batch_num} completed ({len(batch_embeddings)} embeddings)"
+                )
+
+            except Exception as e:
+                print(f"  ✗ Error in batch {batch_num}: {e}")
+                raise
+
+        print(f"✓ All batches completed ({len(all_embeddings)} total embeddings)")
+        return all_embeddings
 
 
 class AnsibleErrorEmbedder:
@@ -156,7 +185,8 @@ class AnsibleErrorEmbedder:
     Handles embedding generation and FAISS index creation for Ansible errors.
 
     Uses TEI (text-embeddings-inference) service for embeddings.
-    Environment variables EMBEDDINGS_LLM_URL and EMBEDDINGS_LLM_MODEL_NAME must be set.
+    Model is hardcoded to nomic-ai/nomic-embed-text-v1.5.
+    Service URL defaults to http://alm-embedding:8080 (can be overridden via EMBEDDINGS_LLM_URL).
     """
 
     def __init__(
@@ -170,37 +200,32 @@ class AnsibleErrorEmbedder:
         Initialize the embedder.
 
         Args:
-            model_name: Model name (defaults to config)
-            api_url: API endpoint URL (defaults to config)
+            model_name: Model name (defaults to hardcoded nomic-ai/nomic-embed-text-v1.5)
+            api_url: API endpoint URL (defaults to config, which defaults to http://alm-embedding:8080)
             index_path: Path to save FAISS index (defaults to config)
             metadata_path: Path to save metadata (defaults to config)
         """
-        # Use config values as defaults
+        # Use config values as defaults (model is hardcoded in config)
         self.model_name = model_name or config.embeddings.model_name
         self.api_url = api_url or config.embeddings.api_url
         self.index_path = index_path or config.storage.index_path
         self.metadata_path = metadata_path or config.storage.metadata_path
 
         # Validate configuration
-        if not self.model_name:
-            raise ValueError(
-                "Model name must be provided via parameter or EMBEDDINGS_LLM_MODEL_NAME"
-            )
-
         if not self.api_url:
             raise ValueError(
                 "API URL is required. Please configure EMBEDDINGS_LLM_URL as an environment variable or in your .env file."
             )
 
-        # Initialize embedding client
-        self.client = EmbeddingClient(self.model_name, self.api_url)
+        # Initialize embedding client (no API key needed for TEI)
+        self.client = EmbeddingClient(model_name=self.model_name, api_url=self.api_url)
         self.embedding_dim = self.client.embedding_dim
 
         self.index = None
         self.error_store = {}
 
         print("✓ Embedder initialized")
-        print("  Mode: API")
+        print("  Mode: TEI Service")
 
     def group_chunks_by_error(
         self, chunks: List[Document]

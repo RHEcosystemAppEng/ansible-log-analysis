@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-Quick test script to verify TEI embeddings work correctly.
-Requires TEI (text-embeddings-inference) configuration via environment variables or .env file.
+Quick test script to verify Nomic embeddings work correctly with TEI service.
+Requires TEI (text-embeddings-inference) service configuration via environment variables or .env file.
 """
 
 # Load .env file if it exists
@@ -20,26 +20,28 @@ import numpy as np  # noqa: E402
 
 
 def test_nomic_embeddings():
-    print("Testing Nomic-Embed-Text-v1.5 via TEI...")
+    print("Testing Nomic-Embed-Text-v1.5 with TEI service...")
     print("=" * 60)
 
-    # Get TEI configuration (required)
+    # Get TEI service configuration
     api_url = config.embeddings.api_url
-    model_name = config.embeddings.model_name
+    model_name = (
+        config.embeddings.model_name
+    )  # Hardcoded to nomic-ai/nomic-embed-text-v1.5
 
-    print("\n✓ Using TEI (text-embeddings-inference) mode")
-    print(f"  API URL: {api_url}")
-    print(f"  Model: {model_name}")
+    print("\n✓ Using TEI (text-embeddings-inference) service")
+    print(f"  Service URL: {api_url}")
+    print(f"  Model: {model_name} (hardcoded)")
 
     # Initialize embedding client
     print("\n1. Initializing embedding client...")
     try:
         client = EmbeddingClient(
-            model_name=model_name,
             api_url=api_url,
+            # model_name is optional, defaults to nomic-ai/nomic-embed-text-v1.5
         )
         print(f"✓ Client initialized: {client.embedding_dim}-dimensional embeddings")
-        print("  Mode: API")
+        print("  Mode: TEI Service")
     except Exception as e:
         print(f"✗ Failed to initialize client: {e}")
         raise

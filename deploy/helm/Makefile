@@ -10,8 +10,9 @@ OPENAI_API_ENDPOINT ?= https://llama-4-scout-17b-16e-w4a16-maas-apicast-producti
 OPENAI_MODEL ?= llama-4-scout-17b-16e-w4a16
 OPENAI_TEMPERATURE ?= 0.7
 # For RAG Embedding API (TEI - text-embeddings-inference)
+# Model is hardcoded to nomic-ai/nomic-embed-text-v1.5
+# Service URL defaults to http://alm-embedding:8080 (can be overridden via EMBEDDINGS_LLM_URL)
 EMBEDDINGS_LLM_URL ?= http://alm-embedding:8080
-EMBEDDINGS_LLM_MODEL_NAME ?= nomic-ai/nomic-embed-text-v1.5
 ANSIBLE_LOG_MONITOR_CHART := ansible-log-monitor
 
 # Parameter validation functions
@@ -73,10 +74,11 @@ define prompt_openai_credentials
 	fi; \
 	echo ""; \
 	echo "============================================"; \
-	echo "   RAG Embedding API Configuration"; \
+	echo "   RAG Embedding Configuration"; \
 	echo "============================================"; \
 	echo ""; \
-	echo "Configure TEI embedding service for RAG (Retrieval Augmented Generation)"; \
+	echo "Using TEI (text-embeddings-inference) service for embeddings"; \
+	echo "Model: nomic-ai/nomic-embed-text-v1.5 (hardcoded)"; \
 	echo ""; \
 	if [ -z "$$EMBEDDINGS_LLM_URL" ]; then \
 		echo -n "Enter TEI EMBEDDING SERVICE URL [default: $(EMBEDDINGS_LLM_URL)]: "; \
@@ -89,17 +91,6 @@ define prompt_openai_credentials
 	else \
 		echo "Using provided EMBEDDINGS_LLM_URL: $$EMBEDDINGS_LLM_URL"; \
 	fi; \
-	if [ -z "$$EMBEDDINGS_LLM_MODEL_NAME" ]; then \
-		echo -n "Enter EMBEDDING MODEL NAME [default: $(EMBEDDINGS_LLM_MODEL_NAME)]: "; \
-		read EMBEDDINGS_MODEL_INPUT; \
-		if [ -z "$$EMBEDDINGS_MODEL_INPUT" ]; then \
-			export EMBEDDINGS_LLM_MODEL_NAME="$(EMBEDDINGS_LLM_MODEL_NAME)"; \
-		else \
-			export EMBEDDINGS_LLM_MODEL_NAME=$$EMBEDDINGS_MODEL_INPUT; \
-		fi; \
-	else \
-		echo "Using provided EMBEDDINGS_LLM_MODEL_NAME: $$EMBEDDINGS_LLM_MODEL_NAME"; \
-	fi; \
 	echo ""; \
 	echo "Creating Kubernetes secret '\''model-secret'\''..."; \
 	oc create secret generic model-secret \
@@ -108,7 +99,6 @@ define prompt_openai_credentials
 		--from-literal=OPENAI_MODEL=$$OPENAI_MODEL \
 		--from-literal=OPENAI_TEMPERATURE=$$OPENAI_TEMPERATURE \
 		--from-literal=EMBEDDINGS_LLM_URL=$$EMBEDDINGS_LLM_URL \
-		--from-literal=EMBEDDINGS_LLM_MODEL_NAME=$$EMBEDDINGS_LLM_MODEL_NAME \
 		-n "$$NAMESPACE_VAR" --dry-run=client -o yaml | oc apply -f -; \
 	echo "Secret '\''model-secret'\'' created successfully"; \
 	echo ""'

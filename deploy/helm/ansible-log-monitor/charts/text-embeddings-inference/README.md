@@ -1,31 +1,50 @@
-# Text Embeddings Inference (TEI) Helm Chart
+# Text Embeddings Inference (TEI) Chart
 
-This Helm chart deploys the text-embeddings-inference service for generating text embeddings using the `nomic-ai/nomic-embed-text-v1.5` model.
-
-## Overview
-
-Text-embeddings-inference (TEI) is a production-ready embedding service written in Rust, optimized for high-performance embedding generation. It uses an OpenAI-compatible API format.
+This chart deploys a custom TEI service with pre-downloaded `nomic-ai/nomic-embed-text-v1.5` model.
 
 ## Features
 
-- **Production-ready**: Optimized Rust implementation
-- **OpenAI-compatible API**: Easy integration with existing code
-- **Automatic batching**: Handles batch requests efficiently
-- **Task prefix support**: Supports nomic model task prefixes (search_document, search_query, etc.)
-- **Scalable**: Can be scaled horizontally with HPA
+- **Pre-downloaded Model**: Model is baked into the container image, eliminating download time on startup
+- **HuggingFace Cache**: Uses `/data` as cache directory (mounted from PVC)
+- **Optimized Resources**: Memory and CPU limits tuned for actual usage
+- **OpenAI-compatible API**: Works with existing embedding client code
 
-## Model Configuration
+## Image Building
 
-The chart is configured to use `nomic-ai/nomic-embed-text-v1.5` by default. This model:
-- Supports task instruction prefixes (search_document, search_query, clustering, classification)
-- Has 768-dimensional embeddings (full) or can use Matryoshka dimensions (512, 256, 128, 64)
-- Requires task prefixes for optimal performance
-
-## API Usage
-
-The service exposes an OpenAI-compatible API at `/embeddings`:
+The custom TEI image must be built and pushed before deployment:
 
 ```bash
+cd deploy/helm/ansible-log-monitor/charts/text-embeddings-inference
+docker build -t quay.io/rh-ai-quickstart/tei-nomic-preloaded:latest -f Dockerfile .
+docker push quay.io/rh-ai-quickstart/tei-nomic-preloaded:latest
+```
+
+## Configuration
+
+Key configuration options in `values.yaml`:
+
+- `image.repository`: Container image repository (default: `quay.io/rh-ai-quickstart/tei-nomic-preloaded`)
+- `image.tag`: Image tag (default: `latest`)
+- `config.modelID`: Model identifier (default: `nomic-ai/nomic-embed-text-v1.5`)
+- `service.port`: Service port (default: `8080`)
+- `resources`: CPU and memory limits/requests
+- `persistence.enabled`: Enable PVC for HuggingFace cache (default: `true`)
+
+## Integration
+
+The backend service is automatically configured to use this embedding service:
+- Model is hardcoded to `nomic-ai/nomic-embed-text-v1.5` (no config needed)
+- `EMBEDDINGS_LLM_URL`: Optional, defaults to `http://alm-embedding:8080` if not set
+
+## Testing
+
+Test the service:
+
+```bash
+# Health check
+curl http://alm-embedding:8080/health
+
+# Generate embeddings
 curl -X POST http://alm-embedding:8080/embeddings \
   -H "Content-Type: application/json" \
   -d '{
@@ -33,60 +52,4 @@ curl -X POST http://alm-embedding:8080/embeddings \
     "input": ["search_document: document text", "search_query: query text"]
   }'
 ```
-
-## Configuration
-
-Key configuration options in `values.yaml`:
-
-- `config.modelID`: The model to use (default: `nomic-ai/nomic-embed-text-v1.5`)
-- `service.port`: Service port (default: 8080)
-- `resources`: CPU and memory limits/requests
-- `replicaCount`: Number of replicas
-- `autoscaling`: Horizontal pod autoscaling configuration
-
-## Integration
-
-The backend service is automatically configured to use this embedding service via:
-- `EMBEDDINGS_LLM_URL`: Set to `http://alm-embedding:8080` by default
-- `EMBEDDINGS_LLM_MODEL_NAME`: Set to `nomic-ai/nomic-embed-text-v1.5`
-
-## Health Checks
-
-The service provides health check endpoints:
-- `/health`: Liveness and readiness probe endpoint
-
-## Resources
-
-Recommended resource allocation:
-- **CPU**: 500m request, 2000m limit
-- **Memory**: 2Gi request, 4Gi limit
-
-Adjust based on your workload and cluster capacity.
-
-## Model Caching
-
-The chart includes persistent volume support for model caching:
-
-- **Persistent Volume Claim**: Automatically created when `persistence.enabled: true`
-- **Storage**: 5Gi by default (enough for model + cache)
-- **Access Mode**: ReadWriteOnce (RWO)
-- **Cache Location**: `/data` (configured via `HF_HOME` environment variable)
-
-**Benefits:**
-- Model is downloaded once and cached between pod restarts
-- Faster pod startup (loads from cache instead of re-downloading)
-- Reduces network usage and startup time
-
-**First Deployment:**
-- Pod starts → Downloads model from HuggingFace (~2-5 minutes) → Caches to PVC → Ready
-
-**Subsequent Restarts:**
-- Pod starts → Loads model from PVC cache (~30 seconds) → Ready
-
-## Notes
-
-- The model is downloaded automatically on first startup and cached to persistent storage
-- Task prefixes (search_document:, search_query:) are handled automatically by the backend
-- The service uses ClusterIP by default (internal cluster access only)
-- Model cache persists across pod restarts when persistence is enabled
 
