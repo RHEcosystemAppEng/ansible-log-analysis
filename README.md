@@ -102,7 +102,8 @@ For example, an analyst who has AWS authentication will filter by their authoriz
 We will have a router that will determine if we need more context to solve the problem or if the log error alone is sufficient to generate the step-by-step solution.  
 If we need more context, we will spin up an agent that will accumulate context as needed by using the following:
 
-* **Loki MCP**, which is able to query the log database for additional log context.  
+* **Loki MCP**, which is able to query the log database for additional log context. This project uses an [enhanced fork](https://github.com/RHEcosystemAppEng/loki-mcp/tree/downstream/loki-mcp-for-alm) with additional query capabilities.
+  
 * **RAG** for retrieving an error cheat sheet of already solved questions.  
 * **Ansible MCP** for obtaining code source data to suggest a better solution.
 

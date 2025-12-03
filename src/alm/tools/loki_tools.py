@@ -32,6 +32,7 @@ from alm.agents.loki_agent.schemas import (
     LogToolOutput,
     ToolStatus,
 )
+from alm.tools.loki_helpers import escape_logql_string, validate_timestamp
 
 
 # MCP Server URL configuration
@@ -111,9 +112,14 @@ async def execute_loki_query(
                         parsed_result["data"]["result"], direction=direction
                     )
 
+                # Add helpful message when no logs are found and no message is provided by the tools
+                message = parsed_result.get("message", None)
+                if len(logs) == 0 and not message:
+                    message = "No logs found matching the query. Try using a different search term, simpler keywords, or expanding the time range."
+
                 return LogToolOutput(
                     status=ToolStatus.SUCCESS,
-                    message=parsed_result.get("message", None),
+                    message=message,
                     logs=logs,
                     number_of_logs=len(logs),
                     query=query,
@@ -217,13 +223,16 @@ async def search_logs_by_text(
     Note: This is a case-sensitive text search using LogQL's |= operator.
     """
     try:
+        # Escape special characters in search text for LogQL
+        escaped_text = escape_logql_string(text)
+
         # Build LogQL query for text search
         if file_name:
             # Search within a specific file
             query = (
                 LOGQL_FILE_NAME_QUERY_TEMPLATE.format(file_name=file_name)
                 + " "
-                + LOGQL_TEXT_SEARCH_TEMPLATE.format(text=text)
+                + LOGQL_TEXT_SEARCH_TEMPLATE.format(text=escaped_text)
             )
         else:
             # Search across all logs
@@ -231,7 +240,7 @@ async def search_logs_by_text(
             query = (
                 LOGQL_JOB_WILDCARD_QUERY
                 + " "
-                + LOGQL_TEXT_SEARCH_TEMPLATE.format(text=text)
+                + LOGQL_TEXT_SEARCH_TEMPLATE.format(text=escaped_text)
             )
 
         result = await execute_loki_query(
@@ -247,136 +256,163 @@ async def search_logs_by_text(
         return output.model_dump_json(indent=2)
 
 
-@tool(args_schema=LogLinesAboveSchema)
-async def get_log_lines_above(
+def create_log_lines_above_tool(
     file_name: str,
     log_message: str,
-    log_timestamp: Optional[str] = None,
-    lines_above: int = DEFAULT_LINE_ABOVE,
-) -> str:
+    log_timestamp: str,
+):
     """
-    Get log lines that occurred before/above a specific log line in a file.
+    Factory function to create get_log_lines_above tool with bound context values.
 
-    This tool uses a time window approach to retrieve context lines:
-    1. Uses the provided timestamp, or finds the target log line to get its timestamp
-    2. Queries a wide time window (target - 25 days to target + 2 minutes)
-    3. Fetches up to 5000 logs to ensure we have enough context
-    4. Filters client-side to extract N lines before the target
-
-    The +10 minute buffer handles cases where Loki ignores fractional seconds
-    and multiple logs have the same timestamp.
+    This uses Python closures to capture file_name, log_message, and log_timestamp,
+    avoiding the need for LLM JSON serialization of these constant values.
+    Especially useful for passing complex log messages to the tool, avoiding JSON serialization issues.
 
     Args:
-        file_name: The log file to search in
-        log_message: The content of the log line without timestamp
-        log_timestamp: Optional timestamp of the target log (in nanoseconds or ISO format).
-                      If not provided, will search for the log message to find it.
-        lines_above: Number of lines to retrieve before the target log
+        file_name: The log file name to search in
+        log_message: The target log message to find context for
+        log_timestamp: The timestamp of the target log
 
-    Perfect for queries like:
-    - "get 10 lines above this error in nginx.log"
-    - "show me 5 lines before this failure in api.log"
-    - "get context lines above this specific log entry"
+    Returns:
+        A LangChain tool with the context values bound via closure
     """
-    try:
-        # Import helper functions
-        from alm.tools.log_lines_context_helpers import (
-            get_or_find_timestamp,
-            calculate_time_window,
-            query_logs_in_time_window,
-            extract_context_lines_above,
-        )
-        from alm.agents.loki_agent.constants import CONTEXT_TRUNCATE_SUFFIX
 
-        # Truncate the log message at the end only if it ends with the truncate suffix
-        if log_message and log_message.endswith(CONTEXT_TRUNCATE_SUFFIX):
-            log_message = log_message[: -len(CONTEXT_TRUNCATE_SUFFIX)].rstrip()
+    @tool(args_schema=LogLinesAboveSchema)
+    async def get_log_lines_above(lines_above: int = DEFAULT_LINE_ABOVE) -> str:
+        """
+        Get log lines that occurred before/above a specific log line in a file.
 
-        # Step 1: Get the timestamp (either from parameter or by searching)
-        print("🔍 [Step 1] Getting or finding timestamp for log message")
-        target_timestamp_raw, error = await get_or_find_timestamp(
-            log_timestamp, file_name, log_message
-        )
-        if error or not isinstance(target_timestamp_raw, str):
+        This tool has log context (file_name, log_message, log_timestamp) bound
+        via closure at creation time. The LLM only needs to specify how many lines
+        to retrieve.
+
+        This tool uses a time window approach to retrieve context lines:
+        1. Uses the bound timestamp, or finds the target log line to get its timestamp
+        2. Queries a wide time window (target - 25 days to target + 2 minutes)
+        3. Fetches up to 5000 logs to ensure we have enough context
+        4. Filters client-side to extract N lines before the target
+
+        The +10 minute buffer handles cases where Loki ignores fractional seconds
+        and multiple logs have the same timestamp.
+
+        Args:
+            lines_above: Number of lines to retrieve before the target log (default: 10)
+
+        Perfect for queries like:
+        - "get 10 lines above this error"
+        - "show me 5 lines before this failure"
+        - "get context lines above this specific log entry"
+        """
+        try:
+            # Import helper functions
+            from alm.tools.log_lines_context_helpers import (
+                calculate_time_window,
+                query_logs_in_time_window,
+                extract_context_lines_above,
+            )
+            from alm.agents.loki_agent.constants import CONTEXT_TRUNCATE_SUFFIX
+
+            # Use closure-captured values
+            print("🔍 get_log_lines_above invoked with closure-bound context:")
+            print(f"  - file_name: {file_name}")
+            print(
+                f"  - log_message: {log_message[:100]}..."
+                if log_message and len(log_message) > 100
+                else f"  - log_message: {log_message}"
+            )
+            print(f"  - log_timestamp: {log_timestamp}")
+            print(f"  - lines_above: {lines_above}")
+
+            # Process the log message
+            processed_log_message = log_message
+            # Truncate the log message at the end only if it ends with the truncate suffix
+            if processed_log_message and processed_log_message.endswith(
+                CONTEXT_TRUNCATE_SUFFIX
+            ):
+                processed_log_message = processed_log_message[
+                    : -len(CONTEXT_TRUNCATE_SUFFIX)
+                ].rstrip()
+
+            # Step 1: Validate and convert the timestamp to a datetime object
+            print("🔍 [Step 1] Validating and converting timestamp to datetime object")
+            target_datetime, is_valid = validate_timestamp(log_timestamp)
+            if not is_valid or not target_datetime:
+                return LogToolOutput(
+                    status=ToolStatus.ERROR,
+                    message=f"Invalid timestamp: {log_timestamp}, please provide a valid timestamp",
+                    number_of_logs=0,
+                    logs=[],
+                ).model_dump_json(indent=2)
+
+            # Step 2: Calculate time window
+            print("🔍 [Step 2] Calculating time window around timestamp")
+            start_time_rfc3339, end_time_rfc3339 = calculate_time_window(
+                target_datetime
+            )
+
+            # Step 3: Query logs in the time window
+            print("🔍 [Step 3] Querying large context window (limit=5000)")
+            context_data, error = await query_logs_in_time_window(
+                file_name, start_time_rfc3339, end_time_rfc3339
+            )
+            if error or not isinstance(context_data, LogToolOutput):
+                return LogToolOutput(
+                    status=ToolStatus.ERROR,
+                    message=f"Failed to query logs in time window. Error: {error}, Context data: {context_data}",
+                    number_of_logs=0,
+                    logs=[],
+                ).model_dump_json(indent=2)
+
+            # Step 4: Extract N lines before the target
+            print(f"🔍 [Step 4] Extracting {lines_above} lines before target")
+
+            context_logs, error = extract_context_lines_above(
+                context_data.logs, processed_log_message, lines_above
+            )
+
+            if error:
+                return LogToolOutput(
+                    status=ToolStatus.ERROR,
+                    message=error,
+                    query=context_data.query,
+                    number_of_logs=0,
+                    logs=[],
+                ).model_dump_json(indent=2)
+
+            print(
+                f"✅ Successfully extracted {len(context_logs)} logs (including target)"
+            )
+            print(
+                f"   Requested: {lines_above} lines above, Got: {len(context_logs) - 1} lines above + target"
+            )
+
+            # Step 5: Return the context logs
             return LogToolOutput(
-                status=ToolStatus.ERROR,
-                message=f"Failed to get or find timestamp for log message. Error: {error}, Target timestamp: {target_timestamp_raw}",
-                number_of_logs=0,
-                logs=[],
-            ).model_dump_json(indent=2)
-
-        # Step 2: Calculate time window
-        print("🔍 [Step 2] Calculating time window around timestamp")
-        start_time_rfc3339, end_time_rfc3339, error = calculate_time_window(
-            target_timestamp_raw
-        )
-        if error:
-            return LogToolOutput(
-                status=ToolStatus.ERROR,
-                message=error,
-                number_of_logs=0,
-                logs=[],
-            ).model_dump_json(indent=2)
-
-        # Step 3: Query logs in the time window
-        print("🔍 [Step 3] Querying large context window (limit=5000)")
-        context_data, error = await query_logs_in_time_window(
-            file_name, start_time_rfc3339, end_time_rfc3339
-        )
-        if error or not isinstance(context_data, LogToolOutput):
-            return LogToolOutput(
-                status=ToolStatus.ERROR,
-                message=f"Failed to query logs in time window. Error: {error}, Context data: {context_data}",
-                number_of_logs=0,
-                logs=[],
-            ).model_dump_json(indent=2)
-
-        # Step 4: Extract N lines before the target
-        print(f"🔍 [Step 4] Extracting {lines_above} lines before target")
-
-        context_logs, error = extract_context_lines_above(
-            context_data.logs, log_message, lines_above
-        )
-
-        if error:
-            return LogToolOutput(
-                status=ToolStatus.ERROR,
-                message=error,
+                status=ToolStatus.SUCCESS,
+                message=f"Retrieved {len(context_logs) - 1} lines above the target log (total {len(context_logs)} logs including target)",
                 query=context_data.query,
-                number_of_logs=0,
-                logs=[],
+                number_of_logs=len(context_logs),
+                logs=context_logs,
+                execution_time_ms=context_data.execution_time_ms,
             ).model_dump_json(indent=2)
 
-        print(f"✅ Successfully extracted {len(context_logs)} logs (including target)")
-        print(
-            f"   Requested: {lines_above} lines above, Got: {len(context_logs) - 1} lines above + target"
-        )
+        except Exception as e:
+            print(f"❌ Error in get_log_lines_above: {e}")
+            import traceback
 
-        # Step 5: Return the context logs
-        return LogToolOutput(
-            status=ToolStatus.SUCCESS,
-            message=f"Retrieved {len(context_logs) - 1} lines above the target log (total {len(context_logs)} logs including target)",
-            query=context_data.query,
-            number_of_logs=len(context_logs),
-            logs=context_logs,
-            execution_time_ms=context_data.execution_time_ms,
-        ).model_dump_json(indent=2)
+            traceback.print_exc()
 
-    except Exception as e:
-        print(f"❌ Error in get_log_lines_above: {e}")
-        import traceback
+            return LogToolOutput(
+                status=ToolStatus.ERROR, message=str(e), number_of_logs=0, logs=[]
+            ).model_dump_json(indent=2)
 
-        traceback.print_exc()
-
-        return LogToolOutput(
-            status=ToolStatus.ERROR, message=str(e), number_of_logs=0, logs=[]
-        ).model_dump_json(indent=2)
+    return get_log_lines_above
 
 
-# List of all available tools for easy import
+# List of static tools (tools that don't need closure-bound context)
+# get_log_lines_above is created dynamically via create_log_lines_above_tool()
 # TODO: Add fallback_query tool
-LOKI_TOOLS = [
+LOKI_STATIC_TOOLS = [
     get_logs_by_file_name,
     search_logs_by_text,
-    get_log_lines_above,
 ]

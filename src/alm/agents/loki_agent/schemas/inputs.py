@@ -77,14 +77,6 @@ class SearchTextSchema(BaseModel):
 class LogLinesAboveSchema(BaseModel):
     """Schema for get_log_lines_above tool"""
 
-    file_name: str = Field(
-        description="File name to search for the log line (e.g., 'nginx.log', 'api.log')"
-    )
-    log_message: str = Field(description="The first line of the log message")
-    log_timestamp: Optional[str] = Field(
-        default=None,
-        description="The timestamp of the target log entry (Unix timestamp, or datetime string)",
-    )
     lines_above: int = Field(
         default=DEFAULT_LINE_ABOVE,
         description="Number of lines to retrieve that occurred before/above the target log line",

@@ -11,7 +11,7 @@ from langgraph.types import Command
 
 from alm.agents.loki_agent.state import LokiAgentState
 from alm.agents.loki_agent.nodes import identify_missing_data
-from alm.agents.loki_agent.agent import get_loki_agent
+from alm.agents.loki_agent.agent import create_loki_agent
 from alm.agents.loki_agent.schemas import LogToolOutput, LokiAgentOutput, ToolStatus
 from alm.llm import get_llm
 
@@ -58,15 +58,28 @@ async def loki_execute_query_node(
                 "No user request found in state.loki_user_request. \
                 Please use the identify_missing_log_data_node to set the user request."
             )
-        agent = get_loki_agent()
+
+        # Extract log context for agent creation
+        log_message = state.log_entry.message
+        log_timestamp = state.log_entry.timestamp
+        log_labels = state.log_entry.log_labels
+        file_name = log_labels.filename
+
+        if not all([file_name, log_message, log_timestamp]):
+            raise ValueError(
+                f"One of the log context fields is missing in log_entry, log_enty = {state.log_entry}"
+            )
+
+        # Create a fresh agent instance with log context bound via closure
+        agent = create_loki_agent(file_name, log_message, log_timestamp)
 
         # Prepare context from the current state
         context = {
             "logSummary": state.log_summary,
             "expertClassification": state.expert_classification,
-            "logMessage": state.log_entry.message,
-            "logLabels": state.log_entry.log_labels,
-            "logTimestamp": state.log_entry.timestamp,
+            "logMessage": log_message,
+            "logLabels": log_labels,
+            "logTimestamp": log_timestamp,
         }
 
         # Execute the query

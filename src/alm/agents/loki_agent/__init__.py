@@ -12,7 +12,7 @@ from alm.agents.loki_agent.graph import (
     identify_missing_log_data_node,
     loki_execute_query_node,
 )
-from alm.agents.loki_agent.agent import LokiQueryAgent, get_loki_agent
+from alm.agents.loki_agent.agent import LokiQueryAgent, create_loki_agent
 from alm.agents.loki_agent.state import LokiAgentState
 from alm.agents.loki_agent.nodes import identify_missing_data
 
@@ -23,7 +23,7 @@ __all__ = [
     "loki_execute_query_node",
     # Agent
     "LokiQueryAgent",
-    "get_loki_agent",
+    "create_loki_agent",
     # State
     "LokiAgentState",
     # Nodes

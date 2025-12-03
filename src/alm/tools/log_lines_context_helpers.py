@@ -5,7 +5,7 @@ These functions implement the step-by-step logic for retrieving context lines
 before a specific log entry using a time window approach.
 """
 
-from datetime import timedelta
+from datetime import datetime, timedelta
 from typing import Optional, Tuple
 
 from alm.agents.loki_agent.constants import (
@@ -17,61 +17,21 @@ from alm.agents.loki_agent.constants import (
 from alm.agents.loki_agent.schemas import LogToolOutput
 
 
-async def get_or_find_timestamp(
-    log_timestamp: Optional[str], file_name: str, log_message: str
-) -> Tuple[Optional[str], Optional[str]]:
-    """
-    Get the timestamp either from the parameter or by searching for it.
-
-    Args:
-        log_timestamp: Optional timestamp provided by caller
-        file_name: File name to search in if timestamp not provided
-        log_message: Log message to search for if timestamp not provided
-
-    Returns:
-        Tuple of (timestamp, error_message)
-        - timestamp: The timestamp string if found/provided, None otherwise
-        - error_message: Error description if not found, None otherwise
-    """
-    from alm.tools.loki_helpers import find_log_timestamp, validate_timestamp
-
-    _, is_valid = validate_timestamp(log_timestamp)
-    if is_valid:
-        # Use the provided timestamp
-        print(f"✅ Using provided timestamp: {log_timestamp}")
-        return log_timestamp, None
-    else:
-        # Fallback: Search for the log message to find its timestamp
-        print(f"Searching for timestamp of log message in {file_name}")
-        timestamp, error = await find_log_timestamp(file_name, log_message)
-        return timestamp, error
-
-
 def calculate_time_window(
-    target_timestamp_raw: str,
-) -> Tuple[Optional[str], Optional[str], Optional[str]]:
+    target_datetime: datetime,
+) -> Tuple[str, str]:
     """
-    Convert timestamp to datetime and calculate the time window for querying.
+    Calculate the time window for querying around the target datetime.
 
     Args:
-        target_timestamp_raw: The target timestamp (any format)
+        target_datetime: The target datetime (UTC-aware datetime object)
 
     Returns:
-        Tuple of (start_time_rfc3339, end_time_rfc3339, error_message)
+        Tuple of (start_time_rfc3339, end_time_rfc3339)
         - start_time_rfc3339: Start time in RFC3339 UTC format (25 days before target)
         - end_time_rfc3339: End time in RFC3339 UTC format (2 minutes after target)
-        - error_message: Error description if parsing fails, None otherwise
     """
-    from alm.tools.loki_helpers import timestamp_to_utc_datetime, format_rfc3339_utc
-
-    try:
-        # Convert timestamp to UTC datetime (handles milliseconds/nanoseconds/ISO)
-        target_datetime = timestamp_to_utc_datetime(target_timestamp_raw)
-    except (ValueError, TypeError) as e:
-        error_msg = (
-            f"Failed to parse target timestamp '{target_timestamp_raw}': {str(e)}"
-        )
-        return None, None, error_msg
+    from alm.tools.loki_helpers import format_rfc3339_utc
 
     # Calculate time window: N days before to M minutes after target
     # This ensures we capture the file start and handle fractional second issues
@@ -84,7 +44,7 @@ def calculate_time_window(
 
     print(f"📅 Time window: {start_time_rfc3339} to {end_time_rfc3339}")
 
-    return start_time_rfc3339, end_time_rfc3339, None
+    return start_time_rfc3339, end_time_rfc3339
 
 
 async def query_logs_in_time_window(
