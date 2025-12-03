@@ -4,6 +4,20 @@ A Helm-based deployment for the Ansible Log Monitor system on OpenShift.
 
 > **Note**: All commands use the current OpenShift project by default. No need to specify `NAMESPACE` unless you want to use a different one.
 
+## Components
+
+The Ansible Log Monitor stack includes the following components:
+
+- **Backend** - FastAPI application with LangGraph agentic workflow
+- **UI** - Gradio-based user interface for log analysis
+- **Annotation Interface** - Tool for improving AI workflow
+- **AAP Mock** - Mock Ansible Automation Platform log generator (for testing)
+- **Loki Stack** - Log aggregation (Loki + Alloy/Promtail + Grafana)
+- **PostgreSQL** (pgvector) - Database for storing processed alerts
+- **MinIO** - Object storage for artifacts
+- **MCP Servers** - Model Context Protocol servers (Loki integration)
+- **Phoenix** - Observability and tracing
+
 ## Prerequisites
 
 - OpenShift CLI (`oc`) installed and configured
@@ -102,3 +116,82 @@ make install \
   OPENAI_API_TOKEN=abc123 \
   OPENAI_MODEL=custom-model \
   OPENAI_TEMPERATURE=0.5
+```
+
+#### Disable AAP Mock (for production with real AAP logs)
+```bash
+# Install without the mock log generator
+helm install alm ./ansible-log-monitor \
+  --set aap-mock.enabled=false \
+  --set backend.env.OPENAI_API_TOKEN=abc123
+```
+
+## Sub-Charts
+
+The `ansible-log-monitor` chart includes several sub-charts that can be individually configured:
+
+### AAP Mock (aap-mock)
+Mock Ansible Automation Platform log generator for testing and demonstration.
+
+- **Documentation**: `charts/aap-mock/README.md`
+- **Enabled by default**: Yes
+- **Disable**: `--set aap-mock.enabled=false`
+- **Configure**: See `charts/aap-mock/values.yaml`
+
+Example:
+```bash
+# Increase storage for aap-mock
+helm install alm ./ansible-log-monitor \
+  --set aap-mock.persistence.data.size=5Gi \
+  --set aap-mock.persistence.logs.size=2Gi
+```
+
+### Other Sub-Charts
+- **backend** - Main ALM backend service
+- **ui** - Gradio UI (`charts/ui/README.md`)
+- **annotation-interface** - Annotation tool (`charts/annotation-interface/README.md`)
+- **loki-stack** - Alloy ConfigMap for aap-mock log collection (`charts/loki-stack/README.md`)
+- **pgvector** - PostgreSQL database
+- **minio** - Object storage
+- **mcp-servers** - MCP protocol servers
+- **phoenix** - Observability platform
+
+## Alloy Configuration for AAP Mock Logs
+
+If you have Loki and Alloy already deployed, you can enable the Alloy ConfigMap to collect logs from the `aap-mock` pods.
+
+### Enable Alloy ConfigMap
+
+```bash
+helm install alm ./ansible-log-monitor -n <namespace> \
+  --set loki-stack.alloy.enabled=true \
+  --set loki-stack.alloy.lokiUrl="http://<your-loki-service>:3100/loki/api/v1/push"
+```
+
+This creates a ConfigMap named `alloy-loki` that configures Alloy to:
+1. Discover pods with label `app.kubernetes.io/name=aap-mock`
+2. Collect their stdout logs
+3. Add labels (namespace, pod, container, app, instance, node)
+4. Parse log level and add `job="aap-mock"` label
+5. Forward logs to Loki
+
+### Configuration Options
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `loki-stack.alloy.enabled` | `false` | Enable Alloy ConfigMap creation |
+| `loki-stack.alloy.configMapName` | `alloy-loki` | Name of the ConfigMap |
+| `loki-stack.alloy.lokiUrl` | `http://loki-single:3100/loki/api/v1/push` | Loki push endpoint |
+| `loki-stack.alloy.clusterName` | `""` | Cluster name for external labels (defaults to namespace) |
+| `loki-stack.alloy.logLevel` | `info` | Alloy log level |
+
+### Using with Existing Alloy
+
+If Alloy is already deployed, configure it to use the ConfigMap:
+
+```bash
+# When deploying Alloy, point it to the ConfigMap created by ansible-log-monitor
+helm install alloy grafana/alloy -n <namespace> \
+  --set alloy.configMap.create=false \
+  --set alloy.configMap.name=alloy-loki
+```

@@ -74,9 +74,40 @@ services:
     volumes:
       - ./config/promtail/promtail-local-config.yaml:/etc/promtail/config.yaml:Z
       - ../../data/logs/:/var/log/ansible_logs:Z
+      - /var/run/docker.sock:/var/run/docker.sock:ro  # For Docker log collection
     command: -config.file=/etc/promtail/config.yaml
     networks:
       - alm
+    depends_on:
+      loki:
+        condition: service_healthy
+
+  aap-mock:
+    # Option 1: Build locally (default for development)
+    build:
+      context: ../../../aap-log-generator
+      dockerfile: Dockerfile
+    # Option 2: Use pre-built image from Quay.io (comment out build, uncomment image)
+    # image: quay.io/ecosystem-appeng/aap-mock:latest
+    container_name: aap-mock
+    ports:
+      - "8081:8080"  # Expose on 8081 to avoid conflict with loki-mcp-server
+    environment:
+      - PORT=8080
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - aap_mock_data:/data
+      - aap_mock_logs:/var/log/aap-mock
+      - aap_mock_sample_logs:/app/sample-logs
+    networks:
+      - alm
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
 
   postgres:
     image: postgres:15
@@ -151,3 +182,6 @@ services:
 
 volumes:
   postgres_data:
+  aap_mock_data:
+  aap_mock_logs:
+  aap_mock_sample_logs:

@@ -344,3 +344,53 @@ alloy:
       }
   rbac:
     create: true
+
+# AAP Log Generator (Mock) configuration
+# Generates mock Ansible Automation Platform logs for testing and demonstration
+aap-mock:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: quay.io/ecosystem-appeng/aap-mock
+    pullPolicy: Always
+    tag: "latest"
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  persistence:
+    data:
+      enabled: true
+      size: 2Gi
+    logs:
+      enabled: true
+      size: 1Gi
+  route:
+    enabled: true
+  # Optional: Configure environment variables for automatic log replay
+  # app:
+  #   env:
+  #     REPLAY_RATE: "100"
+  #     LOOP_ENABLED: "true"
+
+# Loki Stack configuration
+# NOTE: Loki and Alloy should be deployed separately using official Grafana Helm charts.
+# See deploy/helm/README.md for deployment instructions.
+# The loki-stack sub-chart only provides the Alloy ConfigMap template.
+loki-stack:
+  # Alloy ConfigMap for aap-mock log collection
+  # Enable this to create a ConfigMap that tells Alloy how to collect aap-mock logs
+  # NOTE: You must deploy Alloy separately using: helm install alloy grafana/alloy
+  alloy:
+    enabled: false  # Set to true to create the Alloy ConfigMap
+    configMapName: "alloy-loki"  # Must match Alloy Helm chart: --set alloy.configMap.name=alloy-loki
+    logLevel: "info"
+    lokiUrl: "http://loki-single:3100/loki/api/v1/push"  # Matches alm-infra-final Loki service
+    clusterName: ""  # Cluster name for external labels (defaults to namespace)
+    batchWait: "1s"
+    batchSize: "1MB"
+    # externalLabels:
+    #   environment: "production"

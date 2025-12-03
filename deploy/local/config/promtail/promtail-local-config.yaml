@@ -31,3 +31,22 @@ scrape_configs:
     labels:
       job: successful_logs
       __path__: /var/log/ansible_logs/successful/*.txt
+
+# AAP Mock container logs (via Docker socket)
+- job_name: docker
+  docker_sd_configs:
+    - host: unix:///var/run/docker.sock
+      refresh_interval: 5s
+      filters:
+        - name: name
+          values: ["aap-mock"]
+  relabel_configs:
+    - source_labels: ['__meta_docker_container_name']
+      regex: '/(.*)'
+      target_label: 'container'
+    - source_labels: ['__meta_docker_container_log_stream']
+      target_label: 'logstream'
+    - source_labels: ['__meta_docker_container_label_com_docker_compose_service']
+      target_label: 'service'
+    - replacement: 'aap-mock'
+      target_label: 'job'
