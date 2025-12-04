@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Dict, Optional
+from typing import Optional
 
 from sqlalchemy import JSON
 from sqlmodel import Column, Field, SQLModel
@@ -41,16 +41,9 @@ class GrafanaAlert(SQLModel, table=True):
     contextForStepByStepSolution: Optional[str] = Field(
         default=None, description="Context for the step by step solution"
     )
-    log_labels: Dict[str, str] = Field(
-        default={},
-        description="Loki log metadata, dict representation of LogLabels",
-        sa_column=Column(JSON),
+    log_labels: dict = Field(
+        default={}, description="Loki log metadata", sa_column=Column(JSON)
     )
-    # logLevel: Optional[str] = None  # Log level from Loki logs (info, warn, error, etc.)
-    # logSource: Optional[str] = None  # Source of the log (e.g., service name, pod name)
-
-    # log_type: Optional[str] = None
-    # task_name: Optional[str] = None
 
 
 # Input models

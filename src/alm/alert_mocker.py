@@ -4,7 +4,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
-from alm.models import GrafanaAlert
+from alm.models import GrafanaAlert, LogLabels, LogLevel
 from alm.patterns.ingestion import (
     TESTING_LOG_ERROR,
     TESTING_LOG_FATAL,
@@ -26,8 +26,8 @@ def shrink_long_logs(log: str) -> str:
     # used for very long logs that have a lot of redundent data
     # This should be improve later to be more accurate
     # TODO: improve this
-    # NOTE: see the 30_000 char trim
-    return log.split(r'"properties": ')[0][:30_000] if len(log) > 30_000 else log
+    # NOTE: see the 20_000 char trim
+    return log.split(r'"properties": ')[0][:20_000] if len(log) > 20_000 else log
 
 
 def grafana_alert_mock(path: str) -> Optional[GrafanaAlert]:
@@ -63,16 +63,14 @@ def grafana_alert_mock(path: str) -> Optional[GrafanaAlert]:
         logMessage=shrink_long_logs(
             groups.get("logmessage", "")
         ),  # Full matched text as the log message
-        # logSummary=groups.get('logsummary', ''),
-        # expertClassification=groups.get('expertClassification', ''),
-        log_labels={
-            "host": groups.get("host", "").strip(),
-            "filename": Path(path).name,
-            # 'log_source': groups.get('host', '').strip(),
-            # "task_name": groups.get("task_name", "").strip(),
-        },
-        # logLevel=groups.get('status', ''),  # Use status as log level (fatal/error)
-        # logSource=pathlib.Path(path).name
+        log_labels=LogLabels(
+            detected_level=LogLevel.ERROR
+            if groups.get("status", "error") == "error"
+            else LogLevel.WARN,
+            filename=Path(path).name,
+            job=groups.get("job", "").strip(),
+            service_name=groups.get("host", "").strip(),
+        ).model_dump(),
     )
 
     return alert
