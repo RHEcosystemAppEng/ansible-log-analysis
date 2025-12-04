@@ -4,6 +4,10 @@
 """
 Configuration management for Ansible Error RAG System.
 Loads settings from .env file.
+
+Uses TEI (text-embeddings-inference) service for embeddings.
+Model is hardcoded to nomic-ai/nomic-embed-text-v1.5.
+Service URL defaults to http://alm-embedding:8080 (can be overridden via EMBEDDINGS_LLM_URL).
 """
 
 import os
@@ -16,139 +20,32 @@ load_dotenv(dotenv_path=env_path)
 
 
 class EmbeddingsConfig:
-    """Configuration for embedding model."""
+    """Configuration for embedding model (TEI service)."""
+
+    # Hardcoded model - only nomic-ai/nomic-embed-text-v1.5 is supported
+    MODEL_NAME = "nomic-ai/nomic-embed-text-v1.5"
+    DEFAULT_API_URL = "http://alm-embedding:8080"
 
     def __init__(self):
-        # Check if .env file exists - this is the only test
-        env_path = Path(__file__).parent.parent.parent / ".env"
-        env_file_exists = env_path.exists()
+        # Model name is hardcoded
+        self.model_name = self.MODEL_NAME
 
-        # Get environment variables - raise error if not set
-        self.model_name = self._get_required_env(
-            "EMBEDDINGS_LLM_MODEL_NAME", env_file_exists
-        ).strip()
-        self.api_url = self._get_required_env(
-            "EMBEDDINGS_LLM_URL", env_file_exists
-        ).strip()
-        self.api_key = self._get_required_env(
-            "EMBEDDINGS_LLM_API_KEY", env_file_exists
-        ).strip()
-
-        # Validate that values are not empty after stripping
-        self._validate_maas_config(env_file_exists)
-
-    def _get_required_env(self, var_name: str, env_file_exists: bool) -> str:
-        """
-        Get a required environment variable, raising an error if not set.
-
-        If .env file exists, requires the variable to be set (in .env or as env var).
-        If .env file doesn't exist, assumes containerized environment and only checks env vars.
-
-        Args:
-            var_name: Name of the environment variable
-            env_file_exists: Whether .env file exists
-
-        Returns:
-            The environment variable value
-
-        Raises:
-            ValueError: If the environment variable is not set
-        """
-        # load_dotenv() at module level already loaded .env file if it exists
-        value = os.getenv(var_name)
-
-        if value is None:
-            env_example_path = Path(__file__).parent.parent.parent / ".env.example"
-
-            if env_file_exists:
-                # .env file exists - require variable to be set
-                error_msg = (
-                    f"{var_name} is required but not set. "
-                    f"Please set {var_name} in your .env file or as an environment variable. "
-                )
-            else:
-                # No .env file - assume containerized environment
-                error_msg = (
-                    f"{var_name} is required but not set. "
-                    f"Please set {var_name} as an environment variable. "
-                )
-
-            if env_example_path.exists():
-                error_msg += "See .env.example for reference."
-
-            raise ValueError(error_msg)
-
-        return value
-
-    def _validate_maas_config(self, env_file_exists: bool):
-        """
-        Validate that MAAS configuration values are not empty.
-        Raises an error if EMBEDDINGS_LLM_URL or EMBEDDINGS_LLM_API_KEY are empty.
-
-        Args:
-            env_file_exists: Whether .env file exists (for error message context)
-        """
-        env_example_path = Path(__file__).parent.parent.parent / ".env.example"
-        example_hint = (
-            " See .env.example for reference." if env_example_path.exists() else ""
-        )
-
-        if env_file_exists:
-            location_hint = "in your .env file or as an environment variable"
-        else:
-            location_hint = "as an environment variable"
-
-        if not self.api_url:
-            raise ValueError(
-                f"EMBEDDINGS_LLM_URL is required but is empty. "
-                f"Please set EMBEDDINGS_LLM_URL {location_hint} with a valid value."
-                + example_hint
-            )
-        if not self.api_key:
-            raise ValueError(
-                f"EMBEDDINGS_LLM_API_KEY is required but is empty. "
-                f"Please set EMBEDDINGS_LLM_API_KEY {location_hint} with a valid value."
-                + example_hint
-            )
-        if not self.model_name:
-            raise ValueError(
-                f"EMBEDDINGS_LLM_MODEL_NAME is required but is empty. "
-                f"Please set EMBEDDINGS_LLM_MODEL_NAME {location_hint} with a valid value."
-                + example_hint
-            )
-
-    @property
-    def is_local(self) -> bool:
-        """Check if using local model (not API-based)."""
-        return not self.api_url
-
-    @property
-    def is_api(self) -> bool:
-        """Check if using API-based embeddings."""
-        return bool(self.api_url)
-
-    @property
-    def requires_api_key(self) -> bool:
-        """Check if API key is required and missing."""
-        return self.is_api and not self.api_key
+        # API URL can be overridden via environment variable, otherwise use default
+        # Use 'or' logic to treat empty strings as "not set" and fall back to default
+        self.api_url = (os.getenv("EMBEDDINGS_LLM_URL") or self.DEFAULT_API_URL).strip()
 
     def validate(self):
         """Validate configuration."""
         if not self.model_name:
-            raise ValueError("EMBEDDINGS_LLM_MODEL_NAME must be set")
-
-        if self.is_api and not self.api_key:
-            raise ValueError(
-                f"EMBEDDINGS_LLM_API_KEY is required when using API endpoint: {self.api_url}"
-            )
+            raise ValueError("Model name must be set")
+        if not self.api_url:
+            raise ValueError("API URL must be set")
 
     def __repr__(self):
         return (
             f"EmbeddingsConfig(\n"
             f"  model_name={self.model_name}\n"
-            f"  mode={'API' if self.is_api else 'LOCAL'}\n"
-            f"  api_url={self.api_url or 'N/A'}\n"
-            f"  api_key={'***' + self.api_key[-4:] if self.api_key else 'N/A'}\n"
+            f"  api_url={self.api_url}\n"
             f")"
         )
 

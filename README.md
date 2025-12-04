@@ -59,7 +59,8 @@ A human analyst is:
   * Langchain.  
   * LangGraph \- for building the agentic workflow.  
   * PostgreSQL.  
-  * Sentence Transformers \- generating embeddings.  
+  * Sentence Transformers \- for clustering embeddings (log template grouping).  
+  * TEI (text-embeddings-inference) \- for RAG embeddings (knowledge base retrieval).  
 * UI:  
   * Gradio (for now)  
 * Annotation interface: an interface that is used for evaluation and workflow improvement  
@@ -229,10 +230,9 @@ cp .env.example .env
 # - OPENAI_MODEL: Model to use (e.g., llama-4-scout-17b-16e-w4a16	)
 # - LANGSMITH_API_KEY: Optional, for LangSmith tracing
 # Configure RAG
-# Set embedding API credentials if using API-based embeddings
-# - EMBEDDINGS_LLM_URL=https://your-embedding-api.com/v1
-# - EMBEDDINGS_LLM_API_KEY=your-api-key
-# - EMBEDDINGS_LLM_MODEL_NAME=nomic-ai/nomic-embed-text-v1.5
+# Model is hardcoded to nomic-ai/nomic-embed-text-v1.5 (no config needed)
+# Optional: Override TEI service URL (defaults to http://alm-embedding:8080)
+# - EMBEDDINGS_LLM_URL=http://alm-embedding:8080
 # Optional: Customize query parameters
 # - RAG_TOP_K=10 (the number of candidates retrieved from the FAISS index)
 # - RAG_TOP_N=3 (the number of final results returned after filtering by the similarity threshold)
@@ -277,7 +277,7 @@ For production deployment on OpenShift clusters:
 - OpenShift CLI (`oc`) installed and configured
 - Helm 3.x installed
 - Access to an OpenShift cluster
-- MaaS API Token, and endpoint, or OpenAI token, and endpoint
+- MaaS API Token and endpoint, or OpenAI token and endpoint (for LLM only; embeddings use TEI service)
 
 #### Quick Deployment
 ```bash

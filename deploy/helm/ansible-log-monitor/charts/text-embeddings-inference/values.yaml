@@ -1,0 +1,92 @@
+# Default values for text-embeddings-inference with pre-downloaded nomic-embed-text-v1.5
+replicaCount: 1
+
+strategy: {}
+
+image:
+  repository: quay.io/rh-ai-quickstart/alm-backend
+  pullPolicy: Always
+  tag: "tei-rag-v1"
+
+command: ["text-embeddings-router"]
+
+env:
+  # Model is pre-downloaded in image, TEI will find it in cache
+  - name: MODEL_ID
+    value: "nomic-ai/nomic-embed-text-v1.5"
+  # Set HuggingFace cache to /data (where model is pre-downloaded in image)
+  - name: HF_HOME
+    value: "/data"
+  # Port configuration
+  - name: PORT
+    value: "8080"
+  # Batch size limits (increased for faster processing with 8Gi memory)
+  - name: MAX_CLIENT_BATCH_SIZE
+    value: "32"  # Increased from 16 to allow larger batches (memory allows with 8Gi limit)
+  - name: MAX_BATCH_TOKENS
+    value: "8192"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: "alm-embedding"  # Override to match your naming convention
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 8080  # Changed from 80 to avoid root permission requirement
+
+resources:
+  limits:
+    cpu: 2000m  # Keep at 2 cores for inference performance
+    memory: 8Gi  # Increased for model loading/warmup (OOMKilled at 4Gi during warmup)
+  requests:
+    cpu: 500m  # Minimum for scheduling
+    memory: 4Gi  # Increased to ensure enough memory for model loading
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 300  # Model loading and warmup on CPU can take 3-5 minutes
+  periodSeconds: 30
+  timeoutSeconds: 10
+  successThreshold: 1
+  failureThreshold: 5  # Allow more failures before restart
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 180  # Give model time to load and warm up
+  periodSeconds: 15
+  timeoutSeconds: 10
+  successThreshold: 1
+  failureThreshold: 6  # Allow more failures before marking unready
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+
+
+
+volumes: []
+volumeMounts: []
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+

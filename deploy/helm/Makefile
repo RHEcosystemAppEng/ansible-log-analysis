@@ -9,10 +9,6 @@ NAMESPACE ?= $(shell oc project -q 2>/dev/null || echo "default")
 OPENAI_API_ENDPOINT ?= https://llama-4-scout-17b-16e-w4a16-maas-apicast-production.apps.prod.rhoai.rh-aiservices-bu.com:443/v1
 OPENAI_MODEL ?= llama-4-scout-17b-16e-w4a16
 OPENAI_TEMPERATURE ?= 0.7
-# For RAG Embedding API
-# EMBEDDINGS_LLM_API_KEY = 
-EMBEDDINGS_LLM_URL ?= https://nomic-embed-text-v1-5-maas-apicast-production.apps.prod.rhoai.rh-aiservices-bu.com:443/v1
-EMBEDDINGS_LLM_MODEL_NAME ?= /mnt/models
 ANSIBLE_LOG_MONITOR_CHART := ansible-log-monitor
 
 # Parameter validation functions
@@ -73,57 +69,12 @@ define prompt_openai_credentials
 		echo "Using provided OPENAI_TEMPERATURE: $$OPENAI_TEMPERATURE"; \
 	fi; \
 	echo ""; \
-	echo "============================================"; \
-	echo "   RAG Embedding API Configuration"; \
-	echo "============================================"; \
-	echo ""; \
-	echo "Configure MAAS embedding API for RAG (Retrieval Augmented Generation)"; \
-	echo ""; \
-	if [ -z "$$EMBEDDINGS_LLM_API_KEY" ]; then \
-		echo -n "Enter MaaS EMBEDDING API KEY [press Enter to use same as LLM]: "; \
-		read -s EMBEDDINGS_API_KEY_INPUT; \
-		echo ""; \
-		if [ -z "$$EMBEDDINGS_API_KEY_INPUT" ]; then \
-			export EMBEDDINGS_LLM_API_KEY=$$OPENAI_API_TOKEN; \
-			echo "Using same token as LLM"; \
-		else \
-			export EMBEDDINGS_LLM_API_KEY=$$EMBEDDINGS_API_KEY_INPUT; \
-		fi; \
-	else \
-		echo "Using provided EMBEDDINGS_LLM_API_KEY"; \
-	fi; \
-	if [ -z "$$EMBEDDINGS_LLM_URL" ]; then \
-		echo -n "Enter MaaS EMBEDDING API ENDPOINT (include /v1 suffix) [default: $(EMBEDDINGS_LLM_URL)]: "; \
-		read EMBEDDINGS_URL_INPUT; \
-		if [ -z "$$EMBEDDINGS_URL_INPUT" ]; then \
-			export EMBEDDINGS_LLM_URL="$(EMBEDDINGS_LLM_URL)"; \
-		else \
-			export EMBEDDINGS_LLM_URL=$$EMBEDDINGS_URL_INPUT; \
-		fi; \
-	else \
-		echo "Using provided EMBEDDINGS_LLM_URL: $$EMBEDDINGS_LLM_URL"; \
-	fi; \
-	if [ -z "$$EMBEDDINGS_LLM_MODEL_NAME" ]; then \
-		echo -n "Enter EMBEDDING MODEL NAME [default: $(EMBEDDINGS_LLM_MODEL_NAME)]: "; \
-		read EMBEDDINGS_MODEL_INPUT; \
-		if [ -z "$$EMBEDDINGS_MODEL_INPUT" ]; then \
-			export EMBEDDINGS_LLM_MODEL_NAME="$(EMBEDDINGS_LLM_MODEL_NAME)"; \
-		else \
-			export EMBEDDINGS_LLM_MODEL_NAME=$$EMBEDDINGS_MODEL_INPUT; \
-		fi; \
-	else \
-		echo "Using provided EMBEDDINGS_LLM_MODEL_NAME: $$EMBEDDINGS_LLM_MODEL_NAME"; \
-	fi; \
-	echo ""; \
 	echo "Creating Kubernetes secret '\''model-secret'\''..."; \
 	oc create secret generic model-secret \
 		--from-literal=OPENAI_API_TOKEN=$$OPENAI_API_TOKEN \
 		--from-literal=OPENAI_API_ENDPOINT=$$OPENAI_API_ENDPOINT \
 		--from-literal=OPENAI_MODEL=$$OPENAI_MODEL \
 		--from-literal=OPENAI_TEMPERATURE=$$OPENAI_TEMPERATURE \
-		--from-literal=EMBEDDINGS_LLM_API_KEY=$$EMBEDDINGS_LLM_API_KEY \
-		--from-literal=EMBEDDINGS_LLM_URL=$$EMBEDDINGS_LLM_URL \
-		--from-literal=EMBEDDINGS_LLM_MODEL_NAME=$$EMBEDDINGS_LLM_MODEL_NAME \
 		-n "$$NAMESPACE_VAR" --dry-run=client -o yaml | oc apply -f -; \
 	echo "Secret '\''model-secret'\'' created successfully"; \
 	echo ""'
