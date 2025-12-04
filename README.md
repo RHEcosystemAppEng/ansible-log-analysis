@@ -59,7 +59,8 @@ A human analyst is:
   * Langchain.  
   * LangGraph \- for building the agentic workflow.  
   * PostgreSQL.  
-  * Sentence Transformers \- generating embeddings.  
+  * Sentence Transformers \- for clustering embeddings (log template grouping).  
+  * TEI (text-embeddings-inference) \- for RAG embeddings (knowledge base retrieval).  
 * UI:  
   * Gradio (for now)  
 * Annotation interface: an interface that is used for evaluation and workflow improvement  
@@ -276,7 +277,7 @@ For production deployment on OpenShift clusters:
 - OpenShift CLI (`oc`) installed and configured
 - Helm 3.x installed
 - Access to an OpenShift cluster
-- MaaS API Token, and endpoint, or OpenAI token, and endpoint
+- MaaS API Token and endpoint, or OpenAI token and endpoint (for LLM only; embeddings use TEI service)
 
 #### Quick Deployment
 ```bash

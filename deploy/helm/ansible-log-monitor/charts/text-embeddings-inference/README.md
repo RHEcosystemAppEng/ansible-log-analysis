@@ -14,7 +14,7 @@ This chart deploys a custom TEI service with pre-downloaded `nomic-ai/nomic-embe
 The custom TEI image must be built and pushed before deployment:
 
 ```bash
-cd deploy/helm/ansible-log-monitor/charts/text-embeddings-inference
+cd services/text-embeddings-inference
 docker build -t quay.io/rh-ai-quickstart/tei-nomic-preloaded:latest -f Dockerfile .
 docker push quay.io/rh-ai-quickstart/tei-nomic-preloaded:latest
 ```
@@ -25,7 +25,7 @@ Key configuration options in `values.yaml`:
 
 - `image.repository`: Container image repository (default: `quay.io/rh-ai-quickstart/tei-nomic-preloaded`)
 - `image.tag`: Image tag (default: `latest`)
-- `config.modelID`: Model identifier (default: `nomic-ai/nomic-embed-text-v1.5`)
+- `env.MODEL_ID`: Model identifier (default: `nomic-ai/nomic-embed-text-v1.5`)
 - `service.port`: Service port (default: `8080`)
 - `resources`: CPU and memory limits/requests
 - `persistence.enabled`: Enable PVC for HuggingFace cache (default: `true`)

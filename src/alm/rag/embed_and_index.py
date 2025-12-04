@@ -43,7 +43,7 @@ class EmbeddingClient:
         api_url: Optional[str] = None,
     ):
         # Use hardcoded defaults from config
-        self.model_name = model_name or config.embeddings.MODEL_NAME
+        self.model_name = model_name or config.embeddings.model_name
         self.api_url = api_url or config.embeddings.api_url
 
         if not self.api_url:

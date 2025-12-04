@@ -1,8 +1,6 @@
 # Default values for text-embeddings-inference with pre-downloaded nomic-embed-text-v1.5
 replicaCount: 1
 
-kind: Deployment
-
 strategy: {}
 
 image:
@@ -12,13 +10,11 @@ image:
 
 command: ["text-embeddings-router"]
 
-config:
-  # Model is pre-downloaded in image, TEI will find it in cache
-  modelID: nomic-ai/nomic-embed-text-v1.5
-
 env:
+  # Model is pre-downloaded in image, TEI will find it in cache
+  - name: MODEL_ID
+    value: "nomic-ai/nomic-embed-text-v1.5"
   # Set HuggingFace cache to /data (where model is pre-downloaded in image)
-  # Note: No PVC is mounted here, so model comes from image filesystem
   - name: HF_HOME
     value: "/data"
   # Port configuration
@@ -85,15 +81,7 @@ autoscaling:
   maxReplicas: 3
   targetCPUUtilizationPercentage: 80
 
-# Persistence configuration for model cache
-# DISABLED by default because model is pre-downloaded in the image at /data
-# If you enable this, the PVC will shadow the pre-downloaded model and TEI will fail
-# To use persistence, you would need an initContainer to copy the model from image to PVC
-persistence:
-  enabled: false  # Model is in image, no PVC needed
-  size: 5Gi
-  accessMode: ReadWriteOnce
-  storageClassName: ""
+
 
 volumes: []
 volumeMounts: []

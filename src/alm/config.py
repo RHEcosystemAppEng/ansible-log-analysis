@@ -31,7 +31,8 @@ class EmbeddingsConfig:
         self.model_name = self.MODEL_NAME
 
         # API URL can be overridden via environment variable, otherwise use default
-        self.api_url = os.getenv("EMBEDDINGS_LLM_URL", self.DEFAULT_API_URL).strip()
+        # Use 'or' logic to treat empty strings as "not set" and fall back to default
+        self.api_url = (os.getenv("EMBEDDINGS_LLM_URL") or self.DEFAULT_API_URL).strip()
 
     def validate(self):
         """Validate configuration."""

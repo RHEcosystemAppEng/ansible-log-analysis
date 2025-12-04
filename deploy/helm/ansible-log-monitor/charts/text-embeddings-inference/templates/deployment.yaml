@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: {{ .Values.kind }}
+kind: Deployment
 metadata:
   name: {{ include "text-embeddings-inference.fullname" . }}
   labels:
@@ -47,10 +47,6 @@ spec:
             {{- if .Values.env }}
             {{- toYaml .Values.env | nindent 12 }}
             {{- end }}
-            {{- if .Values.config.modelID }}
-            - name: MODEL_ID
-              value: {{ .Values.config.modelID | quote }}
-            {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -62,21 +58,12 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-            {{- if .Values.persistence.enabled }}
-            - name: model-cache
-              mountPath: /data
-            {{- end }}
             {{- with .Values.volumeMounts }}
-            {{- toYaml . | nindent 12 }}
+              {{- toYaml . | nindent 12 }}
             {{- end }}
       volumes:
-        {{- if .Values.persistence.enabled }}
-        - name: model-cache
-          persistentVolumeClaim:
-            claimName: {{ include "text-embeddings-inference.fullname" . }}-model-cache
-        {{- end }}
         {{- with .Values.volumes }}
-        {{- toYaml . | nindent 8 }}
+          {{- toYaml . | nindent 8 }}
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:

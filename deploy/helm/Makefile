@@ -9,10 +9,6 @@ NAMESPACE ?= $(shell oc project -q 2>/dev/null || echo "default")
 OPENAI_API_ENDPOINT ?= https://llama-4-scout-17b-16e-w4a16-maas-apicast-production.apps.prod.rhoai.rh-aiservices-bu.com:443/v1
 OPENAI_MODEL ?= llama-4-scout-17b-16e-w4a16
 OPENAI_TEMPERATURE ?= 0.7
-# For RAG Embedding API (TEI - text-embeddings-inference)
-# Model is hardcoded to nomic-ai/nomic-embed-text-v1.5
-# Service URL defaults to http://alm-embedding:8080 (can be overridden via EMBEDDINGS_LLM_URL)
-EMBEDDINGS_LLM_URL ?= http://alm-embedding:8080
 ANSIBLE_LOG_MONITOR_CHART := ansible-log-monitor
 
 # Parameter validation functions
@@ -73,32 +69,12 @@ define prompt_openai_credentials
 		echo "Using provided OPENAI_TEMPERATURE: $$OPENAI_TEMPERATURE"; \
 	fi; \
 	echo ""; \
-	echo "============================================"; \
-	echo "   RAG Embedding Configuration"; \
-	echo "============================================"; \
-	echo ""; \
-	echo "Using TEI (text-embeddings-inference) service for embeddings"; \
-	echo "Model: nomic-ai/nomic-embed-text-v1.5 (hardcoded)"; \
-	echo ""; \
-	if [ -z "$$EMBEDDINGS_LLM_URL" ]; then \
-		echo -n "Enter TEI EMBEDDING SERVICE URL [default: $(EMBEDDINGS_LLM_URL)]: "; \
-		read EMBEDDINGS_URL_INPUT; \
-		if [ -z "$$EMBEDDINGS_URL_INPUT" ]; then \
-			export EMBEDDINGS_LLM_URL="$(EMBEDDINGS_LLM_URL)"; \
-		else \
-			export EMBEDDINGS_LLM_URL=$$EMBEDDINGS_URL_INPUT; \
-		fi; \
-	else \
-		echo "Using provided EMBEDDINGS_LLM_URL: $$EMBEDDINGS_LLM_URL"; \
-	fi; \
-	echo ""; \
 	echo "Creating Kubernetes secret '\''model-secret'\''..."; \
 	oc create secret generic model-secret \
 		--from-literal=OPENAI_API_TOKEN=$$OPENAI_API_TOKEN \
 		--from-literal=OPENAI_API_ENDPOINT=$$OPENAI_API_ENDPOINT \
 		--from-literal=OPENAI_MODEL=$$OPENAI_MODEL \
 		--from-literal=OPENAI_TEMPERATURE=$$OPENAI_TEMPERATURE \
-		--from-literal=EMBEDDINGS_LLM_URL=$$EMBEDDINGS_LLM_URL \
 		-n "$$NAMESPACE_VAR" --dry-run=client -o yaml | oc apply -f -; \
 	echo "Secret '\''model-secret'\'' created successfully"; \
 	echo ""'
