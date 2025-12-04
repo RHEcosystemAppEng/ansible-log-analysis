@@ -22,7 +22,7 @@ async def cluster_logs_node(
 ) -> Command:
     logs = state.log_entry.message
     log_cluster = infer_cluster_log(logs)
-    return Command(goto="summarize_log_node", update={"logCluster": log_cluster})
+    return Command(goto="no_clustering_graph_node", update={"logCluster": log_cluster})
 
 
 async def summarize_log_node(
@@ -95,12 +95,10 @@ async def get_more_context_node(
     )
 
 
-def build_graph():
-    """call ainvoke to the graph to invoke it asynchronously"""
+def graph_without_clustering():
     builder = StateGraph(GrafanaAlertState)
-    builder.add_edge(START, "cluster_logs_node")
-    builder.add_node("cluster_logs_node", cluster_logs_node)
-    builder.add_node(summarize_log_node)
+    builder.add_edge(START, "summarize_log_node")
+    builder.add_node("summarize_log_node", summarize_log_node)
     builder.add_node(classify_log_node)
     builder.add_node(suggest_step_by_step_solution_node)
     builder.add_node(router_step_by_step_solution_node)
@@ -109,8 +107,16 @@ def build_graph():
     return builder.compile()
 
 
-_compiled_graph = build_graph()
+async def no_clustering_graph_node(state: GrafanaAlertState) -> Command:
+    graph = await graph_without_clustering().ainvoke(state)
+    return Command(goto=END, update=graph)
 
 
-def get_graph():
-    return _compiled_graph
+# infernece graph
+def inference_graph():
+    builder = StateGraph(GrafanaAlertState)
+    builder.add_edge(START, "cluster_logs_node")
+    builder.add_node("cluster_logs_node", cluster_logs_node)
+    builder.add_node(no_clustering_graph_node)
+
+    return builder.compile()

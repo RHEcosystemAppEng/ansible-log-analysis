@@ -7,6 +7,8 @@ from typing import Generator
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlmodel.ext.asyncio.session import AsyncSession
 from alm.models import GrafanaAlert
+from alm.agents.state import GrafanaAlertState
+from alm.models import LogEntry
 
 # Create SQLModel engine
 engine = create_async_engine(
@@ -45,5 +47,23 @@ def convert_state_to_grafana_alert(state: dict) -> GrafanaAlert:
         needMoreContext=state["needMoreContext"],
         stepByStepSolution=state["stepByStepSolution"],
         contextForStepByStepSolution=state["contextForStepByStepSolution"],
-        log_labels=state["log_entry"].log_labels.model_dump(),
+        log_labels=state["log_entry"].log_labels,
+    )
+
+
+def convert_grafana_alert_to_grafana_alert_state(
+    alert: GrafanaAlert,
+) -> GrafanaAlertState:
+    return GrafanaAlertState(
+        log_entry=LogEntry(
+            timestamp=alert.logTimestamp.isoformat(),
+            log_labels=alert.log_labels,
+            message=alert.logMessage,
+        ),
+        logSummary=alert.logSummary,
+        expertClassification=alert.expertClassification,
+        logCluster=alert.logCluster,
+        needMoreContext=alert.needMoreContext,
+        stepByStepSolution=alert.stepByStepSolution,
+        contextForStepByStepSolution=alert.contextForStepByStepSolution,
     )

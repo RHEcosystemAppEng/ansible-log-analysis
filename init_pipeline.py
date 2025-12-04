@@ -1,5 +1,5 @@
 import asyncio
-from alm.pipeline.offline import whole_pipeline
+from alm.pipeline.offline import training_pipeline
 from alm.utils.phoenix import register_phoenix
 import os
 import glob
@@ -171,7 +171,7 @@ async def main():
     print("\n" + "=" * 70)
     print("RUNNING MAIN PIPELINE")
     print("=" * 70)
-    await whole_pipeline()
+    await training_pipeline()
 
     print("\n" + "=" * 70)
     print("✓ INITIALIZATION COMPLETE")
