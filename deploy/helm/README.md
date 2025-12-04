@@ -119,11 +119,17 @@ make install \
 ```
 
 #### Disable AAP Mock (for production with real AAP logs)
+
+To disable the mock log generator, edit `ansible-log-monitor/values.yaml`:
+
+```yaml
+aap-mock:
+  enabled: false
+```
+
+Then run:
 ```bash
-# Install without the mock log generator
-helm install alm ./ansible-log-monitor \
-  --set aap-mock.enabled=false \
-  --set backend.env.OPENAI_API_TOKEN=abc123
+make install
 ```
 
 ## Sub-Charts
@@ -135,63 +141,35 @@ Mock Ansible Automation Platform log generator for testing and demonstration.
 
 - **Documentation**: `charts/aap-mock/README.md`
 - **Enabled by default**: Yes
-- **Disable**: `--set aap-mock.enabled=false`
+- **Disable**: Set `aap-mock.enabled: false` in `values.yaml`
 - **Configure**: See `charts/aap-mock/values.yaml`
 
-Example:
+Example - to increase storage for aap-mock, edit `ansible-log-monitor/values.yaml`:
+```yaml
+aap-mock:
+  persistence:
+    data:
+      size: 5Gi
+    logs:
+      size: 2Gi
+```
+
+Then run:
 ```bash
-# Increase storage for aap-mock
-helm install alm ./ansible-log-monitor \
-  --set aap-mock.persistence.data.size=5Gi \
-  --set aap-mock.persistence.logs.size=2Gi
+make install
 ```
 
 ### Other Sub-Charts
 - **backend** - Main ALM backend service
 - **ui** - Gradio UI (`charts/ui/README.md`)
 - **annotation-interface** - Annotation tool (`charts/annotation-interface/README.md`)
-- **loki-stack** - Alloy ConfigMap for aap-mock log collection (`charts/loki-stack/README.md`)
 - **pgvector** - PostgreSQL database
 - **minio** - Object storage
 - **mcp-servers** - MCP protocol servers
 - **phoenix** - Observability platform
 
-## Alloy Configuration for AAP Mock Logs
+## Log Collection
 
-If you have Loki and Alloy already deployed, you can enable the Alloy ConfigMap to collect logs from the `aap-mock` pods.
+The main `ansible-log-monitor` chart includes Alloy configuration that automatically collects logs from all pods in the cluster, including `aap-mock`. No additional configuration is needed.
 
-### Enable Alloy ConfigMap
-
-```bash
-helm install alm ./ansible-log-monitor -n <namespace> \
-  --set loki-stack.alloy.enabled=true \
-  --set loki-stack.alloy.lokiUrl="http://<your-loki-service>:3100/loki/api/v1/push"
-```
-
-This creates a ConfigMap named `alloy-loki` that configures Alloy to:
-1. Discover pods with label `app.kubernetes.io/name=aap-mock`
-2. Collect their stdout logs
-3. Add labels (namespace, pod, container, app, instance, node)
-4. Parse log level and add `job="aap-mock"` label
-5. Forward logs to Loki
-
-### Configuration Options
-
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `loki-stack.alloy.enabled` | `false` | Enable Alloy ConfigMap creation |
-| `loki-stack.alloy.configMapName` | `alloy-loki` | Name of the ConfigMap |
-| `loki-stack.alloy.lokiUrl` | `http://loki-single:3100/loki/api/v1/push` | Loki push endpoint |
-| `loki-stack.alloy.clusterName` | `""` | Cluster name for external labels (defaults to namespace) |
-| `loki-stack.alloy.logLevel` | `info` | Alloy log level |
-
-### Using with Existing Alloy
-
-If Alloy is already deployed, configure it to use the ConfigMap:
-
-```bash
-# When deploying Alloy, point it to the ConfigMap created by ansible-log-monitor
-helm install alloy grafana/alloy -n <namespace> \
-  --set alloy.configMap.create=false \
-  --set alloy.configMap.name=alloy-loki
-```
+For a standalone Alloy configuration example specific to aap-mock, see `config/alloy/alloy-aap-mock.alloy`.

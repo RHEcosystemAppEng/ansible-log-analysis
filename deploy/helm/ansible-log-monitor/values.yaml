@@ -375,22 +375,3 @@ aap-mock:
   #   env:
   #     REPLAY_RATE: "100"
   #     LOOP_ENABLED: "true"
-
-# Loki Stack configuration
-# NOTE: Loki and Alloy should be deployed separately using official Grafana Helm charts.
-# See deploy/helm/README.md for deployment instructions.
-# The loki-stack sub-chart only provides the Alloy ConfigMap template.
-loki-stack:
-  # Alloy ConfigMap for aap-mock log collection
-  # Enable this to create a ConfigMap that tells Alloy how to collect aap-mock logs
-  # NOTE: You must deploy Alloy separately using: helm install alloy grafana/alloy
-  alloy:
-    enabled: false  # Set to true to create the Alloy ConfigMap
-    configMapName: "alloy-loki"  # Must match Alloy Helm chart: --set alloy.configMap.name=alloy-loki
-    logLevel: "info"
-    lokiUrl: "http://loki-single:3100/loki/api/v1/push"  # Matches alm-infra-final Loki service
-    clusterName: ""  # Cluster name for external labels (defaults to namespace)
-    batchWait: "1s"
-    batchSize: "1MB"
-    # externalLabels:
-    #   environment: "production"
