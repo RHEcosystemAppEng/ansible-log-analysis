@@ -86,39 +86,79 @@ stop: ## 🛑 Stop all services
 	@echo "👋 All services stopped"
 
 stop-postgres: ## 🛑 Stop PostgreSQL database
-	@$(COMPOSE_CMD) -f compose.yaml down postgres
+	@$(COMPOSE_CMD) -f compose.yaml stop postgres || true
+	@$(COMPOSE_CMD) -f compose.yaml rm -f postgres || true
 	@echo "   ✓ PostgreSQL stopped"
 
 stop-phoenix: ## 🛑 Stop Phoenix
-	@$(COMPOSE_CMD) -f compose.yaml down phoenix
+	@$(COMPOSE_CMD) -f compose.yaml stop phoenix || true
+	@$(COMPOSE_CMD) -f compose.yaml rm -f phoenix || true
 	@echo "   ✓ Phoenix stopped"
 
 stop-loki-stack: ## 🛑 Stop Loki stack (Loki, Loki MCP Server, Grafana, Promtail)
-	@$(COMPOSE_CMD) -f compose.yaml down loki-mcp-server grafana promtail loki
+	@$(COMPOSE_CMD) -f compose.yaml stop loki-mcp-server grafana promtail loki || true
+	@$(COMPOSE_CMD) -f compose.yaml rm -f loki-mcp-server grafana promtail loki || true
 	@echo "   ✓ Loki stack stopped"
 
 stop-aap-mock: ## 🛑 Stop AAP Mock
-	@$(COMPOSE_CMD) -f compose.yaml down aap-mock
+	@$(COMPOSE_CMD) -f compose.yaml stop aap-mock || true
+	@$(COMPOSE_CMD) -f compose.yaml rm -f aap-mock || true
 	@echo "   ✓ AAP Mock stopped"
 
 kill-ports: ## 🔌 Kill processes using required ports
-	@fuser -k 7860/tcp || true
+	@if [ "$$(uname)" = "Darwin" ]; then \
+		lsof -ti :7860 | xargs kill -9 2>/dev/null || true; \
+	else \
+		fuser -k 7860/tcp 2>/dev/null || true; \
+	fi
 	@echo "   ✓ UI 7860 killed"
-	@fuser -k 7861/tcp || true
+	@if [ "$$(uname)" = "Darwin" ]; then \
+		lsof -ti :7861 | xargs kill -9 2>/dev/null || true; \
+	else \
+		fuser -k 7861/tcp 2>/dev/null || true; \
+	fi
 	@echo "   ✓ Annotation 7861 killed"
-	@fuser -k 8000/tcp || true
+	@if [ "$$(uname)" = "Darwin" ]; then \
+		lsof -ti :8000 | xargs kill -9 2>/dev/null || true; \
+	else \
+		fuser -k 8000/tcp 2>/dev/null || true; \
+	fi
 	@echo "   ✓ Backend 8000 killed"
-	@fuser -k 6006/tcp || true
+	@if [ "$$(uname)" = "Darwin" ]; then \
+		lsof -ti :6006 | xargs kill -9 2>/dev/null || true; \
+	else \
+		fuser -k 6006/tcp 2>/dev/null || true; \
+	fi
 	@echo "   ✓ Phoenix 6006 killed"
-	@fuser -k 4317/tcp || true
+	@if [ "$$(uname)" = "Darwin" ]; then \
+		lsof -ti :4317 | xargs kill -9 2>/dev/null || true; \
+	else \
+		fuser -k 4317/tcp 2>/dev/null || true; \
+	fi
 	@echo "   ✓ Phoenix 4317 killed"
-	@fuser -k 3100/tcp || true
+	@if [ "$$(uname)" = "Darwin" ]; then \
+		lsof -ti :3100 | xargs kill -9 2>/dev/null || true; \
+	else \
+		fuser -k 3100/tcp 2>/dev/null || true; \
+	fi
 	@echo "   ✓ Loki 3100 killed"
-	@fuser -k 8080/tcp || true
+	@if [ "$$(uname)" = "Darwin" ]; then \
+		lsof -ti :8080 | xargs kill -9 2>/dev/null || true; \
+	else \
+		fuser -k 8080/tcp 2>/dev/null || true; \
+	fi
 	@echo "   ✓ Loki MCP Server 8080 killed"
-	@fuser -k 3000/tcp || true
+	@if [ "$$(uname)" = "Darwin" ]; then \
+		lsof -ti :3000 | xargs kill -9 2>/dev/null || true; \
+	else \
+		fuser -k 3000/tcp 2>/dev/null || true; \
+	fi
 	@echo "   ✓ Grafana 3000 killed"
-	@fuser -k 8081/tcp || true
+	@if [ "$$(uname)" = "Darwin" ]; then \
+		lsof -ti :8081 | xargs kill -9 2>/dev/null || true; \
+	else \
+		fuser -k 8081/tcp 2>/dev/null || true; \
+	fi
 	@echo "   ✓ AAP Mock 8081 killed"
 
 status: ## 📊 Show status of all services

@@ -72,6 +72,7 @@ services:
     image: grafana/promtail:latest
     user: "root"
     volumes:
+      # NOTE: :z suffix is for SELinux (RHEL/Fedora/CentOS). macOS users: remove :z if you get "lsetxattr: operation not supported"
       - ./config/promtail/promtail-local-config.yaml:/etc/promtail/config.yaml:Z
       - ../../data/logs/:/var/log/ansible_logs:Z
       - /var/run/docker.sock:/var/run/docker.sock:ro  # For Docker log collection
