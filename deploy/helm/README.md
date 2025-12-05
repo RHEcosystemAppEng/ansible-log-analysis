@@ -4,6 +4,20 @@ A Helm-based deployment for the Ansible Log Monitor system on OpenShift.
 
 > **Note**: All commands use the current OpenShift project by default. No need to specify `NAMESPACE` unless you want to use a different one.
 
+## Components
+
+The Ansible Log Monitor stack includes the following components:
+
+- **Backend** - FastAPI application with LangGraph agentic workflow
+- **UI** - Gradio-based user interface for log analysis
+- **Annotation Interface** - Tool for improving AI workflow
+- **AAP Mock** - Mock Ansible Automation Platform log generator (for testing)
+- **Loki Stack** - Log aggregation (Loki + Alloy/Promtail + Grafana)
+- **PostgreSQL** (pgvector) - Database for storing processed alerts
+- **MinIO** - Object storage for artifacts
+- **MCP Servers** - Model Context Protocol servers (Loki integration)
+- **Phoenix** - Observability and tracing
+
 ## Prerequisites
 
 - OpenShift CLI (`oc`) installed and configured
@@ -102,3 +116,60 @@ make install \
   OPENAI_API_TOKEN=abc123 \
   OPENAI_MODEL=custom-model \
   OPENAI_TEMPERATURE=0.5
+```
+
+#### Disable AAP Mock (for production with real AAP logs)
+
+To disable the mock log generator, edit `ansible-log-monitor/values.yaml`:
+
+```yaml
+aap-mock:
+  enabled: false
+```
+
+Then run:
+```bash
+make install
+```
+
+## Sub-Charts
+
+The `ansible-log-monitor` chart includes several sub-charts that can be individually configured:
+
+### AAP Mock (aap-mock)
+Mock Ansible Automation Platform log generator for testing and demonstration.
+
+- **Documentation**: `charts/aap-mock/README.md`
+- **Enabled by default**: Yes
+- **Disable**: Set `aap-mock.enabled: false` in `values.yaml`
+- **Configure**: See `charts/aap-mock/values.yaml`
+
+Example - to increase storage for aap-mock, edit `ansible-log-monitor/values.yaml`:
+```yaml
+aap-mock:
+  persistence:
+    data:
+      size: 5Gi
+    logs:
+      size: 2Gi
+```
+
+Then run:
+```bash
+make install
+```
+
+### Other Sub-Charts
+- **backend** - Main ALM backend service
+- **ui** - Gradio UI (`charts/ui/README.md`)
+- **annotation-interface** - Annotation tool (`charts/annotation-interface/README.md`)
+- **pgvector** - PostgreSQL database
+- **minio** - Object storage
+- **mcp-servers** - MCP protocol servers
+- **phoenix** - Observability platform
+
+## Log Collection
+
+The main `ansible-log-monitor` chart includes Alloy configuration that automatically collects logs from all pods in the cluster, including `aap-mock`. No additional configuration is needed.
+
+For a standalone Alloy configuration example specific to aap-mock, see `config/alloy/alloy-aap-mock.alloy`.
