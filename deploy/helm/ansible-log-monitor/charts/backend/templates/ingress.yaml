@@ -23,6 +23,7 @@ spec:
       secretName: {{ .secretName }}
     {{- end }}
   {{- end }}
+  {{- if .Values.ingress.hosts }}
   rules:
     {{- range .Values.ingress.hosts }}
     - host: {{ .host | quote }}
@@ -40,4 +41,7 @@ spec:
                   number: {{ $.Values.service.port }}
           {{- end }}
     {{- end }}
+  {{- else }}
+  {{- fail "Ingress is enabled but no hosts are configured. Please set ingress.hosts in values.yaml or disable ingress." }}
+  {{- end }}
 {{- end }}

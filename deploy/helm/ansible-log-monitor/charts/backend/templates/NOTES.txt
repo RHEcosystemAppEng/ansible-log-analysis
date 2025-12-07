@@ -1,7 +1,11 @@
 FastAPI Backend Service has been deployed successfully!
 
 1. Get the application URL by running these commands:
-{{- if .Values.ingress.enabled }}
+{{- if .Values.route.enabled }}
+  oc get route {{ include "backend.fullname" . }} -n {{ .Release.Namespace }} -o jsonpath='{.spec.host}'
+  echo ""
+  echo "Backend API available at: https://$(oc get route {{ include "backend.fullname" . }} -n {{ .Release.Namespace }} -o jsonpath='{.spec.host}')"
+{{- else if .Values.ingress.enabled }}
 {{- range $host := .Values.ingress.hosts }}
   {{- range .paths }}
   http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $host.host }}{{ .path }}
