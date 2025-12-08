@@ -15,6 +15,9 @@ from alm.agents.loki_agent.constants import (
     NANOSECONDS_PER_SECOND,
 )
 from alm.models import LogEntry, LogLevel
+from alm.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 class ToolStatus(str, Enum):
@@ -104,7 +107,7 @@ def build_log_context(logs: List["LogEntry"]) -> str:
     Preserves chronological order from Loki streams.
     """
     if not logs:
-        print("WARNING: No logs found to build context from.")
+        logger.warning("No logs found to build context from.")
         return ""
 
     # Group logs by labels (excluding detected_level to keep all logs from same file together)

@@ -26,6 +26,9 @@ from alm.agents.prompts.prompts import (
     router_step_by_step_solution_user_message,
     router_step_by_step_solution_system_message,
 )
+from alm.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 # Can be improve by using eval-optimizer.
@@ -128,7 +131,7 @@ def _embed_logs(logs: List[str]):
         show_progress_bar=True,
         # batch_size=10,
     )
-    print("finished embeddings")
+    logger.info("finished embeddings")
 
     return embeddings
 

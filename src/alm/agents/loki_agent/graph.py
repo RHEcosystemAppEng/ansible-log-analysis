@@ -14,6 +14,9 @@ from alm.agents.loki_agent.nodes import identify_missing_data
 from alm.agents.loki_agent.agent import create_loki_agent
 from alm.agents.loki_agent.schemas import LogToolOutput, LokiAgentOutput, ToolStatus
 from alm.llm import get_llm
+from alm.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 async def identify_missing_log_data_node(
@@ -90,7 +93,7 @@ async def loki_execute_query_node(
         if result.agent_result and isinstance(result.agent_result, LogToolOutput):
             additional_context = result.agent_result.build_context()
         else:
-            print("WARNING: No logs returned from Loki query.")
+            logger.warning("No logs returned from Loki query.")
             additional_context = ""
         if old_loki_context and additional_context:
             additional_context = old_loki_context + "\n\n" + additional_context
@@ -104,8 +107,8 @@ async def loki_execute_query_node(
         )
 
     except Exception as e:
-        print(f"Exception in loki_execute_query_node: {e}")
-        print("WARNING: Continuing without Loki context due to error.")
+        logger.error("Exception in loki_execute_query_node: %s", e)
+        logger.warning("Continuing without Loki context due to error.")
         return Command(
             goto=END,
             update={

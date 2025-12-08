@@ -9,6 +9,9 @@ from alm.models import GrafanaAlert
 from sqlmodel import select
 from alm.database import convert_state_to_grafana_alert
 from alm.database import init_tables
+from alm.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 async def _add_or_update_alert(alert):
@@ -35,12 +38,12 @@ async def load_alerts(load_alerts_from_db):
         alerts = [
             alert for alert in ingest_alerts("data/logs/failed") if alert is not None
         ]
-        print(f"alerts ingested {len(alerts)}")
+        logger.info("alerts ingested %d", len(alerts))
     else:
         async with get_session() as db:
             alerts = await db.exec(select(GrafanaAlert))
             alerts = alerts.all()
-            print(f"alerts loaded from db {len(alerts)}")
+            logger.info("alerts loaded from db %d", len(alerts))
     return alerts
 
 
@@ -84,4 +87,4 @@ async def training_pipeline(restart_db=True, load_alerts_from_db=False):
     start_time = time.time()
     await asyncio.gather(*[_add_or_update_alert(alert) for alert in alerts])
     elapsed_time = time.time() - start_time
-    print(f"database alerts added - Time: {elapsed_time:.2f}s")
+    logger.info("database alerts added - Time: %.2fs", elapsed_time)

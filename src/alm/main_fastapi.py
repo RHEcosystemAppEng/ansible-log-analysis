@@ -8,6 +8,9 @@ from typing import Optional
 from dotenv import load_dotenv
 from fastapi import APIRouter, FastAPI
 from alm.utils.phoenix import register_phoenix
+from alm.utils.logger import configure_logging
+
+configure_logging()
 
 # Load environment variables before Phoenix registration
 load_dotenv()

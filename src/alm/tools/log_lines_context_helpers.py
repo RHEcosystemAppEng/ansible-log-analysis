@@ -15,6 +15,9 @@ from alm.agents.loki_agent.constants import (
     MAX_LOGS_PER_QUERY,
 )
 from alm.agents.loki_agent.schemas import LogToolOutput
+from alm.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 def calculate_time_window(
@@ -42,7 +45,7 @@ def calculate_time_window(
     start_time_rfc3339 = format_rfc3339_utc(start_datetime)
     end_time_rfc3339 = format_rfc3339_utc(end_datetime)
 
-    print(f"📅 Time window: {start_time_rfc3339} to {end_time_rfc3339}")
+    logger.debug("Time window: %s to %s", start_time_rfc3339, end_time_rfc3339)
 
     return start_time_rfc3339, end_time_rfc3339
 
@@ -81,7 +84,7 @@ async def query_logs_in_time_window(
         error_msg = f"Failed to retrieve context logs, Status: {context_data.status}, Logs: {context_data.logs}"
         return None, error_msg
 
-    print(f"📊 Fetched {len(context_data.logs)} logs from Loki")
+    logger.debug("Fetched %d logs from Loki", len(context_data.logs))
     return context_data, None
 
 
@@ -107,7 +110,7 @@ def extract_context_lines_above(
         if target_message in log.message:
             target_idx = i
             break
-    print(f"Target log message found at index: {target_idx}")
+    logger.debug("Target log message found at index: %s", target_idx)
 
     if target_idx is None:
         return [], f"Target log message not found in the {len(all_logs)} fetched logs"
@@ -117,10 +120,10 @@ def extract_context_lines_above(
     start_idx = max(0, target_idx - lines_above)
     end_idx = target_idx + 1  # +1 to include the target line
 
-    print(f"Start index: {start_idx}, End index: {end_idx}")
+    logger.debug("Start index: %d, End index: %d", start_idx, end_idx)
 
     context_logs = all_logs[start_idx:end_idx]
 
-    print(f"Context logs length: {len(context_logs)}")
+    logger.debug("Context logs length: %d", len(context_logs))
 
     return context_logs, None

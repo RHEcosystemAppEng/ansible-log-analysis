@@ -9,6 +9,9 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 from alm.models import GrafanaAlert
 from alm.agents.state import GrafanaAlertState
 from alm.models import LogEntry
+from alm.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 # Create SQLModel engine
 engine = create_async_engine(
@@ -22,7 +25,7 @@ engine = create_async_engine(
 async def init_tables(delete_tables=False):
     async with engine.begin() as conn:
         if delete_tables:
-            print("Starting to delete tables")
+            logger.info("Starting to delete tables")
             await conn.run_sync(GrafanaAlert.metadata.drop_all)
         await conn.run_sync(GrafanaAlert.metadata.create_all)
 

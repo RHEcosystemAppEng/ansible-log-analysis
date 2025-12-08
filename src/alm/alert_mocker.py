@@ -10,6 +10,9 @@ from alm.patterns.ingestion import (
     TESTING_LOG_FATAL,
     TESTING_LOG_FAILED,
 )
+from alm.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 def _filter_matches_end_with_ignoring(matches: list[re.Match]) -> list[re.Match]:
@@ -88,6 +91,6 @@ def ingest_alerts(directory: str) -> list[GrafanaAlert]:
                 success_count += 1
             except Exception:
                 error_count += 1
-    print(f"{error_count} errors and {success_count} successes")
-    print(f"alerts: {len(alerts)}")
+    logger.info("%d errors and %d successes", error_count, success_count)
+    logger.info("alerts: %d", len(alerts))
     return alerts

@@ -9,6 +9,10 @@ This provides a clean interface for agent integration.
 from typing import Dict, Any, Optional, List
 from query_pipeline import AnsibleErrorQueryPipeline
 
+from alm.utils.logger import get_logger
+
+logger = get_logger(__name__)
+
 
 class AnsibleErrorRAG:
     """
@@ -141,52 +145,55 @@ def main():
     """
     Example usage of the API.
     """
-    print("=" * 70)
-    print("ANSIBLE ERROR RAG - API EXAMPLE")
-    print("=" * 70)
+    logger.info("=" * 70)
+    logger.info("ANSIBLE ERROR RAG - API EXAMPLE")
+    logger.info("=" * 70)
 
     # Initialize RAG system
     rag = AnsibleErrorRAG(top_n=3, similarity_threshold=0.6)
 
     # Example 1: Search for errors
-    print("\n1. Search for errors:")
+    logger.info("1. Search for errors:")
     log_summary = "The role name does not follow the naming convention"
     results = rag.search_errors(log_summary)
 
-    print(f"Query: {log_summary}")
-    print(f"Found: {results['metadata']['num_results']} results")
+    logger.info("Query: %s", log_summary)
+    logger.info("Found: %d results", results["metadata"]["num_results"])
     for i, result in enumerate(results["results"], 1):
-        print(
-            f"  {i}. {result['error_title']} (score: {result['similarity_score']:.3f})"
+        logger.info(
+            "  %d. %s (score: %.3f)",
+            i,
+            result["error_title"],
+            result["similarity_score"],
         )
 
     # Example 2: Get best match
-    print("\n2. Get best match:")
+    logger.info("2. Get best match:")
     best = rag.get_best_match(log_summary)
     if best:
-        print(f"Best match: {best['error_title']}")
-        print(f"Confidence: {best['similarity_score']:.3f}")
+        logger.info("Best match: %s", best["error_title"])
+        logger.info("Confidence: %.3f", best["similarity_score"])
     else:
-        print("No confident match found")
+        logger.info("No confident match found")
 
     # Example 3: Get resolution steps
-    print("\n3. Get resolution steps:")
+    logger.info("3. Get resolution steps:")
     resolution = rag.get_resolution_steps(log_summary)
     if resolution:
-        print(f"Resolution: {resolution[:200]}...")
+        logger.info("Resolution: %s...", resolution[:200])
     else:
-        print("No resolution found")
+        logger.info("No resolution found")
 
     # Example 4: Get similar errors
-    print("\n4. Get similar errors:")
+    logger.info("4. Get similar errors:")
     similar = rag.get_similar_errors(log_summary, num_results=5)
-    print(f"Found {len(similar)} similar errors:")
+    logger.info("Found %d similar errors:", len(similar))
     for i, err in enumerate(similar, 1):
-        print(f"  {i}. {err['error_title'][:50]}...")
+        logger.info("  %d. %s...", i, err["error_title"][:50])
 
-    print("\n" + "=" * 70)
-    print("✓ API EXAMPLES COMPLETE")
-    print("=" * 70)
+    logger.info("=" * 70)
+    logger.info("API EXAMPLES COMPLETE")
+    logger.info("=" * 70)
 
 
 if __name__ == "__main__":

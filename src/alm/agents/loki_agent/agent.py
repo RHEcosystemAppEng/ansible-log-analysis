@@ -15,6 +15,9 @@ from alm.agents.loki_agent.constants import (
 )
 from alm.agents.loki_agent.schemas import LogToolOutput, LokiAgentOutput, ToolStatus
 from alm.llm import get_llm
+from alm.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 class LokiQueryAgent:
@@ -114,23 +117,16 @@ class LokiQueryAgent:
                         + "\n".join(context_parts)
                     )
 
-            print(f"\n\n📊 Enhanced Request:\n{enhanced_request}\n\n")
+            logger.debug("Enhanced Request:\n%s", enhanced_request)
 
             # Execute the agent
             result = await self.agent.ainvoke(
                 {"messages": [{"role": "user", "content": enhanced_request}]}
             )
 
-            # print(f"\n\n📊 Result: {result}\n\n")
-
             # Extract tool results from ToolMessages
             messages = result.get("messages", [])
             tool_messages = [msg for msg in messages if isinstance(msg, ToolMessage)]
-            # # FOR DEBUG: Print all AIMessage objects in the messages list
-            # from langchain_core.messages import AIMessage
-            # ai_messages = [msg for msg in messages if isinstance(msg, AIMessage)]
-            # for ai_msg in ai_messages:
-            #     print(f"\n\n🤖 AIMessage:\n{ai_msg}\n\n")
 
             if tool_messages:
                 # Get the last tool result
@@ -143,8 +139,6 @@ class LokiQueryAgent:
                         tool_result
                     )
 
-                    # print(f"\n\n📊 LogToolOutput object:\n{log_tool_output_object}\n\n")
-
                     return LokiAgentOutput(
                         status=ToolStatus.SUCCESS,
                         user_request=user_request,
@@ -153,7 +147,7 @@ class LokiQueryAgent:
                         tool_messages=tool_messages,
                     )
                 except json.JSONDecodeError as e:
-                    print(f"JSON decode error in query_logs: {e}")
+                    logger.error("JSON decode error in query_logs: %s", e)
                     # If not JSON, return as text
                     return LokiAgentOutput(
                         status=ToolStatus.SUCCESS,
@@ -183,10 +177,7 @@ class LokiQueryAgent:
                 )
 
         except Exception as e:
-            print(f"Exception in query_logs: {e}")
-            import traceback
-
-            traceback.print_exc()
+            logger.error("Exception in query_logs: %s", e, exc_info=True)
 
             return LokiAgentOutput(
                 status=ToolStatus.ERROR,

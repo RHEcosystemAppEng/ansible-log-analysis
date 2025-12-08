@@ -21,6 +21,9 @@ from typing import List, Dict, Any, Optional
 from dataclasses import dataclass, asdict
 
 from alm.rag.embed_and_index import AnsibleErrorEmbedder
+from alm.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 @dataclass
@@ -102,7 +105,7 @@ class AnsibleErrorQueryPipeline:
 
         # Initialize or use provided embedder
         if embedder is None:
-            print("Initializing embedder from config...")
+            logger.info("Initializing embedder from config...")
             self.embedder = AnsibleErrorEmbedder()
             self.embedder.load_index()
         else:
@@ -112,11 +115,11 @@ class AnsibleErrorQueryPipeline:
         if self.embedder.index is None:
             raise ValueError("Embedder must have a loaded index")
 
-        print("✓ Query pipeline initialized")
-        print(f"  Top-k candidates: {self.top_k}")
-        print(f"  Top-n results: {self.top_n}")
-        print(f"  Similarity threshold: {self.similarity_threshold}")
-        print(f"  Total errors in index: {len(self.embedder.error_store)}")
+        logger.info("Query pipeline initialized")
+        logger.info("  Top-k candidates: %d", self.top_k)
+        logger.info("  Top-n results: %d", self.top_n)
+        logger.info("  Similarity threshold: %s", self.similarity_threshold)
+        logger.info("  Total errors in index: %d", len(self.embedder.error_store))
 
     def query(
         self,
@@ -144,12 +147,17 @@ class AnsibleErrorQueryPipeline:
         top_n = top_n or self.top_n
         similarity_threshold = similarity_threshold or self.similarity_threshold
 
-        print(f"\n{'=' * 70}")
-        print("QUERYING RAG SYSTEM")
-        print(f"{'=' * 70}")
-        print(f"Query: {log_summary[:100]}{'...' if len(log_summary) > 100 else ''}")
-        print(
-            f"Parameters: top_k={top_k}, top_n={top_n}, threshold={similarity_threshold}"
+        logger.info("=" * 70)
+        logger.info("QUERYING RAG SYSTEM")
+        logger.info("=" * 70)
+        logger.info(
+            "Query: %s", log_summary[:100] + ("..." if len(log_summary) > 100 else "")
+        )
+        logger.info(
+            "Parameters: top_k=%d, top_n=%d, threshold=%s",
+            top_k,
+            top_n,
+            similarity_threshold,
         )
 
         # Step 5.1: Receive log summary (done)
@@ -182,10 +190,10 @@ class AnsibleErrorQueryPipeline:
             "model": self.embedder.model_name,
         }
 
-        print(f"\n✓ Query complete in {search_time_ms:.2f}ms")
-        print(f"  Retrieved: {len(candidates)} candidates")
-        print(f"  Filtered: {len(filtered_results)} above threshold")
-        print(f"  Returned: {len(final_results)} results")
+        logger.info("Query complete in %.2fms", search_time_ms)
+        logger.info("  Retrieved: %d candidates", len(candidates))
+        logger.info("  Filtered: %d above threshold", len(filtered_results))
+        logger.info("  Returned: %d results", len(final_results))
 
         return QueryResponse(
             query=log_summary, results=final_results, metadata=metadata
@@ -197,14 +205,14 @@ class AnsibleErrorQueryPipeline:
 
         Step 5.2: Uses same model as indexing, with query-specific prefix for Nomic.
         """
-        print("\nStep 5.2: Generating query embedding...")
+        logger.debug("Step 5.2: Generating query embedding...")
 
         # Add task prefix for Nomic models
         use_task_prefix = "nomic" in self.embedder.model_name.lower()
 
         if use_task_prefix:
             query_text = f"search_query: {log_summary}"
-            print("  Using task prefix: 'search_query:'")
+            logger.debug("  Using task prefix: 'search_query:'")
         else:
             query_text = log_summary
 
@@ -215,7 +223,7 @@ class AnsibleErrorQueryPipeline:
 
         # Verify normalization
         norm = np.linalg.norm(embedding)
-        print(f"  ✓ Embedding generated (norm={norm:.4f})")
+        logger.debug("  Embedding generated (norm=%.4f)", norm)
 
         return embedding
 
@@ -227,7 +235,7 @@ class AnsibleErrorQueryPipeline:
 
         Step 5.3: Retrieves top-k most similar error embeddings.
         """
-        print(f"\nStep 5.3: Similarity search (top-k={top_k})...")
+        logger.debug("Step 5.3: Similarity search (top-k=%d)...", top_k)
 
         # Reshape for FAISS (needs 2D array)
         query_vector = query_embedding.reshape(1, -1)
@@ -240,7 +248,7 @@ class AnsibleErrorQueryPipeline:
         similarities = similarities[0]
         indices = indices[0]
 
-        print(f"  ✓ Found {len(indices)} candidates")
+        logger.debug("  Found %d candidates", len(indices))
 
         # Step 5.4: Fetch complete error data
         results = []
@@ -275,10 +283,13 @@ class AnsibleErrorQueryPipeline:
 
         # Log top results
         if results:
-            print("\n  Top candidates:")
+            logger.debug("  Top candidates:")
             for i, result in enumerate(results[:3], 1):
-                print(
-                    f"    {i}. {result.error_title[:60]}... (score: {result.similarity_score:.4f})"
+                logger.debug(
+                    "    %d. %s... (score: %.4f)",
+                    i,
+                    result.error_title[:60],
+                    result.similarity_score,
                 )
 
         return results
@@ -291,21 +302,22 @@ class AnsibleErrorQueryPipeline:
 
         Step 5.5: Keeps only results above minimum similarity score.
         """
-        print(f"\nStep 5.5: Filtering by threshold ({threshold})...")
+        logger.debug("Step 5.5: Filtering by threshold (%s)...", threshold)
 
         filtered = [r for r in candidates if r.similarity_score >= threshold]
 
         if not filtered:
-            print("  ⚠ No results above threshold")
-            print(
-                f"  Best score: {candidates[0].similarity_score:.4f}"
-                if candidates
-                else "N/A"
+            logger.debug("  No results above threshold")
+            logger.debug(
+                "  Best score: %s",
+                f"{candidates[0].similarity_score:.4f}" if candidates else "N/A",
             )
         else:
-            print(f"  ✓ {len(filtered)} results pass threshold")
-            print(
-                f"  Score range: {filtered[-1].similarity_score:.4f} - {filtered[0].similarity_score:.4f}"
+            logger.debug("  %d results pass threshold", len(filtered))
+            logger.debug(
+                "  Score range: %.4f - %.4f",
+                filtered[-1].similarity_score,
+                filtered[0].similarity_score,
             )
 
         return filtered
@@ -318,12 +330,12 @@ class AnsibleErrorQueryPipeline:
 
         Step 5.6: Returns top-N highest scoring results.
         """
-        print(f"\nStep 5.6: Selecting top-{top_n} results...")
+        logger.debug("Step 5.6: Selecting top-%d results...", top_n)
 
         # Results are already sorted by FAISS, just take top N
         final_results = filtered_results[:top_n]
 
-        print(f"  ✓ Returning {len(final_results)} results")
+        logger.debug("  Returning %d results", len(final_results))
 
         return final_results
 
@@ -402,9 +414,9 @@ def main():
     """
     Test the query pipeline with sample queries.
     """
-    print("=" * 70)
-    print("ANSIBLE ERROR RAG SYSTEM - QUERY PIPELINE TEST")
-    print("=" * 70)
+    logger.info("=" * 70)
+    logger.info("ANSIBLE ERROR RAG SYSTEM - QUERY PIPELINE TEST")
+    logger.info("=" * 70)
 
     # Initialize pipeline
     pipeline = AnsibleErrorQueryPipeline(top_k=5, top_n=3, similarity_threshold=0.6)
@@ -418,27 +430,27 @@ def main():
         "Permission denied when executing the playbook",
     ]
 
-    print(f"\nRunning {len(test_queries)} test queries...\n")
+    logger.info("Running %d test queries...", len(test_queries))
 
     for i, query in enumerate(test_queries, 1):
-        print(f"\n{'*' * 70}")
-        print(f"TEST QUERY {i}/{len(test_queries)}")
-        print(f"{'*' * 70}")
+        logger.info("*" * 70)
+        logger.info("TEST QUERY %d/%d", i, len(test_queries))
+        logger.info("*" * 70)
 
         # Query the system
         response = pipeline.query(query)
 
         # Display results
-        print(format_response_for_display(response))
+        logger.info(format_response_for_display(response))
 
         # Wait between queries
         if i < len(test_queries):
-            print("\n" + "=" * 70)
+            logger.info("=" * 70)
             input("Press Enter to continue to next query...")
 
-    print("\n" + "=" * 70)
-    print("✓ ALL TEST QUERIES COMPLETE")
-    print("=" * 70)
+    logger.info("=" * 70)
+    logger.info("ALL TEST QUERIES COMPLETE")
+    logger.info("=" * 70)
 
 
 if __name__ == "__main__":

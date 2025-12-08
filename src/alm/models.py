@@ -79,3 +79,10 @@ class LogEntry(BaseModel):
     )
     log_labels: LogLabels = pydantic.Field(description="Log labels of the log")
     message: str = pydantic.Field(description="Message of the log")
+
+    @pydantic.field_validator("timestamp", mode="before")
+    @classmethod
+    def convert_datetime_to_str(cls, v):
+        if isinstance(v, datetime):
+            return v.isoformat()
+        return v
