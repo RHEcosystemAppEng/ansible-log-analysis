@@ -24,6 +24,9 @@ from alm.agents.loki_agent.constants import (
     VALID_TIMESTAMP_MAX_YEAR,
     VALID_TIMESTAMP_MIN_YEAR,
 )
+from alm.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 def timestamp_to_utc_datetime(timestamp: str) -> datetime:
@@ -203,8 +206,9 @@ def parse_time_input(time_str: str, reference_timestamp: Optional[str] = None) -
     # Validate reference_timestamp if provided
     ref_datetime, is_valid_timestamp = validate_timestamp(reference_timestamp)
     if reference_timestamp and not is_valid_timestamp:
-        print(
-            f"⚠️  Warning: Invalid reference timestamp '{reference_timestamp}'. Treating relative times as relative to 'now' instead."
+        logger.warning(
+            "Invalid reference timestamp '%s'. Treating relative times as relative to 'now' instead.",
+            reference_timestamp,
         )
         reference_timestamp = None
 
@@ -228,8 +232,10 @@ def parse_time_input(time_str: str, reference_timestamp: Optional[str] = None) -
             try:
                 return parse_time_relative_to_timestamp(time_str, reference_timestamp)
             except Exception as e:
-                print(
-                    f"⚠️  Warning: Failed to parse relative time '{time_str}' with reference timestamp: {e}"
+                logger.warning(
+                    "Failed to parse relative time '%s' with reference timestamp: %s",
+                    time_str,
+                    e,
                 )
                 # Fallback: return as-is for Loki
                 return time_str
@@ -261,7 +267,9 @@ async def find_log_timestamp(
     from alm.agents.loki_agent.schemas import LogToolOutput
     from alm.tools import search_logs_by_text
 
-    print(f"\n🔍 [find_log_timestamp] Searching for target log message in {file_name}")
+    logger.debug(
+        "[find_log_timestamp] Searching for target log message in %s", file_name
+    )
 
     # Use current time for the search (past N days)
     current_time = datetime.now(timezone.utc)
@@ -291,7 +299,7 @@ async def find_log_timestamp(
     target_log = target_result.logs[0]
     target_timestamp_raw = target_log.timestamp
 
-    print(f"✅ Target log found with timestamp: {target_timestamp_raw}")
+    logger.info("Target log found with timestamp: %s", target_timestamp_raw)
     return target_timestamp_raw, None
 
 

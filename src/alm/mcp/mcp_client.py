@@ -6,6 +6,10 @@ Handles MCP session management and tool calling.
 
 import httpx
 
+from alm.utils.logger import get_logger
+
+logger = get_logger(__name__)
+
 
 class MCPClient:
     def __init__(self, server_url):
@@ -48,17 +52,17 @@ class MCPClient:
             if not self.session_id:
                 raise Exception("No session ID received from server")
 
-            print(f"MCP session initialized: {self.session_id}")
+            logger.info("MCP session initialized: %s", self.session_id)
             return response.json()
 
         except Exception as e:
-            print(f"Failed to initialize MCP session: {e}")
+            logger.error("Failed to initialize MCP session: %s", e)
             return None
 
     async def get_tools(self):
         """Get available tools from MCP server"""
         if not self.session_id:
-            print("No active session. Call initialize() first.")
+            logger.warning("No active session. Call initialize() first.")
             return None
 
         payload = {"jsonrpc": "2.0", "id": 2, "method": "tools/list", "params": {}}
@@ -80,13 +84,13 @@ class MCPClient:
                 return self.tools
             return None
         except Exception as e:
-            print(f"Error getting tools: {e}")
+            logger.error("Error getting tools: %s", e)
             return None
 
     async def call_tool(self, tool_name, arguments):
         """Call a tool on the MCP server"""
         if not self.session_id:
-            print("No active session. Call initialize() first.")
+            logger.warning("No active session. Call initialize() first.")
             return None
 
         payload = {

@@ -9,6 +9,10 @@ import json
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_core.documents import Document
 
+from alm.utils.logger import get_logger
+
+logger = get_logger(__name__)
+
 
 class AnsibleErrorParser:
     """
@@ -43,7 +47,7 @@ class AnsibleErrorParser:
             r"Code:?\s*\n(.*?)(?=Benefits|^\s*\d+\.\s*Error\s+\d+|$)",
             re.IGNORECASE | re.DOTALL | re.MULTILINE,
         )
-        # Benefits headers vary: “Benefits:”, “Benefits of …:”, “Benefits of Following …:”
+        # Benefits headers vary: "Benefits:", "Benefits of …:", "Benefits of Following …:"
         self.re_bens = re.compile(
             r"Benefits(?:\s+of[^\n:]*)?:\s*(.*?)(?=^\s*(?:Description|Symptoms|Resolution|Code)\s*:|^\s*\d+\.\s*[A-Z]|$)",
             re.IGNORECASE | re.DOTALL | re.MULTILINE,
@@ -58,14 +62,14 @@ class AnsibleErrorParser:
         loader = PyPDFLoader(pdf_path)
         documents = loader.load()
 
-        # Reflow each page’s content to undo hard wraps while preserving bullets/code.
+        # Reflow each page's content to undo hard wraps while preserving bullets/code.
         for i, doc in enumerate(documents):
             documents[i] = Document(
                 page_content=self._reflow_text(doc.page_content), metadata=doc.metadata
             )
 
-        print(f"✓ Loaded PDF: {pdf_path}")
-        print(f"  Total pages: {len(documents)}")
+        logger.info("Loaded PDF: %s", pdf_path)
+        logger.info("  Total pages: %d", len(documents))
         return documents
 
     def _reflow_text(self, text: str) -> str:
@@ -250,9 +254,9 @@ class AnsibleErrorParser:
         full_text = "\n".join([doc.page_content for doc in documents])
 
         error_matches = list(self.error_title_pattern.finditer(full_text))
-        print(f"[DEBUG] Found {len(error_matches)} error title matches")
+        logger.debug("Found %d error title matches", len(error_matches))
         for i, match in enumerate(error_matches[:5]):
-            print(f"  Match {i + 1}: {match.group(0).strip()[:60]}")
+            logger.debug("  Match %d: %s", i + 1, match.group(0).strip()[:60])
 
         errors = []
         for i, match in enumerate(error_matches):
@@ -276,7 +280,7 @@ class AnsibleErrorParser:
             )
             errors.append(parsed_error)
 
-        print(f"✓ Extracted {len(errors)} error entries")
+        logger.info("Extracted %d error entries", len(errors))
         return errors
 
     def _find_page_number(self, documents: List[Document], char_position: int) -> int:
@@ -440,7 +444,7 @@ class AnsibleErrorParser:
                 chunk = Document(page_content=chunk_content, metadata=metadata)
                 chunks.append(chunk)
 
-        print(f"✓ Created {len(chunks)} chunks from {len(errors)} errors")
+        logger.info("Created %d chunks from %d errors", len(chunks), len(errors))
         return chunks
 
     def parse_pdf_to_chunks(self, pdf_path: str) -> List[Document]:
@@ -475,15 +479,16 @@ def export_metadata_to_json(documents, output_path="metadata_export.json"):
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(metadata_list, f, indent=2, ensure_ascii=False)
 
-    print(f"\n✓ Metadata exported to: {output_path}")
+    logger.info("Metadata exported to: %s", output_path)
 
 
 def main():
     """Test the parser end-to-end."""
-    print("=" * 60)
-    print("ANSIBLE ERROR KNOWLEDGE BASE - STEP 1: PDF PARSING (REFLOW + BENEFITS)")
-    print("=" * 60)
-    print()
+    logger.info("=" * 60)
+    logger.info(
+        "ANSIBLE ERROR KNOWLEDGE BASE - STEP 1: PDF PARSING (REFLOW + BENEFITS)"
+    )
+    logger.info("=" * 60)
 
     parser = AnsibleErrorParser()
 
@@ -496,14 +501,15 @@ def main():
         chunks, output_path="/home/mtalvi/ansible-log-analysis/metadata_export.json"
     )
 
-    print()
-    print("=" * 60)
-    print("SAMPLE CHUNKS (first 3):")
-    print("=" * 60)
+    logger.info("=" * 60)
+    logger.info("SAMPLE CHUNKS (first 3):")
+    logger.info("=" * 60)
     for c in chunks[:3]:
-        print(f"\n[{c.metadata.get('section_type')}] {c.metadata.get('error_title')}")
-        print(c.page_content[:500], "...")
-    print(f"\n✓ Total chunks created: {len(chunks)}")
+        logger.info(
+            "[%s] %s", c.metadata.get("section_type"), c.metadata.get("error_title")
+        )
+        logger.info("%s...", c.page_content[:500])
+    logger.info("Total chunks created: %d", len(chunks))
 
     return chunks
 

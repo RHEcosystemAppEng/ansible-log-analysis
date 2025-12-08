@@ -1,9 +1,9 @@
 import os
-import logging
 from typing import Optional
 
-# Configure logging
-logger = logging.getLogger(__name__)
+from alm.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 class RAGHandler:

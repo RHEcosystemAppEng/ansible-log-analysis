@@ -33,7 +33,9 @@ from alm.agents.loki_agent.schemas import (
     ToolStatus,
 )
 from alm.tools.loki_helpers import escape_logql_string, validate_timestamp
+from alm.utils.logger import get_logger
 
+logger = get_logger(__name__)
 
 # MCP Server URL configuration
 _mcp_server_url = os.getenv("LOKI_MCP_SERVER_URL")
@@ -63,8 +65,10 @@ async def execute_loki_query(
 
     client = None
     if limit > MAX_LOGS_PER_QUERY:
-        print(
-            f"Warning: Limit is greater than {MAX_LOGS_PER_QUERY}, setting to {MAX_LOGS_PER_QUERY}"
+        logger.warning(
+            "Limit is greater than %d, setting to %d",
+            MAX_LOGS_PER_QUERY,
+            MAX_LOGS_PER_QUERY,
         )
         limit = MAX_LOGS_PER_QUERY
 
@@ -92,7 +96,7 @@ async def execute_loki_query(
             "format": "json",
         }
 
-        print(f"🔍 Executing MCP query with args: {arguments}")
+        logger.debug("Executing MCP query with args: %s", arguments)
 
         # Call the MCP loki_query tool
         result = await client.call_tool("loki_query", arguments)
@@ -101,7 +105,6 @@ async def execute_loki_query(
         if isinstance(result, str) and result.strip().startswith("{"):
             try:
                 parsed_result = json.loads(result)
-                # print(f"📊 Parsed MCP result: {parsed_result}")
                 logs = []
 
                 # Parse Loki response format and merge streams efficiently
@@ -128,7 +131,7 @@ async def execute_loki_query(
                     .get("execTime", 0),
                 ).model_dump_json(indent=2)
             except json.JSONDecodeError as e:
-                print(f"JSON decode error: {e}")
+                logger.error("JSON decode error: %s", e)
                 # If not JSON, treat as plain text result
                 return LogToolOutput(
                     status=ToolStatus.SUCCESS,
@@ -138,7 +141,7 @@ async def execute_loki_query(
                 ).model_dump_json(indent=2)
         else:
             # Handle non-JSON or error responses
-            print(f"Non-JSON result: {result}")
+            logger.warning("Non-JSON result: %s", result)
             return LogToolOutput(
                 status=ToolStatus.SUCCESS,
                 logs=[LogEntry(log_labels=LogLabels(), message=str(result))],
@@ -147,10 +150,7 @@ async def execute_loki_query(
             ).model_dump_json(indent=2)
 
     except Exception as e:
-        print(f"MCP query execution failed: {str(e)}")
-        import traceback
-
-        traceback.print_exc()
+        logger.error("MCP query execution failed: %s", str(e), exc_info=True)
         raise Exception(f"Failed to execute Loki query: {str(e)}")
     finally:
         # Clean up the client
@@ -194,7 +194,7 @@ async def get_logs_by_file_name(
         return result
 
     except Exception as e:
-        print(f"Error in get_logs_by_file_name: {e}")
+        logger.error("Error in get_logs_by_file_name: %s", e)
         output = LogToolOutput(
             status=ToolStatus.ERROR, message=str(e), number_of_logs=0, logs=[]
         )
@@ -249,7 +249,7 @@ async def search_logs_by_text(
         return result
 
     except Exception as e:
-        print(f"Error in search_logs_by_text: {e}")
+        logger.error("Error in search_logs_by_text: %s", e)
         output = LogToolOutput(
             status=ToolStatus.ERROR, message=str(e), number_of_logs=0, logs=[]
         )
@@ -313,15 +313,16 @@ def create_log_lines_above_tool(
             from alm.agents.loki_agent.constants import CONTEXT_TRUNCATE_SUFFIX
 
             # Use closure-captured values
-            print("🔍 get_log_lines_above invoked with closure-bound context:")
-            print(f"  - file_name: {file_name}")
-            print(
-                f"  - log_message: {log_message[:100]}..."
+            logger.debug("get_log_lines_above invoked with closure-bound context:")
+            logger.debug("  - file_name: %s", file_name)
+            logger.debug(
+                "  - log_message: %s",
+                f"{log_message[:100]}..."
                 if log_message and len(log_message) > 100
-                else f"  - log_message: {log_message}"
+                else log_message,
             )
-            print(f"  - log_timestamp: {log_timestamp}")
-            print(f"  - lines_above: {lines_above}")
+            logger.debug("  - log_timestamp: %s", log_timestamp)
+            logger.debug("  - lines_above: %d", lines_above)
 
             # Process the log message
             processed_log_message = log_message
@@ -334,7 +335,9 @@ def create_log_lines_above_tool(
                 ].rstrip()
 
             # Step 1: Validate and convert the timestamp to a datetime object
-            print("🔍 [Step 1] Validating and converting timestamp to datetime object")
+            logger.debug(
+                "[Step 1] Validating and converting timestamp to datetime object"
+            )
             target_datetime, is_valid = validate_timestamp(log_timestamp)
             if not is_valid or not target_datetime:
                 return LogToolOutput(
@@ -345,13 +348,13 @@ def create_log_lines_above_tool(
                 ).model_dump_json(indent=2)
 
             # Step 2: Calculate time window
-            print("🔍 [Step 2] Calculating time window around timestamp")
+            logger.debug("[Step 2] Calculating time window around timestamp")
             start_time_rfc3339, end_time_rfc3339 = calculate_time_window(
                 target_datetime
             )
 
             # Step 3: Query logs in the time window
-            print("🔍 [Step 3] Querying large context window (limit=5000)")
+            logger.debug("[Step 3] Querying large context window (limit=5000)")
             context_data, error = await query_logs_in_time_window(
                 file_name, start_time_rfc3339, end_time_rfc3339
             )
@@ -364,7 +367,7 @@ def create_log_lines_above_tool(
                 ).model_dump_json(indent=2)
 
             # Step 4: Extract N lines before the target
-            print(f"🔍 [Step 4] Extracting {lines_above} lines before target")
+            logger.debug("[Step 4] Extracting %d lines before target", lines_above)
 
             context_logs, error = extract_context_lines_above(
                 context_data.logs, processed_log_message, lines_above
@@ -379,11 +382,13 @@ def create_log_lines_above_tool(
                     logs=[],
                 ).model_dump_json(indent=2)
 
-            print(
-                f"✅ Successfully extracted {len(context_logs)} logs (including target)"
+            logger.info(
+                "Successfully extracted %d logs (including target)", len(context_logs)
             )
-            print(
-                f"   Requested: {lines_above} lines above, Got: {len(context_logs) - 1} lines above + target"
+            logger.debug(
+                "Requested: %d lines above, Got: %d lines above + target",
+                lines_above,
+                len(context_logs) - 1,
             )
 
             # Step 5: Return the context logs
@@ -397,10 +402,7 @@ def create_log_lines_above_tool(
             ).model_dump_json(indent=2)
 
         except Exception as e:
-            print(f"❌ Error in get_log_lines_above: {e}")
-            import traceback
-
-            traceback.print_exc()
+            logger.error("Error in get_log_lines_above: %s", e, exc_info=True)
 
             return LogToolOutput(
                 status=ToolStatus.ERROR, message=str(e), number_of_logs=0, logs=[]

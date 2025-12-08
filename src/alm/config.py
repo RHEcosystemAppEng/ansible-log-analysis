@@ -14,6 +14,10 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
+from alm.utils.logger import get_logger
+
+logger = get_logger(__name__)
+
 # Load environment variables from .env file
 env_path = Path(__file__).parent.parent.parent / ".env"
 load_dotenv(dotenv_path=env_path)
@@ -99,12 +103,12 @@ class Config:
 
     def print_config(self):
         """Print configuration summary."""
-        print("=" * 70)
-        print("CONFIGURATION")
-        print("=" * 70)
-        print(self.embeddings)
-        print(self.storage)
-        print("=" * 70)
+        logger.info("=" * 70)
+        logger.info("CONFIGURATION")
+        logger.info("=" * 70)
+        logger.info("%s", self.embeddings)
+        logger.info("%s", self.storage)
+        logger.info("=" * 70)
 
 
 # Global config instance
@@ -115,4 +119,4 @@ if __name__ == "__main__":
     # Test configuration loading
     config.print_config()
     config.validate()
-    print("\n✓ Configuration validated successfully")
+    logger.info("Configuration validated successfully")
