@@ -93,13 +93,6 @@ def parse_timestamp(timestamp_str: str) -> datetime:
         return datetime.fromtimestamp(0)
 
 
-def format_timestamp(timestamp_str: str) -> str:
-    """Convert timestamp to readable format"""
-    dt = parse_timestamp(timestamp_str)
-    # Use only 4 digits after the second
-    return dt.strftime("%Y-%m-%d %H:%M:%S.%f")[:-2]
-
-
 def build_log_context(logs: List["LogEntry"]) -> str:
     """
     Build a context for the step by step solution from the log entries.
@@ -133,13 +126,14 @@ def build_log_context(logs: List["LogEntry"]) -> str:
 
         # Add logs for this label group
         for log in label_logs:
-            readable_timestamp = format_timestamp(log.timestamp)
             # Add log level inline if available
             log_level = (
                 log.log_labels.detected_level.value.upper()
                 if log.log_labels.detected_level
                 else LogLevel.UNKNOWN.value.upper()
             )
-            context_parts.append(f"{readable_timestamp} {log_level} - {log.message}")
+            # Abandon timestamp since it's the generated timestamp (ingested timestamp) and used only for loki query,
+            # the real timestamp is in the log message itself
+            context_parts.append(f"{log_level} - {log.message}")
 
     return "\n".join(context_parts)

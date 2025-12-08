@@ -14,6 +14,7 @@ from alm.agents.loki_agent.constants import (
     DEFAULT_DIRECTION,
     DEFAULT_END_TIME,
     DEFAULT_START_TIME,
+    DIRECTION_FORWARD,
     LOGQL_FILE_NAME_QUERY_TEMPLATE,
     LOGQL_JOB_WILDCARD_QUERY,
     LOGQL_LEVEL_FILTER_TEMPLATE,
@@ -27,6 +28,7 @@ from alm.agents.loki_agent.schemas import (
     LogLevel,
     SearchTextSchema,
     LogLinesAboveSchema,
+    PlayRecapSchema,
     LogEntry,
     LogLabels,
     LogToolOutput,
@@ -256,6 +258,49 @@ async def search_logs_by_text(
         return output.model_dump_json(indent=2)
 
 
+@tool(args_schema=PlayRecapSchema)
+async def get_play_recap(
+    file_name: str,
+    log_timestamp: str,
+    buffer_time: str = "6h",
+) -> str:
+    """
+    This tool searches forward in time from a target timestamp to find the first
+    PLAY RECAP entry, which shows the results of Ansible playbook execution. Useful for
+    determining the outcome of a playbook run after encountering an error.
+
+    Perfect for queries like:
+    - "show me the play recap after this error timestamp"
+    - "get the playbook result for the job that failed at this time"
+    - "give me an overview of the tasks in this playbook"
+    """
+    try:
+        # Build LogQL query using regex suffix match
+        query = (
+            LOGQL_FILE_NAME_QUERY_TEMPLATE.format(file_name=file_name)
+            + ' | log_type="recap"'
+        )
+
+        # Execute query with forward direction and limit=1 to get only the NEXT recap
+        result = await execute_loki_query(
+            query=query,
+            start=log_timestamp,  # Start from the error timestamp
+            end=buffer_time,  # Forward time buffer (e.g., "24h")
+            limit=1,  # Get only the first/next recap
+            reference_timestamp=log_timestamp,  # For relative time calculation
+            direction=DIRECTION_FORWARD,  # Search forward in time
+        )
+
+        return result
+
+    except Exception as e:
+        logger.error("Error in get_play_recap: %s", e)
+        output = LogToolOutput(
+            status=ToolStatus.ERROR, message=str(e), number_of_logs=0, logs=[]
+        )
+        return output.model_dump_json(indent=2)
+
+
 def create_log_lines_above_tool(
     file_name: str,
     log_message: str,
@@ -417,4 +462,5 @@ def create_log_lines_above_tool(
 LOKI_STATIC_TOOLS = [
     get_logs_by_file_name,
     search_logs_by_text,
+    get_play_recap,
 ]

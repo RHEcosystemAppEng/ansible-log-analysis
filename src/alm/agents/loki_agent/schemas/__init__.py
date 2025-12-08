@@ -14,6 +14,7 @@ from alm.agents.loki_agent.schemas.inputs import (
     FileLogSchema,
     SearchTextSchema,
     LogLinesAboveSchema,
+    PlayRecapSchema,
 )
 from alm.agents.loki_agent.schemas.outputs import (
     ToolStatus,
@@ -29,6 +30,7 @@ __all__ = [
     "FileLogSchema",
     "SearchTextSchema",
     "LogLinesAboveSchema",
+    "PlayRecapSchema",
     "DEFAULT_START_TIME",
     "DEFAULT_END_TIME",
     "DEFAULT_LIMIT",

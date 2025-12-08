@@ -81,3 +81,18 @@ class LogLinesAboveSchema(BaseModel):
         default=DEFAULT_LINE_ABOVE,
         description="Number of lines to retrieve that occurred before/above the target log line",
     )
+
+
+class PlayRecapSchema(BaseModel):
+    """Schema for get_play_recap tool"""
+
+    file_name: str = Field(
+        description="File name to search for (e.g., 'job_1460444.txt')"
+    )
+    log_timestamp: str = Field(
+        description="Target timestamp to start searching after (Unix timestamp or datetime string), this is the timestamp of the trigger log entry"
+    )
+    buffer_time: str = Field(
+        default="6h",
+        description="Time window to search after the target timestamp (e.g., '24h', '12h', '1d')",
+    )
