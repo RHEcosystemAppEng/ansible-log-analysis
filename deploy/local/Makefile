@@ -34,6 +34,9 @@ start: stop ## 🚀 Start all services locally
 	@echo "   Waiting for PostgreSQL to be ready..."
 	@$(MAKE) -s phoenix
 	@$(MAKE) -s loki-stack
+	@$(MAKE) -s embedding
+	@echo "   Waiting for embedding service to be ready..."
+	@$(MAKE) -s wait-for-embedding
 	@$(MAKE) -s backend
 	@$(MAKE) -s ui
 	@$(MAKE) -s annotation
@@ -57,6 +60,28 @@ loki-stack: ## 📊 Start Loki stack (Loki, Loki MCP Server, Grafana, Promtail)
 	@echo "   Starting Loki stack (Loki, Loki MCP Server, Grafana, Promtail)..."
 	@$(COMPOSE_CMD) -f compose.yaml up -d loki loki-mcp-server grafana promtail
 
+embedding: ## 🤖 Start Embedding Service (TEI)
+	@echo "   Starting Embedding Service (TEI)..."
+	@$(COMPOSE_CMD) -f compose.yaml up -d alm-embedding
+
+wait-for-embedding: ## ⏳ Wait for embedding service to be ready
+	@echo "   Waiting for embedding service to be ready (this may take 3-5 minutes for model loading)..."
+	@timeout=300; \
+	elapsed=0; \
+	interval=60; \
+	while [ $$elapsed -lt $$timeout ]; do \
+		if curl -s -f http://localhost:8080/health >/dev/null 2>&1; then \
+			echo "   ✓ Embedding service is ready!"; \
+			exit 0; \
+		fi; \
+		echo "   ⏳ Still waiting... ($$elapsed/$$timeout seconds)"; \
+		sleep $$interval; \
+		elapsed=$$((elapsed + interval)); \
+	done; \
+	echo "   ⚠️  Warning: Embedding service did not become ready within $$timeout seconds"; \
+	echo "   The service may still be loading the model. Check logs with: docker-compose logs alm-embedding"; \
+	exit 0
+
 backend: ## ⚙️ Start Backend (FastAPI)
 	@echo "   Starting Backend API..."
 	@cd ../.. && uv run uvicorn alm.main_fastapi:app --reload &
@@ -76,6 +101,7 @@ stop: ## 🛑 Stop all services
 	@$(MAKE) -s stop-loki-stack
 	@$(MAKE) -s stop-postgres
 	@$(MAKE) -s stop-phoenix
+	@$(MAKE) -s stop-embedding
 	@$(MAKE) -s kill-ports
 	@echo "👋 All services stopped"
 
@@ -91,6 +117,10 @@ stop-loki-stack: ## 🛑 Stop Loki stack (Loki, Loki MCP Server, Grafana, Promta
 	@$(COMPOSE_CMD) -f compose.yaml down loki-mcp-server grafana promtail loki
 	@echo "   ✓ Loki stack stopped"
 
+stop-embedding: ## 🛑 Stop Embedding Service
+	@$(COMPOSE_CMD) -f compose.yaml down alm-embedding
+	@echo "   ✓ Embedding service stopped"
+
 kill-ports: ## 🔌 Kill processes using required ports
 	@fuser -k 7860/tcp || true
 	@echo "   ✓ UI 7860 killed"
@@ -104,8 +134,10 @@ kill-ports: ## 🔌 Kill processes using required ports
 	@echo "   ✓ Phoenix 4317 killed"
 	@fuser -k 3100/tcp || true
 	@echo "   ✓ Loki 3100 killed"
+	@fuser -k 8081/tcp || true
+	@echo "   ✓ Loki MCP Server 8081 killed"
 	@fuser -k 8080/tcp || true
-	@echo "   ✓ Loki MCP Server 8080 killed"
+	@echo "   ✓ Embedding service 8080 killed"
 	@fuser -k 3000/tcp || true
 	@echo "   ✓ Grafana 3000 killed"
 
@@ -114,7 +146,8 @@ status: ## 📊 Show status of all services
 	@echo "   📊 PostgreSQL: $(shell $(COMPOSE_CMD) ps 2>/dev/null | grep 'postgres' | grep -q 'Up' && echo 'Running' || echo 'Stopped') - localhost:5432"
 	@echo "   🐍 Phoenix: $(shell $(COMPOSE_CMD) ps 2>/dev/null | grep 'phoenix' | grep -q 'Up' && echo 'Running' || echo 'Stopped') - http://localhost:6006"
 	@echo "   📊 Loki: $(shell $(COMPOSE_CMD) ps 2>/dev/null | grep 'loki' | grep -v 'loki-mcp' | grep -q 'Up' && echo 'Running' || echo 'Stopped') - http://localhost:3100"
-	@echo "   🔍 Loki MCP Server: $(shell $(COMPOSE_CMD) ps 2>/dev/null | grep 'loki-mcp-server' | grep -q 'Up' && echo 'Running' || echo 'Stopped') - http://localhost:8080"
+	@echo "   🔍 Loki MCP Server: $(shell $(COMPOSE_CMD) ps 2>/dev/null | grep 'loki-mcp-server' | grep -q 'Up' && echo 'Running' || echo 'Stopped') - http://localhost:8081"
+	@echo "   🤖 Embedding Service: $(shell $(COMPOSE_CMD) ps 2>/dev/null | grep 'alm-embedding' | grep -q 'Up' && echo 'Running' || echo 'Stopped') - http://localhost:8080"
 	@echo "   📈 Grafana: $(shell $(COMPOSE_CMD) ps 2>/dev/null | grep 'grafana' | grep -q 'Up' && echo 'Running' || echo 'Stopped') - http://localhost:3000"
 	@echo "   📝 Promtail: $(shell $(COMPOSE_CMD) ps 2>/dev/null | grep 'promtail' | grep -q 'Up' && echo 'Running' || echo 'Stopped')"
 	@if lsof -i :8000 >/dev/null 2>&1; then \
@@ -164,6 +197,41 @@ rag-status: ## 📊 Check RAG index status
 		echo "   ⚠️  Knowledge base directory not found"; \
 	fi
 
+test-embedding: ## 🧪 Test embedding service
+	@echo "🧪 Testing Embedding Service..."
+	@echo ""
+	@echo "1. Health Check:"
+	@if curl -s -f http://localhost:8080/health >/dev/null 2>&1; then \
+		echo "   ✅ Service is healthy"; \
+	else \
+		echo "   ❌ Service is not responding"; \
+		exit 1; \
+	fi
+	@echo ""
+	@echo "2. Generating test embedding:"
+	@response=$$(curl -s -X POST http://localhost:8080/v1/embeddings \
+		-H "Content-Type: application/json" \
+		-d '{"model": "nomic-ai/nomic-embed-text-v1.5", "input": ["test query"]}'); \
+	if echo "$$response" | grep -q '"data"'; then \
+		echo "   ✅ Embedding generated successfully"; \
+		echo "   Response preview: $$(echo $$response | head -c 200)..."; \
+	else \
+		echo "   ❌ Failed to generate embedding"; \
+		echo "   Response: $$response"; \
+		exit 1; \
+	fi
+	@echo ""
+	@echo "✅ Embedding service test passed!"
+
+test-rag: ## 🧪 Test RAG system (requires RAG index)
+	@echo "🧪 Testing RAG System..."
+	@if [ ! -f "../../data/ansible_errors.index" ]; then \
+		echo "❌ RAG index not found. Run 'make run-whole-training-pipeline' first."; \
+		exit 1; \
+	fi
+	@echo "Running RAG test script..."
+	@(cd ../.. && uv run python tests/rag/test_embeddings.py)
+
 health: ## 🔍 Check health of running services
 	@echo "🔍 Health Checks:"
 	@if curl -s http://localhost:8000/health >/dev/null 2>&1; then \
@@ -191,10 +259,15 @@ health: ## 🔍 Check health of running services
 	else \
 		echo "   📊  Loki http://localhost:3100: Unhealthy"; \
 	fi
-	@if curl -s http://localhost:8080 >/dev/null 2>&1; then \
-		echo "   🔍  Loki MCP Server http://localhost:8080: Healthy"; \
+	@if curl -s http://localhost:8081 >/dev/null 2>&1; then \
+		echo "   🔍  Loki MCP Server http://localhost:8081: Healthy"; \
 	else \
-		echo "   🔍  Loki MCP Server http://localhost:8080: Unhealthy"; \
+		echo "   🔍  Loki MCP Server http://localhost:8081: Unhealthy"; \
+	fi
+	@if curl -s http://localhost:8080/health >/dev/null 2>&1; then \
+		echo "   🤖  Embedding Service http://localhost:8080: Healthy"; \
+	else \
+		echo "   🤖  Embedding Service http://localhost:8080: Unhealthy (may still be loading model)"; \
 	fi
 	@if curl -s http://localhost:3000 >/dev/null 2>&1; then \
 		echo "   📈  Grafana http://localhost:3000: Healthy"; \
