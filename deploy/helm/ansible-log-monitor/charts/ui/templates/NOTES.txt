@@ -39,3 +39,23 @@
 {{- end }}
 
 📊 Your Gradio UI is now ready to serve log analysis and monitoring!
+
+{{- if not .Values.backendRouteHost }}
+5. 🔒 To enable secure HTTPS connection to the backend:
+   
+   Step 1: Get the backend Route hostname
+   ```bash
+   oc get route -n {{ .Release.Namespace }} -l app.kubernetes.io/name=backend -o jsonpath='{.items[0].spec.host}'
+   ```
+   
+   Step 2: Update the UI deployment with the backend Route hostname
+   ```bash
+   BACKEND_ROUTE=$(oc get route -n {{ .Release.Namespace }} -l app.kubernetes.io/name=backend -o jsonpath='{.items[0].spec.host}')
+   helm upgrade {{ .Release.Name }} ./charts/ui -n {{ .Release.Namespace }} --set backendRouteHost=$BACKEND_ROUTE
+   ```
+   
+   This will configure the UI to connect to the backend via HTTPS (secure connection).
+{{- else }}
+5. ✅ Secure connection enabled: UI is connecting to backend via HTTPS Route
+   Backend Route: https://{{ .Values.backendRouteHost }}
+{{- end }}

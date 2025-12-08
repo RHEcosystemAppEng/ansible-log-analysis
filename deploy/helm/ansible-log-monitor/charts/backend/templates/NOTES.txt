@@ -6,10 +6,14 @@ FastAPI Backend Service has been deployed successfully!
   echo ""
   echo "Backend API available at: https://$(oc get route {{ include "backend.fullname" . }} -n {{ .Release.Namespace }} -o jsonpath='{.spec.host}')"
 {{- else if .Values.ingress.enabled }}
+{{- if .Values.ingress.hosts }}
 {{- range $host := .Values.ingress.hosts }}
   {{- range .paths }}
   http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $host.host }}{{ .path }}
   {{- end }}
+{{- end }}
+{{- else }}
+  echo "WARNING: Ingress is enabled but no hosts are configured."
 {{- end }}
 {{- else if contains "NodePort" .Values.service.type }}
   export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "backend.fullname" . }})
