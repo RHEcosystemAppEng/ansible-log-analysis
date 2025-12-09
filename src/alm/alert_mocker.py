@@ -30,7 +30,7 @@ def shrink_long_logs(log: str) -> str:
     # This should be improve later to be more accurate
     # TODO: improve this
     # NOTE: see the 20_000 char trim
-    return log.split(r'"properties": ')[0][:20_000] if len(log) > 20_000 else log
+    return log.split(r'"properties": ')[0][:5_000] if len(log) > 5_000 else log
 
 
 def grafana_alert_mock(path: str) -> Optional[GrafanaAlert]:
