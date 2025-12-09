@@ -49,7 +49,11 @@ spec:
           {{- end }}
           env:
             - name: BACKEND_URL
+              {{- if .Values.backendRouteHost }}
+              value: "https://{{ .Values.backendRouteHost }}"
+              {{- else }}
               value: "http://{{ .Values.global.servicesNames.backend }}:8000"
+              {{- end }}
             - name: GRADIO_SERVER_NAME
               value: "0.0.0.0"
             - name: GRADIO_SERVER_PORT

@@ -59,23 +59,29 @@ service:
   targetPort: 8000
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
+# Ingress is disabled - using OpenShift Route for external access instead
 ingress:
-  enabled: true
-  className: "nginx"
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/use-regex: "true"
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: ansible-log-monitor-backend.local
-      paths:
-        - path: /api(/|$)(.*)
-          pathType: ImplementationSpecific
-  tls: []
-  #  - secretName: ansible-log-monitor-backend-tls
-  #    hosts:
-  #      - ansible-log-monitor-backend.local
+  enabled: false
+
+# This block is for setting up OpenShift routes for more information can be found here: https://docs.openshift.com/container-platform/4.11/networking/routes/route-configuration.html
+# Route is disabled - backend is internal-only (accessible via ClusterIP service)
+route:
+  enabled: false
+  # Set the hostname for your OpenShift cluster
+  # Example: alm-backend-<namespace>.apps.<cluster-domain>
+  # If left empty, OpenShift will auto-generate a hostname
+  host: ""
+  path: ""
+  annotations: {}
+  tls:
+    # Edge termination: OpenShift terminates TLS using the certificate
+    termination: edge
+    # Redirect HTTP to HTTPS
+    insecureEdgeTerminationPolicy: Redirect
+    # Optional: specify certificate and key if using passthrough or re-encrypt
+    # certificate: ""
+    # key: ""
+    # caCertificate: ""
 
 resources:
   limits:
