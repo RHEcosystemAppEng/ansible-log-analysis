@@ -6,7 +6,7 @@ services:
     image: quay.io/rh-ai-quickstart/alm-loki-mcp-server:query-direction-support
     container_name: loki-mcp-server
     ports:
-      - "8080:8080"
+      - "8081:8080"  # Changed host port to 8081 to avoid conflict with alm-embedding
     environment:
       - LOKI_URL=http://loki:3100
       - PORT=8080
@@ -22,11 +22,15 @@ services:
     networks:
       - alm
     healthcheck:
-      test: ["CMD-SHELL", "wget -q --spider http://localhost:3100/ready || exit 1"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-      start_period: 5s
+      # Loki minimal image doesn't have shell tools (no sh, wget, curl, etc.)
+      # Use the Loki binary itself to verify the container is functional
+      # This checks that the binary is accessible and can execute
+      # Note: This doesn't check HTTP readiness, but verifies the service is running
+      test: ["CMD", "/usr/bin/loki", "-version"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s  # Give Loki time to fully initialize (can take 30-60s)
 
   grafana:
     environment:
@@ -115,6 +119,9 @@ services:
       - BACKEND_URL=${BACKEND_URL}
       - COLLECTOR_ENDPOINT=${COLLECTOR_ENDPOINT:-http://phoenix:6006/v1/traces}
       - PROD_CORS_ORIGIN=${PROD_CORS_ORIGIN:-http://localhost:3000}
+      # Force local embedding service URL (overrides .env file if set to production)
+      # For local deployment, always use the local service
+      - EMBEDDINGS_LLM_URL=http://alm-embedding:8080
     # volumes:
     #   - ./src:/app/src:ro
     #   - ./config:/app/config:ro
@@ -122,6 +129,8 @@ services:
       - alm
     depends_on:
       postgres:
+        condition: service_healthy
+      alm-embedding:
         condition: service_healthy
     restart: unless-stopped
     healthcheck:
@@ -148,6 +157,30 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+
+  alm-embedding:
+    image: quay.io/rh-ai-quickstart/alm-backend:tei-rag-v1
+    container_name: alm-embedding
+    # Entrypoint is already set to text-embeddings-router in the image
+    ports:
+      - "8080:8080"
+    environment:
+      - MODEL_ID=nomic-ai/nomic-embed-text-v1.5
+      - HF_HOME=/data
+      - PORT=8080
+      - MAX_CLIENT_BATCH_SIZE=32
+      - MAX_BATCH_TOKENS=8192
+    networks:
+      - alm
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 180s  # Model loading can take 3+ minutes
+    # Note: This service requires significant memory (8Gi recommended)
+    # Adjust resources based on your system capabilities
 
 volumes:
   postgres_data:
