@@ -23,6 +23,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
+      serviceAccountName: {{ include "backend.serviceAccountName" . }}
       {{- with .Values.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
@@ -47,24 +48,20 @@ spec:
                   name: pgvector
                   key: uri
         {{- end }}
-        - name: wait-for-init-job
-          image: quay.io/openshift/origin-cli:4.15
+        - name: wait-for-{{ .Values.global.servicesNames.backend }}-init
+          image: quay.io/openshift/origin-cli:latest
           command:
             - sh
             - -c
             - |
-              echo "Waiting for init job to complete..."
-              JOB_NAME="{{ include "backend.fullname" . }}-init"
-              until oc wait --for=condition=complete job/$JOB_NAME -n {{ .Release.Namespace }} --timeout=10s 2>/dev/null; do
-                # Check if job failed
-                if oc get job/$JOB_NAME -n {{ .Release.Namespace }} -o jsonpath='{.status.failed}' 2>/dev/null | grep -q "^[1-9]"; then
-                  echo "Init job failed!"
-                  exit 1
-                fi
-                echo "Still waiting for init job..."
-                sleep 5
-              done
-              echo "Init job completed successfully!"
+              echo "Waiting for {{ .Values.global.servicesNames.backend }}-init job to complete..."
+              oc wait --for=condition=complete --timeout=600s job/{{ .Values.global.servicesNames.backend }}-init
+              if [ $? -eq 0 ]; then
+                echo "{{ .Values.global.servicesNames.backend }}-init job completed successfully!"
+              else
+                echo "{{ .Values.global.servicesNames.backend }}-init job failed or timed out!"
+                exit 1
+              fi
       containers:
         - name: {{ .Chart.Name }}
           {{- with .Values.securityContext }}

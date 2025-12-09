@@ -151,8 +151,6 @@ uninstall:
 # Upgrade 
 .PHONY: upgrade
 upgrade:
-	$(call check_namespace)
-	$(call prompt_openai_credentials)
 	@echo "Upgrading Ansible Log Monitor in namespace $(NAMESPACE)..."
 	@helm upgrade alm ./ansible-log-monitor -n $(NAMESPACE) $(env_args)
 	@echo "Ansible Log Monitor upgraded"
