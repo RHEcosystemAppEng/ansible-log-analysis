@@ -35,8 +35,8 @@ start: stop ## 🚀 Start all services locally
 	@$(MAKE) -s phoenix
 	@$(MAKE) -s loki-stack
 	@$(MAKE) -s embedding
-	@echo "   Waiting for embedding service to be ready..."
-	@$(MAKE) -s wait-for-embedding
+	@echo "   ⚠️  Note: Embedding service may take 3-5 minutes to load the model"
+	@echo "   You can check status with: make local/test-embedding"
 	@$(MAKE) -s backend
 	@$(MAKE) -s ui
 	@$(MAKE) -s annotation
@@ -64,7 +64,7 @@ embedding: ## 🤖 Start Embedding Service (TEI)
 	@echo "   Starting Embedding Service (TEI)..."
 	@$(COMPOSE_CMD) -f compose.yaml up -d alm-embedding
 
-wait-for-embedding: ## ⏳ Wait for embedding service to be ready
+wait-for-embedding: ## ⏳ Wait for embedding service to be ready (optional, for manual use)
 	@echo "   Waiting for embedding service to be ready (this may take 3-5 minutes for model loading)..."
 	@timeout=300; \
 	elapsed=0; \
