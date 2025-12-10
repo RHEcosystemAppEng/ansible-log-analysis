@@ -1,0 +1,66 @@
+{{- if .Values.persistence.data.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "aap-mock.fullname" . }}-data
+  labels:
+    {{- include "aap-mock.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.persistence.data.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.data.size }}
+  {{- if .Values.persistence.data.storageClass }}
+  {{- if (eq "-" .Values.persistence.data.storageClass) }}
+  storageClassName: ""
+  {{- else }}
+  storageClassName: {{ .Values.persistence.data.storageClass }}
+  {{- end }}
+  {{- end }}
+{{- end }}
+---
+{{- if .Values.persistence.logs.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "aap-mock.fullname" . }}-logs
+  labels:
+    {{- include "aap-mock.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.persistence.logs.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.logs.size }}
+  {{- if .Values.persistence.logs.storageClass }}
+  {{- if (eq "-" .Values.persistence.logs.storageClass) }}
+  storageClassName: ""
+  {{- else }}
+  storageClassName: {{ .Values.persistence.logs.storageClass }}
+  {{- end }}
+  {{- end }}
+{{- end }}
+---
+{{- if .Values.persistence.sampleLogs.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "aap-mock.fullname" . }}-sample-logs
+  labels:
+    {{- include "aap-mock.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.persistence.sampleLogs.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.sampleLogs.size }}
+  {{- if .Values.persistence.sampleLogs.storageClass }}
+  {{- if (eq "-" .Values.persistence.sampleLogs.storageClass) }}
+  storageClassName: ""
+  {{- else }}
+  storageClassName: {{ .Values.persistence.sampleLogs.storageClass }}
+  {{- end }}
+  {{- end }}
+{{- end }}
+
