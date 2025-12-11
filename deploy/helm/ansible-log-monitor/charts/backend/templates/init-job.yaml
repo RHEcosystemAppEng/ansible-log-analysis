@@ -5,10 +5,6 @@ metadata:
   labels:
     {{- include "backend.labels" . | nindent 4 }}
     app.kubernetes.io/component: init
-  # annotations:
-  #   "helm.sh/hook": pre-install,pre-upgrade
-  #   "helm.sh/hook-weight": "-5"
-  #   "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:
   template:
     metadata:
@@ -89,8 +85,10 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
-            - python
-            - init_pipeline.py
+            - sh
+            - -c
+            - |
+              python init_pipeline.py && touch /init-sync/done
           {{- if .Values.env }}
           env:
             {{- toYaml .Values.env | nindent 12 }}
@@ -107,6 +105,8 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           volumeMounts:
+            - name: init-sync
+              mountPath: /init-sync
           {{- if .Values.rag.enabled }}
             - name: rag-data
               mountPath: {{ .Values.rag.pvcMountPath }}
@@ -114,7 +114,25 @@ spec:
           {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
+        - name: scale-deployment
+          image: quay.io/openshift/origin-cli:4.15
+          command:
+            - sh
+            - -c
+            - |
+              echo "Waiting for init-pipeline to complete..."
+              while [ ! -f /init-sync/done ]; do
+                sleep 5
+              done
+              echo "Init complete, scaling deployment to 1 replica..."
+              oc scale deployment {{ include "backend.fullname" . }} --replicas=1 -n {{ .Release.Namespace }}
+              echo "Deployment scaled successfully!"
+          volumeMounts:
+            - name: init-sync
+              mountPath: /init-sync
       volumes:
+        - name: init-sync
+          emptyDir: {}
       {{- if .Values.rag.enabled }}
         - name: rag-data
           persistentVolumeClaim:
