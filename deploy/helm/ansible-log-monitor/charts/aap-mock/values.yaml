@@ -1,0 +1,144 @@
+# Default values for aap-mock (AAP Log Generator)
+# This chart deploys a mock Ansible Automation Platform that generates logs for testing
+
+# Enable or disable the aap-mock deployment
+enabled: true
+
+# Deployment configuration
+replicaCount: 1
+
+# Image configuration
+image:
+  repository: quay.io/ecosystem-appeng/aap-mock
+  pullPolicy: Always
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+# Service Account
+serviceAccount:
+  create: false
+  annotations: {}
+  name: ""
+
+# Pod annotations and labels
+podAnnotations: {}
+podLabels: {}
+
+# Security contexts
+podSecurityContext:
+  runAsNonRoot: true
+  # OpenShift will assign user IDs automatically
+
+securityContext:
+  allowPrivilegeEscalation: false
+  runAsNonRoot: true
+  capabilities:
+    drop:
+    - ALL
+  seccompProfile:
+    type: RuntimeDefault
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 8080
+  targetPort: 8080
+
+# OpenShift Route configuration (recommended for OpenShift)
+route:
+  enabled: true
+  annotations: {}
+  host: ""  # Will be auto-generated if empty
+  path: ""
+  tls: {}
+    # termination: edge
+    # insecureEdgeTerminationPolicy: Redirect
+
+# Ingress configuration (for non-OpenShift clusters)
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: aap-mock.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+# Resource limits and requests
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+# Persistent storage for data and logs
+persistence:
+  # Data volume for internal data
+  data:
+    enabled: true
+    storageClass: ""  # Uses default storage class if empty
+    accessMode: ReadWriteOnce
+    size: 2Gi
+  # Logs volume for application logs
+  logs:
+    enabled: true
+    storageClass: ""  # Uses default storage class if empty
+    accessMode: ReadWriteOnce
+    size: 1Gi
+  # Sample logs volume - files loaded via: make load-logs
+  sampleLogs:
+    enabled: true
+    storageClass: ""  # Uses default storage class if empty
+    accessMode: ReadWriteOnce
+    size: 1Gi
+
+# Autoscaling configuration (disabled by default for mock data generator)
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+
+# Health probes
+probes:
+  liveness:
+    enabled: true
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+    path: /healthz
+  readiness:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 3
+    failureThreshold: 3
+    path: /readyz
+
+# Application-specific configuration
+app:
+  logLevel: INFO
+  # Additional environment variables
+  env: {}
+    # Example:
+    # OTLP_ENDPOINT: "http://otel-collector:4318/v1/logs"
+    # REPLAY_RATE: "100"
+    # LOOP_ENABLED: "true"
+
+# Node selection
+nodeSelector: {}
+
+# Tolerations
+tolerations: []
+
+# Affinity rules
+affinity: {}
+

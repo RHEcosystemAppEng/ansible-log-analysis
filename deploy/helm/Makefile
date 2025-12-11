@@ -12,7 +12,16 @@ OPENAI_TEMPERATURE ?= 0.7
 ANSIBLE_LOG_MONITOR_CHART := ansible-log-monitor
 
 # Parameter validation functions
+define check_cluster_login
+	@if ! oc whoami > /dev/null 2>&1; then \
+		echo "❌ Error: Not logged into OpenShift cluster"; \
+		echo "   Run: oc login <cluster-url>"; \
+		exit 1; \
+	fi
+endef
+
 define check_namespace
+	$(call check_cluster_login)
 	@echo "Using namespace: $(NAMESPACE)"
 endef
 
@@ -133,10 +142,18 @@ namespace:
 .PHONY: install
 install: namespace
 	$(call prompt_openai_credentials)
-	@echo "Installing Ansible Log Monitor in namespace $(NAMESPACE)..."
+	@echo "🚀 Installing Ansible Log Monitor in namespace $(NAMESPACE)..."
 	@oc project $(NAMESPACE)
 	@helm install alm ./ansible-log-monitor -n $(NAMESPACE) $(env_args)
-	@echo "Ansible Log Monitor installed"
+	@echo "✅ Helm install complete"
+	@echo ""
+	@echo "⏳ Waiting for aap-mock to be ready..."
+	@$(MAKE) -s wait-for-aap-mock
+	@echo ""
+	@echo "📂 Loading logs and starting replay..."
+	@$(MAKE) -s load-logs
+	@echo ""
+	@echo "🎉 Installation complete! View logs in Grafana with query: {job=\"aap-mock\"}"
 
 # Uninstall the deployment and clean up (NAMESPACE optional, defaults to current project)
 .PHONY: uninstall
@@ -186,3 +203,97 @@ port-forward-grafana:
 	$(call check_namespace)
 	@echo "🔗 Forwarding Grafana to localhost:3000..."
 	@oc port-forward -n $(NAMESPACE) svc/grafana 3000:3000
+
+# =============================================================================
+# AAP Mock Log Loading
+# =============================================================================
+# Loads all logs from data/logs/ directory (including subdirectories)
+
+.PHONY: wait-for-aap-mock
+wait-for-aap-mock: ## ⏳ Wait for aap-mock pod to be ready
+	$(call check_namespace)
+	@for i in $$(seq 1 60); do \
+		POD=$$(oc get pod -n $(NAMESPACE) -l app.kubernetes.io/name=aap-mock -o jsonpath='{.items[0].metadata.name}' 2>/dev/null); \
+		if [ -n "$$POD" ]; then \
+			STATUS=$$(oc get pod -n $(NAMESPACE) $$POD -o jsonpath='{.status.phase}' 2>/dev/null); \
+			READY=$$(oc get pod -n $(NAMESPACE) $$POD -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}' 2>/dev/null); \
+			if [ "$$STATUS" = "Running" ] && [ "$$READY" = "True" ]; then \
+				echo "   ✅ aap-mock is ready! (pod: $$POD)"; \
+				exit 0; \
+			fi; \
+		fi; \
+		echo "   ... waiting ($$i/60)"; \
+		sleep 5; \
+	done; \
+	echo "   ❌ Timeout waiting for aap-mock"; \
+	exit 1
+
+.PHONY: load-logs
+load-logs: ## 📂 Load logs from data/logs/ to aap-mock and start replay
+	$(call check_namespace)
+	@echo "📂 Loading logs to aap-mock..."
+	@POD=$$(oc get pod -n $(NAMESPACE) -l app.kubernetes.io/name=aap-mock -o jsonpath='{.items[0].metadata.name}' 2>/dev/null); \
+	if [ -z "$$POD" ]; then \
+		echo "❌ Error: aap-mock pod not found. Is it running?"; \
+		echo "   Run 'make install' first."; \
+		exit 1; \
+	fi; \
+	echo "   Found pod: $$POD"; \
+	echo "   Source: ../../data/logs/"; \
+	if [ ! -d "../../data/logs" ]; then \
+		echo "   ⚠️  Directory ../../data/logs not found"; \
+		exit 1; \
+	fi; \
+	echo "   Preparing log files..."; \
+	mkdir -p /tmp/aap-logs-staging; \
+	rm -rf /tmp/aap-logs-staging/* 2>/dev/null || true; \
+	cp ../../data/logs/*/*.txt ../../data/logs/*/*.log /tmp/aap-logs-staging/ 2>/dev/null; \
+	cp ../../data/logs/*.txt ../../data/logs/*.log /tmp/aap-logs-staging/ 2>/dev/null; \
+	FILE_COUNT=$$(ls -1 /tmp/aap-logs-staging/ 2>/dev/null | wc -l | tr -d ' '); \
+	echo "   Copying $$FILE_COUNT files to pod..."; \
+	oc cp -n $(NAMESPACE) /tmp/aap-logs-staging/. "$$POD:/app/sample-logs/"; \
+	rm -rf /tmp/aap-logs-staging; \
+	echo "   ✅ $$FILE_COUNT log files loaded to /app/sample-logs/"
+	@echo "📂 Files loaded! Triggering refresh and replay..."
+	@$(MAKE) -s trigger-refresh
+	@$(MAKE) -s trigger-replay
+
+.PHONY: trigger-refresh
+trigger-refresh: ## 🔄 Trigger aap-mock to refresh auto-loaded files
+	$(call check_namespace)
+	@echo "🔄 Refreshing auto-loaded files..."
+	@ROUTE=$$(oc get route -n $(NAMESPACE) -l app.kubernetes.io/name=aap-mock -o jsonpath='{.items[0].spec.host}' 2>/dev/null); \
+	if [ -z "$$ROUTE" ]; then \
+		echo "❌ Error: aap-mock route not found"; \
+		exit 1; \
+	fi; \
+	curl -sf -X POST "http://$$ROUTE/api/auto-loaded/refresh" | head -c 300 || true; \
+	echo ""; \
+	echo "✅ Refresh complete!"
+
+.PHONY: trigger-replay
+trigger-replay: ## ▶️ Manually trigger log replay
+	$(call check_namespace)
+	@echo "▶️  Triggering log replay..."
+	@ROUTE=$$(oc get route -n $(NAMESPACE) -l app.kubernetes.io/name=aap-mock -o jsonpath='{.items[0].spec.host}' 2>/dev/null); \
+	if [ -z "$$ROUTE" ]; then \
+		echo "❌ Error: aap-mock route not found"; \
+		exit 1; \
+	fi; \
+	curl -sf -X POST "http://$$ROUTE/api/logs/replay" \
+		-H "Content-Type: application/json" \
+		-d '{"source": "auto-loaded", "id_or_path": "all", "loop": true, "rate_lines_per_sec": 100}' | head -c 300; \
+	echo ""; \
+	echo "✅ Replay started!"
+
+.PHONY: stop-replay
+stop-replay: ## ⏹️ Stop log replay
+	$(call check_namespace)
+	@echo "⏹️  Stopping log replay..."
+	@ROUTE=$$(oc get route -n $(NAMESPACE) -l app.kubernetes.io/name=aap-mock -o jsonpath='{.items[0].spec.host}' 2>/dev/null); \
+	if [ -z "$$ROUTE" ]; then \
+		echo "❌ Error: aap-mock route not found"; \
+		exit 1; \
+	fi; \
+	curl -sf -X POST "http://$$ROUTE/api/replay/stop" || true; \
+	echo "✅ Replay stopped"
