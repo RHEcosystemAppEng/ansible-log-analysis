@@ -48,20 +48,6 @@ spec:
                   name: pgvector
                   key: uri
         {{- end }}
-        - name: wait-for-{{ .Values.global.servicesNames.backend }}-init
-          image: quay.io/openshift/origin-cli:latest
-          command:
-            - sh
-            - -c
-            - |
-              echo "Waiting for {{ .Values.global.servicesNames.backend }}-init job to complete..."
-              oc wait --for=condition=complete --timeout=600s job/{{ .Values.global.servicesNames.backend }}-init
-              if [ $? -eq 0 ]; then
-                echo "{{ .Values.global.servicesNames.backend }}-init job completed successfully!"
-              else
-                echo "{{ .Values.global.servicesNames.backend }}-init job failed or timed out!"
-                exit 1
-              fi
       containers:
         - name: {{ .Chart.Name }}
           {{- with .Values.securityContext }}
