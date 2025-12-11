@@ -70,13 +70,14 @@ ingress:
   tls: []
 
 # Resource limits and requests
+# Note: Loading 500+ log files requires ~1.5GB memory
 resources:
   limits:
     cpu: 500m
-    memory: 512Mi
+    memory: 2Gi
   requests:
     cpu: 100m
-    memory: 128Mi
+    memory: 512Mi
 
 # Persistent storage for data and logs
 persistence:
@@ -93,11 +94,12 @@ persistence:
     accessMode: ReadWriteOnce
     size: 1Gi
   # Sample logs volume - files loaded via: make load-logs
+  # Note: 500 log files ~= 200-300MB, but allow room for growth
   sampleLogs:
     enabled: true
     storageClass: ""  # Uses default storage class if empty
     accessMode: ReadWriteOnce
-    size: 1Gi
+    size: 2Gi
 
 # Autoscaling configuration (disabled by default for mock data generator)
 autoscaling:
@@ -107,17 +109,18 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
 
 # Health probes
+# Note: App loads all log files BEFORE starting server (~60-90s for 500 files)
 probes:
   liveness:
     enabled: true
-    initialDelaySeconds: 30
+    initialDelaySeconds: 120  # Allow time for file loading before server starts
     periodSeconds: 10
     timeoutSeconds: 5
     failureThreshold: 3
     path: /healthz
   readiness:
     enabled: true
-    initialDelaySeconds: 5
+    initialDelaySeconds: 90   # Files must load before server is ready
     periodSeconds: 5
     timeoutSeconds: 3
     failureThreshold: 3
